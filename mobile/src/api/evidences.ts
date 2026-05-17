@@ -1,5 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import { supabase } from './supabase';
+import { isDemo, demoStore } from '@/demo';
 import type { Evidence } from '@/models';
 import type { EvidenceTypeValue } from '@/constants/enums';
 
@@ -17,6 +18,25 @@ interface UploadInput {
 }
 
 export async function uploadEvidence(input: UploadInput): Promise<Evidence> {
+  if (isDemo) {
+    const id = `ev-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    return demoStore.addEvidence({
+      id,
+      trip_id: input.tripId ?? null,
+      logbook_id: input.logbookId ?? null,
+      incident_id: input.incidentId ?? null,
+      driver_id: input.driverId,
+      type: input.type,
+      storage_path: input.localUri, // local path para preview en demo
+      mime_type: input.mimeType ?? 'image/jpeg',
+      size_bytes: null,
+      lat: input.coords?.lat ?? null,
+      lng: input.coords?.lng ?? null,
+      taken_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    });
+  }
+
   const ext = input.localUri.split('.').pop() ?? 'jpg';
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
   const path = `${input.driverId}/${input.tripId ?? 'misc'}/${filename}`;
@@ -59,6 +79,7 @@ export async function uploadEvidence(input: UploadInput): Promise<Evidence> {
 }
 
 export async function listEvidencesByTrip(tripId: string): Promise<Evidence[]> {
+  if (isDemo) return demoStore.listEvidencesByTrip(tripId);
   const { data, error } = await supabase
     .from('evidences')
     .select('*')
@@ -69,6 +90,7 @@ export async function listEvidencesByTrip(tripId: string): Promise<Evidence[]> {
 }
 
 export async function getSignedUrl(path: string, expiresSec = 3600): Promise<string> {
+  if (isDemo) return path; // ya es ruta local
   const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, expiresSec);
   if (error) throw error;
   return data.signedUrl;

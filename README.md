@@ -80,6 +80,24 @@ Detalle completo en [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Cómo arrancar (desarrollo)
 
+### Modo demo (sin backend)
+
+Si **no** configuras `.env`, la app arranca automáticamente en **modo demo** con datos
+ficticios en memoria — útil para revisar UI y flujos sin montar Supabase. Verás un
+banner rojo "MODO DEMO" arriba de cada pantalla y un botón "ENTRAR EN MODO DEMO" en
+el login.
+
+```bash
+cd mobile
+npm install --ignore-scripts
+npx expo start
+# escanear QR con Expo Go → tocar "ENTRAR EN MODO DEMO"
+```
+
+Forzar el modo demo aunque haya credenciales: `EXPO_PUBLIC_DEMO=1`.
+
+### Con Supabase real
+
 ```bash
 # 1. Variables de entorno
 cp mobile/.env.example mobile/.env
@@ -87,7 +105,7 @@ cp mobile/.env.example mobile/.env
 
 # 2. Instalar
 cd mobile
-npm install
+npm install --ignore-scripts
 
 # 3. Correr
 npx expo start

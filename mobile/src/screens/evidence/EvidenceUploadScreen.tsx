@@ -8,6 +8,7 @@ import { uploadEvidence } from '@/api/evidences';
 import { offlineQueue } from '@/services/offlineQueue';
 import { useNetworkStore } from '@/stores/network';
 import { useAuthStore } from '@/stores/auth';
+import { isDemo } from '@/demo';
 import {
   EvidenceType,
   EvidenceTypeLabel,
@@ -21,6 +22,7 @@ export function EvidenceUploadScreen() {
   const nav = useNavigation<AppNav<'EvidenceUpload'>>();
   const driverId = useAuthStore((s) => s.session?.user.id);
   const online = useNetworkStore((s) => s.online);
+  const effectiveOnline = isDemo || online;
 
   const [type, setType] = useState<EvidenceTypeValue>(EvidenceType.BillOfLading);
   const [photo, setPhoto] = useState<CapturedImage | null>(null);
@@ -30,7 +32,7 @@ export function EvidenceUploadScreen() {
     if (!driverId || !photo) return;
     setUploading(true);
     try {
-      if (!online) {
+      if (!effectiveOnline) {
         await offlineQueue.enqueue('evidence', {
           driverId,
           tripId: route.params.tripId,

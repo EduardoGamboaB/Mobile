@@ -4,6 +4,7 @@ import { createIncident, listMyIncidents, type NewIncident } from '@/api/inciden
 import { useAuthStore } from '@/stores/auth';
 import { useNetworkStore } from '@/stores/network';
 import { offlineQueue } from '@/services/offlineQueue';
+import { isDemo } from '@/demo';
 
 export function useMyIncidents() {
   const userId = useAuthStore((s) => s.session?.user.id);
@@ -17,10 +18,12 @@ export function useMyIncidents() {
 export function useCreateIncident() {
   const qc = useQueryClient();
   const online = useNetworkStore((s) => s.online);
+  const effectiveOnline = isDemo || online;
+
   return useMutation({
     mutationFn: async (input: Omit<NewIncident, 'client_uuid'>) => {
       const payload: NewIncident = { ...input, client_uuid: String(uuid.v4()) };
-      if (!online) {
+      if (!effectiveOnline) {
         await offlineQueue.enqueue('incident', payload);
         return { queued: true as const };
       }

@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/api/supabase';
 import { getMyProfile } from '@/api/profiles';
+import { isDemo, DEMO_USER_ID, demoProfile } from '@/demo';
 import type { Profile } from '@/models';
 
 interface AuthState {
@@ -13,9 +14,26 @@ interface AuthState {
   signInWithPhone: (phone: string) => Promise<void>;
   verifyOtp: (phone: string, token: string) => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
+  signInAsDemo: () => void;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
+
+/** Sesión falsa para modo demo — basta para que la app considere al usuario autenticado. */
+const demoSession = (): Session =>
+  ({
+    access_token: 'demo-token',
+    refresh_token: 'demo-refresh',
+    expires_in: 3_600,
+    token_type: 'bearer',
+    user: {
+      id: DEMO_USER_ID,
+      aud: 'demo',
+      app_metadata: {},
+      user_metadata: {},
+      created_at: new Date().toISOString(),
+    },
+  }) as unknown as Session;
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   session: null,
@@ -24,13 +42,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   initialized: false,
 
   bootstrap: async () => {
+    if (isDemo) {
+      set({ initialized: true });
+      return;
+    }
     set({ loading: true });
     const { data } = await supabase.auth.getSession();
     if (data.session) {
       try {
         const profile = await getMyProfile(data.session.user.id);
         set({ session: data.session, profile });
-      } catch (e) {
+      } catch {
         set({ session: data.session, profile: null });
       }
     }
@@ -46,6 +68,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   signInWithPhone: async (phone) => {
+    if (isDemo) throw new Error('Modo demo: usa el botón "Entrar en modo demo".');
     set({ loading: true });
     const { error } = await supabase.auth.signInWithOtp({ phone });
     set({ loading: false });
@@ -53,6 +76,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   verifyOtp: async (phone, token) => {
+    if (isDemo) throw new Error('Modo demo: usa el botón "Entrar en modo demo".');
     set({ loading: true });
     const { data, error } = await supabase.auth.verifyOtp({ phone, token, type: 'sms' });
     if (error) {
@@ -64,6 +88,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   signInWithEmail: async (email, password) => {
+    if (isDemo) throw new Error('Modo demo: usa el botón "Entrar en modo demo".');
     set({ loading: true });
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
@@ -74,7 +99,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ session: data.session, profile, loading: false });
   },
 
+  signInAsDemo: () => {
+    set({ session: demoSession(), profile: { ...demoProfile } });
+  },
+
   signOut: async () => {
+    if (isDemo) {
+      set({ session: null, profile: null });
+      return;
+    }
     await supabase.auth.signOut();
     set({ session: null, profile: null });
   },

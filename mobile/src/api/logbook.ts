@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { isDemo, demoStore } from '@/demo';
 import type { LogbookEntry } from '@/models';
 import type { FuelLevelValue, LogbookEventValue } from '@/constants/enums';
 
@@ -19,6 +20,7 @@ export interface NewLogbookEntry {
 }
 
 export async function listLogbook(tripId: string): Promise<LogbookEntry[]> {
+  if (isDemo) return demoStore.listLogbook(tripId);
   const { data, error } = await supabase
     .from('logbook_entries')
     .select('*')
@@ -29,6 +31,25 @@ export async function listLogbook(tripId: string): Promise<LogbookEntry[]> {
 }
 
 export async function createLogbookEntry(entry: NewLogbookEntry): Promise<LogbookEntry> {
+  if (isDemo) {
+    return demoStore.addLogbookEntry({
+      id: entry.client_uuid,
+      client_uuid: entry.client_uuid,
+      trip_id: entry.trip_id,
+      driver_id: entry.driver_id,
+      event_type: entry.event_type,
+      occurred_at: entry.occurred_at,
+      location_text: entry.location_text ?? null,
+      lat: entry.lat ?? null,
+      lng: entry.lng ?? null,
+      odometer_km: entry.odometer_km ?? null,
+      fuel: entry.fuel ?? null,
+      expense_amount: entry.expense_amount ?? null,
+      expense_concept: entry.expense_concept ?? null,
+      comments: entry.comments ?? null,
+      created_at: new Date().toISOString(),
+    });
+  }
   const { data, error } = await supabase
     .from('logbook_entries')
     .upsert(entry, { onConflict: 'client_uuid' })

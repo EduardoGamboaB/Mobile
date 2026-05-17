@@ -1,10 +1,12 @@
 import { supabase } from './supabase';
+import { isDemo, demoStore } from '@/demo';
 import type { Trip } from '@/models';
 import type { TripStatusValue } from '@/constants/enums';
 
 const ACTIVE_STATUSES: TripStatusValue[] = ['scheduled', 'loading', 'in_transit', 'unloading'];
 
 export async function listMyActiveTrips(driverId: string): Promise<Trip[]> {
+  if (isDemo) return demoStore.listActive();
   const { data, error } = await supabase
     .from('trips')
     .select('*')
@@ -16,6 +18,7 @@ export async function listMyActiveTrips(driverId: string): Promise<Trip[]> {
 }
 
 export async function listMyTripHistory(driverId: string, limit = 30): Promise<Trip[]> {
+  if (isDemo) return demoStore.listHistory();
   const { data, error } = await supabase
     .from('trips')
     .select('*')
@@ -28,12 +31,14 @@ export async function listMyTripHistory(driverId: string, limit = 30): Promise<T
 }
 
 export async function getTrip(id: string): Promise<Trip | null> {
+  if (isDemo) return demoStore.getTrip(id);
   const { data, error } = await supabase.from('trips').select('*').eq('id', id).maybeSingle();
   if (error) throw error;
   return data as Trip | null;
 }
 
 export async function advanceTripStatus(tripId: string, next: TripStatusValue): Promise<Trip> {
+  if (isDemo) return demoStore.advanceStatus(tripId, next);
   const { data, error } = await supabase.rpc('advance_trip_status', {
     p_trip_id: tripId,
     p_next: next,

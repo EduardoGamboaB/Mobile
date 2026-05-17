@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, spacing } from '@/theme';
 import { OfflineBanner } from './OfflineBanner';
+import { DemoBanner } from './DemoBanner';
 
 interface Props {
   children: ReactNode;
@@ -17,6 +18,7 @@ export function Screen({ children, scroll = false, padded = true, style }: Props
   );
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
+      <DemoBanner />
       <OfflineBanner />
       {scroll ? (
         <ScrollView
