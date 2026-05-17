@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { isDemo } from '@/demo';
-import { colors, spacing } from '@/theme';
+import { spacing } from '@/theme';
 
 export function DemoBanner() {
   if (!isDemo) return null;
@@ -14,7 +14,7 @@ export function DemoBanner() {
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: colors.danger,
+    backgroundColor: '#DC2626',
     paddingVertical: 6,
     paddingHorizontal: spacing.md,
     alignItems: 'center',

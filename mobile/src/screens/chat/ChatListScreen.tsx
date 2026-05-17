@@ -8,7 +8,8 @@ import { Chip } from '@/components/common/Chip';
 import { IconTile } from '@/components/common/IconTile';
 import { SearchIcon } from '@/components/icons';
 import { demoStore } from '@/demo';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoChatPreview } from '@/demo/data';
 import type { AppNav } from '@/navigation/types';
 
@@ -23,6 +24,8 @@ function relDay(iso: string): string {
 }
 
 function Avatar({ chat }: { chat: DemoChatPreview }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <View
       style={[
@@ -38,6 +41,8 @@ function Avatar({ chat }: { chat: DemoChatPreview }) {
 }
 
 export function ChatListScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<AppNav<'ChatList'>>();
   const [chats, setChats] = useState<DemoChatPreview[]>([]);
 
@@ -52,7 +57,7 @@ export function ChatListScreen() {
           title="Mensajes"
           right={
             <IconTile tone="navy">
-              <SearchIcon color={colors.navy} />
+              <SearchIcon color={c.navy} />
             </IconTile>
           }
         />
@@ -67,10 +72,10 @@ export function ChatListScreen() {
               <Avatar chat={item} />
               <View style={{ flex: 1, marginLeft: spacing.md }}>
                 <View style={styles.head}>
-                  <Text style={typography.bodyStrong}>{item.name}</Text>
-                  <Text style={typography.caption}>{relDay(item.lastAt)}</Text>
+                  <Text style={[typography.bodyStrong, { color: c.text }]}>{item.name}</Text>
+                  <Text style={[typography.caption, { color: c.muted }]}>{relDay(item.lastAt)}</Text>
                 </View>
-                <Text style={[typography.small, { marginTop: 2 }]} numberOfLines={1}>
+                <Text style={[typography.small, { color: c.textSoft }, { marginTop: 2 }]} numberOfLines={1}>
                   {item.lastMessage}
                 </Text>
               </View>
@@ -85,7 +90,7 @@ export function ChatListScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
   avatar: {
     width: 48,

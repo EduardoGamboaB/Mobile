@@ -9,9 +9,12 @@ import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { MailIcon } from '@/components/icons';
 import { supabase } from '@/api/supabase';
 import { isDemo } from '@/demo';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 export function ForgotPasswordScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -48,14 +51,14 @@ export function ForgotPasswordScreen() {
             <MailIcon size={28} color={tileIconColor('blue')} />
           </IconTile>
         </View>
-        <Text style={typography.h2}>¿Olvidaste tu contraseña?</Text>
-        <Text style={[typography.small, styles.center]}>
+        <Text style={[typography.h2, { color: c.text }]}>¿Olvidaste tu contraseña?</Text>
+        <Text style={[typography.small, { color: c.textSoft }, styles.center]}>
           Escribe tu correo y te enviaremos un enlace para restablecerla.
         </Text>
       </View>
       <TextField
         label="Correo"
-        leftIcon={<MailIcon size={20} color={colors.muted} />}
+        leftIcon={<MailIcon size={20} color={c.muted} />}
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -68,7 +71,7 @@ export function ForgotPasswordScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   headerWrap: { alignItems: 'center', marginTop: spacing.sm, marginBottom: spacing.xl },
   center: { textAlign: 'center', marginTop: spacing.xs, paddingHorizontal: spacing.lg },
 });

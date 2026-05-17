@@ -16,13 +16,16 @@ import {
   FlagIcon,
 } from '@/components/icons';
 import { useTrip } from '@/hooks/useTrips';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppStackParamList } from '@/navigation/types';
 
 const { width } = Dimensions.get('window');
 const MAP_HEIGHT = 540;
 
 export function MapRouteScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const route = useRoute<RouteProp<AppStackParamList, 'MapRoute'>>();
   const { data: trip } = useTrip(route.params.tripId);
@@ -50,14 +53,14 @@ export function MapRouteScreen() {
           {/* Ruta del viaje */}
           <Path
             d="M90 480 Q 130 420 170 360 Q 220 300 280 260 Q 340 230 360 180"
-            stroke={colors.blue}
+            stroke={c.blue}
             strokeWidth={6}
             fill="none"
             strokeLinecap="round"
           />
           <Path
             d="M360 180 Q 380 140 390 90"
-            stroke={colors.blue}
+            stroke={c.blue}
             strokeWidth={6}
             fill="none"
             strokeLinecap="round"
@@ -65,11 +68,11 @@ export function MapRouteScreen() {
             opacity={0.6}
           />
           {/* Origen */}
-          <Circle cx={90} cy={480} r={14} fill="#fff" stroke={colors.navy} strokeWidth={3} />
-          <Circle cx={90} cy={480} r={6} fill={colors.navy} />
+          <Circle cx={90} cy={480} r={14} fill="#fff" stroke={c.navy} strokeWidth={3} />
+          <Circle cx={90} cy={480} r={6} fill={c.navy} />
           {/* Camión en posición actual */}
-          <Circle cx={280} cy={260} r={22} fill={colors.blue} opacity={0.2} />
-          <Circle cx={280} cy={260} r={16} fill={colors.blue} />
+          <Circle cx={280} cy={260} r={22} fill={c.blue} opacity={0.2} />
+          <Circle cx={280} cy={260} r={16} fill={c.blue} />
           {/* Destino: flag SVG inline */}
           <G x={380} y={80}>
             <Line x1={-30} y1={-10} x2={-30} y2={20} stroke="#9B2C2C" strokeWidth={2} />
@@ -92,12 +95,12 @@ export function MapRouteScreen() {
       <View style={styles.headerOverlay}>
         <Pressable onPress={() => nav.goBack()}>
           <View style={styles.fab}>
-            <ChevronLeftIcon color={colors.navy} />
+            <ChevronLeftIcon color={c.navy} />
           </View>
         </Pressable>
         <View style={styles.tripPill}>
-          <Text style={typography.eyebrow}>EN RUTA · {trip?.folio ?? ''}</Text>
-          <Text style={typography.bodyStrong} numberOfLines={1}>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>EN RUTA · {trip?.folio ?? ''}</Text>
+          <Text style={[typography.bodyStrong, { color: c.text }]} numberOfLines={1}>
             {trip?.destination ?? 'Cargando...'}
           </Text>
         </View>
@@ -106,10 +109,10 @@ export function MapRouteScreen() {
       {/* FAB layers + locate */}
       <View style={styles.fabStack}>
         <View style={styles.fab}>
-          <LayersIcon color={colors.navy} />
+          <LayersIcon color={c.navy} />
         </View>
         <View style={[styles.fab, { marginTop: spacing.sm }]}>
-          <LocateIcon color={colors.blue} />
+          <LocateIcon color={c.blue} />
         </View>
       </View>
 
@@ -118,12 +121,12 @@ export function MapRouteScreen() {
         <View style={styles.handle} />
         <View style={styles.sheetTop}>
           <View>
-            <Text style={typography.eyebrow}>Tiempo restante</Text>
-            <Text style={typography.h2}>2h 18min</Text>
+            <Text style={[typography.eyebrow, { color: c.muted }]}>Tiempo restante</Text>
+            <Text style={[typography.h2, { color: c.text }]}>2h 18min</Text>
           </View>
           <View>
-            <Text style={[typography.eyebrow, { textAlign: 'right' }]}>Distancia</Text>
-            <Text style={[typography.h2, { textAlign: 'right' }]}>142 km</Text>
+            <Text style={[typography.eyebrow, { color: c.muted }, { textAlign: 'right' }]}>Distancia</Text>
+            <Text style={[typography.h2, { color: c.text }, { textAlign: 'right' }]}>142 km</Text>
           </View>
         </View>
         <Card variant="flat" style={styles.nextStep}>
@@ -131,8 +134,8 @@ export function MapRouteScreen() {
             <MapPinIcon color={tileIconColor('blue')} />
           </IconTile>
           <View style={{ flex: 1, marginLeft: spacing.md }}>
-            <Text style={typography.bodyStrong}>Próximo punto: Caseta Mante</Text>
-            <Text style={typography.caption}>En 38 km · ~30 min</Text>
+            <Text style={[typography.bodyStrong, { color: c.text }]}>Próximo punto: Caseta Mante</Text>
+            <Text style={[typography.caption, { color: c.muted }]}>En 38 km · ~30 min</Text>
           </View>
         </Card>
         <Button
@@ -145,10 +148,10 @@ export function MapRouteScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   mapWrap: { position: 'absolute', top: 0, left: 0 },
   label: { position: 'absolute' },
-  labelText: { fontSize: 11, fontWeight: '600', color: colors.navy },
+  labelText: { fontSize: 11, fontWeight: '600', color: c.navy },
   headerOverlay: {
     position: 'absolute',
     top: 54,
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
     elevation: 8,
     minHeight: 280,
   },
-  handle: { width: 38, height: 4, backgroundColor: colors.border, borderRadius: 2, alignSelf: 'center', marginBottom: spacing.md },
+  handle: { width: 38, height: 4, backgroundColor: c.border, borderRadius: 2, alignSelf: 'center', marginBottom: spacing.md },
   sheetTop: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: spacing.sm },
   nextStep: { flexDirection: 'row', alignItems: 'center' },
 });

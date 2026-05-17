@@ -8,10 +8,13 @@ import { OtpInput } from '@/components/common/OtpInput';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { LockIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AuthStackParamList } from '@/navigation/types';
 
 export function OtpVerifyScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AuthStackParamList, 'OtpVerify'>>();
   const [code, setCode] = useState('');
   const verifyOtp = useAuthStore((s) => s.verifyOtp);
@@ -40,17 +43,17 @@ export function OtpVerifyScreen() {
             <LockIcon size={28} color={tileIconColor('blue')} />
           </IconTile>
         </View>
-        <Text style={typography.h2}>Código de verificación</Text>
-        <Text style={[typography.small, styles.center]}>
+        <Text style={[typography.h2, { color: c.text }]}>Código de verificación</Text>
+        <Text style={[typography.small, { color: c.textSoft }, styles.center]}>
           Enviamos un SMS de 6 dígitos a{'\n'}
-          <Text style={{ color: colors.text, fontWeight: '700' }}>{route.params.phone}</Text>
+          <Text style={{ color: c.text, fontWeight: '700' }}>{route.params.phone}</Text>
         </Text>
       </View>
 
       <OtpInput value={code} onChange={setCode} onComplete={onSubmit} />
 
       <Text style={styles.resend}>
-        Reenviar código en <Text style={{ color: colors.text, fontWeight: '700' }}>28 s</Text>
+        Reenviar código en <Text style={{ color: c.text, fontWeight: '700' }}>28 s</Text>
       </Text>
 
       <View style={{ marginTop: spacing.xl }}>
@@ -60,8 +63,8 @@ export function OtpVerifyScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   headerWrap: { alignItems: 'center', marginTop: spacing.xl, marginBottom: spacing.xl + 4 },
   center: { textAlign: 'center', marginTop: spacing.xs },
-  resend: { textAlign: 'center', marginTop: spacing.lg, fontSize: 13, color: colors.muted },
+  resend: { textAlign: 'center', marginTop: spacing.lg, fontSize: 13, color: c.muted },
 });

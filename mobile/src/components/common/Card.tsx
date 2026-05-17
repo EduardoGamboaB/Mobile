@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { View, StyleSheet, ViewStyle, Pressable } from 'react-native';
-import { colors, radius, spacing } from '@/theme';
+import { useColors, radius, spacing } from '@/theme';
 
 export type CardVariant = 'default' | 'flat' | 'accent';
 
@@ -14,14 +14,20 @@ interface Props {
 }
 
 export function Card({ children, onPress, variant = 'default', borderLeftColor, padding, style }: Props) {
-  const variantStyle =
+  const c = useColors();
+  const variantStyle: ViewStyle =
     variant === 'flat'
-      ? styles.flat
+      ? { backgroundColor: c.surface }
       : variant === 'accent'
-        ? styles.accent
-        : styles.default;
+        ? { backgroundColor: c.navy }
+        : { backgroundColor: c.bg, borderWidth: 1, borderColor: c.border };
+
   const merged: ViewStyle[] = [
-    styles.card,
+    {
+      borderRadius: radius.card,
+      padding: spacing.lg + 2,
+      marginBottom: spacing.md,
+    },
     variantStyle,
     padding != null ? { padding } : null,
     borderLeftColor ? { borderLeftWidth: 4, borderLeftColor } : null,
@@ -38,23 +44,3 @@ export function Card({ children, onPress, variant = 'default', borderLeftColor, 
   }
   return content;
 }
-
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: radius.card,
-    padding: spacing.lg + 2,
-    marginBottom: spacing.md,
-  },
-  default: {
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-  flat: {
-    backgroundColor: colors.surface,
-  },
-  accent: {
-    // Gradiente real va envuelto fuera; aquí dejamos navy plano y delegamos.
-    backgroundColor: colors.navy,
-  },
-});

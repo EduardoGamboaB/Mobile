@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
-import { colors, radius, spacing } from '@/theme';
+import { useColors, radius, spacing } from '@/theme';
 
 export type ChipVariant = 'blue' | 'navy' | 'green' | 'amber' | 'red' | 'gray' | 'white';
 
@@ -10,17 +10,17 @@ interface Props {
   style?: ViewStyle;
 }
 
-const palette: Record<ChipVariant, { bg: string; fg: string }> = {
-  blue:  { bg: colors.blueLight, fg: colors.blue },
-  navy:  { bg: colors.navy,      fg: colors.onDark },
-  green: { bg: colors.successBg, fg: '#166534' },
-  amber: { bg: colors.warningBg, fg: '#92400E' },
-  red:   { bg: colors.dangerBg,  fg: '#991B1B' },
-  gray:  { bg: colors.surface2,  fg: colors.muted },
-  white: { bg: 'rgba(255,255,255,0.18)', fg: '#FFFFFF' },
-};
-
 export function Chip({ label, variant = 'blue', style }: Props) {
+  const c = useColors();
+  const palette: Record<ChipVariant, { bg: string; fg: string }> = {
+    blue:  { bg: c.blueLight,  fg: c.blue },
+    navy:  { bg: c.navy,       fg: '#FFFFFF' },
+    green: { bg: c.successBg,  fg: c.success },
+    amber: { bg: c.warningBg,  fg: c.warning },
+    red:   { bg: c.dangerBg,   fg: c.danger },
+    gray:  { bg: c.surface2,   fg: c.muted },
+    white: { bg: 'rgba(255,255,255,0.18)', fg: '#FFFFFF' },
+  };
   const { bg, fg } = palette[variant];
   return (
     <View style={[styles.chip, { backgroundColor: bg }, style]}>

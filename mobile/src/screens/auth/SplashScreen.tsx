@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, spacing } from '@/theme';
+import { useColors, spacing } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 /**
  * Splash con identidad G3 — sólo informativo. La decisión de ruta la hace
@@ -9,6 +10,8 @@ import { colors, spacing } from '@/theme';
  * mientras carga.
  */
 export function SplashScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.center}>
@@ -25,14 +28,14 @@ export function SplashScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.navy, alignItems: 'center', justifyContent: 'center' },
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
+  safe: { flex: 1, backgroundColor: c.navy, alignItems: 'center', justifyContent: 'center' },
   center: { alignItems: 'center' },
   logoRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   g:     { color: '#fff', fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
-  three: { color: colors.blueLight, fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
+  three: { color: c.blueLight, fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
   subtitle: { color: '#fff', fontSize: 22, fontWeight: '700', letterSpacing: 6, marginTop: -4 },
-  bar: { width: 48, height: 2, backgroundColor: colors.blue, marginVertical: spacing.lg },
+  bar: { width: 48, height: 2, backgroundColor: c.blue, marginVertical: spacing.lg },
   tag: { color: 'rgba(255,255,255,0.65)', fontSize: 13, letterSpacing: 2 },
   footer: {
     position: 'absolute',

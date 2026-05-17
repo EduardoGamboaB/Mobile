@@ -8,7 +8,7 @@ import {
   PressableProps,
   View,
 } from 'react-native';
-import { colors, radius, spacing } from '@/theme';
+import { useColors, radius, spacing } from '@/theme';
 
 type Variant = 'primary' | 'accent' | 'outline' | 'ghost' | 'danger';
 type Size = 'lg' | 'md' | 'sm';
@@ -23,14 +23,6 @@ interface Props extends Omit<PressableProps, 'children' | 'style'> {
   rightIcon?: ReactNode;
   style?: ViewStyle;
 }
-
-const variantStyles: Record<Variant, { bg: string; fg: string; border: string }> = {
-  primary: { bg: colors.navy,    fg: '#FFFFFF',     border: 'transparent' },
-  accent:  { bg: colors.blue,    fg: '#FFFFFF',     border: 'transparent' },
-  outline: { bg: '#FFFFFF',      fg: colors.navy,   border: colors.border },
-  ghost:   { bg: 'transparent',  fg: colors.navy,   border: 'transparent' },
-  danger:  { bg: colors.danger,  fg: '#FFFFFF',     border: 'transparent' },
-};
 
 const sizeStyles: Record<Size, { h: number; fs: number; px: number }> = {
   lg: { h: 54, fs: 15, px: spacing.lg + 2 },
@@ -50,6 +42,14 @@ export function Button({
   style,
   ...rest
 }: Props) {
+  const c = useColors();
+  const variantStyles: Record<Variant, { bg: string; fg: string; border: string }> = {
+    primary: { bg: c.navy,    fg: '#FFFFFF', border: 'transparent' },
+    accent:  { bg: c.blue,    fg: '#FFFFFF', border: 'transparent' },
+    outline: { bg: c.bg,      fg: c.text,    border: c.border },
+    ghost:   { bg: 'transparent', fg: c.text, border: 'transparent' },
+    danger:  { bg: c.danger,  fg: '#FFFFFF', border: 'transparent' },
+  };
   const v = variantStyles[variant];
   const s = sizeStyles[size];
   return (

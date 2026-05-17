@@ -9,12 +9,15 @@ import { Card } from '@/components/common/Card';
 import { PhoneIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AuthStackParamList } from '@/navigation/types';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'PhoneLogin'>;
 
 export function PhoneLoginScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<Nav>();
   const [phone, setPhone] = useState('');
   const loading = useAuthStore((s) => s.loading);
@@ -46,9 +49,9 @@ export function PhoneLoginScreen() {
       </View>
 
       {isDemo ? (
-        <Card style={{ borderColor: colors.danger, borderWidth: 1 }}>
-          <Text style={typography.h3}>Modo demo activo</Text>
-          <Text style={[typography.small, { marginTop: spacing.xs }]}>
+        <Card style={{ borderColor: c.danger, borderWidth: 1 }}>
+          <Text style={[typography.h3, { color: c.text }]}>Modo demo activo</Text>
+          <Text style={[typography.small, { color: c.textSoft }, { marginTop: spacing.xs }]}>
             Sin credenciales de Supabase. Entra como chofer ficticio para explorar la app con
             datos de ejemplo.
           </Text>
@@ -58,14 +61,14 @@ export function PhoneLoginScreen() {
         </Card>
       ) : null}
 
-      <Text style={[typography.h1, { marginBottom: 6 }]}>Bienvenido</Text>
-      <Text style={[typography.small, { marginBottom: spacing.lg }]}>
+      <Text style={[typography.h1, { color: c.text }, { marginBottom: 6 }]}>Bienvenido</Text>
+      <Text style={[typography.small, { color: c.textSoft }, { marginBottom: spacing.lg }]}>
         Inicia sesión para entrar a tu unidad asignada.
       </Text>
 
       <TextField
         label="Teléfono"
-        leftIcon={<PhoneIcon size={20} color={colors.muted} />}
+        leftIcon={<PhoneIcon size={20} color={c.muted} />}
         keyboardType="phone-pad"
         placeholder="55 1234 5678"
         value={phone}
@@ -88,10 +91,10 @@ export function PhoneLoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   brandRow: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', marginTop: spacing.lg, marginBottom: spacing.xl + 4 },
-  g:     { color: colors.navy,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
-  three: { color: colors.blue,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
-  brandSub: { color: colors.navy, fontSize: 14, fontWeight: '700', letterSpacing: 4, marginLeft: spacing.sm, marginBottom: 6 },
-  footer: { textAlign: 'center', color: colors.muted, fontSize: 12, marginTop: spacing.xl },
+  g:     { color: c.navy,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
+  three: { color: c.blue,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
+  brandSub: { color: c.navy, fontSize: 14, fontWeight: '700', letterSpacing: 4, marginLeft: spacing.sm, marginBottom: 6 },
+  footer: { textAlign: 'center', color: c.muted, fontSize: 12, marginTop: spacing.xl },
 });

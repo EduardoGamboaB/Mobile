@@ -17,10 +17,13 @@ import {
   CalendarIcon,
 } from '@/components/icons';
 import { useTrip } from '@/hooks/useTrips';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppStackParamList } from '@/navigation/types';
 
 export function SignaturePodScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const route = useRoute<RouteProp<AppStackParamList, 'SignaturePod'>>();
   const { data: trip } = useTrip(route.params.tripId);
@@ -59,14 +62,14 @@ export function SignaturePodScreen() {
 
         <TextField
           label="Recibió"
-          leftIcon={<UserIcon size={20} color={colors.muted} />}
+          leftIcon={<UserIcon size={20} color={c.muted} />}
           value={receiver}
           onChangeText={setReceiver}
           placeholder="Lic. Ricardo Hernández"
         />
         <TextField
           label="Cargo / área"
-          leftIcon={<BuildingIcon size={20} color={colors.muted} />}
+          leftIcon={<BuildingIcon size={20} color={c.muted} />}
           value={area}
           onChangeText={setArea}
           placeholder="Almacén · Turno A"
@@ -76,8 +79,8 @@ export function SignaturePodScreen() {
         <SignaturePad ref={padRef} onChange={setHasSignature} />
         <View style={styles.signRow}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-            <CalendarIcon size={14} color={colors.muted} />
-            <Text style={typography.caption}>Hoy · {new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}</Text>
+            <CalendarIcon size={14} color={c.muted} />
+            <Text style={[typography.caption, { color: c.muted }]}>Hoy · {new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })}</Text>
           </View>
           <Pressable
             onPress={() => {
@@ -99,7 +102,7 @@ export function SignaturePodScreen() {
           <Button
             title="Foto sello"
             variant="outline"
-            leftIcon={<CameraIcon size={18} color={colors.navy} />}
+            leftIcon={<CameraIcon size={18} color={c.navy} />}
             onPress={() => Alert.alert('Próximamente', 'Captura de sello.')}
             style={{ flex: 1 }}
             fullWidth={false}
@@ -117,7 +120,7 @@ export function SignaturePodScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   chipsRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md },
   label: { ...typography.eyebrow, marginBottom: spacing.sm + 2 },
   signRow: {
@@ -126,6 +129,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: spacing.sm,
   },
-  link: { color: colors.blue, fontWeight: '600', fontSize: 13 },
+  link: { color: c.blue, fontWeight: '600', fontSize: 13 },
   actions: { flexDirection: 'row', gap: spacing.sm + 2, marginTop: spacing.md },
 });

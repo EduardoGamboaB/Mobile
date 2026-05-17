@@ -30,10 +30,13 @@ import {
   type LogbookEventValue,
   type FuelLevelValue,
 } from '@/constants/enums';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppNav, AppStackParamList } from '@/navigation/types';
 
 export function LogbookCreateScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'LogbookCreate'>>();
   const nav = useNavigation<AppNav<'LogbookCreate'>>();
   const driverId = useAuthStore((s) => s.session?.user.id);
@@ -150,7 +153,7 @@ export function LogbookCreateScreen() {
 
         <TextField
           label="Ubicación"
-          leftIcon={<MapPinIcon size={20} color={colors.muted} />}
+          leftIcon={<MapPinIcon size={20} color={c.muted} />}
           value={location}
           onChangeText={setLocation}
           placeholder="Caseta Atlacomulco, km 87…"
@@ -159,7 +162,7 @@ export function LogbookCreateScreen() {
           title={coords ? 'GPS capturado' : 'Capturar GPS'}
           variant="outline"
           size="md"
-          leftIcon={<MapPinIcon size={18} color={colors.navy} />}
+          leftIcon={<MapPinIcon size={18} color={c.navy} />}
           onPress={captureGps}
           loading={gpsLoading}
         />
@@ -214,7 +217,7 @@ export function LogbookCreateScreen() {
           title="Agregar foto"
           variant="outline"
           size="md"
-          leftIcon={<CameraIcon size={18} color={colors.navy} />}
+          leftIcon={<CameraIcon size={18} color={c.navy} />}
           style={{ marginBottom: spacing.md + 2 }}
           onPress={() => Alert.alert('Próximamente', 'Foto en la siguiente tanda.')}
         />
@@ -224,7 +227,7 @@ export function LogbookCreateScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   label: { ...typography.eyebrow, marginTop: spacing.md, marginBottom: spacing.sm },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm + 2, marginBottom: spacing.md },
   tile: {
@@ -233,13 +236,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
     padding: spacing.sm,
   },
-  tileActive: { backgroundColor: colors.navy, borderColor: colors.navy },
-  tileName: { fontSize: 12, fontWeight: '600', color: colors.text, textAlign: 'center' },
+  tileActive: { backgroundColor: c.navy, borderColor: c.navy },
+  tileName: { fontSize: 12, fontWeight: '600', color: c.text, textAlign: 'center' },
   pills: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap', marginBottom: spacing.md + 2 },
 });

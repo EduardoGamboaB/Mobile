@@ -29,17 +29,19 @@ import {
   type IncidentTypeValue,
   type IncidentUrgencyValue,
 } from '@/constants/enums';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppNav, AppStackParamList } from '@/navigation/types';
 
-const URGENCY_COLOR: Record<IncidentUrgencyValue, string> = {
-  low: colors.success,
-  medium: colors.warning,
-  high: '#EA580C',
-  critical: colors.danger,
-};
-
 export function IncidentCreateScreen() {
+  const c = useColors();
+  const URGENCY_COLOR: Record<IncidentUrgencyValue, string> = {
+    low: c.success,
+    medium: c.warning,
+    high: '#EA580C',
+    critical: c.danger,
+  };
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'IncidentCreate'>>();
   const nav = useNavigation<AppNav<'IncidentCreate'>>();
   const driverId = useAuthStore((s) => s.session?.user.id);
@@ -178,7 +180,7 @@ export function IncidentCreateScreen() {
 
         <TextField
           label="Ubicación"
-          leftIcon={<MapPinIcon size={20} color={colors.muted} />}
+          leftIcon={<MapPinIcon size={20} color={c.muted} />}
           value={location}
           onChangeText={setLocation}
           placeholder="km 87 autopista..."
@@ -187,7 +189,7 @@ export function IncidentCreateScreen() {
           title={coords ? 'GPS capturado' : 'Capturar GPS'}
           variant="outline"
           size="md"
-          leftIcon={<MapPinIcon size={18} color={colors.navy} />}
+          leftIcon={<MapPinIcon size={18} color={c.navy} />}
           onPress={captureGps}
         />
         <View style={{ height: spacing.md }} />
@@ -195,7 +197,7 @@ export function IncidentCreateScreen() {
           title="Adjuntar evidencia"
           variant="outline"
           size="md"
-          leftIcon={<CameraIcon size={18} color={colors.navy} />}
+          leftIcon={<CameraIcon size={18} color={c.navy} />}
           onPress={() => Alert.alert('Próximamente', 'Adjuntar foto en la siguiente tanda.')}
           style={{ marginBottom: spacing.lg }}
         />
@@ -210,7 +212,7 @@ export function IncidentCreateScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   label: { ...typography.eyebrow, marginTop: spacing.md, marginBottom: spacing.sm },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm + 2 },
   tile: {
@@ -221,11 +223,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     padding: spacing.md + 2,
   },
-  tileActive: { backgroundColor: colors.navy, borderColor: colors.navy },
-  tileName: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.text },
+  tileActive: { backgroundColor: c.navy, borderColor: c.navy },
+  tileName: { flex: 1, fontSize: 13, fontWeight: '600', color: c.text },
   urgencyRow: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap', marginBottom: spacing.md },
   urgency: {
     paddingHorizontal: spacing.md + 2,

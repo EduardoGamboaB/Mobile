@@ -13,7 +13,8 @@ import {
   BellIcon,
 } from '@/components/icons';
 import { demoStore } from '@/demo';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoNotification } from '@/demo/data';
 
 const ICON_MAP: Record<DemoNotification['kind'], { icon: React.FC<{ size?: number; color?: string }>; tone: IconTileTone }> = {
@@ -36,6 +37,8 @@ function relTime(iso: string): string {
 }
 
 export function NotificationsScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const [items, setItems] = useState<DemoNotification[]>([]);
 
@@ -80,16 +83,16 @@ export function NotificationsScreen() {
           const Icon = conf.icon;
           return (
             <Card
-              borderLeftColor={item.n.read ? undefined : colors.blue}
+              borderLeftColor={item.n.read ? undefined : c.blue}
               style={styles.row}
             >
               <IconTile tone={conf.tone}>
                 <Icon color={tileIconColor(conf.tone)} />
               </IconTile>
               <View style={{ flex: 1, marginLeft: spacing.md }}>
-                <Text style={typography.bodyStrong}>{item.n.title}</Text>
-                <Text style={[typography.small, { marginTop: 2 }]}>{item.n.body}</Text>
-                <Text style={[typography.caption, { marginTop: 4 }]}>
+                <Text style={[typography.bodyStrong, { color: c.text }]}>{item.n.title}</Text>
+                <Text style={[typography.small, { color: c.textSoft }, { marginTop: 2 }]}>{item.n.body}</Text>
+                <Text style={[typography.caption, { color: c.muted }, { marginTop: 4 }]}>
                   {relTime(item.n.createdAt)}
                 </Text>
               </View>
@@ -97,7 +100,7 @@ export function NotificationsScreen() {
           );
         }}
         ListEmptyComponent={
-          <Text style={[typography.body, { textAlign: 'center', marginTop: spacing.xl }]}>
+          <Text style={[typography.body, { color: c.text }, { textAlign: 'center', marginTop: spacing.xl }]}>
             No hay notificaciones.
           </Text>
         }
@@ -106,8 +109,8 @@ export function NotificationsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  action: { fontSize: 13, color: colors.blue, fontWeight: '600' },
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
+  action: { fontSize: 13, color: c.blue, fontWeight: '600' },
   section: { ...typography.eyebrow, marginTop: spacing.md, marginBottom: spacing.sm },
   row: { flexDirection: 'row', alignItems: 'flex-start' },
 });

@@ -7,13 +7,16 @@ import { Chip } from '@/components/common/Chip';
 import { IconTile } from '@/components/common/IconTile';
 import { SearchIcon } from '@/components/icons';
 import { useActiveTrips } from '@/hooks/useTrips';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { TabNav } from '@/navigation/types';
 import type { Trip } from '@/models';
 
 type Tab = 'active' | 'scheduled';
 
 export function TripsScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<TabNav<'Trips'>>();
   const { data, isRefetching, refetch } = useActiveTrips();
   const [tab, setTab] = useState<Tab>('active');
@@ -25,9 +28,9 @@ export function TripsScreen() {
   return (
     <Screen padded={false}>
       <View style={styles.header}>
-        <Text style={typography.h1}>Viajes</Text>
+        <Text style={[typography.h1, { color: c.text }]}>Viajes</Text>
         <IconTile tone="navy">
-          <SearchIcon color={colors.navy} />
+          <SearchIcon color={c.navy} />
         </IconTile>
       </View>
       <View style={styles.tabs}>
@@ -56,10 +59,10 @@ export function TripsScreen() {
           />
         )}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={colors.navy} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={c.navy} />
         }
         ListEmptyComponent={
-          <Text style={[typography.body, { textAlign: 'center', marginTop: spacing.xl }]}>
+          <Text style={[typography.body, { color: c.text }, { textAlign: 'center', marginTop: spacing.xl }]}>
             {tab === 'active' ? 'Sin viajes activos.' : 'Sin viajes programados.'}
           </Text>
         }
@@ -68,7 +71,7 @@ export function TripsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',

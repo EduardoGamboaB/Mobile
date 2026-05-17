@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing, typography } from '@/theme';
-import { IconTile, tileIconColor, IconTileTone } from './IconTile';
+import { useColors, spacing, typography } from '@/theme';
+import { IconTile, useTileIconColor, type IconTileTone } from './IconTile';
 
 interface Props {
   icon: (color: string) => ReactNode;
@@ -12,16 +12,23 @@ interface Props {
 }
 
 export function EmptyState({ icon, title, body, tone = 'blue', action }: Props) {
+  const c = useColors();
+  const iconColor = useTileIconColor(tone);
   return (
     <View style={styles.wrap}>
       <View style={{ marginBottom: spacing.md }}>
         <IconTile tone={tone} size="lg">
-          {icon(tileIconColor(tone))}
+          {icon(iconColor)}
         </IconTile>
       </View>
-      <Text style={[typography.h3, { textAlign: 'center' }]}>{title}</Text>
+      <Text style={[typography.h3, { color: c.text, textAlign: 'center' }]}>{title}</Text>
       {body ? (
-        <Text style={[typography.small, { textAlign: 'center', marginTop: spacing.xs, paddingHorizontal: spacing.lg }]}>
+        <Text
+          style={[
+            typography.small,
+            { color: c.textSoft, textAlign: 'center', marginTop: spacing.xs, paddingHorizontal: spacing.lg },
+          ]}
+        >
           {body}
         </Text>
       ) : null}
@@ -33,5 +40,3 @@ export function EmptyState({ icon, title, body, tone = 'blue', action }: Props) 
 const styles = StyleSheet.create({
   wrap: { alignItems: 'center', paddingVertical: spacing.xl, paddingHorizontal: spacing.lg },
 });
-
-export const _emptyStatePlaceholder = colors; // mantiene import cuando se compila tree-shaken

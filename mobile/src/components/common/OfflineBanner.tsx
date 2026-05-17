@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNetwork } from '@/hooks/useNetwork';
-import { colors, spacing } from '@/theme';
+import { spacing } from '@/theme';
 
 export function OfflineBanner() {
   const online = useNetwork();

@@ -8,7 +8,8 @@ import { Chip } from '@/components/common/Chip';
 import { Button } from '@/components/common/Button';
 import { FileIcon } from '@/components/icons';
 import { demoStore } from '@/demo';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoPayment } from '@/demo/data';
 import type { AppStackParamList } from '@/navigation/types';
 
@@ -22,6 +23,8 @@ const statusLabel = (s: DemoPayment['status']) =>
   s === 'released' ? 'Liberado' : s === 'pending' ? 'En proceso' : 'Retenido';
 
 export function PaymentDetailScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'PaymentDetail'>>();
   const [payment, setPayment] = useState<DemoPayment | null>(null);
 
@@ -32,17 +35,17 @@ export function PaymentDetailScreen() {
   if (!payment) {
     return (
       <Screen>
-        <Text style={typography.body}>Cargando…</Text>
+        <Text style={[typography.body, { color: c.text }]}>Cargando…</Text>
       </Screen>
     );
   }
 
   const isReleased = payment.status === 'released';
   const heroBg = isReleased
-    ? colors.success
+    ? c.success
     : payment.status === 'pending'
-      ? colors.warning
-      : colors.danger;
+      ? c.warning
+      : c.danger;
 
   return (
     <Screen padded={false}>
@@ -53,8 +56,8 @@ export function PaymentDetailScreen() {
           <Chip label={statusLabel(payment.status)} variant={statusVariant(payment.status)} />
           <Chip label={payment.tripFolio} variant="gray" />
         </View>
-        <Text style={typography.h2}>{payment.client}</Text>
-        <Text style={typography.small}>
+        <Text style={[typography.h2, { color: c.text }]}>{payment.client}</Text>
+        <Text style={[typography.small, { color: c.textSoft }]}>
           {payment.origin} → {payment.destination} ·{' '}
           {new Date(payment.tripDate).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })}
         </Text>
@@ -79,7 +82,7 @@ export function PaymentDetailScreen() {
         </View>
 
         <Card>
-          <Text style={typography.eyebrow}>Desglose</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Desglose</Text>
           <Row label="Importe del viaje" value={fmt(payment.grossAmount)} />
           <View style={styles.hr} />
           <Row label="Anticipo de diesel" value={'− ' + fmt(payment.advances)} />
@@ -95,7 +98,7 @@ export function PaymentDetailScreen() {
         <Button
           title="Descargar recibo PDF"
           variant="outline"
-          leftIcon={<FileIcon size={20} color={colors.navy} />}
+          leftIcon={<FileIcon size={20} color={c.navy} />}
           onPress={() => Alert.alert('Próximamente', 'Descarga del recibo PDF.')}
           style={{ marginTop: spacing.md }}
         />
@@ -105,17 +108,19 @@ export function PaymentDetailScreen() {
 }
 
 function Row({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <View style={styles.row}>
-      <Text style={typography.small}>{label}</Text>
-      <Text style={[typography.body, strong && { fontSize: 18, fontWeight: '700', color: colors.blue }]}>
+      <Text style={[typography.small, { color: c.textSoft }]}>{label}</Text>
+      <Text style={[typography.body, strong && { fontSize: 18, fontWeight: '700', color: c.blue }]}>
         {value}
       </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   chipsRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.sm + 2 },
   heroCard: {
     borderRadius: radius.card,
@@ -132,5 +137,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 6,
   },
-  hr: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border, marginVertical: spacing.sm + 2 },
+  hr: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: c.border, marginVertical: spacing.sm + 2 },
 });

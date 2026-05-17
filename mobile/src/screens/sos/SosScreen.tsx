@@ -11,11 +11,14 @@ import {
   PhoneIcon,
   ClockIcon,
 } from '@/components/icons';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 const HOLD_MS = 3_000;
 
 export function SosScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const pulse = useRef(new Animated.Value(1)).current;
   const progress = useRef(new Animated.Value(0)).current;
@@ -56,7 +59,7 @@ export function SosScreen() {
   };
 
   return (
-    <Screen padded={false} background={colors.danger} hideBanners>
+    <Screen padded={false} background={c.danger} hideBanners>
       <View style={styles.gradient} />
       <View style={styles.top}>
         <Pressable onPress={() => nav.goBack()}>
@@ -115,6 +118,8 @@ export function SosScreen() {
 }
 
 function Info({ icon, text }: { icon: React.ReactNode; text: string }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <View style={styles.infoTile}>
       {icon}
@@ -123,8 +128,8 @@ function Info({ icon, text }: { icon: React.ReactNode; text: string }) {
   );
 }
 
-const styles = StyleSheet.create({
-  gradient: { ...StyleSheet.absoluteFillObject, backgroundColor: colors.danger },
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
+  gradient: { ...StyleSheet.absoluteFillObject, backgroundColor: c.danger },
   top: { position: 'absolute', top: 54, right: spacing.lg + 4, zIndex: 2 },
   fab: {
     width: 44,
@@ -157,8 +162,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sos: { color: colors.danger, fontSize: 36, fontWeight: '900', letterSpacing: 6 },
-  hold: { color: colors.danger, fontSize: 11, letterSpacing: 1, fontWeight: '700' },
+  sos: { color: c.danger, fontSize: 36, fontWeight: '900', letterSpacing: 6 },
+  hold: { color: c.danger, fontSize: 11, letterSpacing: 1, fontWeight: '700' },
   progress: {
     position: 'absolute',
     bottom: -spacing.md,

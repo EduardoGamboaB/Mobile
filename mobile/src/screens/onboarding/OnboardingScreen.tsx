@@ -7,7 +7,8 @@ import { Button } from '@/components/common/Button';
 import { PageDots } from '@/components/common/PageDots';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { TruckIcon, CloudOffIcon, ShieldCheckIcon } from '@/components/icons';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 export const ONBOARDING_KEY = 'g3.onboarding.completed.v1';
 
@@ -32,6 +33,8 @@ const PAGES = [
 const WIDTH = Dimensions.get('window').width;
 
 export function OnboardingScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const list = useRef<FlatList>(null);
   const [page, setPage] = useState(0);
@@ -75,8 +78,8 @@ export function OnboardingScreen() {
                 </IconTile>
               </View>
             </View>
-            <Text style={[typography.h1, styles.title]}>{item.title}</Text>
-            <Text style={[typography.body, styles.body]}>{item.body}</Text>
+            <Text style={[typography.h1, { color: c.text }, styles.title]}>{item.title}</Text>
+            <Text style={[typography.body, { color: c.text }, styles.body]}>{item.body}</Text>
           </View>
         )}
       />
@@ -90,13 +93,13 @@ export function OnboardingScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   skipRow: { flexDirection: 'row', justifyContent: 'flex-end', paddingHorizontal: spacing.lg + 4, paddingTop: spacing.md },
-  skip: { fontSize: 13, color: colors.muted, fontWeight: '600' },
+  skip: { fontSize: 13, color: c.muted, fontWeight: '600' },
   page: { paddingHorizontal: spacing.lg + 4, alignItems: 'center', paddingTop: spacing.xl + 4 },
   iconWrap: { transform: [{ scale: 2.4 }] },
   title: { textAlign: 'center', marginBottom: spacing.md, paddingHorizontal: spacing.md },
-  body:  { textAlign: 'center', color: colors.textSoft, paddingHorizontal: spacing.lg },
+  body:  { textAlign: 'center', color: c.textSoft, paddingHorizontal: spacing.lg },
   dots:   { position: 'absolute', bottom: 120, left: 0, right: 0 },
   bottom: { position: 'absolute', bottom: spacing.xl + 4, left: spacing.lg + 4, right: spacing.lg + 4 },
 });

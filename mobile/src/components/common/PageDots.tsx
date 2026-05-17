@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors } from '@/theme';
+import { useColors } from '@/theme';
 
 interface Props {
   count: number;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 export function PageDots({ count, active }: Props) {
+  const c = useColors();
   return (
     <View style={styles.row}>
       {Array.from({ length: count }).map((_, i) => (
@@ -15,7 +16,7 @@ export function PageDots({ count, active }: Props) {
           key={i}
           style={[
             styles.dot,
-            { width: i === active ? 24 : 8, backgroundColor: i === active ? colors.navy : colors.border },
+            { width: i === active ? 24 : 8, backgroundColor: i === active ? c.text : c.border },
           ]}
         />
       ))}

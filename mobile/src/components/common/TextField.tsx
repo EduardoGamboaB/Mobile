@@ -7,7 +7,7 @@ import {
   TextInputProps,
   ViewStyle,
 } from 'react-native';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
 
 interface Props extends TextInputProps {
   label?: string;
@@ -29,37 +29,46 @@ export function TextField({
   multiline,
   ...rest
 }: Props) {
+  const c = useColors();
   return (
-    <View style={[styles.wrap, containerStyle]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+    <View style={[{ marginBottom: spacing.md + 2 }, containerStyle]}>
+      {label ? (
+        <Text style={[typography.eyebrow, { color: c.muted, marginBottom: 6 }]}>{label}</Text>
+      ) : null}
       <View
         style={[
           styles.input,
+          {
+            backgroundColor: c.surface,
+            borderColor: error ? c.danger : c.border,
+          },
           multiline && styles.inputMulti,
-          error ? styles.inputError : null,
         ]}
       >
         {leftIcon ? <View style={{ marginRight: spacing.sm }}>{leftIcon}</View> : null}
         <TextInput
-          placeholderTextColor={colors.muted}
-          style={[styles.text, multiline && { textAlignVertical: 'top' }, style]}
+          placeholderTextColor={c.muted}
+          style={[
+            styles.text,
+            { color: c.text },
+            multiline && { textAlignVertical: 'top' },
+            style,
+          ]}
           multiline={multiline}
           {...rest}
         />
         {rightIcon ? <View style={{ marginLeft: spacing.sm }}>{rightIcon}</View> : null}
       </View>
       {error ? (
-        <Text style={styles.error}>{error}</Text>
+        <Text style={[styles.error, { color: c.danger }]}>{error}</Text>
       ) : hint ? (
-        <Text style={styles.hint}>{hint}</Text>
+        <Text style={[styles.hint, { color: c.muted }]}>{hint}</Text>
       ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginBottom: spacing.md + 2 },
-  label: { ...typography.eyebrow, marginBottom: 6 },
   input: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,12 +76,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md + 4,
     borderRadius: radius.button,
     borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
   },
   inputMulti: { height: 100, paddingVertical: spacing.md, alignItems: 'flex-start' },
-  inputError: { borderColor: colors.danger },
-  text: { flex: 1, fontSize: 16, color: colors.text },
-  error: { color: colors.danger, fontSize: 12, marginTop: spacing.xs },
-  hint: { color: colors.muted, fontSize: 12, marginTop: spacing.xs },
+  text: { flex: 1, fontSize: 16 },
+  error: { fontSize: 12, marginTop: spacing.xs },
+  hint: { fontSize: 12, marginTop: spacing.xs },
 });

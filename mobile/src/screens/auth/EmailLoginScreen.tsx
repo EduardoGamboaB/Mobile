@@ -8,12 +8,15 @@ import { Button } from '@/components/common/Button';
 import { TextField } from '@/components/common/TextField';
 import { MailIcon, LockIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AuthStackParamList } from '@/navigation/types';
 
 type Nav = NativeStackNavigationProp<AuthStackParamList, 'EmailLogin'>;
 
 export function EmailLoginScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<Nav>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,13 +35,13 @@ export function EmailLoginScreen() {
   return (
     <Screen background="cream">
       <AppBar title="Entrar con correo" />
-      <Text style={[typography.small, { marginBottom: spacing.lg }]}>
+      <Text style={[typography.small, { color: c.textSoft }, { marginBottom: spacing.lg }]}>
         Acceso para personal de despacho y administración.
       </Text>
 
       <TextField
         label="Correo"
-        leftIcon={<MailIcon size={20} color={colors.muted} />}
+        leftIcon={<MailIcon size={20} color={c.muted} />}
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -46,7 +49,7 @@ export function EmailLoginScreen() {
       />
       <TextField
         label="Contraseña"
-        leftIcon={<LockIcon size={20} color={colors.muted} />}
+        leftIcon={<LockIcon size={20} color={c.muted} />}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
@@ -63,7 +66,7 @@ export function EmailLoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   forgotRow: { alignItems: 'flex-end', marginBottom: spacing.md + 2 },
-  forgot: { color: colors.blue, fontSize: 13, fontWeight: '600' },
+  forgot: { color: c.blue, fontSize: 13, fontWeight: '600' },
 });

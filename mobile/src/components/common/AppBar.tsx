@@ -3,7 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ChevronLeftIcon } from '@/components/icons';
 import { IconTile } from './IconTile';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
 
 interface Props {
   title: string;
@@ -13,15 +13,16 @@ interface Props {
 
 export function AppBar({ title, right, onBack }: Props) {
   const nav = useNavigation();
+  const c = useColors();
   const handleBack = onBack ?? (() => nav.goBack());
   return (
     <View style={styles.bar}>
       <Pressable onPress={handleBack} hitSlop={10}>
         <IconTile tone="navy">
-          <ChevronLeftIcon color={colors.navy} />
+          <ChevronLeftIcon color={c.text} />
         </IconTile>
       </Pressable>
-      <Text style={[typography.h2, styles.title]} numberOfLines={1}>
+      <Text style={[typography.h2, styles.title, { color: c.text }]} numberOfLines={1}>
         {title}
       </Text>
       {right}

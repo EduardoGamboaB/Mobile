@@ -27,12 +27,15 @@ import {
 } from '@/components/icons';
 import { useActiveTrips, useTripHistory } from '@/hooks/useTrips';
 import { useAuthStore } from '@/stores/auth';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import { TripStatusLabel, nextStatus } from '@/constants/enums';
 import { demoStore } from '@/demo';
 import type { TabNav } from '@/navigation/types';
 
 export function DashboardScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<TabNav<'Dashboard'>>();
   const profile = useAuthStore((s) => s.profile);
   const active = useActiveTrips();
@@ -54,25 +57,25 @@ export function DashboardScreen() {
               active.refetch();
               history.refetch();
             }}
-            tintColor={colors.navy}
+            tintColor={c.navy}
           />
         }
       >
         <View style={styles.greetRow}>
           <View>
-            <Text style={typography.small}>Buen día</Text>
-            <Text style={typography.h2}>{firstName}</Text>
+            <Text style={[typography.small, { color: c.textSoft }]}>Buen día</Text>
+            <Text style={[typography.h2, { color: c.text }]}>{firstName}</Text>
           </View>
           <View style={{ flexDirection: 'row', gap: spacing.sm }}>
             <Pressable onPress={() => nav.navigate('QrScanner')}>
               <IconTile tone="navy">
-                <QrIcon color={colors.navy} />
+                <QrIcon color={c.navy} />
               </IconTile>
             </Pressable>
             <Pressable onPress={() => nav.navigate('Notifications')}>
               <View>
                 <IconTile tone="navy">
-                  <BellIcon color={colors.navy} />
+                  <BellIcon color={c.navy} />
                 </IconTile>
                 {unreadCount > 0 ? <View style={styles.badge} /> : null}
               </View>
@@ -95,7 +98,7 @@ export function DashboardScreen() {
                 </View>
                 <View style={styles.heroRow}>
                   <View style={{ width: 16, alignItems: 'center' }}>
-                    <ArrowDownIcon size={14} color={colors.blueLight} />
+                    <ArrowDownIcon size={14} color={c.blueLight} />
                   </View>
                   <Text style={styles.heroRoute}>{current.destination}</Text>
                 </View>
@@ -157,7 +160,7 @@ export function DashboardScreen() {
             {next ? (
               <>
                 <View style={styles.sectionHead}>
-                  <Text style={typography.h3}>Próximo paso</Text>
+                  <Text style={[typography.h3, { color: c.text }]}>Próximo paso</Text>
                   <Chip label="Siguiente" variant="blue" />
                 </View>
                 <Card
@@ -168,14 +171,14 @@ export function DashboardScreen() {
                     <PackageIcon color={tileIconColor('blue')} />
                   </IconTile>
                   <View style={{ flex: 1, marginLeft: spacing.md }}>
-                    <Text style={typography.bodyStrong}>
+                    <Text style={[typography.bodyStrong, { color: c.text }]}>
                       Marcar {TripStatusLabel[next].toLowerCase()}
                     </Text>
-                    <Text style={typography.caption}>
+                    <Text style={[typography.caption, { color: c.muted }]}>
                       Al llegar a {current.destination.split(',')[0]}
                     </Text>
                   </View>
-                  <ChevronRightIcon size={20} color={colors.muted} />
+                  <ChevronRightIcon size={20} color={c.muted} />
                 </Card>
               </>
             ) : null}
@@ -190,7 +193,7 @@ export function DashboardScreen() {
                 title="Actualizar"
                 variant="outline"
                 size="sm"
-                leftIcon={<RefreshIcon size={16} color={colors.navy} />}
+                leftIcon={<RefreshIcon size={16} color={c.navy} />}
                 fullWidth={false}
                 onPress={() => active.refetch()}
               />
@@ -205,15 +208,15 @@ export function DashboardScreen() {
               <CreditCardIcon color={tileIconColor('success')} />
             </IconTile>
             <View style={{ flex: 1, marginLeft: spacing.md }}>
-              <Text style={typography.bodyStrong}>Mis ingresos</Text>
-              <Text style={typography.caption}>Ver desempeño y pagos del mes</Text>
+              <Text style={[typography.bodyStrong, { color: c.text }]}>Mis ingresos</Text>
+              <Text style={[typography.caption, { color: c.muted }]}>Ver desempeño y pagos del mes</Text>
             </View>
-            <ChevronRightIcon size={20} color={colors.muted} />
+            <ChevronRightIcon size={20} color={c.muted} />
           </Card>
         </Pressable>
 
         <View style={styles.sectionHead}>
-          <Text style={typography.h3}>Últimos viajes</Text>
+          <Text style={[typography.h3, { color: c.text }]}>Últimos viajes</Text>
           <Pressable onPress={() => nav.navigate('History' as never)}>
             <Text style={styles.linkBlue}>Ver todo</Text>
           </Pressable>
@@ -234,8 +237,8 @@ export function DashboardScreen() {
                   <CheckCircleIcon color={tileIconColor(isFinished ? 'success' : 'navy')} />
                 </IconTile>
                 <View style={{ flex: 1, marginLeft: spacing.md }}>
-                  <Text style={typography.bodyStrong}>{trip.client_name}</Text>
-                  <Text style={typography.caption}>
+                  <Text style={[typography.bodyStrong, { color: c.text }]}>{trip.client_name}</Text>
+                  <Text style={[typography.caption, { color: c.muted }]}>
                     {trip.folio} ·{' '}
                     {trip.finished_at
                       ? new Date(trip.finished_at).toLocaleDateString()
@@ -250,7 +253,7 @@ export function DashboardScreen() {
             );
           })}
           {(history.data?.length ?? 0) === 0 ? (
-            <Text style={[typography.small, { textAlign: 'center', padding: spacing.lg }]}>
+            <Text style={[typography.small, { color: c.textSoft }, { textAlign: 'center', padding: spacing.lg }]}>
               Sin historial todavía.
             </Text>
           ) : null}
@@ -271,17 +274,19 @@ function Shortcut({
   onPress: () => void;
   tone?: 'blue' | 'danger';
 }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <Pressable onPress={onPress} style={styles.shortcut}>
       <IconTile tone={tone} size="md">
         {icon}
       </IconTile>
-      <Text style={styles.shortcutLabel}>{label}</Text>
+      <Text style={[styles.shortcutLabel, { color: c.text }]}>{label}</Text>
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   greetRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -295,12 +300,12 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: colors.danger,
+    backgroundColor: c.danger,
     borderWidth: 2,
-    borderColor: colors.surface,
+    borderColor: c.surface,
   },
   heroCard: {
-    backgroundColor: colors.navy,
+    backgroundColor: c.navy,
     borderRadius: 18,
     padding: spacing.lg + 4,
   },
@@ -331,7 +336,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
   },
   shortcut: { alignItems: 'center', gap: 4, flex: 1 },
-  shortcutLabel: { fontSize: 11, fontWeight: '600', color: colors.text },
+  shortcutLabel: { fontSize: 11, fontWeight: '600', color: c.text },
   sectionHead: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -340,13 +345,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm + 2,
   },
   nextStep: { flexDirection: 'row', alignItems: 'center' },
-  linkBlue: { color: colors.blue, fontSize: 13, fontWeight: '600' },
+  linkBlue: { color: c.blue, fontSize: 13, fontWeight: '600' },
   lastTripRow: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md + 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
   earningsRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing.lg },

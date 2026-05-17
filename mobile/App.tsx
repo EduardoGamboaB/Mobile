@@ -8,7 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { RootNavigator } from '@/navigation/RootNavigator';
-import { navTheme } from '@/theme';
+import { navTheme, darkNavTheme } from '@/theme';
 import { useAuthStore } from '@/stores/auth';
 import { useThemeStore } from '@/stores/theme';
 import { syncService } from '@/services/sync';
@@ -26,6 +26,7 @@ const queryClient = new QueryClient({
 export default function App() {
   const bootstrapAuth = useAuthStore((s) => s.bootstrap);
   const bootstrapTheme = useThemeStore((s) => s.bootstrap);
+  const night = useThemeStore((s) => s.night);
 
   useEffect(() => {
     bootstrapAuth();
@@ -37,8 +38,8 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer theme={navTheme}>
-          <StatusBar style="dark" />
+        <NavigationContainer theme={night ? darkNavTheme : navTheme}>
+          <StatusBar style={night ? 'light' : 'dark'} />
           <RootNavigator />
         </NavigationContainer>
       </QueryClientProvider>

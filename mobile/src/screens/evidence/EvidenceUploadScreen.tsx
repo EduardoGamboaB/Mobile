@@ -34,10 +34,13 @@ import {
   EvidenceTypeIcon,
   type EvidenceTypeValue,
 } from '@/constants/enums';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppNav, AppStackParamList } from '@/navigation/types';
 
 export function EvidenceUploadScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'EvidenceUpload'>>();
   const nav = useNavigation<AppNav<'EvidenceUpload'>>();
   const driverId = useAuthStore((s) => s.session?.user.id);
@@ -163,7 +166,7 @@ export function EvidenceUploadScreen() {
           <Button
             title="Galería"
             variant="outline"
-            leftIcon={<ImageIcon size={18} color={colors.navy} />}
+            leftIcon={<ImageIcon size={18} color={c.navy} />}
             onPress={() => onPickPhoto('gallery')}
             style={{ flex: 1 }}
             fullWidth={false}
@@ -184,7 +187,7 @@ export function EvidenceUploadScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   label: { ...typography.eyebrow, marginBottom: spacing.sm },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm + 2, marginBottom: spacing.md },
   tile: {
@@ -195,11 +198,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     padding: spacing.md + 2,
   },
-  tileActive: { backgroundColor: colors.navy, borderColor: colors.navy },
-  tileName: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.text },
+  tileActive: { backgroundColor: c.navy, borderColor: c.navy },
+  tileName: { flex: 1, fontSize: 13, fontWeight: '600', color: c.text },
   preview: { marginBottom: spacing.md },
   image: { width: '100%', aspectRatio: 1, borderRadius: radius.card },
   removeBtn: {

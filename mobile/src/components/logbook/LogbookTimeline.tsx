@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import { LogbookEventIcon, LogbookEventLabel } from '@/constants/enums';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { DynamicIcon } from '@/components/common/DynamicIcon';
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function LogbookTimeline({ entries }: Props) {
+  const c = useColors();
+  const styles = makeStyles(c);
   if (!entries.length) {
     return <Text style={styles.empty}>Aún no hay eventos en la bitácora.</Text>;
   }
@@ -34,11 +37,11 @@ export function LogbookTimeline({ entries }: Props) {
               {!isLast ? <View style={styles.line} /> : null}
             </View>
             <View style={styles.body}>
-              <Text style={typography.bodyStrong}>{LogbookEventLabel[e.event_type]}</Text>
-              <Text style={typography.caption}>{new Date(e.occurred_at).toLocaleString()}</Text>
+              <Text style={[typography.bodyStrong, { color: c.text }]}>{LogbookEventLabel[e.event_type]}</Text>
+              <Text style={[typography.caption, { color: c.muted }]}>{new Date(e.occurred_at).toLocaleString()}</Text>
               {e.location_text ? (
                 <View style={styles.metaRow}>
-                  <MapPinIcon size={14} color={colors.muted} />
+                  <MapPinIcon size={14} color={c.muted} />
                   <Text style={styles.meta}>{e.location_text}</Text>
                 </View>
               ) : null}
@@ -59,14 +62,14 @@ export function LogbookTimeline({ entries }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   empty: { ...typography.small, textAlign: 'center', paddingVertical: spacing.lg },
   row: { flexDirection: 'row', paddingBottom: spacing.md + 2 },
   iconCol: { width: 40, alignItems: 'center' },
   iconRound: {},
-  line: { flex: 1, width: 2, backgroundColor: colors.border, marginTop: 2 },
+  line: { flex: 1, width: 2, backgroundColor: c.border, marginTop: 2 },
   body: { flex: 1, paddingLeft: spacing.md, paddingBottom: 2 },
   metaRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: 2 },
-  meta: { ...typography.small, color: colors.textSoft },
-  comments: { ...typography.small, color: colors.text, marginTop: spacing.xs, fontStyle: 'italic' },
+  meta: { ...typography.small, color: c.textSoft },
+  comments: { ...typography.small, color: c.text, marginTop: spacing.xs, fontStyle: 'italic' },
 });

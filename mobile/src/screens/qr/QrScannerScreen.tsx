@@ -13,12 +13,15 @@ import Svg, { LinearGradient, Stop, Rect } from 'react-native-svg';
 import { Screen } from '@/components/common/Screen';
 import { Button } from '@/components/common/Button';
 import { XIcon, ZapIcon } from '@/components/icons';
-import { colors, radius, spacing } from '@/theme';
+import { useColors, radius, spacing } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 const { width } = Dimensions.get('window');
 const BOX = 260;
 
 export function QrScannerScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const anim = useRef(new Animated.Value(0)).current;
 
@@ -99,7 +102,7 @@ export function QrScannerScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   top: {
     position: 'absolute',
     top: 54,
@@ -128,10 +131,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.2)',
   },
   corner: { position: 'absolute', width: 38, height: 38 },
-  tl: { top: -2, left: -2, borderTopWidth: 4, borderLeftWidth: 4, borderColor: colors.blue, borderTopLeftRadius: 24 },
-  tr: { top: -2, right: -2, borderTopWidth: 4, borderRightWidth: 4, borderColor: colors.blue, borderTopRightRadius: 24 },
-  bl: { bottom: -2, left: -2, borderBottomWidth: 4, borderLeftWidth: 4, borderColor: colors.blue, borderBottomLeftRadius: 24 },
-  br: { bottom: -2, right: -2, borderBottomWidth: 4, borderRightWidth: 4, borderColor: colors.blue, borderBottomRightRadius: 24 },
+  tl: { top: -2, left: -2, borderTopWidth: 4, borderLeftWidth: 4, borderColor: c.blue, borderTopLeftRadius: 24 },
+  tr: { top: -2, right: -2, borderTopWidth: 4, borderRightWidth: 4, borderColor: c.blue, borderTopRightRadius: 24 },
+  bl: { bottom: -2, left: -2, borderBottomWidth: 4, borderLeftWidth: 4, borderColor: c.blue, borderBottomLeftRadius: 24 },
+  br: { bottom: -2, right: -2, borderBottomWidth: 4, borderRightWidth: 4, borderColor: c.blue, borderBottomRightRadius: 24 },
   scanLine: { position: 'absolute', left: 24, right: 24 },
   hintWrap: { position: 'absolute', bottom: 200, left: spacing.lg + 4, right: spacing.lg + 4, alignItems: 'center' },
   hint: { color: '#fff', fontSize: 15, marginBottom: 4 },

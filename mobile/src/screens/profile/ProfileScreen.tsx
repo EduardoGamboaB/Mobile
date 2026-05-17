@@ -18,10 +18,13 @@ import {
   LogOutIcon,
 } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { TabNav } from '@/navigation/types';
 
 export function ProfileScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<TabNav<'Profile'>>();
   const profile = useAuthStore((s) => s.profile);
   const signOut = useAuthStore((s) => s.signOut);
@@ -45,7 +48,7 @@ export function ProfileScreen() {
         <View style={styles.headerRow}>
           <Avatar name={profile?.full_name ?? '?'} size={64} />
           <View style={{ flex: 1, marginLeft: spacing.md + 2 }}>
-            <Text style={typography.h2}>{profile?.full_name ?? 'Operador'}</Text>
+            <Text style={[typography.h2, { color: c.text }]}>{profile?.full_name ?? 'Operador'}</Text>
             <View style={styles.badges}>
               <Chip label={profile?.role ?? 'driver'} variant="blue" />
               <Chip label={profile?.status ?? 'pending'} variant="green" />
@@ -53,22 +56,22 @@ export function ProfileScreen() {
           </View>
           <Pressable onPress={() => nav.navigate('Settings')}>
             <IconTile tone="navy">
-              <SettingsIcon color={colors.navy} />
+              <SettingsIcon color={c.navy} />
             </IconTile>
           </Pressable>
         </View>
 
         <Card>
-          <Text style={typography.eyebrow}>Contacto</Text>
-          <Row icon={<PhoneIcon size={18} color={colors.muted} />} label="Teléfono" value={profile?.phone ?? '—'} />
-          <Row icon={<MailIcon size={18} color={colors.muted} />} label="Correo" value={profile?.email ?? '—'} last />
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Contacto</Text>
+          <Row icon={<PhoneIcon size={18} color={c.muted} />} label="Teléfono" value={profile?.phone ?? '—'} />
+          <Row icon={<MailIcon size={18} color={c.muted} />} label="Correo" value={profile?.email ?? '—'} last />
         </Card>
 
         <Card>
-          <Text style={typography.eyebrow}>Documentos</Text>
-          <Row icon={<IdCardIcon size={18} color={colors.muted} />} label="Licencia federal" value={profile?.federal_license ?? '—'} />
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Documentos</Text>
+          <Row icon={<IdCardIcon size={18} color={c.muted} />} label="Licencia federal" value={profile?.federal_license ?? '—'} />
           <Row
-            icon={<CalendarIcon size={18} color={colors.muted} />}
+            icon={<CalendarIcon size={18} color={c.muted} />}
             label="Vence en"
             value={profile?.license_expires_at ?? '—'}
             badge={expSoon ? <Chip label="Renovar" variant="amber" /> : undefined}
@@ -77,14 +80,14 @@ export function ProfileScreen() {
         </Card>
 
         <Card>
-          <Text style={typography.eyebrow}>Unidad asignada</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Unidad asignada</Text>
           <Row
-            icon={<TruckIcon size={18} color={colors.muted} />}
+            icon={<TruckIcon size={18} color={c.muted} />}
             label="Número"
             value={`${profile?.assigned_unit_number ?? '—'}${profile?.unit_type ? ` · ${profile.unit_type}` : ''}`}
           />
           <Row
-            icon={<BuildingIcon size={18} color={colors.muted} />}
+            icon={<BuildingIcon size={18} color={c.muted} />}
             label="Placas"
             value={`${profile?.tractor_plates ?? '—'}${profile?.trailer_plates ? ` · ${profile.trailer_plates}` : ''}`}
             last
@@ -94,7 +97,7 @@ export function ProfileScreen() {
         <Button
           title="Cerrar sesión"
           variant="outline"
-          leftIcon={<LogOutIcon size={20} color={colors.danger} />}
+          leftIcon={<LogOutIcon size={20} color={c.danger} />}
           onPress={onLogout}
           style={{ borderColor: '#FCA5A5', marginTop: spacing.md }}
         />
@@ -116,19 +119,21 @@ function Row({
   badge?: React.ReactNode;
   last?: boolean;
 }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <View style={[styles.row, last && styles.lastRow]}>
       {icon}
       <View style={{ flex: 1, marginLeft: spacing.md }}>
-        <Text style={typography.caption}>{label}</Text>
-        <Text style={typography.body}>{value}</Text>
+        <Text style={[typography.caption, { color: c.muted }]}>{label}</Text>
+        <Text style={[typography.body, { color: c.text }]}>{value}</Text>
       </View>
       {badge}
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -141,7 +146,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
 });

@@ -25,11 +25,14 @@ import {
   type InspectionCategoryValue,
   type InspectionCheckpoint,
 } from '@/constants/inspection';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { InspectionResult } from '@/models/inspection';
 import type { AppNav } from '@/navigation/types';
 
 export function PreTripInspectionScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<AppNav<'PreTripInspection'>>();
   const profile = useAuthStore((s) => s.profile);
   const [results, setResults] = useState<InspectionResult[]>([]);
@@ -170,15 +173,17 @@ function CategorySection({
   results: Record<string, InspectionResult>;
   onTap: (c: InspectionCheckpoint) => void;
 }) {
+  const palette = useColors();
+  const styles = makeStyles(palette);
   const meta = InspectionCategoryMeta[category];
   const okIn = items.filter((i) => results[i.id]?.status === 'ok').length;
   return (
     <View style={{ marginTop: spacing.lg }}>
       <View style={styles.catHead}>
         <IconTile tone="navy" size="sm">
-          <DynamicIcon name={meta.icon} size={18} color={tileIconColor('navy')} />
+          <DynamicIcon name={meta.icon} size={18} color={palette.text} />
         </IconTile>
-        <Text style={[typography.bodyStrong, { flex: 1, marginLeft: spacing.sm + 2 }]}>
+        <Text style={[typography.bodyStrong, { color: palette.text, flex: 1, marginLeft: spacing.sm + 2 }]}>
           {meta.label}
         </Text>
         <Text style={styles.catCount}>
@@ -186,45 +191,45 @@ function CategorySection({
         </Text>
       </View>
       <Card variant="flat" padding={0}>
-        {items.map((c, idx) => {
-          const result = results[c.id];
+        {items.map((checkpoint, idx) => {
+          const result = results[checkpoint.id];
           const status = result?.status ?? 'pending';
           const isLast = idx === items.length - 1;
           return (
             <Pressable
-              key={c.id}
-              onPress={() => onTap(c)}
+              key={checkpoint.id}
+              onPress={() => onTap(checkpoint)}
               style={[styles.row, isLast && styles.lastRow]}
             >
               <StatusDot status={status} />
               <View style={{ flex: 1, marginLeft: spacing.md }}>
                 <View style={styles.itemHead}>
-                  <Text style={typography.bodyStrong} numberOfLines={1}>
-                    {c.label}
+                  <Text style={[typography.bodyStrong, { color: palette.text }]} numberOfLines={1}>
+                    {checkpoint.label}
                   </Text>
-                  <SeverityChip severity={c.severity} />
+                  <SeverityChip severity={checkpoint.severity} />
                 </View>
-                <Text style={typography.caption} numberOfLines={2}>
-                  {c.description}
+                <Text style={[typography.caption, { color: palette.muted }]} numberOfLines={2}>
+                  {checkpoint.description}
                 </Text>
                 <View style={styles.itemMeta}>
-                  {c.photoRequired ? (
+                  {checkpoint.photoRequired ? (
                     <View style={styles.metaPill}>
-                      <CameraIcon size={11} color={colors.muted} />
+                      <CameraIcon size={11} color={palette.muted} />
                       <Text style={styles.metaPillText}>Foto requerida</Text>
                     </View>
                   ) : null}
                   {result?.aiFindings?.length ? (
                     <View style={styles.metaPill}>
-                      <SparklesIcon size={11} color={colors.blue} />
-                      <Text style={[styles.metaPillText, { color: colors.blue }]}>
+                      <SparklesIcon size={11} color={palette.blue} />
+                      <Text style={[styles.metaPillText, { color: palette.blue }]}>
                         IA: {result.aiFindings.length} hallazgo{result.aiFindings.length === 1 ? '' : 's'}
                       </Text>
                     </View>
                   ) : null}
                 </View>
               </View>
-              <ChevronRightIcon size={18} color={colors.muted} />
+              <ChevronRightIcon size={18} color={palette.muted} />
             </Pressable>
           );
         })}
@@ -234,17 +239,19 @@ function CategorySection({
 }
 
 function StatusDot({ status }: { status: InspectionResult['status'] }) {
+  const palette = useColors();
+  const styles = makeStyles(palette);
   if (status === 'ok') {
     return (
       <IconTile tone="success" size="sm">
-        <CheckIcon size={18} color={tileIconColor('success')} />
+        <CheckIcon size={18} color={palette.success} />
       </IconTile>
     );
   }
   if (status === 'fail') {
     return (
       <IconTile tone="danger" size="sm">
-        <AlertIcon size={18} color={tileIconColor('danger')} />
+        <AlertIcon size={18} color={palette.danger} />
       </IconTile>
     );
   }
@@ -262,11 +269,11 @@ function SeverityChip({ severity }: { severity: InspectionCheckpoint['severity']
   return <Chip label={label} variant={v} />;
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   scroll: { padding: spacing.lg + 4, paddingBottom: spacing.xxl + 12 },
-  action: { color: colors.blue, fontSize: 13, fontWeight: '600' },
+  action: { color: c.blue, fontSize: 13, fontWeight: '600' },
   heroCard: {
-    backgroundColor: colors.navy,
+    backgroundColor: c.navy,
     borderRadius: radius.card,
     padding: spacing.lg + 4,
   },
@@ -307,13 +314,13 @@ const styles = StyleSheet.create({
   },
   aiHintText: { color: 'rgba(255,255,255,0.85)', fontSize: 12 },
   catHead: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
-  catCount: { color: colors.muted, fontSize: 13, fontWeight: '700' },
+  catCount: { color: c.muted, fontSize: 13, fontWeight: '700' },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md + 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
   itemHead: {
@@ -328,24 +335,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: colors.surface2,
+    backgroundColor: c.surface2,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
   },
-  metaPillText: { fontSize: 10, color: colors.muted, fontWeight: '600' },
+  metaPillText: { fontSize: 10, color: c.muted, fontWeight: '600' },
   pendingDot: {
     width: 36,
     height: 36,
     borderRadius: 18,
     borderWidth: 1.5,
-    borderColor: colors.border,
+    borderColor: c.border,
     borderStyle: 'dashed',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pendingInner: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.border },
+  pendingInner: { width: 8, height: 8, borderRadius: 4, backgroundColor: c.border },
   legendTitle: { ...typography.eyebrow, marginTop: spacing.xl, marginBottom: spacing.sm },
   legendRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.xs + 2 },
-  legendText: { color: colors.muted, fontSize: 12 },
+  legendText: { color: c.muted, fontSize: 12 },
 });

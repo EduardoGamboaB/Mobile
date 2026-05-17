@@ -7,10 +7,13 @@ import { Chip } from '@/components/common/Chip';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { CheckCircleIcon, FilterIcon, XIcon } from '@/components/icons';
 import { useTripHistory } from '@/hooks/useTrips';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { TabNav } from '@/navigation/types';
 
 export function HistoryScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<TabNav<'History'>>();
   const { data, isRefetching, refetch } = useTripHistory();
 
@@ -20,9 +23,9 @@ export function HistoryScreen() {
   return (
     <Screen padded={false}>
       <View style={styles.header}>
-        <Text style={typography.h1}>Historial</Text>
+        <Text style={[typography.h1, { color: c.text }]}>Historial</Text>
         <IconTile tone="navy">
-          <FilterIcon color={colors.navy} />
+          <FilterIcon color={c.navy} />
         </IconTile>
       </View>
 
@@ -30,14 +33,14 @@ export function HistoryScreen() {
         <Card>
           <View style={styles.summary}>
             <View>
-              <Text style={typography.caption}>Este mes</Text>
-              <Text style={typography.h2}>
+              <Text style={[typography.caption, { color: c.muted }]}>Este mes</Text>
+              <Text style={[typography.h2, { color: c.text }]}>
                 ${totalEarnings.toLocaleString('es-MX', { minimumFractionDigits: 0 })}
               </Text>
             </View>
             <View>
-              <Text style={[typography.caption, { textAlign: 'right' }]}>Viajes</Text>
-              <Text style={[typography.h2, { textAlign: 'right' }]}>{finished.length}</Text>
+              <Text style={[typography.caption, { color: c.muted }, { textAlign: 'right' }]}>Viajes</Text>
+              <Text style={[typography.h2, { color: c.text }, { textAlign: 'right' }]}>{finished.length}</Text>
             </View>
           </View>
         </Card>
@@ -62,8 +65,8 @@ export function HistoryScreen() {
                 )}
               </IconTile>
               <View style={{ flex: 1, marginLeft: spacing.md }}>
-                <Text style={typography.bodyStrong}>{item.client_name}</Text>
-                <Text style={typography.caption}>
+                <Text style={[typography.bodyStrong, { color: c.text }]}>{item.client_name}</Text>
+                <Text style={[typography.caption, { color: c.muted }]}>
                   {item.origin.split(',')[0]} → {item.destination.split(',')[0]} ·{' '}
                   {item.finished_at
                     ? new Date(item.finished_at).toLocaleDateString('es-MX', {
@@ -84,10 +87,10 @@ export function HistoryScreen() {
           );
         }}
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={colors.navy} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor={c.navy} />
         }
         ListEmptyComponent={
-          <Text style={[typography.body, { textAlign: 'center', marginTop: spacing.xl }]}>
+          <Text style={[typography.body, { color: c.text }, { textAlign: 'center', marginTop: spacing.xl }]}>
             Sin historial.
           </Text>
         }
@@ -96,7 +99,7 @@ export function HistoryScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -111,11 +114,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md + 2,
-    backgroundColor: colors.bg,
+    backgroundColor: c.bg,
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     marginBottom: spacing.sm,
   },
-  earning: { fontWeight: '700', color: colors.success, fontSize: 15 },
+  earning: { fontWeight: '700', color: c.success, fontSize: 15 },
 });

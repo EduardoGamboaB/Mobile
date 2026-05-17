@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { colors, radius } from '@/theme';
+import { useColors, radius } from '@/theme';
 
 interface Props {
   value: string;
@@ -12,6 +12,7 @@ interface Props {
 export function OtpInput({ value, length = 6, onChange, onComplete }: Props) {
   const ref = useRef<TextInput | null>(null);
   const [focused, setFocused] = useState(false);
+  const c = useColors();
 
   const handleChange = (text: string) => {
     const clean = text.replace(/\D/g, '').slice(0, length);
@@ -29,13 +30,16 @@ export function OtpInput({ value, length = 6, onChange, onComplete }: Props) {
             key={i}
             style={[
               styles.box,
-              ch ? styles.boxFilled : null,
-              isCursor ? styles.boxCursor : null,
+              {
+                backgroundColor: ch ? c.bg : c.surface,
+                borderColor: isCursor ? c.blue : ch ? c.text : c.border,
+                borderWidth: isCursor ? 2 : 1,
+              },
             ]}
             onTouchEnd={() => ref.current?.focus()}
           >
-            {ch ? <Text style={styles.digit}>{ch}</Text> : null}
-            {!ch && isCursor ? <Text style={styles.cursor}>|</Text> : null}
+            {ch ? <Text style={[styles.digit, { color: c.text }]}>{ch}</Text> : null}
+            {!ch && isCursor ? <Text style={[styles.cursor, { color: c.blue }]}>|</Text> : null}
           </View>
         );
       })}
@@ -60,15 +64,10 @@ const styles = StyleSheet.create({
     width: 50,
     height: 60,
     borderRadius: radius.button,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  boxFilled: { backgroundColor: '#fff', borderColor: colors.navy },
-  boxCursor: { borderColor: colors.blue, borderWidth: 2 },
-  digit:  { fontSize: 24, fontWeight: '700', color: colors.text },
-  cursor: { fontSize: 24, fontWeight: '300', color: colors.blue },
+  digit:  { fontSize: 24, fontWeight: '700' },
+  cursor: { fontSize: 24, fontWeight: '300' },
   hidden: { position: 'absolute', opacity: 0, left: 0, right: 0, top: 0, bottom: 0 },
 });

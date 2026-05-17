@@ -23,7 +23,8 @@ import {
 } from '@/components/icons';
 import { demoStore } from '@/demo';
 import { ai } from '@/services/ai';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoChatMessage } from '@/demo/data';
 import type { AppStackParamList } from '@/navigation/types';
 
@@ -32,6 +33,8 @@ function formatTime(iso: string): string {
 }
 
 export function ChatThreadScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation();
   const route = useRoute<RouteProp<AppStackParamList, 'ChatThread'>>();
   const { chatId, title } = route.params;
@@ -77,21 +80,21 @@ export function ChatThreadScreen() {
       <View style={styles.header}>
         <Pressable onPress={() => nav.goBack()}>
           <IconTile tone="navy">
-            <ChevronLeftIcon color={colors.navy} />
+            <ChevronLeftIcon color={c.navy} />
           </IconTile>
         </Pressable>
-        <View style={[styles.avatar, { backgroundColor: colors.navy }]}>
+        <View style={[styles.avatar, { backgroundColor: c.navy }]}>
           <Text style={styles.avatarText}>{title.slice(0, 2).toUpperCase()}</Text>
         </View>
         <View style={{ flex: 1, marginLeft: spacing.sm + 2 }}>
-          <Text style={typography.bodyStrong}>{title}</Text>
+          <Text style={[typography.bodyStrong, { color: c.text }]}>{title}</Text>
           <View style={styles.statusRow}>
             <View style={styles.dot} />
-            <Text style={typography.caption}>En línea</Text>
+            <Text style={[typography.caption, { color: c.muted }]}>En línea</Text>
           </View>
         </View>
         <IconTile tone="navy">
-          <PhoneIcon color={colors.navy} />
+          <PhoneIcon color={c.navy} />
         </IconTile>
       </View>
 
@@ -113,9 +116,9 @@ export function ChatThreadScreen() {
                   <Text style={[styles.bubbleText, mine && { color: '#fff' }]}>{item.text}</Text>
                 </View>
                 <View style={[styles.metaRow, mine && { justifyContent: 'flex-end' }]}>
-                  <Text style={typography.caption}>{formatTime(item.at)}</Text>
+                  <Text style={[typography.caption, { color: c.muted }]}>{formatTime(item.at)}</Text>
                   {mine && item.read ? (
-                    <CheckIcon size={12} color={colors.blue} />
+                    <CheckIcon size={12} color={c.blue} />
                   ) : null}
                 </View>
               </View>
@@ -126,7 +129,7 @@ export function ChatThreadScreen() {
         <View style={styles.inputBar}>
           <Pressable>
             <IconTile tone="navy">
-              <PaperclipIcon color={colors.navy} />
+              <PaperclipIcon color={c.navy} />
             </IconTile>
           </Pressable>
           <View style={styles.inputWrap}>
@@ -134,19 +137,19 @@ export function ChatThreadScreen() {
               value={draft}
               onChangeText={setDraft}
               placeholder="Escribe un mensaje..."
-              placeholderTextColor={colors.muted}
+              placeholderTextColor={c.muted}
               style={styles.input}
               multiline
             />
             <Pressable onPress={suggestReply} hitSlop={8}>
               <SparklesIcon
                 size={20}
-                color={suggesting ? colors.blue : colors.muted}
+                color={suggesting ? c.blue : c.muted}
               />
             </Pressable>
             <View style={{ width: 6 }} />
             <Pressable hitSlop={8}>
-              <MicIcon size={20} color={colors.muted} />
+              <MicIcon size={20} color={c.muted} />
             </Pressable>
           </View>
           <Pressable onPress={send}>
@@ -160,15 +163,15 @@ export function ChatThreadScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.lg + 4,
     paddingBottom: spacing.md,
-    backgroundColor: colors.surface,
+    backgroundColor: c.surface,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   avatar: {
     marginLeft: spacing.sm + 2,
@@ -180,18 +183,18 @@ const styles = StyleSheet.create({
   },
   avatarText: { color: '#fff', fontWeight: '800', fontSize: 13 },
   statusRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs, marginTop: 2 },
-  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.success },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: c.success },
   msgWrap: { marginBottom: spacing.sm + 2, alignItems: 'flex-start', maxWidth: '85%' },
   msgWrapMine: { alignSelf: 'flex-end', alignItems: 'flex-end' },
   bubble: { padding: 10, paddingHorizontal: 14, borderRadius: 16 },
   bubbleOther: {
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     borderBottomLeftRadius: 4,
   },
-  bubbleMine: { backgroundColor: colors.navy, borderBottomRightRadius: 4 },
-  bubbleText: { fontSize: 14, color: colors.text },
+  bubbleMine: { backgroundColor: c.navy, borderBottomRightRadius: 4 },
+  bubbleText: { fontSize: 14, color: c.text },
   metaRow: { flexDirection: 'row', gap: 4, alignItems: 'center', marginTop: 4, paddingHorizontal: spacing.sm },
   inputBar: {
     flexDirection: 'row',
@@ -200,17 +203,17 @@ const styles = StyleSheet.create({
     gap: spacing.sm + 2,
     backgroundColor: '#fff',
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border,
+    borderTopColor: c.border,
   },
   inputWrap: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surface,
+    backgroundColor: c.surface,
     borderRadius: radius.lg,
     paddingHorizontal: spacing.md + 2,
     minHeight: 44,
     gap: 6,
   },
-  input: { flex: 1, fontSize: 15, color: colors.text, maxHeight: 100 },
+  input: { flex: 1, fontSize: 15, color: c.text, maxHeight: 100 },
 });

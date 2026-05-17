@@ -19,10 +19,13 @@ import {
 import { useTrip, useAdvanceTripStatus } from '@/hooks/useTrips';
 import { useLogbook } from '@/hooks/useLogbook';
 import { nextStatus, TripStatusLabel } from '@/constants/enums';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppNav, AppStackParamList } from '@/navigation/types';
 
 export function TripDetailScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'TripDetail'>>();
   const nav = useNavigation<AppNav<'TripDetail'>>();
   const { tripId } = route.params;
@@ -33,7 +36,7 @@ export function TripDetailScreen() {
   if (isLoading || !trip) {
     return (
       <Screen background="bg">
-        <Text style={typography.body}>Cargando viaje…</Text>
+        <Text style={[typography.body, { color: c.text }]}>Cargando viaje…</Text>
       </Screen>
     );
   }
@@ -64,7 +67,7 @@ export function TripDetailScreen() {
         <AppBar title={trip.client_name} />
 
         <View style={{ marginTop: -spacing.sm, marginBottom: spacing.lg, marginLeft: 56 + spacing.md }}>
-          <Text style={typography.eyebrow}>{trip.folio}</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>{trip.folio}</Text>
         </View>
 
         <View style={styles.chipsRow}>
@@ -73,14 +76,14 @@ export function TripDetailScreen() {
         </View>
 
         <Card>
-          <Text style={typography.eyebrow}>Ruta</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Ruta</Text>
           <View style={styles.routeStep}>
             <IconTile tone="navy" size="sm">
               <MapPinIcon size={18} color={tileIconColor('navy')} />
             </IconTile>
             <View style={{ flex: 1, marginLeft: spacing.md }}>
-              <Text style={typography.bodyStrong}>{trip.origin}</Text>
-              <Text style={typography.caption}>
+              <Text style={[typography.bodyStrong, { color: c.text }]}>{trip.origin}</Text>
+              <Text style={[typography.caption, { color: c.muted }]}>
                 Carga ·{' '}
                 {trip.load_date ? new Date(trip.load_date).toLocaleString() : '—'}
               </Text>
@@ -92,8 +95,8 @@ export function TripDetailScreen() {
               <FlagIcon size={18} color={tileIconColor('blue')} />
             </IconTile>
             <View style={{ flex: 1, marginLeft: spacing.md }}>
-              <Text style={typography.bodyStrong}>{trip.destination}</Text>
-              <Text style={typography.caption}>
+              <Text style={[typography.bodyStrong, { color: c.text }]}>{trip.destination}</Text>
+              <Text style={[typography.caption, { color: c.muted }]}>
                 ETA ·{' '}
                 {trip.estimated_unload_date
                   ? new Date(trip.estimated_unload_date).toLocaleString()
@@ -104,7 +107,7 @@ export function TripDetailScreen() {
         </Card>
 
         <Card>
-          <Text style={typography.eyebrow}>Importes</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Importes</Text>
           {trip.price_per_ton != null ? (
             <Row label="Precio / ton" value={`$${trip.price_per_ton.toFixed(2)}`} />
           ) : null}
@@ -143,7 +146,7 @@ export function TripDetailScreen() {
             title="Bitácora"
             variant="outline"
             size="sm"
-            leftIcon={<PlusIcon size={16} color={colors.navy} />}
+            leftIcon={<PlusIcon size={16} color={c.navy} />}
             onPress={() => nav.navigate('LogbookCreate', { tripId })}
             style={{ flex: 1 }}
             fullWidth={false}
@@ -153,7 +156,7 @@ export function TripDetailScreen() {
             title="Evidencia"
             variant="outline"
             size="sm"
-            leftIcon={<CameraIcon size={16} color={colors.navy} />}
+            leftIcon={<CameraIcon size={16} color={c.navy} />}
             onPress={() => nav.navigate('EvidenceUpload', { tripId })}
             style={{ flex: 1 }}
             fullWidth={false}
@@ -163,14 +166,14 @@ export function TripDetailScreen() {
             title="Incid."
             variant="outline"
             size="sm"
-            leftIcon={<AlertIcon size={16} color={colors.danger} />}
+            leftIcon={<AlertIcon size={16} color={c.danger} />}
             onPress={() => nav.navigate('IncidentCreate', { tripId })}
-            style={{ flex: 0.7, borderColor: colors.danger }}
+            style={{ flex: 0.7, borderColor: c.danger }}
             fullWidth={false}
           />
         </View>
 
-        <Text style={[typography.eyebrow, { marginTop: spacing.xl, marginBottom: spacing.md }]}>
+        <Text style={[typography.eyebrow, { color: c.muted }, { marginTop: spacing.xl, marginBottom: spacing.md }]}>
           Bitácora
         </Text>
         <Card>
@@ -182,21 +185,23 @@ export function TripDetailScreen() {
 }
 
 function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <View style={styles.row}>
-      <Text style={typography.small}>{label}</Text>
-      <Text style={[typography.bodyStrong, accent && { color: colors.blue }]}>{value}</Text>
+      <Text style={[typography.small, { color: c.textSoft }]}>{label}</Text>
+      <Text style={[typography.bodyStrong, accent && { color: c.blue }]}>{value}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   chipsRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md + 2 },
   routeStep: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.xs },
   dashedLine: {
     width: 2,
     height: 18,
-    backgroundColor: colors.border,
+    backgroundColor: c.border,
     marginLeft: 17,
     marginVertical: 2,
   },
@@ -206,6 +211,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 6,
   },
-  hr: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border, marginVertical: spacing.sm + 2 },
+  hr: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: c.border, marginVertical: spacing.sm + 2 },
   actionRow: { flexDirection: 'row', marginTop: spacing.sm + 2 },
 });

@@ -17,7 +17,8 @@ import {
 } from '@/components/icons';
 import { offlineQueue } from '@/services/offlineQueue';
 import { syncService } from '@/services/sync';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { PendingItem } from '@/models';
 
 const KIND_LABEL: Record<PendingItem['kind'], string> = {
@@ -27,6 +28,8 @@ const KIND_LABEL: Record<PendingItem['kind'], string> = {
 };
 
 export function PendingSyncScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const [items, setItems] = useState<PendingItem[]>([]);
   const [busy, setBusy] = useState(false);
 
@@ -81,13 +84,13 @@ export function PendingSyncScreen() {
               <View style={styles.row}>
                 <IconTile tone="amber">{iconFor(item.kind)}</IconTile>
                 <View style={{ flex: 1, marginLeft: spacing.md }}>
-                  <Text style={typography.bodyStrong}>{KIND_LABEL[item.kind]}</Text>
-                  <Text style={typography.caption}>
+                  <Text style={[typography.bodyStrong, { color: c.text }]}>{KIND_LABEL[item.kind]}</Text>
+                  <Text style={[typography.caption, { color: c.muted }]}>
                     {new Date(item.createdAt).toLocaleString()} · {item.attempts} intento
                     {item.attempts === 1 ? '' : 's'}
                   </Text>
                   {item.lastError ? (
-                    <Text style={[typography.caption, { color: colors.danger, marginTop: 2 }]}>
+                    <Text style={[typography.caption, { color: c.danger, marginTop: 2 }]}>
                       {item.lastError}
                     </Text>
                   ) : null}
@@ -96,7 +99,7 @@ export function PendingSyncScreen() {
                   {failed ? (
                     <AlertIcon size={16} color={tileIconColor('danger')} />
                   ) : (
-                    <ClockIcon size={16} color={colors.muted} />
+                    <ClockIcon size={16} color={c.muted} />
                   )}
                 </IconTile>
               </View>
@@ -104,7 +107,7 @@ export function PendingSyncScreen() {
           );
         }}
         ListEmptyComponent={
-          <Text style={[typography.body, { textAlign: 'center', marginTop: spacing.xl }]}>
+          <Text style={[typography.body, { color: c.text }, { textAlign: 'center', marginTop: spacing.xl }]}>
             No hay elementos pendientes. ¡Todo sincronizado!
           </Text>
         }
@@ -119,6 +122,6 @@ function iconFor(kind: PendingItem['kind']) {
   return <CameraIcon color={tileIconColor('amber')} />;
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
 });

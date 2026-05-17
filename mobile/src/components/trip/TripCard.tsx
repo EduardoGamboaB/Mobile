@@ -3,7 +3,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { Card } from '@/components/common/Card';
 import { StatusChip } from '@/components/common/StatusChip';
 import { MapPinIcon } from '@/components/icons';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { Trip } from '@/models';
 
 interface Props {
@@ -13,15 +14,17 @@ interface Props {
 }
 
 export function TripCard({ trip, onPress, highlight }: Props) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
-    <Card onPress={onPress} borderLeftColor={highlight ? colors.blue : undefined}>
+    <Card onPress={onPress} borderLeftColor={highlight ? c.blue : undefined}>
       <View style={styles.row}>
         <Text style={styles.folio}>{trip.folio}</Text>
         <StatusChip status={trip.status} />
       </View>
       <Text style={styles.client}>{trip.client_name}</Text>
       <View style={styles.routeRow}>
-        <MapPinIcon size={16} color={colors.blue} />
+        <MapPinIcon size={16} color={c.blue} />
         <Text style={styles.routeText} numberOfLines={1}>
           {trip.origin} → {trip.destination}
         </Text>
@@ -39,7 +42,7 @@ export function TripCard({ trip, onPress, highlight }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -49,12 +52,12 @@ const styles = StyleSheet.create({
   folio: { ...typography.eyebrow },
   client: { ...typography.h3, marginVertical: spacing.xs },
   routeRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs + 2 },
-  routeText: { ...typography.body, flexShrink: 1, color: colors.textSoft },
+  routeText: { ...typography.body, flexShrink: 1, color: c.textSoft },
   foot: {
     marginTop: spacing.sm + 2,
     paddingTop: spacing.sm,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border,
+    borderTopColor: c.border,
     borderStyle: 'dashed',
   },
   meta: { ...typography.caption },

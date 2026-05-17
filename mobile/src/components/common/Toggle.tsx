@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, View, StyleSheet } from 'react-native';
-import { colors } from '@/theme';
+import { useColors } from '@/theme';
 
 interface Props {
   value: boolean;
@@ -8,27 +8,28 @@ interface Props {
 }
 
 export function Toggle({ value, onChange }: Props) {
+  const c = useColors();
   return (
-    <Pressable onPress={() => onChange(!value)} style={[styles.track, value && styles.trackOn]}>
-      <View style={[styles.knob, value && styles.knobOn]} />
+    <Pressable
+      onPress={() => onChange(!value)}
+      style={[styles.track, { backgroundColor: value ? c.blue : c.border }]}
+    >
+      <View
+        style={[
+          styles.knob,
+          { transform: [{ translateX: value ? 20 : 0 }] },
+        ]}
+      />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  track: {
-    width: 48,
-    height: 28,
-    borderRadius: 999,
-    backgroundColor: colors.border,
-    padding: 3,
-  },
-  trackOn: { backgroundColor: colors.blue },
+  track: { width: 48, height: 28, borderRadius: 999, padding: 3 },
   knob: {
     width: 22,
     height: 22,
     borderRadius: 11,
     backgroundColor: '#fff',
   },
-  knobOn: { transform: [{ translateX: 20 }] },
 });

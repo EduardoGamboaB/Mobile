@@ -17,9 +17,12 @@ import {
 } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
 import { useThemeStore } from '@/stores/theme';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 
 export function SettingsScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const signOut = useAuthStore((s) => s.signOut);
   const night = useThemeStore((s) => s.night);
   const setNight = useThemeStore((s) => s.setNight);
@@ -41,7 +44,7 @@ export function SettingsScreen() {
       <ScrollView contentContainerStyle={{ padding: spacing.lg + 4 }}>
         <AppBar title="Ajustes" />
 
-        <Text style={typography.eyebrow}>Apariencia</Text>
+        <Text style={[typography.eyebrow, { color: c.muted }]}>Apariencia</Text>
         <Card variant="flat" padding={0}>
           <SettingRow
             icon={<MoonIcon color={tileIconColor('blue')} />}
@@ -53,12 +56,12 @@ export function SettingsScreen() {
             icon={<GlobeIcon color={tileIconColor('blue')} />}
             title="Idioma"
             hint="Español"
-            right={<ChevronRightIcon color={colors.muted} />}
+            right={<ChevronRightIcon color={c.muted} />}
             last
           />
         </Card>
 
-        <Text style={[typography.eyebrow, { marginTop: spacing.md }]}>Notificaciones</Text>
+        <Text style={[typography.eyebrow, { color: c.muted }, { marginTop: spacing.md }]}>Notificaciones</Text>
         <Card variant="flat" padding={0}>
           <SettingRow
             icon={<BellIcon color={tileIconColor('blue')} />}
@@ -75,18 +78,18 @@ export function SettingsScreen() {
           />
         </Card>
 
-        <Text style={[typography.eyebrow, { marginTop: spacing.md }]}>Cuenta</Text>
+        <Text style={[typography.eyebrow, { color: c.muted }, { marginTop: spacing.md }]}>Cuenta</Text>
         <Card variant="flat" padding={0}>
           <SettingRow
             icon={<LockIcon color={tileIconColor('blue')} />}
             title="Cambiar contraseña"
-            right={<ChevronRightIcon color={colors.muted} />}
+            right={<ChevronRightIcon color={c.muted} />}
           />
           <SettingRow
             tone="danger"
             icon={<LogOutIcon color={tileIconColor('danger')} />}
             title="Cerrar sesión"
-            right={<ChevronRightIcon color={colors.muted} />}
+            right={<ChevronRightIcon color={c.muted} />}
             onPress={onLogout}
             last
           />
@@ -115,28 +118,30 @@ function SettingRow({
   onPress?: () => void;
   tone?: 'blue' | 'danger';
 }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <Pressable onPress={onPress} style={[styles.row, last && styles.lastRow]}>
       <IconTile tone={tone}>{icon}</IconTile>
       <View style={{ flex: 1, marginLeft: spacing.md }}>
-        <Text style={[typography.bodyStrong, tone === 'danger' && { color: colors.danger }]}>
+        <Text style={[typography.bodyStrong, { color: c.text }, tone === 'danger' && { color: c.danger }]}>
           {title}
         </Text>
-        {hint ? <Text style={typography.caption}>{hint}</Text> : null}
+        {hint ? <Text style={[typography.caption, { color: c.muted }]}>{hint}</Text> : null}
       </View>
       {right}
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md + 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
-  version: { textAlign: 'center', color: colors.muted, fontSize: 12, marginTop: spacing.lg },
+  version: { textAlign: 'center', color: c.muted, fontSize: 12, marginTop: spacing.lg },
 });

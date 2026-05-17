@@ -17,7 +17,8 @@ import {
   ClockIcon,
 } from '@/components/icons';
 import { demoStore } from '@/demo';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoPayment } from '@/demo/data';
 import type { AppNav } from '@/navigation/types';
 
@@ -25,6 +26,8 @@ const fmt = (n: number) =>
   '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
 export function EarningsScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<AppNav<'Earnings'>>();
   const [payments, setPayments] = useState<DemoPayment[]>([]);
 
@@ -42,9 +45,9 @@ export function EarningsScreen() {
     <Screen padded={false}>
       <ScrollView contentContainerStyle={{ padding: spacing.lg + 4, paddingBottom: spacing.xxl }}>
         <View style={styles.headerRow}>
-          <Text style={typography.h1}>Mis ingresos</Text>
+          <Text style={[typography.h1, { color: c.text }]}>Mis ingresos</Text>
           <IconTile tone="navy">
-            <FilterIcon color={colors.navy} />
+            <FilterIcon color={c.navy} />
           </IconTile>
         </View>
 
@@ -78,15 +81,15 @@ export function EarningsScreen() {
           </Svg>
         </View>
 
-        <Text style={[typography.eyebrow, { marginBottom: spacing.sm + 2 }]}>Mi desempeño</Text>
+        <Text style={[typography.eyebrow, { color: c.muted }, { marginBottom: spacing.sm + 2 }]}>Mi desempeño</Text>
         <View style={styles.scoreRow}>
-          <Score icon={<CheckCircleIcon size={22} color={colors.blue} />} value="97%" label="A tiempo" />
-          <Score icon={<FuelIcon size={22} color={colors.blue} />} value="3.2" label="km/L" />
-          <Score icon={<AlertIcon size={22} color={colors.blue} />} value="0" label="Incidentes" />
+          <Score icon={<CheckCircleIcon size={22} color={c.blue} />} value="97%" label="A tiempo" />
+          <Score icon={<FuelIcon size={22} color={c.blue} />} value="3.2" label="km/L" />
+          <Score icon={<AlertIcon size={22} color={c.blue} />} value="0" label="Incidentes" />
         </View>
 
         <View style={styles.sectionHead}>
-          <Text style={typography.eyebrow}>Últimos pagos</Text>
+          <Text style={[typography.eyebrow, { color: c.muted }]}>Últimos pagos</Text>
           <Pressable onPress={() => nav.navigate('PaymentsHistory')}>
             <Text style={styles.link}>Ver todo</Text>
           </Pressable>
@@ -109,10 +112,10 @@ export function EarningsScreen() {
                   )}
                 </IconTile>
                 <View style={{ flex: 1, marginLeft: spacing.md }}>
-                  <Text style={typography.bodyStrong}>
+                  <Text style={[typography.bodyStrong, { color: c.text }]}>
                     {p.tripFolio} · {p.client}
                   </Text>
-                  <Text style={typography.caption}>
+                  <Text style={[typography.caption, { color: c.muted }]}>
                     {releasedColor ? 'Liberado' : 'En proceso'} ·{' '}
                     {new Date(p.releasedAt ?? p.tripDate).toLocaleDateString('es-MX', {
                       day: '2-digit',
@@ -120,7 +123,7 @@ export function EarningsScreen() {
                     })}
                   </Text>
                 </View>
-                <Text style={[styles.payAmount, { color: releasedColor ? colors.success : colors.warning }]}>
+                <Text style={[styles.payAmount, { color: releasedColor ? c.success : c.warning }]}>
                   {releasedColor ? '+' : ''}{fmt(p.amount)}
                 </Text>
               </Pressable>
@@ -133,16 +136,18 @@ export function EarningsScreen() {
 }
 
 function Score({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+  const c = useColors();
+  const styles = makeStyles(c);
   return (
     <Card style={styles.scoreCard}>
       {icon}
-      <Text style={[typography.h2, { marginTop: 6 }]}>{value}</Text>
-      <Text style={[typography.caption, { fontSize: 11 }]}>{label}</Text>
+      <Text style={[typography.h2, { color: c.text }, { marginTop: 6 }]}>{value}</Text>
+      <Text style={[typography.caption, { color: c.muted }, { fontSize: 11 }]}>{label}</Text>
     </Card>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -150,7 +155,7 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md + 2,
   },
   heroCard: {
-    backgroundColor: colors.navy,
+    backgroundColor: c.navy,
     borderRadius: radius.card,
     padding: spacing.lg + 4,
     marginBottom: spacing.md + 2,
@@ -169,13 +174,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: spacing.sm + 2,
   },
-  link: { color: colors.blue, fontWeight: '600', fontSize: 13 },
+  link: { color: c.blue, fontWeight: '600', fontSize: 13 },
   payRow: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md + 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
   payAmount: { fontSize: 15, fontWeight: '800' },

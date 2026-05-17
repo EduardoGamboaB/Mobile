@@ -34,10 +34,13 @@ import {
   InspectionSeverityLabel,
 } from '@/constants/inspection';
 import type { AiFinding, InspectionResult } from '@/models/inspection';
-import { colors, radius, spacing, typography } from '@/theme';
+import { useColors, radius, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { AppStackParamList } from '@/navigation/types';
 
 export function CheckpointDetailScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const route = useRoute<RouteProp<AppStackParamList, 'CheckpointDetail'>>();
   const nav = useNavigation();
   const checkpoint = INSPECTION_CATALOG.find((c) => c.id === route.params.checkpointId);
@@ -112,13 +115,13 @@ export function CheckpointDetailScreen() {
           {checkpoint.photoRequired ? <Chip label="Foto requerida" variant="blue" /> : null}
         </View>
 
-        <Text style={typography.h2}>{checkpoint.label}</Text>
-        <Text style={[typography.body, { marginTop: spacing.xs, color: colors.textSoft }]}>
+        <Text style={[typography.h2, { color: c.text }]}>{checkpoint.label}</Text>
+        <Text style={[typography.body, { marginTop: spacing.xs, color: c.textSoft }]}>
           {checkpoint.description}
         </Text>
 
         <View style={styles.refRow}>
-          <FileIcon size={14} color={colors.muted} />
+          <FileIcon size={14} color={c.muted} />
           <Text style={styles.refText}>{checkpoint.reference}</Text>
         </View>
 
@@ -149,7 +152,7 @@ export function CheckpointDetailScreen() {
           </View>
         ) : (
           <View style={styles.photoPlaceholder}>
-            <CameraIcon size={28} color={colors.muted} />
+            <CameraIcon size={28} color={c.muted} />
             <Text style={styles.placeholderText}>
               {checkpoint.photoRequired ? 'Foto requerida' : 'Foto opcional'}
             </Text>
@@ -167,7 +170,7 @@ export function CheckpointDetailScreen() {
           <Button
             title="Galería"
             variant="outline"
-            leftIcon={<ImageIcon size={18} color={colors.navy} />}
+            leftIcon={<ImageIcon size={18} color={c.navy} />}
             onPress={() => onPhoto('gallery')}
             style={{ flex: 1 }}
             fullWidth={false}
@@ -179,8 +182,8 @@ export function CheckpointDetailScreen() {
         {result.aiFindings.length > 0 ? (
           <Card>
             <View style={styles.aiHead}>
-              <SparklesIcon size={18} color={colors.blue} />
-              <Text style={[typography.bodyStrong, { marginLeft: spacing.xs + 2 }]}>
+              <SparklesIcon size={18} color={c.blue} />
+              <Text style={[typography.bodyStrong, { color: c.text }, { marginLeft: spacing.xs + 2 }]}>
                 Análisis IA
               </Text>
             </View>
@@ -208,9 +211,9 @@ export function CheckpointDetailScreen() {
           <Button
             title="Reportar falla"
             variant="outline"
-            leftIcon={<AlertIcon size={18} color={colors.danger} />}
+            leftIcon={<AlertIcon size={18} color={c.danger} />}
             onPress={() => setStatus('fail')}
-            style={{ flex: 1, borderColor: colors.danger }}
+            style={{ flex: 1, borderColor: c.danger }}
             fullWidth={false}
           />
           <Button
@@ -223,7 +226,7 @@ export function CheckpointDetailScreen() {
         </View>
 
         <View style={styles.helpRow}>
-          <InfoIcon size={14} color={colors.muted} />
+          <InfoIcon size={14} color={c.muted} />
           <Text style={styles.helpText}>
             {checkpoint.blocksDeparture
               ? 'Este punto es crítico. Hasta marcarlo OK no puedes iniciar el viaje.'
@@ -236,21 +239,23 @@ export function CheckpointDetailScreen() {
 }
 
 function Finding({ finding }: { finding: AiFinding }) {
+  const palette = useColors();
+  const styles = makeStyles(palette);
   const colorMap = {
-    info: colors.blue,
-    warning: colors.warning,
-    critical: colors.danger,
+    info: palette.blue,
+    warning: palette.warning,
+    critical: palette.danger,
   };
-  const c = colorMap[finding.severity];
+  const dotColor = colorMap[finding.severity];
   return (
     <View style={styles.findingRow}>
-      <View style={[styles.findingDot, { backgroundColor: c }]} />
-      <Text style={[typography.body, { flex: 1, color: colors.text }]}>{finding.note}</Text>
+      <View style={[styles.findingDot, { backgroundColor: dotColor }]} />
+      <Text style={[typography.body, { flex: 1, color: palette.text }]}>{finding.note}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   scroll: { padding: spacing.lg + 4, paddingBottom: spacing.xxl + 12 },
   head: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap', marginBottom: spacing.sm },
   refRow: {
@@ -260,7 +265,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm + 2,
     marginBottom: spacing.md,
   },
-  refText: { color: colors.muted, fontSize: 12, fontStyle: 'italic' },
+  refText: { color: c.muted, fontSize: 12, fontStyle: 'italic' },
   label: { ...typography.eyebrow, marginTop: spacing.md, marginBottom: spacing.sm },
   image: { width: '100%', aspectRatio: 1.4, borderRadius: radius.card },
   retakeBtn: {
@@ -274,21 +279,21 @@ const styles = StyleSheet.create({
   },
   retakeText: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
   photoPlaceholder: {
-    backgroundColor: colors.surface,
+    backgroundColor: c.surface,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: c.border,
     borderStyle: 'dashed',
     borderRadius: radius.card,
     paddingVertical: spacing.xxl,
     alignItems: 'center',
     gap: spacing.sm,
   },
-  placeholderText: { color: colors.muted, fontSize: 13 },
+  placeholderText: { color: c.muted, fontSize: 13 },
   photoActions: { flexDirection: 'row', gap: spacing.sm + 2, marginTop: spacing.md },
   aiHead: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
   findingRow: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, marginBottom: spacing.xs + 2 },
   findingDot: { width: 8, height: 8, borderRadius: 4, marginTop: 7 },
   actions: { flexDirection: 'row', gap: spacing.sm + 2, marginTop: spacing.lg },
   helpRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: spacing.md },
-  helpText: { color: colors.muted, fontSize: 12, flex: 1 },
+  helpText: { color: c.muted, fontSize: 12, flex: 1 },
 });

@@ -8,7 +8,8 @@ import { Chip } from '@/components/common/Chip';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { CreditCardIcon, ClockIcon, AlertIcon } from '@/components/icons';
 import { demoStore } from '@/demo';
-import { colors, spacing, typography } from '@/theme';
+import { useColors, spacing, typography } from '@/theme';
+import type { ColorPalette } from '@/theme';
 import type { DemoPayment, PaymentStatus } from '@/demo/data';
 import type { AppNav } from '@/navigation/types';
 
@@ -24,6 +25,8 @@ const monthKey = (iso: string) =>
   new Date(iso).toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
 
 export function PaymentsHistoryScreen() {
+  const c = useColors();
+  const styles = makeStyles(c);
   const nav = useNavigation<AppNav<'PaymentsHistory'>>();
   const [payments, setPayments] = useState<DemoPayment[]>([]);
   const [tab, setTab] = useState<Tab>('all');
@@ -81,12 +84,12 @@ export function PaymentsHistoryScreen() {
         <Card>
           <View style={styles.totalsRow}>
             <View>
-              <Text style={typography.caption}>Acumulado · año</Text>
-              <Text style={typography.h2}>{fmt(totals.sum)}</Text>
+              <Text style={[typography.caption, { color: c.muted }]}>Acumulado · año</Text>
+              <Text style={[typography.h2, { color: c.text }]}>{fmt(totals.sum)}</Text>
             </View>
             <View>
-              <Text style={[typography.caption, { textAlign: 'right' }]}>Promedio mes</Text>
-              <Text style={[typography.h2, { textAlign: 'right' }]}>{fmt(totals.avg)}</Text>
+              <Text style={[typography.caption, { color: c.muted }, { textAlign: 'right' }]}>Promedio mes</Text>
+              <Text style={[typography.h2, { color: c.text }, { textAlign: 'right' }]}>{fmt(totals.avg)}</Text>
             </View>
           </View>
         </Card>
@@ -98,7 +101,7 @@ export function PaymentsHistoryScreen() {
         keyExtractor={(g) => g[0]}
         renderItem={({ item: [month, items] }) => (
           <View>
-            <Text style={[typography.eyebrow, { marginTop: spacing.md, marginBottom: spacing.sm }]}>
+            <Text style={[typography.eyebrow, { color: c.muted }, { marginTop: spacing.md, marginBottom: spacing.sm }]}>
               {month}
             </Text>
             <Card variant="flat" padding={0}>
@@ -123,8 +126,8 @@ export function PaymentsHistoryScreen() {
                     )}
                   </IconTile>
                   <View style={{ flex: 1, marginLeft: spacing.md }}>
-                    <Text style={typography.bodyStrong}>{p.tripFolio}</Text>
-                    <Text style={typography.caption}>
+                    <Text style={[typography.bodyStrong, { color: c.text }]}>{p.tripFolio}</Text>
+                    <Text style={[typography.caption, { color: c.muted }]}>
                       {p.client} ·{' '}
                       {new Date(p.tripDate).toLocaleDateString('es-MX', {
                         day: '2-digit',
@@ -139,17 +142,17 @@ export function PaymentsHistoryScreen() {
                         {
                           color:
                             p.status === 'released'
-                              ? colors.success
+                              ? c.success
                               : p.status === 'pending'
-                                ? colors.warning
-                                : colors.danger,
+                                ? c.warning
+                                : c.danger,
                         },
                       ]}
                     >
                       {p.status === 'released' ? '+' : ''}
                       {fmt(p.amount)}
                     </Text>
-                    <Text style={typography.caption}>{statusLabel(p.status)}</Text>
+                    <Text style={[typography.caption, { color: c.muted }]}>{statusLabel(p.status)}</Text>
                   </View>
                 </Pressable>
               ))}
@@ -169,7 +172,7 @@ function TabChip({ label, active, onPress }: { label: string; active: boolean; o
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (c: ColorPalette) => StyleSheet.create({
   tabs: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md, flexWrap: 'wrap' },
   totalsRow: { flexDirection: 'row', justifyContent: 'space-between' },
   row: {
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.md + 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border,
+    borderBottomColor: c.border,
   },
   lastRow: { borderBottomWidth: 0 },
 });

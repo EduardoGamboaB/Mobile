@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
 import { View, ScrollView, StyleSheet, ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { colors, spacing } from '@/theme';
+import { useColors } from '@/theme';
+import { useResponsive } from '@/hooks/useResponsive';
 import { OfflineBanner } from './OfflineBanner';
 import { DemoBanner } from './DemoBanner';
 
@@ -25,15 +26,25 @@ export function Screen({
   contentStyle,
   hideBanners,
 }: Props) {
+  const c = useColors();
+  const r = useResponsive();
   const bg =
     background === 'bg'
-      ? colors.bg
+      ? c.bg
       : background === 'cream'
-        ? colors.surface
+        ? c.surface
         : background;
 
+  const paddingStyle: ViewStyle | null = padded ? { padding: r.pagePadding } : null;
+
+  const wrapStyle = r.isTablet
+    ? { paddingHorizontal: Math.max(r.pagePadding, (r.width - r.contentMaxWidth) / 2) }
+    : null;
+
   const inner = (
-    <View style={[styles.inner, padded && styles.padded, contentStyle]}>{children}</View>
+    <View style={[styles.inner, paddingStyle, wrapStyle, contentStyle]}>
+      {children}
+    </View>
   );
   return (
     <SafeAreaView style={[styles.safe, { backgroundColor: bg }, style]} edges={['top']}>
@@ -42,7 +53,7 @@ export function Screen({
       {scroll ? (
         <ScrollView
           style={styles.flex}
-          contentContainerStyle={[padded && styles.padded, contentStyle]}
+          contentContainerStyle={[paddingStyle, wrapStyle, contentStyle] as ViewStyle[]}
           keyboardShouldPersistTaps="handled"
         >
           {children}
@@ -58,5 +69,4 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   flex: { flex: 1 },
   inner: { flex: 1 },
-  padded: { padding: spacing.lg + 4 },
 });
