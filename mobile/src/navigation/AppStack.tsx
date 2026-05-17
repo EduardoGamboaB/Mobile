@@ -15,6 +15,7 @@ import { MapRouteScreen } from '@/screens/map/MapRouteScreen';
 import { QrScannerScreen } from '@/screens/qr/QrScannerScreen';
 import { SosScreen } from '@/screens/sos/SosScreen';
 import { PreTripInspectionScreen } from '@/screens/inspection/PreTripInspectionScreen';
+import { CheckpointDetailScreen } from '@/screens/inspection/CheckpointDetailScreen';
 import { SignaturePodScreen } from '@/screens/pod/SignaturePodScreen';
 import { EarningsScreen } from '@/screens/payments/EarningsScreen';
 import { PaymentDetailScreen } from '@/screens/payments/PaymentDetailScreen';
@@ -67,6 +68,11 @@ export function AppStack() {
       <Stack.Screen
         name="PreTripInspection"
         component={PreTripInspectionScreen}
+        options={{ presentation: 'modal' }}
+      />
+      <Stack.Screen
+        name="CheckpointDetail"
+        component={CheckpointDetailScreen}
         options={{ presentation: 'modal' }}
       />
       <Stack.Screen

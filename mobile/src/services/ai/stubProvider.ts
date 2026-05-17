@@ -153,12 +153,99 @@ export const stubAI: AIService = {
   },
 
   async analyzeInspectionPhoto(input: InspectionPhotoInput) {
+    // Plantilla por categoría/checkpoint conforme a NOM-068-SCT-2-2014.
+    const id = input.checkpointId;
+    if (id.startsWith('tires-')) {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info',    note: 'Profundidad de cocada estimada 4.2 mm (dentro del rango).' },
+          { severity: 'info',    note: 'Sin cortes ni abultamientos visibles.' },
+        ],
+        confidence: 0.78,
+      });
+    }
+    if (id === 'fifthwheel-lock') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info', note: 'Perno en posición de bloqueo, palanca asegurada.' },
+        ],
+        confidence: 0.8,
+      });
+    }
+    if (id === 'cargo-secure') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info',    note: 'Cinchos tensos y distribución pareja.' },
+          { severity: 'warning', note: 'Verifica que la lona cubra la esquina trasera derecha.' },
+        ],
+        confidence: 0.74,
+      });
+    }
+    if (id === 'emer-extinguisher') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info',    note: 'Manómetro en zona verde.' },
+          { severity: 'warning', note: 'Etiqueta de recarga vence en 38 días.' },
+        ],
+        confidence: 0.82,
+      });
+    }
+    if (id === 'vision-windshield') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [{ severity: 'info', note: 'Sin fisuras detectadas en zona crítica.' }],
+        confidence: 0.7,
+      });
+    }
+    if (id === 'lights-position') {
+      return delay<InspectionPhotoResult>({
+        pass: false,
+        findings: [
+          { severity: 'warning', note: 'Reflejante lateral derecho parcialmente desprendido.' },
+        ],
+        confidence: 0.7,
+      });
+    }
+    if (id === 'suspension') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [{ severity: 'info', note: 'Sin manchas de aceite en amortiguadores.' }],
+        confidence: 0.68,
+      });
+    }
+    if (id === 'body-frame') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [{ severity: 'info', note: 'Estructura sin grietas visibles.' }],
+        confidence: 0.65,
+      });
+    }
+    if (id.startsWith('doc-')) {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info', note: 'OCR completo, documento legible y vigente.' },
+        ],
+        confidence: 0.8,
+      });
+    }
+    if (id === 'evidence-overall') {
+      return delay<InspectionPhotoResult>({
+        pass: true,
+        findings: [
+          { severity: 'info', note: 'No se detectaron daños mayores.' },
+        ],
+        confidence: 0.72,
+      });
+    }
     return delay<InspectionPhotoResult>({
       pass: true,
-      findings: input.checkpointId.includes('llantas')
-        ? [{ severity: 'info', note: 'Profundidad de cocada dentro del rango.' }]
-        : [],
-      confidence: 0.7,
+      findings: [],
+      confidence: 0.6,
     });
   },
 

@@ -1,4 +1,5 @@
 import type { Evidence, Incident, LogbookEntry, Profile, Trip } from '@/models';
+import type { InspectionResult } from '@/models/inspection';
 import type { TripStatusValue } from '@/constants/enums';
 import {
   demoIncidents,
@@ -9,12 +10,11 @@ import {
   demoChats,
   demoChatMessages,
   demoPayments,
-  demoInspectionChecklist,
+  buildInitialInspection,
   type DemoNotification,
   type DemoChatPreview,
   type DemoChatMessage,
   type DemoPayment,
-  type InspectionItem,
 } from './data';
 
 interface DemoState {
@@ -27,7 +27,7 @@ interface DemoState {
   chats: DemoChatPreview[];
   chatMessages: DemoChatMessage[];
   payments: DemoPayment[];
-  inspection: InspectionItem[];
+  inspection: InspectionResult[];
 }
 
 const state: DemoState = {
@@ -40,7 +40,7 @@ const state: DemoState = {
   chats: demoChats.map((c) => ({ ...c })),
   chatMessages: demoChatMessages.map((m) => ({ ...m })),
   payments: demoPayments.map((p) => ({ ...p })),
-  inspection: demoInspectionChecklist.map((i) => ({ ...i })),
+  inspection: buildInitialInspection(),
 };
 
 function delay<T>(value: T, ms = 120): Promise<T> {
@@ -153,10 +153,18 @@ export const demoStore = {
 
   // inspection
   listInspection: () => delay([...state.inspection]),
-  setInspectionStatus: (id: string, status: InspectionItem['status']) => {
-    const idx = state.inspection.findIndex((i) => i.id === id);
-    if (idx < 0) return Promise.reject(new Error('item not found'));
-    state.inspection[idx] = { ...state.inspection[idx], status };
+  resetInspection: () => {
+    state.inspection = buildInitialInspection();
+    return delay(true);
+  },
+  updateCheckpoint: (id: string, patch: Partial<InspectionResult>) => {
+    const idx = state.inspection.findIndex((i) => i.checkpointId === id);
+    if (idx < 0) return Promise.reject(new Error('checkpoint not found'));
+    state.inspection[idx] = {
+      ...state.inspection[idx],
+      ...patch,
+      checkedAt: patch.status ? new Date().toISOString() : state.inspection[idx].checkedAt,
+    };
     return delay(state.inspection[idx]);
   },
 };

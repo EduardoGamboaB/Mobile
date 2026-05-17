@@ -434,22 +434,34 @@ export const demoPayments: DemoPayment[] = [
 ];
 
 /* =====================================================================
- * Pre-trip inspection (placeholder; detalle queda pendiente del usuario)
+ * Pre-trip inspection (NOM-068-SCT-2-2014)
+ * Los puntos del catálogo viven en `src/constants/inspection.ts`.
+ * Aquí mantenemos solamente el estado por inspección (resultados).
  * ===================================================================== */
-export interface InspectionItem {
-  id: string;
-  label: string;
-  description: string;
-  status: 'ok' | 'pending' | 'fail';
-  group: string;
-}
-export const demoInspectionChecklist: InspectionItem[] = [
-  { id: 'tires',    label: 'Llantas y presión',       description: 'Tracto y remolque', status: 'ok',      group: 'Mecánica' },
-  { id: 'lights',   label: 'Luces y reflejantes',     description: 'Direccionales, frenado, alta', status: 'ok', group: 'Mecánica' },
-  { id: 'brakes',   label: 'Frenos y sistema de aire',description: 'Presión 120 PSI', status: 'ok', group: 'Mecánica' },
-  { id: 'fluids',   label: 'Aceite y refrigerante',   description: 'Niveles dentro del rango', status: 'ok', group: 'Mecánica' },
-  { id: 'cargo',    label: 'Carga asegurada',         description: 'Amarre y lona verificados', status: 'ok', group: 'Carga' },
-  { id: 'docs',     label: 'Documentos a bordo',      description: 'Carta porte, licencia, póliza', status: 'pending', group: 'Documentos' },
-  { id: 'safety',   label: 'Extintor y triángulos',   description: 'Vigencia y posición', status: 'pending', group: 'Seguridad' },
-  { id: 'photo',    label: 'Foto general de la unidad',description: 'Tracto + remolque', status: 'pending', group: 'Evidencia' },
-];
+import type { InspectionResult } from '@/models/inspection';
+import { INSPECTION_CATALOG } from '@/constants/inspection';
+
+export const buildInitialInspection = (): InspectionResult[] =>
+  INSPECTION_CATALOG.map((c) => ({
+    checkpointId: c.id,
+    // Demo: algunos puntos pre-marcados como OK para mostrar progreso real.
+    status:
+      [
+        'brakes-service',
+        'brakes-parking',
+        'steering-play',
+        'tires-tractor-front',
+        'lights-main',
+        'lights-brake',
+        'vision-windshield',
+        'fifthwheel-lock',
+        'cargo-secure',
+        'cabin-belts',
+      ].includes(c.id)
+        ? 'ok'
+        : 'pending',
+    photoUri: null,
+    notes: null,
+    aiFindings: [],
+    checkedAt: null,
+  }));

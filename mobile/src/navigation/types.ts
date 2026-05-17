@@ -33,6 +33,7 @@ export type AppStackParamList = {
   QrScanner: undefined;
   Sos: undefined;
   PreTripInspection: undefined;
+  CheckpointDetail: { checkpointId: string };
   SignaturePod: { tripId: string };
   Earnings: undefined;
   PaymentDetail: { paymentId: string };
