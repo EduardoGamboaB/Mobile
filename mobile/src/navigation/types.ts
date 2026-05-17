@@ -38,6 +38,7 @@ export type AppStackParamList = {
   Earnings: undefined;
   PaymentDetail: { paymentId: string };
   PaymentsHistory: undefined;
+  Plans: { highlight?: 'free' | 'starter' | 'pro' | 'business' | 'enterprise' } | undefined;
 };
 
 export type AppNav<T extends keyof AppStackParamList> = NativeStackNavigationProp<

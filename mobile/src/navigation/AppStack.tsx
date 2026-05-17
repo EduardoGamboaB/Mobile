@@ -20,6 +20,7 @@ import { SignaturePodScreen } from '@/screens/pod/SignaturePodScreen';
 import { EarningsScreen } from '@/screens/payments/EarningsScreen';
 import { PaymentDetailScreen } from '@/screens/payments/PaymentDetailScreen';
 import { PaymentsHistoryScreen } from '@/screens/payments/PaymentsHistoryScreen';
+import { PlansScreen } from '@/screens/subscription/PlansScreen';
 import type { AppStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -83,6 +84,11 @@ export function AppStack() {
       <Stack.Screen name="Earnings" component={EarningsScreen} />
       <Stack.Screen name="PaymentDetail" component={PaymentDetailScreen} />
       <Stack.Screen name="PaymentsHistory" component={PaymentsHistoryScreen} />
+      <Stack.Screen
+        name="Plans"
+        component={PlansScreen}
+        options={{ presentation: 'modal' }}
+      />
     </Stack.Navigator>
   );
 }

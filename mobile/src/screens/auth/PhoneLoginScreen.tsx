@@ -93,8 +93,8 @@ export function PhoneLoginScreen() {
 
 const makeStyles = (c: ColorPalette) => StyleSheet.create({
   brandRow: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', marginTop: spacing.lg, marginBottom: spacing.xl + 4 },
-  g:     { color: c.navy,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
+  g:     { color: c.text,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
   three: { color: c.blue,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
-  brandSub: { color: c.navy, fontSize: 14, fontWeight: '700', letterSpacing: 4, marginLeft: spacing.sm, marginBottom: 6 },
+  brandSub: { color: c.text, fontSize: 14, fontWeight: '700', letterSpacing: 4, marginLeft: spacing.sm, marginBottom: 6 },
   footer: { textAlign: 'center', color: c.muted, fontSize: 12, marginTop: spacing.xl },
 });

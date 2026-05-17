@@ -14,18 +14,26 @@ import {
   LockIcon,
   LogOutIcon,
   ChevronRightIcon,
+  SparklesIcon,
 } from '@/components/icons';
+import { Chip } from '@/components/common/Chip';
+import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '@/stores/auth';
 import { useThemeStore } from '@/stores/theme';
+import { useSubscriptionStore } from '@/stores/subscription';
+import { TierLabel } from '@/constants/tiers';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
+import type { AppNav } from '@/navigation/types';
 
 export function SettingsScreen() {
   const c = useColors();
   const styles = makeStyles(c);
+  const nav = useNavigation<AppNav<'Settings'>>();
   const signOut = useAuthStore((s) => s.signOut);
   const night = useThemeStore((s) => s.night);
   const setNight = useThemeStore((s) => s.setNight);
+  const tier = useSubscriptionStore((s) => s.tier);
   const [push, setPush] = React.useState(true);
   const [emailDigest, setEmailDigest] = React.useState(false);
 
@@ -44,7 +52,24 @@ export function SettingsScreen() {
       <ScrollView contentContainerStyle={{ padding: spacing.lg + 4 }}>
         <AppBar title="Ajustes" />
 
-        <Text style={[typography.eyebrow, { color: c.muted }]}>Apariencia</Text>
+        <Text style={[typography.eyebrow, { color: c.muted }]}>Mi plan</Text>
+        <Card variant="flat" padding={0}>
+          <SettingRow
+            icon={<SparklesIcon color={tileIconColor('blue')} />}
+            title={`Plan ${TierLabel[tier]}`}
+            hint="Cambiar plan, ver beneficios y facturación"
+            right={
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                <Chip label={TierLabel[tier]} variant={tier === 'free' ? 'gray' : 'blue'} />
+                <ChevronRightIcon color={c.muted} />
+              </View>
+            }
+            onPress={() => nav.navigate('Plans')}
+            last
+          />
+        </Card>
+
+        <Text style={[typography.eyebrow, { color: c.muted }, { marginTop: spacing.md }]}>Apariencia</Text>
         <Card variant="flat" padding={0}>
           <SettingRow
             icon={<MoonIcon color={tileIconColor('blue')} />}

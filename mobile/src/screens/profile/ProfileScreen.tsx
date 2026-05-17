@@ -21,6 +21,8 @@ import { useAuthStore } from '@/stores/auth';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
 import type { TabNav } from '@/navigation/types';
+import { useSubscriptionStore } from '@/stores/subscription';
+import { TierLabel } from '@/constants/tiers';
 
 export function ProfileScreen() {
   const c = useColors();
@@ -28,6 +30,7 @@ export function ProfileScreen() {
   const nav = useNavigation<TabNav<'Profile'>>();
   const profile = useAuthStore((s) => s.profile);
   const signOut = useAuthStore((s) => s.signOut);
+  const tier = useSubscriptionStore((s) => s.tier);
 
   const expSoon = (() => {
     if (!profile?.license_expires_at) return false;
@@ -52,6 +55,9 @@ export function ProfileScreen() {
             <View style={styles.badges}>
               <Chip label={profile?.role ?? 'driver'} variant="blue" />
               <Chip label={profile?.status ?? 'pending'} variant="green" />
+              <Pressable onPress={() => nav.navigate('Plans')}>
+                <Chip label={`Plan ${TierLabel[tier]}`} variant={tier === 'free' ? 'gray' : 'navy'} />
+              </Pressable>
             </View>
           </View>
           <Pressable onPress={() => nav.navigate('Settings')}>

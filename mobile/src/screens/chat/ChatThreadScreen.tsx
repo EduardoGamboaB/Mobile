@@ -23,10 +23,12 @@ import {
 } from '@/components/icons';
 import { demoStore } from '@/demo';
 import { ai } from '@/services/ai';
+import { useFeature } from '@/stores/subscription';
+import { Feature } from '@/constants/tiers';
 import { useColors, radius, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
 import type { DemoChatMessage } from '@/demo/data';
-import type { AppStackParamList } from '@/navigation/types';
+import type { AppNav, AppStackParamList } from '@/navigation/types';
 
 function formatTime(iso: string): string {
   return new Date(iso).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
@@ -35,13 +37,14 @@ function formatTime(iso: string): string {
 export function ChatThreadScreen() {
   const c = useColors();
   const styles = makeStyles(c);
-  const nav = useNavigation();
+  const nav = useNavigation<AppNav<'ChatThread'>>();
   const route = useRoute<RouteProp<AppStackParamList, 'ChatThread'>>();
   const { chatId, title } = route.params;
   const list = useRef<FlatList<DemoChatMessage> | null>(null);
   const [messages, setMessages] = useState<DemoChatMessage[]>([]);
   const [draft, setDraft] = useState('');
   const [suggesting, setSuggesting] = useState(false);
+  const hasAI = useFeature(Feature.AIAssistantChat);
 
   const refresh = async () => setMessages(await demoStore.listChatMessages(chatId));
 
@@ -57,6 +60,10 @@ export function ChatThreadScreen() {
   };
 
   const suggestReply = async () => {
+    if (!hasAI) {
+      nav.navigate('Plans', { highlight: 'pro' });
+      return;
+    }
     setSuggesting(true);
     const r = await ai.assistantReply({
       history: messages.map((m) => ({

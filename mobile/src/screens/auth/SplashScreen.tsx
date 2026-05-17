@@ -1,17 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useColors, spacing } from '@/theme';
-import type { ColorPalette } from '@/theme';
+import { spacing } from '@/theme';
 
 /**
- * Splash con identidad G3 — sólo informativo. La decisión de ruta la hace
- * `RootNavigator` con el bootstrap del store; este componente se muestra
- * mientras carga.
+ * Splash con identidad G3 — bg navy fijo (no reactivo al tema) para que el
+ * logo se mantenga legible en ambos modos del resto de la app.
  */
 export function SplashScreen() {
-  const c = useColors();
-  const styles = makeStyles(c);
   return (
     <SafeAreaView style={styles.safe}>
       <View style={styles.center}>
@@ -28,14 +24,14 @@ export function SplashScreen() {
   );
 }
 
-const makeStyles = (c: ColorPalette) => StyleSheet.create({
-  safe: { flex: 1, backgroundColor: c.navy, alignItems: 'center', justifyContent: 'center' },
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: '#0E2A47', alignItems: 'center', justifyContent: 'center' },
   center: { alignItems: 'center' },
   logoRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
-  g:     { color: '#fff', fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
-  three: { color: c.blueLight, fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
-  subtitle: { color: '#fff', fontSize: 22, fontWeight: '700', letterSpacing: 6, marginTop: -4 },
-  bar: { width: 48, height: 2, backgroundColor: c.blue, marginVertical: spacing.lg },
+  g:     { color: '#FFFFFF', fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
+  three: { color: '#5BA8DD', fontSize: 96, fontWeight: '900', fontStyle: 'italic', letterSpacing: -4, lineHeight: 96 },
+  subtitle: { color: '#FFFFFF', fontSize: 22, fontWeight: '700', letterSpacing: 6, marginTop: -4 },
+  bar: { width: 48, height: 2, backgroundColor: '#2E86C1', marginVertical: spacing.lg },
   tag: { color: 'rgba(255,255,255,0.65)', fontSize: 13, letterSpacing: 2 },
   footer: {
     position: 'absolute',

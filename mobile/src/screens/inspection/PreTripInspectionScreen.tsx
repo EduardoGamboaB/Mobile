@@ -92,11 +92,13 @@ export function PreTripInspectionScreen() {
 
         <View style={styles.heroCard}>
           <View style={styles.heroHead}>
-            <Text style={styles.heroEyebrow}>
+            <Text style={styles.heroEyebrow} numberOfLines={1}>
               UNIDAD {profile?.assigned_unit_number ?? 'U-104'} ·{' '}
               {profile?.unit_type?.toUpperCase() ?? 'TRÁILER 53"'}
             </Text>
-            <Chip label="NOM-068-SCT-2-2014" variant="white" />
+            <View style={{ flexShrink: 0 }}>
+              <Chip label="NOM-068" variant="white" />
+            </View>
           </View>
           <Text style={styles.heroTitle}>
             {total} puntos · {Object.keys(INSPECTION_BY_CATEGORY).length} categorías
@@ -136,8 +138,15 @@ export function PreTripInspectionScreen() {
         ))}
 
         <View style={{ marginTop: spacing.xl }}>
+          {!canStart ? (
+            <Text style={[typography.caption, { color: c.danger, textAlign: 'center', marginBottom: spacing.sm }]}>
+              {blockingPending.length} punto{blockingPending.length === 1 ? '' : 's'} crítico
+              {blockingPending.length === 1 ? '' : 's'} pendiente
+              {blockingPending.length === 1 ? '' : 's'}
+            </Text>
+          ) : null}
           <Button
-            title={canStart ? 'Iniciar viaje' : `Iniciar viaje · ${blockingPending.length} crítico${blockingPending.length === 1 ? '' : 's'} pendiente${blockingPending.length === 1 ? '' : 's'}`}
+            title="Iniciar viaje"
             variant={canStart ? 'primary' : 'outline'}
             onPress={onStart}
             disabled={!canStart}
@@ -202,14 +211,22 @@ function CategorySection({
               style={[styles.row, isLast && styles.lastRow]}
             >
               <StatusDot status={status} />
-              <View style={{ flex: 1, marginLeft: spacing.md }}>
+              <View style={{ flex: 1, marginLeft: spacing.md, minWidth: 0 }}>
                 <View style={styles.itemHead}>
-                  <Text style={[typography.bodyStrong, { color: palette.text }]} numberOfLines={1}>
+                  <Text
+                    style={[typography.bodyStrong, { color: palette.text, flex: 1 }]}
+                    numberOfLines={1}
+                  >
                     {checkpoint.label}
                   </Text>
-                  <SeverityChip severity={checkpoint.severity} />
+                  <View style={{ flexShrink: 0 }}>
+                    <SeverityChip severity={checkpoint.severity} />
+                  </View>
                 </View>
-                <Text style={[typography.caption, { color: palette.muted }]} numberOfLines={2}>
+                <Text
+                  style={[typography.caption, { color: palette.muted }]}
+                  numberOfLines={2}
+                >
                   {checkpoint.description}
                 </Text>
                 <View style={styles.itemMeta}>

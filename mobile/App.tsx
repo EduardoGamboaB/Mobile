@@ -11,6 +11,7 @@ import { RootNavigator } from '@/navigation/RootNavigator';
 import { navTheme, darkNavTheme } from '@/theme';
 import { useAuthStore } from '@/stores/auth';
 import { useThemeStore } from '@/stores/theme';
+import { useSubscriptionStore } from '@/stores/subscription';
 import { syncService } from '@/services/sync';
 
 const queryClient = new QueryClient({
@@ -26,14 +27,16 @@ const queryClient = new QueryClient({
 export default function App() {
   const bootstrapAuth = useAuthStore((s) => s.bootstrap);
   const bootstrapTheme = useThemeStore((s) => s.bootstrap);
+  const bootstrapSubscription = useSubscriptionStore((s) => s.bootstrap);
   const night = useThemeStore((s) => s.night);
 
   useEffect(() => {
     bootstrapAuth();
     bootstrapTheme();
+    bootstrapSubscription();
     syncService.start();
     return () => syncService.stop();
-  }, [bootstrapAuth, bootstrapTheme]);
+  }, [bootstrapAuth, bootstrapTheme, bootstrapSubscription]);
 
   return (
     <SafeAreaProvider>

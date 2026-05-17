@@ -206,22 +206,20 @@ export function CheckpointDetailScreen() {
           placeholder="Observaciones adicionales..."
         />
 
-        {/* Acciones */}
+        {/* Acciones — apiladas para no encimar labels en pantallas estrechas */}
         <View style={styles.actions}>
+          <Button
+            title="Marcar OK"
+            leftIcon={<CheckIcon size={18} color="#fff" />}
+            onPress={() => setStatus('ok')}
+          />
+          <View style={{ height: spacing.sm }} />
           <Button
             title="Reportar falla"
             variant="outline"
             leftIcon={<AlertIcon size={18} color={c.danger} />}
             onPress={() => setStatus('fail')}
-            style={{ flex: 1, borderColor: c.danger }}
-            fullWidth={false}
-          />
-          <Button
-            title="OK"
-            leftIcon={<CheckIcon size={18} color="#fff" />}
-            onPress={() => setStatus('ok')}
-            style={{ flex: 1 }}
-            fullWidth={false}
+            style={{ borderColor: c.danger }}
           />
         </View>
 
@@ -293,7 +291,7 @@ const makeStyles = (c: ColorPalette) => StyleSheet.create({
   aiHead: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
   findingRow: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, marginBottom: spacing.xs + 2 },
   findingDot: { width: 8, height: 8, borderRadius: 4, marginTop: 7 },
-  actions: { flexDirection: 'row', gap: spacing.sm + 2, marginTop: spacing.lg },
+  actions: { marginTop: spacing.lg },
   helpRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: spacing.md },
   helpText: { color: c.muted, fontSize: 12, flex: 1 },
 });
