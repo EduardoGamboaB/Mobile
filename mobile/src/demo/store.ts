@@ -1,6 +1,21 @@
 import type { Evidence, Incident, LogbookEntry, Profile, Trip } from '@/models';
 import type { TripStatusValue } from '@/constants/enums';
-import { demoIncidents, demoLogbook, demoProfile, demoTrips } from './data';
+import {
+  demoIncidents,
+  demoLogbook,
+  demoProfile,
+  demoTrips,
+  demoNotifications,
+  demoChats,
+  demoChatMessages,
+  demoPayments,
+  demoInspectionChecklist,
+  type DemoNotification,
+  type DemoChatPreview,
+  type DemoChatMessage,
+  type DemoPayment,
+  type InspectionItem,
+} from './data';
 
 interface DemoState {
   profile: Profile;
@@ -8,6 +23,11 @@ interface DemoState {
   logbook: LogbookEntry[];
   incidents: Incident[];
   evidences: Evidence[];
+  notifications: DemoNotification[];
+  chats: DemoChatPreview[];
+  chatMessages: DemoChatMessage[];
+  payments: DemoPayment[];
+  inspection: InspectionItem[];
 }
 
 const state: DemoState = {
@@ -16,6 +36,11 @@ const state: DemoState = {
   logbook: demoLogbook.map((l) => ({ ...l })),
   incidents: demoIncidents.map((i) => ({ ...i })),
   evidences: [],
+  notifications: demoNotifications.map((n) => ({ ...n })),
+  chats: demoChats.map((c) => ({ ...c })),
+  chatMessages: demoChatMessages.map((m) => ({ ...m })),
+  payments: demoPayments.map((p) => ({ ...p })),
+  inspection: demoInspectionChecklist.map((i) => ({ ...i })),
 };
 
 function delay<T>(value: T, ms = 120): Promise<T> {
@@ -78,9 +103,7 @@ export const demoStore = {
 
   // incidents
   listIncidents: () =>
-    delay(
-      [...state.incidents].sort((a, b) => b.occurred_at.localeCompare(a.occurred_at)),
-    ),
+    delay([...state.incidents].sort((a, b) => b.occurred_at.localeCompare(a.occurred_at))),
   addIncident: (inc: Incident) => {
     state.incidents.unshift(inc);
     return delay(inc);
@@ -92,5 +115,48 @@ export const demoStore = {
   addEvidence: (ev: Evidence) => {
     state.evidences.unshift(ev);
     return delay(ev);
+  },
+
+  // notifications
+  listNotifications: () => delay([...state.notifications]),
+  markAllRead: () => {
+    state.notifications = state.notifications.map((n) => ({ ...n, read: true }));
+    return delay(true);
+  },
+  unreadCount: () => state.notifications.filter((n) => !n.read).length,
+
+  // chats
+  listChats: () => delay([...state.chats]),
+  listChatMessages: (chatId: string) =>
+    delay(state.chatMessages.filter((m) => m.chatId === chatId).sort((a, b) => a.at.localeCompare(b.at))),
+  sendChatMessage: (chatId: string, text: string) => {
+    const msg: DemoChatMessage = {
+      id: `m-${Date.now()}`,
+      chatId,
+      from: 'me',
+      text,
+      at: new Date().toISOString(),
+      read: true,
+    };
+    state.chatMessages.push(msg);
+    const chat = state.chats.find((c) => c.id === chatId);
+    if (chat) {
+      chat.lastMessage = text;
+      chat.lastAt = msg.at;
+    }
+    return delay(msg);
+  },
+
+  // payments
+  listPayments: () => delay([...state.payments]),
+  getPayment: (id: string) => delay(state.payments.find((p) => p.id === id) ?? null),
+
+  // inspection
+  listInspection: () => delay([...state.inspection]),
+  setInspectionStatus: (id: string, status: InspectionItem['status']) => {
+    const idx = state.inspection.findIndex((i) => i.id === id);
+    if (idx < 0) return Promise.reject(new Error('item not found'));
+    state.inspection[idx] = { ...state.inspection[idx], status };
+    return delay(state.inspection[idx]);
   },
 };

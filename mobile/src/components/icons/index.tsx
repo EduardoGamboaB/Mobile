@@ -494,3 +494,35 @@ export const ArrowRightIcon = (p: IconProps) => (
     <Polyline points="12 5 19 12 12 19" />
   </Base>
 );
+
+export const LayersIcon = (p: IconProps) => (
+  <Base {...p}>
+    <Polygon points="12 2 2 7 12 12 22 7 12 2" />
+    <Polyline points="2 17 12 22 22 17" />
+    <Polyline points="2 12 12 17 22 12" />
+  </Base>
+);
+
+export const LocateIcon = (p: IconProps) => (
+  <Base {...p}>
+    <Line x1={2} y1={12} x2={5} y2={12} />
+    <Line x1={19} y1={12} x2={22} y2={12} />
+    <Line x1={12} y1={2} x2={12} y2={5} />
+    <Line x1={12} y1={19} x2={12} y2={22} />
+    <Circle cx={12} cy={12} r={7} />
+    <Circle cx={12} cy={12} r={3} />
+  </Base>
+);
+
+export const ZapIcon = (p: IconProps) => (
+  <Base {...p}>
+    <Polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+  </Base>
+);
+
+export const PowerIcon = (p: IconProps) => (
+  <Base {...p}>
+    <Path d="M18.36 6.64a9 9 0 1 1-12.73 0" />
+    <Line x1={12} y1={2} x2={12} y2={12} />
+  </Base>
+);

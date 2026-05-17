@@ -195,3 +195,261 @@ export const demoIncidents: Incident[] = [
     created_at: days(-5),
   },
 ];
+
+/* =====================================================================
+ * Notifications
+ * ===================================================================== */
+export interface DemoNotification {
+  id: string;
+  kind: 'trip' | 'payment' | 'incident' | 'doc' | 'dispatch';
+  title: string;
+  body: string;
+  createdAt: string;
+  read: boolean;
+}
+export const demoNotifications: DemoNotification[] = [
+  {
+    id: 'n-1',
+    kind: 'trip',
+    title: 'Nuevo viaje asignado',
+    body: 'G3-2026-00125 · Walmart · CDMX → Guadalajara. Carga el 22 may 14:00.',
+    createdAt: hours(-0.2),
+    read: false,
+  },
+  {
+    id: 'n-2',
+    kind: 'incident',
+    title: 'Despacho respondió tu incidencia',
+    body: 'Grúa confirmada, ETA 16:00. Espera en lugar seguro.',
+    createdAt: hours(-1.5),
+    read: false,
+  },
+  {
+    id: 'n-3',
+    kind: 'doc',
+    title: 'Licencia próxima a vencer',
+    body: 'Tu licencia federal vence en 20 días. Tramita la renovación.',
+    createdAt: days(-2),
+    read: true,
+  },
+  {
+    id: 'n-4',
+    kind: 'payment',
+    title: 'Pago de viaje liberado',
+    body: 'G3-2026-00118 · $3,900.00 depositados a tu cuenta.',
+    createdAt: days(-4),
+    read: true,
+  },
+];
+
+/* =====================================================================
+ * Chats con despacho
+ * ===================================================================== */
+export interface DemoChatPreview {
+  id: string;
+  name: string;
+  role: string;
+  initials: string;
+  avatarGradient: [string, string];
+  lastMessage: string;
+  lastAt: string;
+  unread: number;
+}
+export const demoChats: DemoChatPreview[] = [
+  {
+    id: 'chat-dispatch',
+    name: 'María L. · Despacho',
+    role: 'dispatcher',
+    initials: 'ML',
+    avatarGradient: ['#0E2A47', '#2E86C1'],
+    lastMessage: 'Grúa confirmada, ETA 16:00. Espera en lugar seguro.',
+    lastAt: hours(-1.5),
+    unread: 2,
+  },
+  {
+    id: 'chat-mech',
+    name: 'Soporte mecánico',
+    role: 'mechanic',
+    initials: 'SM',
+    avatarGradient: ['#475569', '#1F2937'],
+    lastMessage: 'Documenta el código de falla y mándalo por foto.',
+    lastAt: days(-1),
+    unread: 0,
+  },
+  {
+    id: 'chat-admin',
+    name: 'Roberto A. · Admin',
+    role: 'admin',
+    initials: 'RA',
+    avatarGradient: ['#16A34A', '#15803D'],
+    lastMessage: 'Pago de tu viaje #00118 ya está procesado ✓',
+    lastAt: days(-4),
+    unread: 0,
+  },
+];
+
+export interface DemoChatMessage {
+  id: string;
+  chatId: string;
+  /** 'me' = chofer (yo), otro = contraparte. */
+  from: 'me' | 'other';
+  text: string;
+  at: string;
+  read?: boolean;
+}
+export const demoChatMessages: DemoChatMessage[] = [
+  {
+    id: 'm-1',
+    chatId: 'chat-dispatch',
+    from: 'me',
+    text: 'Reporté una falla mecánica en el km 142. Pérdida de presión de aire.',
+    at: hours(-1.95),
+    read: true,
+  },
+  {
+    id: 'm-2',
+    chatId: 'chat-dispatch',
+    from: 'other',
+    text: 'Recibido Juan. Ya vi tu reporte y la foto. ¿Puedes mover la unidad a un acotamiento seguro?',
+    at: hours(-1.92),
+  },
+  {
+    id: 'm-3',
+    chatId: 'chat-dispatch',
+    from: 'me',
+    text: 'Sí, ya me orillé. Hay buena visibilidad.',
+    at: hours(-1.9),
+    read: true,
+  },
+  {
+    id: 'm-4',
+    chatId: 'chat-dispatch',
+    from: 'other',
+    text: 'Perfecto. Grúa confirmada, ETA 16:00. Espera en lugar seguro y te aviso cuando llegue al km 142.',
+    at: hours(-1.5),
+  },
+];
+
+/* =====================================================================
+ * Pagos
+ * ===================================================================== */
+export type PaymentStatus = 'released' | 'pending' | 'held';
+
+export interface DemoPayment {
+  id: string;
+  tripFolio: string;
+  client: string;
+  origin: string;
+  destination: string;
+  /** Monto pagado al chofer (comisión). */
+  amount: number;
+  /** Importe bruto del viaje. */
+  grossAmount: number;
+  /** Anticipos / descuentos aplicados. */
+  advances: number;
+  tolls: number;
+  status: PaymentStatus;
+  /** Fecha del viaje. */
+  tripDate: string;
+  /** Fecha en que se liberó (si aplica). */
+  releasedAt: string | null;
+  bank: string | null;
+}
+export const demoPayments: DemoPayment[] = [
+  {
+    id: 'pay-118',
+    tripFolio: 'G3-2026-00118',
+    client: 'Coca-Cola FEMSA',
+    origin: 'Toluca',
+    destination: 'Puebla',
+    amount: 3900,
+    grossAmount: 42900,
+    advances: 3500,
+    tolls: 980,
+    status: 'released',
+    tripDate: days(-10),
+    releasedAt: days(-4),
+    bank: 'BBVA ··0421',
+  },
+  {
+    id: 'pay-115',
+    tripFolio: 'G3-2026-00115',
+    client: 'Soriana',
+    origin: 'Saltillo',
+    destination: 'Reynosa',
+    amount: 4100,
+    grossAmount: 39200,
+    advances: 2800,
+    tolls: 1140,
+    status: 'released',
+    tripDate: days(-13),
+    releasedAt: days(-11),
+    bank: 'BBVA ··0421',
+  },
+  {
+    id: 'pay-120',
+    tripFolio: 'G3-2026-00120',
+    client: 'Bimbo',
+    origin: 'CDMX',
+    destination: 'Querétaro',
+    amount: 3400,
+    grossAmount: 34200,
+    advances: 2500,
+    tolls: 720,
+    status: 'pending',
+    tripDate: days(-5),
+    releasedAt: null,
+    bank: null,
+  },
+  {
+    id: 'pay-112',
+    tripFolio: 'G3-2026-00112',
+    client: 'Lala',
+    origin: 'Gómez Palacio',
+    destination: 'CDMX',
+    amount: 2800,
+    grossAmount: 28400,
+    advances: 0,
+    tolls: 1820,
+    status: 'held',
+    tripDate: days(-15),
+    releasedAt: null,
+    bank: null,
+  },
+  {
+    id: 'pay-108',
+    tripFolio: 'G3-2026-00108',
+    client: 'Pemex',
+    origin: 'Salamanca',
+    destination: 'Veracruz',
+    amount: 5200,
+    grossAmount: 52000,
+    advances: 4000,
+    tolls: 1400,
+    status: 'released',
+    tripDate: days(-20),
+    releasedAt: days(-18),
+    bank: 'BBVA ··0421',
+  },
+];
+
+/* =====================================================================
+ * Pre-trip inspection (placeholder; detalle queda pendiente del usuario)
+ * ===================================================================== */
+export interface InspectionItem {
+  id: string;
+  label: string;
+  description: string;
+  status: 'ok' | 'pending' | 'fail';
+  group: string;
+}
+export const demoInspectionChecklist: InspectionItem[] = [
+  { id: 'tires',    label: 'Llantas y presión',       description: 'Tracto y remolque', status: 'ok',      group: 'Mecánica' },
+  { id: 'lights',   label: 'Luces y reflejantes',     description: 'Direccionales, frenado, alta', status: 'ok', group: 'Mecánica' },
+  { id: 'brakes',   label: 'Frenos y sistema de aire',description: 'Presión 120 PSI', status: 'ok', group: 'Mecánica' },
+  { id: 'fluids',   label: 'Aceite y refrigerante',   description: 'Niveles dentro del rango', status: 'ok', group: 'Mecánica' },
+  { id: 'cargo',    label: 'Carga asegurada',         description: 'Amarre y lona verificados', status: 'ok', group: 'Carga' },
+  { id: 'docs',     label: 'Documentos a bordo',      description: 'Carta porte, licencia, póliza', status: 'pending', group: 'Documentos' },
+  { id: 'safety',   label: 'Extintor y triángulos',   description: 'Vigencia y posición', status: 'pending', group: 'Seguridad' },
+  { id: 'photo',    label: 'Foto general de la unidad',description: 'Tracto + remolque', status: 'pending', group: 'Evidencia' },
+];

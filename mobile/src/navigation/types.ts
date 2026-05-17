@@ -26,6 +26,17 @@ export type AppStackParamList = {
   IncidentList: undefined;
   PendingSync: undefined;
   Settings: undefined;
+  Notifications: undefined;
+  ChatList: undefined;
+  ChatThread: { chatId: string; title: string };
+  MapRoute: { tripId: string };
+  QrScanner: undefined;
+  Sos: undefined;
+  PreTripInspection: undefined;
+  SignaturePod: { tripId: string };
+  Earnings: undefined;
+  PaymentDetail: { paymentId: string };
+  PaymentsHistory: undefined;
 };
 
 export type AppNav<T extends keyof AppStackParamList> = NativeStackNavigationProp<

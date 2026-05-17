@@ -18,11 +18,18 @@ import {
   ChevronRightIcon,
   PackageIcon,
   RefreshIcon,
+  CompassIcon,
+  MessageIcon,
+  ShieldCheckIcon,
+  CreditCardIcon,
+  QrIcon,
+  AlertOctagonIcon,
 } from '@/components/icons';
 import { useActiveTrips, useTripHistory } from '@/hooks/useTrips';
 import { useAuthStore } from '@/stores/auth';
 import { colors, spacing, typography } from '@/theme';
 import { TripStatusLabel, nextStatus } from '@/constants/enums';
+import { demoStore } from '@/demo';
 import type { TabNav } from '@/navigation/types';
 
 export function DashboardScreen() {
@@ -34,6 +41,7 @@ export function DashboardScreen() {
   const current = active.data?.[0];
   const next = current ? nextStatus[current.status] : null;
   const firstName = profile?.full_name?.split(' ')[0] ?? 'Chofer';
+  const unreadCount = demoStore.unreadCount();
 
   return (
     <Screen padded={false}>
@@ -55,11 +63,21 @@ export function DashboardScreen() {
             <Text style={typography.small}>Buen día</Text>
             <Text style={typography.h2}>{firstName}</Text>
           </View>
-          <Pressable onPress={() => nav.navigate('PendingSync')}>
-            <IconTile tone="navy">
-              <BellIcon color={colors.navy} />
-            </IconTile>
-          </Pressable>
+          <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+            <Pressable onPress={() => nav.navigate('QrScanner')}>
+              <IconTile tone="navy">
+                <QrIcon color={colors.navy} />
+              </IconTile>
+            </Pressable>
+            <Pressable onPress={() => nav.navigate('Notifications')}>
+              <View>
+                <IconTile tone="navy">
+                  <BellIcon color={colors.navy} />
+                </IconTile>
+                {unreadCount > 0 ? <View style={styles.badge} /> : null}
+              </View>
+            </Pressable>
+          </View>
         </View>
 
         {current ? (
@@ -111,6 +129,31 @@ export function DashboardScreen() {
               />
             </View>
 
+            {/* Atajos del viaje activo */}
+            <View style={styles.tripShortcuts}>
+              <Shortcut
+                icon={<CompassIcon color={tileIconColor('blue')} />}
+                label="Mapa"
+                onPress={() => nav.navigate('MapRoute', { tripId: current.id })}
+              />
+              <Shortcut
+                icon={<MessageIcon color={tileIconColor('blue')} />}
+                label="Chat"
+                onPress={() => nav.navigate('ChatList')}
+              />
+              <Shortcut
+                icon={<ShieldCheckIcon color={tileIconColor('blue')} />}
+                label="Inspección"
+                onPress={() => nav.navigate('PreTripInspection')}
+              />
+              <Shortcut
+                icon={<AlertOctagonIcon color={tileIconColor('danger')} />}
+                label="SOS"
+                tone="danger"
+                onPress={() => nav.navigate('Sos')}
+              />
+            </View>
+
             {next ? (
               <>
                 <View style={styles.sectionHead}>
@@ -154,6 +197,20 @@ export function DashboardScreen() {
             }
           />
         )}
+
+        {/* Mis ingresos — acceso destacado */}
+        <Pressable onPress={() => nav.navigate('Earnings')}>
+          <Card style={styles.earningsRow}>
+            <IconTile tone="success">
+              <CreditCardIcon color={tileIconColor('success')} />
+            </IconTile>
+            <View style={{ flex: 1, marginLeft: spacing.md }}>
+              <Text style={typography.bodyStrong}>Mis ingresos</Text>
+              <Text style={typography.caption}>Ver desempeño y pagos del mes</Text>
+            </View>
+            <ChevronRightIcon size={20} color={colors.muted} />
+          </Card>
+        </Pressable>
 
         <View style={styles.sectionHead}>
           <Text style={typography.h3}>Últimos viajes</Text>
@@ -203,12 +260,44 @@ export function DashboardScreen() {
   );
 }
 
+function Shortcut({
+  icon,
+  label,
+  onPress,
+  tone = 'blue',
+}: {
+  icon: React.ReactNode;
+  label: string;
+  onPress: () => void;
+  tone?: 'blue' | 'danger';
+}) {
+  return (
+    <Pressable onPress={onPress} style={styles.shortcut}>
+      <IconTile tone={tone} size="md">
+        {icon}
+      </IconTile>
+      <Text style={styles.shortcutLabel}>{label}</Text>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   greetRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: spacing.lg,
+  },
+  badge: {
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.danger,
+    borderWidth: 2,
+    borderColor: colors.surface,
   },
   heroCard: {
     backgroundColor: colors.navy,
@@ -235,6 +324,14 @@ const styles = StyleSheet.create({
   heroFootLabel: { color: 'rgba(255,255,255,0.7)', fontSize: 12 },
   heroFootValue: { color: '#fff', fontSize: 12, fontWeight: '700' },
   quickActions: { flexDirection: 'row', marginTop: spacing.md + 2 },
+  tripShortcuts: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.md,
+    marginBottom: spacing.sm,
+  },
+  shortcut: { alignItems: 'center', gap: 4, flex: 1 },
+  shortcutLabel: { fontSize: 11, fontWeight: '600', color: colors.text },
   sectionHead: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -252,4 +349,5 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
   },
   lastRow: { borderBottomWidth: 0 },
+  earningsRow: { flexDirection: 'row', alignItems: 'center', marginTop: spacing.lg },
 });

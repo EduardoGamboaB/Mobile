@@ -5,11 +5,12 @@ import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { RootNavigator } from '@/navigation/RootNavigator';
 import { navTheme } from '@/theme';
 import { useAuthStore } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
 import { syncService } from '@/services/sync';
 
 const queryClient = new QueryClient({
@@ -23,19 +24,21 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const bootstrap = useAuthStore((s) => s.bootstrap);
+  const bootstrapAuth = useAuthStore((s) => s.bootstrap);
+  const bootstrapTheme = useThemeStore((s) => s.bootstrap);
 
   useEffect(() => {
-    bootstrap();
+    bootstrapAuth();
+    bootstrapTheme();
     syncService.start();
     return () => syncService.stop();
-  }, [bootstrap]);
+  }, [bootstrapAuth, bootstrapTheme]);
 
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
         <NavigationContainer theme={navTheme}>
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
           <RootNavigator />
         </NavigationContainer>
       </QueryClientProvider>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
+import React from 'react';
+import { Text, View, StyleSheet, ScrollView, Alert, Pressable } from 'react-native';
 import Constants from 'expo-constants';
 import { Screen } from '@/components/common/Screen';
 import { Card } from '@/components/common/Card';
@@ -16,13 +16,15 @@ import {
   ChevronRightIcon,
 } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
+import { useThemeStore } from '@/stores/theme';
 import { colors, spacing, typography } from '@/theme';
 
 export function SettingsScreen() {
   const signOut = useAuthStore((s) => s.signOut);
-  const [night, setNight] = useState(true);
-  const [push, setPush] = useState(true);
-  const [emailDigest, setEmailDigest] = useState(false);
+  const night = useThemeStore((s) => s.night);
+  const setNight = useThemeStore((s) => s.setNight);
+  const [push, setPush] = React.useState(true);
+  const [emailDigest, setEmailDigest] = React.useState(false);
 
   const version = (Constants.expoConfig?.version ?? '0.1.0') + ' (build ' +
     ((Constants.expoConfig as { runtimeVersion?: string })?.runtimeVersion ?? 'dev') + ')';
@@ -44,7 +46,7 @@ export function SettingsScreen() {
           <SettingRow
             icon={<MoonIcon color={tileIconColor('blue')} />}
             title="Modo nocturno"
-            hint="Activar de noche automáticamente"
+            hint="Activar de noche para reducir fatiga visual"
             right={<Toggle value={night} onChange={setNight} />}
           />
           <SettingRow
@@ -114,10 +116,7 @@ function SettingRow({
   tone?: 'blue' | 'danger';
 }) {
   return (
-    <View
-      style={[styles.row, last && styles.lastRow]}
-      onTouchEnd={onPress}
-    >
+    <Pressable onPress={onPress} style={[styles.row, last && styles.lastRow]}>
       <IconTile tone={tone}>{icon}</IconTile>
       <View style={{ flex: 1, marginLeft: spacing.md }}>
         <Text style={[typography.bodyStrong, tone === 'danger' && { color: colors.danger }]}>
@@ -126,7 +125,7 @@ function SettingRow({
         {hint ? <Text style={typography.caption}>{hint}</Text> : null}
       </View>
       {right}
-    </View>
+    </Pressable>
   );
 }
 
