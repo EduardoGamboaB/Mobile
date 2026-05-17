@@ -9,21 +9,40 @@ interface Props {
   children: ReactNode;
   scroll?: boolean;
   padded?: boolean;
+  /** 'bg' (blanco), 'cream' (surface), o un color custom. Por defecto cream. */
+  background?: 'bg' | 'cream' | string;
   style?: ViewStyle;
+  contentStyle?: ViewStyle;
+  hideBanners?: boolean;
 }
 
-export function Screen({ children, scroll = false, padded = true, style }: Props) {
+export function Screen({
+  children,
+  scroll = false,
+  padded = true,
+  background = 'cream',
+  style,
+  contentStyle,
+  hideBanners,
+}: Props) {
+  const bg =
+    background === 'bg'
+      ? colors.bg
+      : background === 'cream'
+        ? colors.surface
+        : background;
+
   const inner = (
-    <View style={[styles.inner, padded && styles.padded, style]}>{children}</View>
+    <View style={[styles.inner, padded && styles.padded, contentStyle]}>{children}</View>
   );
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
-      <DemoBanner />
-      <OfflineBanner />
+    <SafeAreaView style={[styles.safe, { backgroundColor: bg }, style]} edges={['top']}>
+      {!hideBanners ? <DemoBanner /> : null}
+      {!hideBanners ? <OfflineBanner /> : null}
       {scroll ? (
         <ScrollView
           style={styles.flex}
-          contentContainerStyle={padded ? styles.padded : undefined}
+          contentContainerStyle={[padded && styles.padded, contentStyle]}
           keyboardShouldPersistTaps="handled"
         >
           {children}
@@ -36,8 +55,8 @@ export function Screen({ children, scroll = false, padded = true, style }: Props
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.bg },
+  safe: { flex: 1 },
   flex: { flex: 1 },
   inner: { flex: 1 },
-  padded: { padding: spacing.lg },
+  padded: { padding: spacing.lg + 4 },
 });

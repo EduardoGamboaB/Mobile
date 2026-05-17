@@ -5,6 +5,8 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Screen } from '@/components/common/Screen';
 import { Button } from '@/components/common/Button';
 import { TextField } from '@/components/common/TextField';
+import { Card } from '@/components/common/Card';
+import { PhoneIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
 import { colors, spacing, typography } from '@/theme';
@@ -36,29 +38,34 @@ export function PhoneLoginScreen() {
   };
 
   return (
-    <Screen>
-      <View style={styles.header}>
-        <Text style={styles.brand}>G3 LOGISTICS</Text>
-        <Text style={styles.tag}>Aplicación de operador</Text>
+    <Screen scroll background="cream">
+      <View style={styles.brandRow}>
+        <Text style={styles.g}>G</Text>
+        <Text style={styles.three}>3</Text>
+        <Text style={styles.brandSub}>LOGISTICS</Text>
       </View>
 
       {isDemo ? (
-        <View style={styles.demoNotice}>
-          <Text style={styles.demoTitle}>Modo demo activo</Text>
-          <Text style={styles.demoBody}>
-            Sin credenciales de Supabase. Entra como chofer ficticio para explorar la app
-            con datos de ejemplo.
+        <Card style={{ borderColor: colors.danger, borderWidth: 1 }}>
+          <Text style={typography.h3}>Modo demo activo</Text>
+          <Text style={[typography.small, { marginTop: spacing.xs }]}>
+            Sin credenciales de Supabase. Entra como chofer ficticio para explorar la app con
+            datos de ejemplo.
           </Text>
-          <View style={{ height: spacing.md }} />
-          <Button title="ENTRAR EN MODO DEMO" variant="danger" onPress={signInAsDemo} />
-        </View>
+          <View style={{ marginTop: spacing.md + 2 }}>
+            <Button title="ENTRAR EN MODO DEMO" variant="danger" onPress={signInAsDemo} />
+          </View>
+        </Card>
       ) : null}
 
-      <Text style={styles.title}>Inicia sesión</Text>
-      <Text style={styles.sub}>Te enviaremos un código por SMS a tu teléfono.</Text>
+      <Text style={[typography.h1, { marginBottom: 6 }]}>Bienvenido</Text>
+      <Text style={[typography.small, { marginBottom: spacing.lg }]}>
+        Inicia sesión para entrar a tu unidad asignada.
+      </Text>
 
       <TextField
         label="Teléfono"
+        leftIcon={<PhoneIcon size={20} color={colors.muted} />}
         keyboardType="phone-pad"
         placeholder="55 1234 5678"
         value={phone}
@@ -68,32 +75,23 @@ export function PhoneLoginScreen() {
       />
 
       <Button title="Recibir código" onPress={onSubmit} loading={loading} disabled={isDemo} />
-
-      <View style={{ height: spacing.lg }} />
+      <View style={{ height: spacing.md }} />
       <Button
         title="Entrar con correo"
-        variant="ghost"
+        variant="outline"
         onPress={() => nav.navigate('EmailLogin')}
         disabled={isDemo}
       />
+
+      <Text style={styles.footer}>© 2026 G3 Logistics</Text>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  header: { alignItems: 'center', marginTop: spacing.xl, marginBottom: spacing.xl },
-  brand: { ...typography.h1, color: colors.text, letterSpacing: 2 },
-  tag: { ...typography.small, marginTop: spacing.xs },
-  title: { ...typography.h2, marginBottom: spacing.xs },
-  sub: { ...typography.small, marginBottom: spacing.lg },
-  demoNotice: {
-    backgroundColor: colors.surface,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.accent,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
-  },
-  demoTitle: { ...typography.h3, color: colors.text, marginBottom: spacing.xs },
-  demoBody: { ...typography.small, color: colors.text },
+  brandRow: { flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', marginTop: spacing.lg, marginBottom: spacing.xl + 4 },
+  g:     { color: colors.navy,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
+  three: { color: colors.blue,  fontSize: 56, fontWeight: '900', fontStyle: 'italic', letterSpacing: -2, lineHeight: 56 },
+  brandSub: { color: colors.navy, fontSize: 14, fontWeight: '700', letterSpacing: 4, marginLeft: spacing.sm, marginBottom: 6 },
+  footer: { textAlign: 'center', color: colors.muted, fontSize: 12, marginTop: spacing.xl },
 });

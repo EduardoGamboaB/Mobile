@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, Alert } from 'react-native';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { useRoute, type RouteProp } from '@react-navigation/native';
 import { Screen } from '@/components/common/Screen';
+import { AppBar } from '@/components/common/AppBar';
 import { Button } from '@/components/common/Button';
-import { TextField } from '@/components/common/TextField';
+import { OtpInput } from '@/components/common/OtpInput';
+import { IconTile, tileIconColor } from '@/components/common/IconTile';
+import { LockIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
-import { spacing, typography } from '@/theme';
+import { colors, spacing, typography } from '@/theme';
 import type { AuthStackParamList } from '@/navigation/types';
 
 export function OtpVerifyScreen() {
@@ -14,13 +17,14 @@ export function OtpVerifyScreen() {
   const verifyOtp = useAuthStore((s) => s.verifyOtp);
   const loading = useAuthStore((s) => s.loading);
 
-  const onSubmit = async () => {
-    if (code.length !== 6) {
+  const onSubmit = async (value?: string) => {
+    const v = value ?? code;
+    if (v.length !== 6) {
       Alert.alert('Código incompleto', 'Debe tener 6 dígitos.');
       return;
     }
     try {
-      await verifyOtp(route.params.phone, code);
+      await verifyOtp(route.params.phone, v);
     } catch (e) {
       const msg = e instanceof Error ? e.message : 'Error desconocido';
       Alert.alert('Código inválido', msg);
@@ -28,26 +32,36 @@ export function OtpVerifyScreen() {
   };
 
   return (
-    <Screen>
-      <Text style={styles.title}>Código de verificación</Text>
-      <Text style={styles.sub}>Enviamos un SMS a {route.params.phone}</Text>
+    <Screen background="cream">
+      <AppBar title="Verificación" />
+      <View style={styles.headerWrap}>
+        <View style={{ marginBottom: spacing.md }}>
+          <IconTile tone="blue" size="lg">
+            <LockIcon size={28} color={tileIconColor('blue')} />
+          </IconTile>
+        </View>
+        <Text style={typography.h2}>Código de verificación</Text>
+        <Text style={[typography.small, styles.center]}>
+          Enviamos un SMS de 6 dígitos a{'\n'}
+          <Text style={{ color: colors.text, fontWeight: '700' }}>{route.params.phone}</Text>
+        </Text>
+      </View>
 
-      <TextField
-        label="Código (6 dígitos)"
-        keyboardType="number-pad"
-        maxLength={6}
-        placeholder="123456"
-        value={code}
-        onChangeText={setCode}
-        autoFocus
-      />
+      <OtpInput value={code} onChange={setCode} onComplete={onSubmit} />
 
-      <Button title="Verificar" onPress={onSubmit} loading={loading} />
+      <Text style={styles.resend}>
+        Reenviar código en <Text style={{ color: colors.text, fontWeight: '700' }}>28 s</Text>
+      </Text>
+
+      <View style={{ marginTop: spacing.xl }}>
+        <Button title="Verificar" onPress={() => onSubmit()} loading={loading} />
+      </View>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  title: { ...typography.h2, marginTop: spacing.xl, marginBottom: spacing.xs },
-  sub: { ...typography.small, marginBottom: spacing.lg },
+  headerWrap: { alignItems: 'center', marginTop: spacing.xl, marginBottom: spacing.xl + 4 },
+  center: { textAlign: 'center', marginTop: spacing.xs },
+  resend: { textAlign: 'center', marginTop: spacing.lg, fontSize: 13, color: colors.muted },
 });

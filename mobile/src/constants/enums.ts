@@ -51,16 +51,20 @@ export const LogbookEventLabel: Record<LogbookEventValue, string> = {
   closing:   'Cierre',
 };
 
+/**
+ * Nombre lógico del ícono outline por evento (se mapea a un componente SVG
+ * en `src/components/common/EventIcon.tsx`).
+ */
 export const LogbookEventIcon: Record<LogbookEventValue, string> = {
-  departure: '🚛',
-  loading:   '📦',
-  stop:      '⏸',
-  toll:      '🛣',
-  diesel:    '⛽',
-  incident:  '⚠',
-  arrival:   '📍',
-  unloading: '📤',
-  closing:   '✅',
+  departure: 'navArrow',
+  loading:   'package',
+  stop:      'pause',
+  toll:      'cone',
+  diesel:    'fuel',
+  incident:  'alert',
+  arrival:   'flag',
+  unloading: 'package',
+  closing:   'checkCircle',
 };
 
 export const FuelLevel = {
@@ -103,6 +107,17 @@ export const IncidentTypeLabel: Record<IncidentTypeValue, string> = {
   other:           'Otro',
 };
 
+export const IncidentTypeIcon: Record<IncidentTypeValue, string> = {
+  mechanical:      'settings',
+  checkpoint:      'badge',
+  accident:        'alert',
+  delay_loading:   'clock',
+  delay_unloading: 'clock',
+  client_issue:    'user',
+  theft_attempt:   'lock',
+  other:           'info',
+};
+
 export const IncidentUrgency = {
   Low: 'low',
   Medium: 'medium',
@@ -139,6 +154,17 @@ export const EvidenceTypeLabel: Record<EvidenceTypeValue, string> = {
   toll_ticket:      'Ticket de caseta',
   delivery_proof:   'Prueba de entrega',
   other:            'Otro',
+};
+
+export const EvidenceTypeIcon: Record<EvidenceTypeValue, string> = {
+  bill_of_lading:  'file',
+  scale_ticket:    'scale',
+  loading_photo:   'package',
+  unloading_photo: 'package',
+  diesel_ticket:   'fuel',
+  toll_ticket:     'receipt',
+  delivery_proof:  'checkCircle',
+  other:           'file',
 };
 
 export const UserRole = {

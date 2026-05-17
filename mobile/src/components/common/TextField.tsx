@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   View,
   Text,
@@ -13,18 +13,41 @@ interface Props extends TextInputProps {
   label?: string;
   error?: string | null;
   hint?: string;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
   containerStyle?: ViewStyle;
 }
 
-export function TextField({ label, error, hint, containerStyle, style, ...rest }: Props) {
+export function TextField({
+  label,
+  error,
+  hint,
+  leftIcon,
+  rightIcon,
+  containerStyle,
+  style,
+  multiline,
+  ...rest
+}: Props) {
   return (
     <View style={[styles.wrap, containerStyle]}>
       {label ? <Text style={styles.label}>{label}</Text> : null}
-      <TextInput
-        placeholderTextColor={colors.muted}
-        style={[styles.input, error ? styles.inputError : null, style]}
-        {...rest}
-      />
+      <View
+        style={[
+          styles.input,
+          multiline && styles.inputMulti,
+          error ? styles.inputError : null,
+        ]}
+      >
+        {leftIcon ? <View style={{ marginRight: spacing.sm }}>{leftIcon}</View> : null}
+        <TextInput
+          placeholderTextColor={colors.muted}
+          style={[styles.text, multiline && { textAlignVertical: 'top' }, style]}
+          multiline={multiline}
+          {...rest}
+        />
+        {rightIcon ? <View style={{ marginLeft: spacing.sm }}>{rightIcon}</View> : null}
+      </View>
       {error ? (
         <Text style={styles.error}>{error}</Text>
       ) : hint ? (
@@ -35,19 +58,21 @@ export function TextField({ label, error, hint, containerStyle, style, ...rest }
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginBottom: spacing.md },
-  label: { ...typography.label, marginBottom: spacing.xs, textTransform: 'uppercase' },
+  wrap: { marginBottom: spacing.md + 2 },
+  label: { ...typography.eyebrow, marginBottom: 6 },
   input: {
-    height: 52,
-    borderRadius: radius.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 54,
+    paddingHorizontal: spacing.md + 4,
+    borderRadius: radius.button,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.surface,
-    color: colors.text,
-    paddingHorizontal: spacing.md,
-    fontSize: 16,
   },
+  inputMulti: { height: 100, paddingVertical: spacing.md, alignItems: 'flex-start' },
   inputError: { borderColor: colors.danger },
+  text: { flex: 1, fontSize: 16, color: colors.text },
   error: { color: colors.danger, fontSize: 12, marginTop: spacing.xs },
   hint: { color: colors.muted, fontSize: 12, marginTop: spacing.xs },
 });

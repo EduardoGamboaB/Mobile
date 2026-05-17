@@ -14,10 +14,10 @@ export function DemoBanner() {
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: colors.accent,
-    paddingVertical: spacing.xs,
+    backgroundColor: colors.danger,
+    paddingVertical: 6,
     paddingHorizontal: spacing.md,
     alignItems: 'center',
   },
-  text: { color: colors.text, fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
+  text: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
 });

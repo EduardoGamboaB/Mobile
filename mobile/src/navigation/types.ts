@@ -3,7 +3,7 @@ import type { CompositeNavigationProp, RouteProp } from '@react-navigation/nativ
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 export type AuthStackParamList = {
-  Splash: undefined;
+  Onboarding: undefined;
   PhoneLogin: undefined;
   OtpVerify: { phone: string };
   EmailLogin: undefined;
@@ -25,6 +25,7 @@ export type AppStackParamList = {
   IncidentCreate: { tripId?: string };
   IncidentList: undefined;
   PendingSync: undefined;
+  Settings: undefined;
 };
 
 export type AppNav<T extends keyof AppStackParamList> = NativeStackNavigationProp<

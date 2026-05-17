@@ -9,15 +9,22 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { Screen } from '@/components/common/Screen';
+import { AppBar } from '@/components/common/AppBar';
 import { Button } from '@/components/common/Button';
 import { TextField } from '@/components/common/TextField';
+import { Chip } from '@/components/common/Chip';
+import { Banner, bannerIconColor } from '@/components/common/Banner';
+import { IconTile, tileIconColor } from '@/components/common/IconTile';
+import { DynamicIcon } from '@/components/common/DynamicIcon';
+import { MapPinIcon, CameraIcon, SparklesIcon } from '@/components/icons';
 import { useCreateLogbookEntry } from '@/hooks/useLogbook';
 import { useAuthStore } from '@/stores/auth';
 import { getCurrentCoords } from '@/services/location';
+import { ai } from '@/services/ai';
 import {
   LogbookEvent,
-  LogbookEventIcon,
   LogbookEventLabel,
+  LogbookEventIcon,
   FuelLevel,
   FuelLevelLabel,
   type LogbookEventValue,
@@ -41,6 +48,23 @@ export function LogbookCreateScreen() {
   const [concept, setConcept] = useState('');
   const [comments, setComments] = useState('');
   const [gpsLoading, setGpsLoading] = useState(false);
+  const [aiHint, setAiHint] = useState<string | null>(null);
+
+  // G3 AI-First: al cambiar comentarios, sugerir tipo de evento.
+  const onCommentsChange = async (txt: string) => {
+    setComments(txt);
+    if (txt.length < 5) {
+      setAiHint(null);
+      return;
+    }
+    const result = await ai.classifyLogbookEvent({ text: txt });
+    if (result.confidence > 0.6 && result.eventType !== type) {
+      setAiHint(`Asistente sugiere: ${LogbookEventLabel[result.eventType]}`);
+    } else {
+      setAiHint(null);
+    }
+    if (result.suggested.expenseConcept && !concept) setConcept(result.suggested.expenseConcept);
+  };
 
   const captureGps = async () => {
     setGpsLoading(true);
@@ -86,114 +110,136 @@ export function LogbookCreateScreen() {
   };
 
   return (
-    <Screen padded={false}>
-      <ScrollView contentContainerStyle={{ padding: spacing.lg }}>
-        <Text style={styles.label}>TIPO DE EVENTO</Text>
+    <Screen padded={false} background="bg">
+      <ScrollView contentContainerStyle={{ padding: spacing.lg + 4 }}>
+        <AppBar title="Nuevo evento" />
+
+        <Text style={styles.label}>Tipo de evento</Text>
         <View style={styles.grid}>
-          {Object.values(LogbookEvent).map((ev) => (
-            <Pressable
-              key={ev}
-              style={[styles.tile, type === ev && styles.tileActive]}
-              onPress={() => setType(ev)}
-            >
-              <Text style={styles.tileIcon}>{LogbookEventIcon[ev]}</Text>
-              <Text style={styles.tileLabel}>{LogbookEventLabel[ev]}</Text>
-            </Pressable>
-          ))}
+          {Object.values(LogbookEvent).map((ev) => {
+            const isActive = type === ev;
+            return (
+              <Pressable
+                key={ev}
+                style={[styles.tile, isActive && styles.tileActive]}
+                onPress={() => setType(ev)}
+              >
+                <IconTile tone={isActive ? 'dark' : 'blue'} size="md">
+                  <DynamicIcon
+                    name={LogbookEventIcon[ev]}
+                    size={20}
+                    color={isActive ? '#fff' : tileIconColor('blue')}
+                  />
+                </IconTile>
+                <Text style={[styles.tileName, isActive && { color: '#fff' }]}>
+                  {LogbookEventLabel[ev]}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
+
+        {aiHint ? (
+          <Banner
+            tone="info"
+            icon={<SparklesIcon size={18} color={bannerIconColor('info')} />}
+          >
+            {aiHint}
+          </Banner>
+        ) : null}
 
         <TextField
           label="Ubicación"
+          leftIcon={<MapPinIcon size={20} color={colors.muted} />}
           value={location}
           onChangeText={setLocation}
-          placeholder="Caseta Atlacomulco, km 87..."
+          placeholder="Caseta Atlacomulco, km 87…"
         />
         <Button
-          title={coords ? '📍 GPS capturado' : '📍 Capturar GPS'}
-          variant="secondary"
+          title={coords ? 'GPS capturado' : 'Capturar GPS'}
+          variant="outline"
+          size="md"
+          leftIcon={<MapPinIcon size={18} color={colors.navy} />}
           onPress={captureGps}
           loading={gpsLoading}
         />
 
         <View style={{ height: spacing.md }} />
 
-        <TextField
-          label="Kilometraje"
-          keyboardType="number-pad"
-          value={odometer}
-          onChangeText={setOdometer}
-          placeholder="ej. 142385"
-        />
+        <View style={{ flexDirection: 'row', gap: spacing.md }}>
+          <View style={{ flex: 1 }}>
+            <TextField
+              label="Kilometraje"
+              keyboardType="number-pad"
+              value={odometer}
+              onChangeText={setOdometer}
+              placeholder="142,510"
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <TextField
+              label="Gasto"
+              keyboardType="decimal-pad"
+              value={expense}
+              onChangeText={setExpense}
+              placeholder="0.00"
+            />
+          </View>
+        </View>
 
-        <Text style={styles.label}>NIVEL DE COMBUSTIBLE</Text>
-        <View style={styles.row}>
+        <Text style={styles.label}>Combustible</Text>
+        <View style={styles.pills}>
           {Object.values(FuelLevel).map((f) => (
-            <Pressable
-              key={f}
-              style={[styles.pill, fuel === f && styles.pillActive]}
-              onPress={() => setFuel(fuel === f ? null : f)}
-            >
-              <Text style={[styles.pillText, fuel === f && styles.pillTextActive]}>
-                {FuelLevelLabel[f]}
-              </Text>
+            <Pressable key={f} onPress={() => setFuel(fuel === f ? null : f)}>
+              <Chip label={FuelLevelLabel[f]} variant={fuel === f ? 'navy' : 'gray'} />
             </Pressable>
           ))}
         </View>
 
         <TextField
-          label="Gasto registrado"
-          keyboardType="decimal-pad"
-          value={expense}
-          onChangeText={setExpense}
-          placeholder="0.00"
-        />
-        <TextField
           label="Concepto"
           value={concept}
           onChangeText={setConcept}
-          placeholder="diesel, caseta, comida..."
+          placeholder="diesel, caseta, comida…"
         />
         <TextField
           label="Comentarios"
-          value={comments}
-          onChangeText={setComments}
           multiline
-          numberOfLines={3}
-          style={{ height: 80, paddingTop: spacing.sm }}
+          value={comments}
+          onChangeText={onCommentsChange}
+          placeholder="Describe brevemente..."
         />
 
-        <Button title="GUARDAR" onPress={onSubmit} loading={mutate.isPending} />
+        <Button
+          title="Agregar foto"
+          variant="outline"
+          size="md"
+          leftIcon={<CameraIcon size={18} color={colors.navy} />}
+          style={{ marginBottom: spacing.md + 2 }}
+          onPress={() => Alert.alert('Próximamente', 'Foto en la siguiente tanda.')}
+        />
+        <Button title="Guardar evento" onPress={onSubmit} loading={mutate.isPending} />
       </ScrollView>
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  label: { ...typography.label, marginTop: spacing.md, marginBottom: spacing.sm },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
+  label: { ...typography.eyebrow, marginTop: spacing.md, marginBottom: spacing.sm },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm + 2, marginBottom: spacing.md },
   tile: {
     width: '30%',
     aspectRatio: 1,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
+    backgroundColor: '#fff',
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6,
+    padding: spacing.sm,
   },
-  tileActive: { borderColor: colors.text, backgroundColor: colors.primaryLight },
-  tileIcon: { fontSize: 28, marginBottom: 4 },
-  tileLabel: { color: colors.text, fontSize: 12, fontWeight: '600' },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
-  pill: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-  },
-  pillActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  pillText: { color: colors.text, fontWeight: '600' },
-  pillTextActive: { color: colors.text },
+  tileActive: { backgroundColor: colors.navy, borderColor: colors.navy },
+  tileName: { fontSize: 12, fontWeight: '600', color: colors.text, textAlign: 'center' },
+  pills: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap', marginBottom: spacing.md + 2 },
 });

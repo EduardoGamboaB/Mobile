@@ -1,17 +1,37 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Alert, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { Screen } from '@/components/common/Screen';
+import { AppBar } from '@/components/common/AppBar';
 import { Button } from '@/components/common/Button';
+import { Banner, bannerIconColor } from '@/components/common/Banner';
+import { IconTile, tileIconColor } from '@/components/common/IconTile';
+import { DynamicIcon } from '@/components/common/DynamicIcon';
+import {
+  CameraIcon,
+  ImageIcon,
+  SendIcon,
+  SparklesIcon,
+} from '@/components/icons';
 import { takePhoto, pickPhoto, type CapturedImage } from '@/services/camera';
 import { uploadEvidence } from '@/api/evidences';
 import { offlineQueue } from '@/services/offlineQueue';
 import { useNetworkStore } from '@/stores/network';
 import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
+import { ai } from '@/services/ai';
 import {
   EvidenceType,
   EvidenceTypeLabel,
+  EvidenceTypeIcon,
   type EvidenceTypeValue,
 } from '@/constants/enums';
 import { colors, radius, spacing, typography } from '@/theme';
@@ -27,6 +47,27 @@ export function EvidenceUploadScreen() {
   const [type, setType] = useState<EvidenceTypeValue>(EvidenceType.BillOfLading);
   const [photo, setPhoto] = useState<CapturedImage | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [extracted, setExtracted] = useState<string | null>(null);
+
+  const onPickPhoto = async (source: 'camera' | 'gallery') => {
+    const img = source === 'camera' ? await takePhoto() : await pickPhoto();
+    if (!img) return;
+    setPhoto(img);
+
+    // G3 AI-First: intentar extraer datos del documento automáticamente
+    const r = await ai.extractEvidence({ photoUri: img.uri, hintType: type });
+    if (r.confidence > 0.5) {
+      const fields = [];
+      if (r.fields.folio) fields.push(`Folio ${r.fields.folio}`);
+      if (r.fields.tons) fields.push(`${r.fields.tons} ton`);
+      if (r.fields.amount) fields.push(`$${r.fields.amount.toFixed(2)}`);
+      setExtracted(
+        fields.length
+          ? `Datos detectados: ${fields.join(' · ')}`
+          : 'Documento analizado — datos guardados.',
+      );
+    }
+  };
 
   const onUpload = async () => {
     if (!driverId || !photo) return;
@@ -61,45 +102,69 @@ export function EvidenceUploadScreen() {
   };
 
   return (
-    <Screen padded={false}>
-      <ScrollView contentContainerStyle={{ padding: spacing.lg }}>
-        <Text style={styles.label}>TIPO DE EVIDENCIA</Text>
-        <View style={styles.row}>
-          {Object.values(EvidenceType).map((t) => (
-            <Pressable
-              key={t}
-              style={[styles.chip, type === t && styles.chipActive]}
-              onPress={() => setType(t)}
-            >
-              <Text style={[styles.chipText, type === t && styles.chipTextActive]}>
-                {EvidenceTypeLabel[t]}
-              </Text>
-            </Pressable>
-          ))}
+    <Screen padded={false} background="bg">
+      <ScrollView contentContainerStyle={{ padding: spacing.lg + 4 }}>
+        <AppBar title="Subir evidencia" />
+
+        <Text style={styles.label}>Tipo de documento</Text>
+        <View style={styles.grid}>
+          {Object.values(EvidenceType).map((t) => {
+            const isActive = type === t;
+            return (
+              <Pressable
+                key={t}
+                style={[styles.tile, isActive && styles.tileActive]}
+                onPress={() => setType(t)}
+              >
+                <IconTile tone={isActive ? 'dark' : 'blue'} size="md">
+                  <DynamicIcon
+                    name={EvidenceTypeIcon[t]}
+                    size={20}
+                    color={isActive ? '#fff' : tileIconColor('blue')}
+                  />
+                </IconTile>
+                <Text style={[styles.tileName, isActive && { color: '#fff' }]}>
+                  {EvidenceTypeLabel[t]}
+                </Text>
+              </Pressable>
+            );
+          })}
         </View>
 
         {photo ? (
           <View style={styles.preview}>
             <Image source={{ uri: photo.uri }} style={styles.image} resizeMode="cover" />
-            <Pressable style={styles.remove} onPress={() => setPhoto(null)}>
-              <Text style={{ color: colors.text, fontWeight: '700' }}>QUITAR</Text>
+            <Pressable
+              style={styles.removeBtn}
+              onPress={() => {
+                setPhoto(null);
+                setExtracted(null);
+              }}
+            >
+              <Text style={styles.removeText}>QUITAR</Text>
             </Pressable>
           </View>
         ) : null}
 
-        <View style={styles.row}>
+        {extracted ? (
+          <Banner tone="info" icon={<SparklesIcon size={18} color={bannerIconColor('info')} />}>
+            {extracted}
+          </Banner>
+        ) : null}
+
+        <View style={{ flexDirection: 'row', gap: spacing.sm + 2 }}>
           <Button
-            title="📷 TOMAR FOTO"
-            variant="secondary"
-            onPress={async () => setPhoto((await takePhoto()) ?? null)}
+            title="Tomar foto"
+            leftIcon={<CameraIcon size={18} color="#fff" />}
+            onPress={() => onPickPhoto('camera')}
             style={{ flex: 1 }}
             fullWidth={false}
           />
-          <View style={{ width: spacing.md }} />
           <Button
-            title="🖼 ELEGIR"
-            variant="secondary"
-            onPress={async () => setPhoto((await pickPhoto()) ?? null)}
+            title="Galería"
+            variant="outline"
+            leftIcon={<ImageIcon size={18} color={colors.navy} />}
+            onPress={() => onPickPhoto('gallery')}
             style={{ flex: 1 }}
             fullWidth={false}
           />
@@ -107,7 +172,9 @@ export function EvidenceUploadScreen() {
 
         <View style={{ height: spacing.lg }} />
         <Button
-          title="SUBIR EVIDENCIA"
+          title="Subir evidencia"
+          variant="accent"
+          leftIcon={<SendIcon size={18} color="#fff" />}
           onPress={onUpload}
           disabled={!photo}
           loading={uploading}
@@ -118,26 +185,31 @@ export function EvidenceUploadScreen() {
 }
 
 const styles = StyleSheet.create({
-  label: { ...typography.label, marginBottom: spacing.sm },
-  row: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm, marginBottom: spacing.md },
-  chip: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: radius.pill,
+  label: { ...typography.eyebrow, marginBottom: spacing.sm },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm + 2, marginBottom: spacing.md },
+  tile: {
+    width: '48%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm + 2,
+    backgroundColor: '#fff',
+    borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.surface,
+    padding: spacing.md + 2,
   },
-  chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
-  chipText: { color: colors.text },
-  chipTextActive: { color: colors.text, fontWeight: '700' },
-  preview: { marginVertical: spacing.lg, alignItems: 'center' },
-  image: { width: '100%', aspectRatio: 1, borderRadius: radius.md },
-  remove: {
-    marginTop: spacing.sm,
-    backgroundColor: colors.accent,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: radius.md,
+  tileActive: { backgroundColor: colors.navy, borderColor: colors.navy },
+  tileName: { flex: 1, fontSize: 13, fontWeight: '600', color: colors.text },
+  preview: { marginBottom: spacing.md },
+  image: { width: '100%', aspectRatio: 1, borderRadius: radius.card },
+  removeBtn: {
+    position: 'absolute',
+    top: spacing.sm,
+    right: spacing.sm,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingHorizontal: spacing.sm + 2,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.pill,
   },
+  removeText: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
 });

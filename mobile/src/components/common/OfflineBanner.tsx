@@ -15,10 +15,10 @@ export function OfflineBanner() {
 
 const styles = StyleSheet.create({
   bar: {
-    backgroundColor: colors.warning,
-    paddingVertical: spacing.xs,
+    backgroundColor: '#92400E',
+    paddingVertical: 6,
     paddingHorizontal: spacing.md,
     alignItems: 'center',
   },
-  text: { color: colors.bg, fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
+  text: { color: '#fff', fontSize: 11, fontWeight: '800', letterSpacing: 0.6 },
 });

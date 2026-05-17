@@ -7,7 +7,7 @@ import { EvidenceUploadScreen } from '@/screens/evidence/EvidenceUploadScreen';
 import { IncidentCreateScreen } from '@/screens/incidents/IncidentCreateScreen';
 import { IncidentListScreen } from '@/screens/incidents/IncidentListScreen';
 import { PendingSyncScreen } from '@/screens/dashboard/PendingSyncScreen';
-import { colors } from '@/theme';
+import { SettingsScreen } from '@/screens/profile/SettingsScreen';
 import type { AppStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -16,38 +16,29 @@ export function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: colors.surfaceAlt },
-        headerTintColor: colors.text,
-        headerTitleStyle: { fontWeight: '700' },
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
-      <Stack.Screen name="TripDetail" component={TripDetailScreen} options={{ title: 'Viaje' }} />
+      <Stack.Screen name="MainTabs" component={MainTabs} />
+      <Stack.Screen name="TripDetail" component={TripDetailScreen} />
       <Stack.Screen
         name="LogbookCreate"
         component={LogbookCreateScreen}
-        options={{ title: 'Nuevo evento', presentation: 'modal' }}
+        options={{ presentation: 'modal' }}
       />
       <Stack.Screen
         name="EvidenceUpload"
         component={EvidenceUploadScreen}
-        options={{ title: 'Subir evidencia', presentation: 'modal' }}
+        options={{ presentation: 'modal' }}
       />
       <Stack.Screen
         name="IncidentCreate"
         component={IncidentCreateScreen}
-        options={{ title: 'Reportar incidencia', presentation: 'modal' }}
+        options={{ presentation: 'modal' }}
       />
-      <Stack.Screen
-        name="IncidentList"
-        component={IncidentListScreen}
-        options={{ title: 'Incidencias' }}
-      />
-      <Stack.Screen
-        name="PendingSync"
-        component={PendingSyncScreen}
-        options={{ title: 'Pendientes de sincronizar' }}
-      />
+      <Stack.Screen name="IncidentList" component={IncidentListScreen} />
+      <Stack.Screen name="PendingSync" component={PendingSyncScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
     </Stack.Navigator>
   );
 }

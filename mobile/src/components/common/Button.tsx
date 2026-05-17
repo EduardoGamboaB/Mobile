@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   Pressable,
   Text,
@@ -6,11 +6,12 @@ import {
   ActivityIndicator,
   ViewStyle,
   PressableProps,
+  View,
 } from 'react-native';
 import { colors, radius, spacing } from '@/theme';
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'ghost';
-type Size = 'lg' | 'md';
+type Variant = 'primary' | 'accent' | 'outline' | 'ghost' | 'danger';
+type Size = 'lg' | 'md' | 'sm';
 
 interface Props extends Omit<PressableProps, 'children' | 'style'> {
   title: string;
@@ -18,8 +19,24 @@ interface Props extends Omit<PressableProps, 'children' | 'style'> {
   size?: Size;
   loading?: boolean;
   fullWidth?: boolean;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
   style?: ViewStyle;
 }
+
+const variantStyles: Record<Variant, { bg: string; fg: string; border: string }> = {
+  primary: { bg: colors.navy,    fg: '#FFFFFF',     border: 'transparent' },
+  accent:  { bg: colors.blue,    fg: '#FFFFFF',     border: 'transparent' },
+  outline: { bg: '#FFFFFF',      fg: colors.navy,   border: colors.border },
+  ghost:   { bg: 'transparent',  fg: colors.navy,   border: 'transparent' },
+  danger:  { bg: colors.danger,  fg: '#FFFFFF',     border: 'transparent' },
+};
+
+const sizeStyles: Record<Size, { h: number; fs: number; px: number }> = {
+  lg: { h: 54, fs: 15, px: spacing.lg + 2 },
+  md: { h: 44, fs: 14, px: spacing.lg },
+  sm: { h: 38, fs: 13, px: spacing.md + 2 },
+};
 
 export function Button({
   title,
@@ -28,22 +45,13 @@ export function Button({
   loading,
   disabled,
   fullWidth = true,
+  leftIcon,
+  rightIcon,
   style,
   ...rest
 }: Props) {
-  const bg =
-    variant === 'primary'
-      ? colors.primary
-      : variant === 'danger'
-        ? colors.accent
-        : variant === 'secondary'
-          ? colors.surface
-          : 'transparent';
-  const textColor = variant === 'ghost' ? colors.text : colors.text;
-  const border =
-    variant === 'ghost' || variant === 'secondary' ? colors.border : 'transparent';
-  const height = size === 'lg' ? 56 : 44;
-
+  const v = variantStyles[variant];
+  const s = sizeStyles[size];
   return (
     <Pressable
       {...rest}
@@ -51,9 +59,10 @@ export function Button({
       style={({ pressed }) => [
         styles.base,
         {
-          height,
-          backgroundColor: bg,
-          borderColor: border,
+          height: s.h,
+          paddingHorizontal: s.px,
+          backgroundColor: v.bg,
+          borderColor: v.border,
           opacity: disabled ? 0.5 : pressed ? 0.85 : 1,
           alignSelf: fullWidth ? 'stretch' : 'flex-start',
         },
@@ -61,9 +70,13 @@ export function Button({
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={textColor} />
+        <ActivityIndicator color={v.fg} />
       ) : (
-        <Text style={[styles.text, { color: textColor }]}>{title}</Text>
+        <View style={styles.inner}>
+          {leftIcon ? <View style={{ marginRight: spacing.sm }}>{leftIcon}</View> : null}
+          <Text style={[styles.text, { color: v.fg, fontSize: s.fs }]}>{title}</Text>
+          {rightIcon ? <View style={{ marginLeft: spacing.sm }}>{rightIcon}</View> : null}
+        </View>
       )}
     </Pressable>
   );
@@ -71,15 +84,11 @@ export function Button({
 
 const styles = StyleSheet.create({
   base: {
-    borderRadius: radius.md,
+    borderRadius: radius.button,
     borderWidth: 1,
-    paddingHorizontal: spacing.lg,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
-  text: {
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
+  inner: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  text: { fontWeight: '700', letterSpacing: 0.2 },
 });

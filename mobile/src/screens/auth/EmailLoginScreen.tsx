@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet, Alert } from 'react-native';
+import { Text, View, StyleSheet, Alert, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Screen } from '@/components/common/Screen';
+import { AppBar } from '@/components/common/AppBar';
 import { Button } from '@/components/common/Button';
 import { TextField } from '@/components/common/TextField';
+import { MailIcon, LockIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
-import { spacing, typography } from '@/theme';
+import { colors, spacing, typography } from '@/theme';
+import type { AuthStackParamList } from '@/navigation/types';
+
+type Nav = NativeStackNavigationProp<AuthStackParamList, 'EmailLogin'>;
 
 export function EmailLoginScreen() {
+  const nav = useNavigation<Nav>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const signIn = useAuthStore((s) => s.signInWithEmail);
@@ -22,12 +30,15 @@ export function EmailLoginScreen() {
   };
 
   return (
-    <Screen>
-      <Text style={styles.title}>Iniciar sesión</Text>
-      <Text style={styles.sub}>Acceso para personal de despacho y administración.</Text>
+    <Screen background="cream">
+      <AppBar title="Entrar con correo" />
+      <Text style={[typography.small, { marginBottom: spacing.lg }]}>
+        Acceso para personal de despacho y administración.
+      </Text>
 
       <TextField
         label="Correo"
+        leftIcon={<MailIcon size={20} color={colors.muted} />}
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -35,16 +46,24 @@ export function EmailLoginScreen() {
       />
       <TextField
         label="Contraseña"
+        leftIcon={<LockIcon size={20} color={colors.muted} />}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
+
+      <View style={styles.forgotRow}>
+        <Pressable onPress={() => nav.navigate('ForgotPassword')}>
+          <Text style={styles.forgot}>¿Olvidaste tu contraseña?</Text>
+        </Pressable>
+      </View>
+
       <Button title="Entrar" onPress={onSubmit} loading={loading} />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  title: { ...typography.h2, marginTop: spacing.xl, marginBottom: spacing.xs },
-  sub: { ...typography.small, marginBottom: spacing.lg },
+  forgotRow: { alignItems: 'flex-end', marginBottom: spacing.md + 2 },
+  forgot: { color: colors.blue, fontSize: 13, fontWeight: '600' },
 });

@@ -4,8 +4,18 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import { Screen } from '@/components/common/Screen';
 import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
-import { StatusChip } from '@/components/common/StatusChip';
+import { Chip } from '@/components/common/Chip';
+import { IconTile, tileIconColor } from '@/components/common/IconTile';
+import { AppBar } from '@/components/common/AppBar';
 import { LogbookTimeline } from '@/components/logbook/LogbookTimeline';
+import {
+  MapPinIcon,
+  FlagIcon,
+  PlusIcon,
+  CameraIcon,
+  AlertIcon,
+  ArrowRightIcon,
+} from '@/components/icons';
 import { useTrip, useAdvanceTripStatus } from '@/hooks/useTrips';
 import { useLogbook } from '@/hooks/useLogbook';
 import { nextStatus, TripStatusLabel } from '@/constants/enums';
@@ -22,7 +32,7 @@ export function TripDetailScreen() {
 
   if (isLoading || !trip) {
     return (
-      <Screen>
+      <Screen background="bg">
         <Text style={typography.body}>Cargando viaje…</Text>
       </Screen>
     );
@@ -32,131 +42,170 @@ export function TripDetailScreen() {
 
   const onAdvance = () => {
     if (!next) return;
-    Alert.alert(
-      'Confirmar',
-      `¿Marcar el viaje como ${TripStatusLabel[next]}?`,
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Sí',
-          onPress: () => {
-            advance.mutate(next, {
-              onError: (e) => {
-                const msg = e instanceof Error ? e.message : String(e);
-                Alert.alert('No se pudo actualizar', msg);
-              },
-            });
-          },
+    Alert.alert('Confirmar', `¿Marcar el viaje como ${TripStatusLabel[next]}?`, [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Sí',
+        onPress: () => {
+          advance.mutate(next, {
+            onError: (e) => {
+              const msg = e instanceof Error ? e.message : String(e);
+              Alert.alert('No se pudo actualizar', msg);
+            },
+          });
         },
-      ],
-    );
+      },
+    ]);
   };
 
   return (
-    <Screen padded={false}>
-      <ScrollView contentContainerStyle={{ padding: spacing.lg }}>
-        <View style={styles.headerRow}>
-          <Text style={styles.folio}>{trip.folio}</Text>
-          <StatusChip status={trip.status} />
+    <Screen padded={false} background="bg">
+      <ScrollView contentContainerStyle={{ padding: spacing.lg + 4, paddingBottom: spacing.xxl }}>
+        <AppBar title={trip.client_name} />
+
+        <View style={{ marginTop: -spacing.sm, marginBottom: spacing.lg, marginLeft: 56 + spacing.md }}>
+          <Text style={typography.eyebrow}>{trip.folio}</Text>
         </View>
-        <Text style={styles.client}>{trip.client_name}</Text>
+
+        <View style={styles.chipsRow}>
+          <Chip label={TripStatusLabel[trip.status]} variant="blue" />
+          {trip.tons ? <Chip label={`${trip.tons} ton`} variant="gray" /> : null}
+        </View>
 
         <Card>
-          <Text style={styles.section}>RUTA</Text>
-          <Text style={typography.body}>{trip.origin}</Text>
-          <Text style={styles.arrow}>↓</Text>
-          <Text style={typography.body}>{trip.destination}</Text>
-          {trip.cargo ? <Text style={styles.meta}>Carga: {trip.cargo}</Text> : null}
-          {trip.tons ? <Text style={styles.meta}>Toneladas: {trip.tons}</Text> : null}
+          <Text style={typography.eyebrow}>Ruta</Text>
+          <View style={styles.routeStep}>
+            <IconTile tone="navy" size="sm">
+              <MapPinIcon size={18} color={tileIconColor('navy')} />
+            </IconTile>
+            <View style={{ flex: 1, marginLeft: spacing.md }}>
+              <Text style={typography.bodyStrong}>{trip.origin}</Text>
+              <Text style={typography.caption}>
+                Carga ·{' '}
+                {trip.load_date ? new Date(trip.load_date).toLocaleString() : '—'}
+              </Text>
+            </View>
+          </View>
+          <View style={styles.dashedLine} />
+          <View style={styles.routeStep}>
+            <IconTile tone="blue" size="sm">
+              <FlagIcon size={18} color={tileIconColor('blue')} />
+            </IconTile>
+            <View style={{ flex: 1, marginLeft: spacing.md }}>
+              <Text style={typography.bodyStrong}>{trip.destination}</Text>
+              <Text style={typography.caption}>
+                ETA ·{' '}
+                {trip.estimated_unload_date
+                  ? new Date(trip.estimated_unload_date).toLocaleString()
+                  : '—'}
+              </Text>
+            </View>
+          </View>
         </Card>
 
         <Card>
-          <Text style={styles.section}>FECHAS</Text>
-          {trip.load_date ? (
-            <Text style={styles.meta}>
-              Carga: {new Date(trip.load_date).toLocaleString()}
-            </Text>
-          ) : null}
-          {trip.estimated_unload_date ? (
-            <Text style={styles.meta}>
-              ETA descarga: {new Date(trip.estimated_unload_date).toLocaleString()}
-            </Text>
-          ) : null}
-        </Card>
-
-        <Card>
-          <Text style={styles.section}>IMPORTES</Text>
+          <Text style={typography.eyebrow}>Importes</Text>
           {trip.price_per_ton != null ? (
-            <Text style={styles.meta}>Precio/ton: ${trip.price_per_ton.toFixed(2)}</Text>
+            <Row label="Precio / ton" value={`$${trip.price_per_ton.toFixed(2)}`} />
           ) : null}
           {trip.total_amount != null ? (
-            <Text style={styles.meta}>Importe total: ${trip.total_amount.toFixed(2)}</Text>
+            <Row label="Importe total" value={`$${trip.total_amount.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`} />
           ) : null}
           {trip.driver_commission != null ? (
-            <Text style={styles.meta}>Tu comisión: ${trip.driver_commission.toFixed(2)}</Text>
+            <Row
+              label="Mi comisión"
+              value={`$${trip.driver_commission.toLocaleString('es-MX', { minimumFractionDigits: 2 })}`}
+              accent
+            />
           ) : null}
+          <View style={styles.hr} />
           {trip.estimated_tolls != null ? (
-            <Text style={styles.meta}>Casetas estimadas: ${trip.estimated_tolls.toFixed(2)}</Text>
+            <Row label="Casetas estim." value={`$${trip.estimated_tolls.toFixed(2)}`} />
           ) : null}
           {trip.estimated_diesel != null ? (
-            <Text style={styles.meta}>Diesel estimado: ${trip.estimated_diesel.toFixed(2)}</Text>
+            <Row label="Diesel estim." value={`$${trip.estimated_diesel.toFixed(2)}`} />
           ) : null}
         </Card>
 
         {next ? (
           <Button
-            title={`MARCAR ${TripStatusLabel[next].toUpperCase()}`}
+            title={`Marcar ${TripStatusLabel[next].toLowerCase()}`}
+            variant="accent"
+            rightIcon={<ArrowRightIcon size={18} color="#fff" />}
             onPress={onAdvance}
             loading={advance.isPending}
+            style={{ marginTop: spacing.md }}
           />
         ) : null}
 
-        <View style={{ height: spacing.md }} />
-
         <View style={styles.actionRow}>
           <Button
-            title="+ BITÁCORA"
-            variant="secondary"
+            title="Bitácora"
+            variant="outline"
+            size="sm"
+            leftIcon={<PlusIcon size={16} color={colors.navy} />}
             onPress={() => nav.navigate('LogbookCreate', { tripId })}
             style={{ flex: 1 }}
             fullWidth={false}
           />
           <View style={{ width: spacing.sm }} />
           <Button
-            title="+ EVIDENCIA"
-            variant="secondary"
+            title="Evidencia"
+            variant="outline"
+            size="sm"
+            leftIcon={<CameraIcon size={16} color={colors.navy} />}
             onPress={() => nav.navigate('EvidenceUpload', { tripId })}
             style={{ flex: 1 }}
             fullWidth={false}
           />
           <View style={{ width: spacing.sm }} />
           <Button
-            title="⚠"
-            variant="danger"
+            title="Incid."
+            variant="outline"
+            size="sm"
+            leftIcon={<AlertIcon size={16} color={colors.danger} />}
             onPress={() => nav.navigate('IncidentCreate', { tripId })}
-            style={{ flex: 0.5 }}
+            style={{ flex: 0.7, borderColor: colors.danger }}
             fullWidth={false}
           />
         </View>
 
-        <Text style={styles.sectionTitle}>BITÁCORA</Text>
-        <LogbookTimeline entries={logbook ?? []} />
+        <Text style={[typography.eyebrow, { marginTop: spacing.xl, marginBottom: spacing.md }]}>
+          Bitácora
+        </Text>
+        <Card>
+          <LogbookTimeline entries={logbook ?? []} />
+        </Card>
       </ScrollView>
     </Screen>
   );
 }
 
+function Row({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <View style={styles.row}>
+      <Text style={typography.small}>{label}</Text>
+      <Text style={[typography.bodyStrong, accent && { color: colors.blue }]}>{value}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
-  headerRow: {
+  chipsRow: { flexDirection: 'row', gap: spacing.sm, marginBottom: spacing.md + 2 },
+  routeStep: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.xs },
+  dashedLine: {
+    width: 2,
+    height: 18,
+    backgroundColor: colors.border,
+    marginLeft: 17,
+    marginVertical: 2,
+  },
+  row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingVertical: 6,
   },
-  folio: { ...typography.label },
-  client: { ...typography.h2, marginVertical: spacing.sm },
-  section: { ...typography.label, marginBottom: spacing.sm },
-  meta: { ...typography.body, marginTop: spacing.xs },
-  arrow: { color: colors.muted, marginVertical: spacing.xs, fontSize: 18 },
-  sectionTitle: { ...typography.h3, marginTop: spacing.xl, marginBottom: spacing.md },
-  actionRow: { flexDirection: 'row', marginTop: spacing.md },
+  hr: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border, marginVertical: spacing.sm + 2 },
+  actionRow: { flexDirection: 'row', marginTop: spacing.sm + 2 },
 });
