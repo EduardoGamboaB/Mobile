@@ -1,0 +1,34 @@
+# Node
+node_modules/
+npm-debug.*
+yarn-error.log
+*.log
+
+# Expo
+.expo/
+.expo-shared/
+web-build/
+dist/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Build
+*.tsbuildinfo
+build/
+ios/build/
+android/build/
+android/app/build/
+
+# Misc
+*.orig.*

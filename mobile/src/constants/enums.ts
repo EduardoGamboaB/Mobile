@@ -1,0 +1,149 @@
+export const TripStatus = {
+  Scheduled: 'scheduled',
+  Loading: 'loading',
+  InTransit: 'in_transit',
+  Unloading: 'unloading',
+  Finished: 'finished',
+  Cancelled: 'cancelled',
+} as const;
+export type TripStatusValue = (typeof TripStatus)[keyof typeof TripStatus];
+
+export const TripStatusLabel: Record<TripStatusValue, string> = {
+  scheduled:  'Programado',
+  loading:    'Cargando',
+  in_transit: 'En tránsito',
+  unloading:  'Descargando',
+  finished:   'Finalizado',
+  cancelled:  'Cancelado',
+};
+
+export const nextStatus: Record<TripStatusValue, TripStatusValue | null> = {
+  scheduled:  'loading',
+  loading:    'in_transit',
+  in_transit: 'unloading',
+  unloading:  'finished',
+  finished:   null,
+  cancelled:  null,
+};
+
+export const LogbookEvent = {
+  Departure: 'departure',
+  Loading: 'loading',
+  Stop: 'stop',
+  Toll: 'toll',
+  Diesel: 'diesel',
+  Incident: 'incident',
+  Arrival: 'arrival',
+  Unloading: 'unloading',
+  Closing: 'closing',
+} as const;
+export type LogbookEventValue = (typeof LogbookEvent)[keyof typeof LogbookEvent];
+
+export const LogbookEventLabel: Record<LogbookEventValue, string> = {
+  departure: 'Salida',
+  loading:   'Carga',
+  stop:      'Parada',
+  toll:      'Caseta',
+  diesel:    'Diesel',
+  incident:  'Incidencia',
+  arrival:   'Llegada',
+  unloading: 'Descarga',
+  closing:   'Cierre',
+};
+
+export const LogbookEventIcon: Record<LogbookEventValue, string> = {
+  departure: '🚛',
+  loading:   '📦',
+  stop:      '⏸',
+  toll:      '🛣',
+  diesel:    '⛽',
+  incident:  '⚠',
+  arrival:   '📍',
+  unloading: '📤',
+  closing:   '✅',
+};
+
+export const FuelLevel = {
+  Full: 'full',
+  ThreeQuarters: 'three_quarters',
+  Half: 'half',
+  Quarter: 'quarter',
+  Empty: 'empty',
+} as const;
+export type FuelLevelValue = (typeof FuelLevel)[keyof typeof FuelLevel];
+
+export const FuelLevelLabel: Record<FuelLevelValue, string> = {
+  full: 'Lleno',
+  three_quarters: '3/4',
+  half: '1/2',
+  quarter: '1/4',
+  empty: 'Vacío',
+};
+
+export const IncidentType = {
+  Mechanical: 'mechanical',
+  Checkpoint: 'checkpoint',
+  Accident: 'accident',
+  DelayLoading: 'delay_loading',
+  DelayUnloading: 'delay_unloading',
+  ClientIssue: 'client_issue',
+  TheftAttempt: 'theft_attempt',
+  Other: 'other',
+} as const;
+export type IncidentTypeValue = (typeof IncidentType)[keyof typeof IncidentType];
+
+export const IncidentTypeLabel: Record<IncidentTypeValue, string> = {
+  mechanical:      'Falla mecánica',
+  checkpoint:      'Retén / inspección',
+  accident:        'Accidente',
+  delay_loading:   'Retraso en carga',
+  delay_unloading: 'Retraso en descarga',
+  client_issue:    'Problema con cliente',
+  theft_attempt:   'Robo / extorsión',
+  other:           'Otro',
+};
+
+export const IncidentUrgency = {
+  Low: 'low',
+  Medium: 'medium',
+  High: 'high',
+  Critical: 'critical',
+} as const;
+export type IncidentUrgencyValue = (typeof IncidentUrgency)[keyof typeof IncidentUrgency];
+
+export const IncidentUrgencyLabel: Record<IncidentUrgencyValue, string> = {
+  low: 'Baja',
+  medium: 'Media',
+  high: 'Alta',
+  critical: 'Crítica',
+};
+
+export const EvidenceType = {
+  BillOfLading: 'bill_of_lading',
+  ScaleTicket: 'scale_ticket',
+  LoadingPhoto: 'loading_photo',
+  UnloadingPhoto: 'unloading_photo',
+  DieselTicket: 'diesel_ticket',
+  TollTicket: 'toll_ticket',
+  DeliveryProof: 'delivery_proof',
+  Other: 'other',
+} as const;
+export type EvidenceTypeValue = (typeof EvidenceType)[keyof typeof EvidenceType];
+
+export const EvidenceTypeLabel: Record<EvidenceTypeValue, string> = {
+  bill_of_lading:   'Carta porte',
+  scale_ticket:     'Báscula',
+  loading_photo:    'Foto de carga',
+  unloading_photo:  'Foto de descarga',
+  diesel_ticket:    'Ticket de diesel',
+  toll_ticket:      'Ticket de caseta',
+  delivery_proof:   'Prueba de entrega',
+  other:            'Otro',
+};
+
+export const UserRole = {
+  Driver: 'driver',
+  Dispatcher: 'dispatcher',
+  Admin: 'admin',
+} as const;
+export type UserRoleValue = (typeof UserRole)[keyof typeof UserRole];
