@@ -4,9 +4,15 @@ import { PricingTable } from '../../components/PricingTable';
 import { Icon } from '../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'Precios — Planes de G3 Logistics',
+  title: 'Precios · Planes desde gratis hasta empresarial',
   description:
-    'Cinco planes en MXN, desde Free hasta Enterprise. Sube de plan solo cuando tu operación crezca.',
+    'Cinco planes en MXN: Free ($0), Starter ($349), Pro ($899), Business ($2,499) y Enterprise (cotización). IA, mapa en vivo y autorización de pagos según plan.',
+  alternates: { canonical: '/precios/' },
+  openGraph: {
+    title: 'Precios de G3 Logistics',
+    description: '5 planes en MXN. Desde $0 hasta empresarial.',
+    url: '/precios/',
+  },
 };
 
 const FAQ = [

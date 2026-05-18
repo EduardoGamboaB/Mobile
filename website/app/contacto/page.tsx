@@ -2,9 +2,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'Contacto — G3 Logistics',
+  title: 'Contacto · Agenda una demo de G3 Logistics',
   description:
-    'Agenda una demo de G3 Admin y G3 Drive o escríbenos para cotizar Enterprise.',
+    'Habla con G3 Logistics: agenda demo de 30 minutos, cotiza Enterprise o escribe a soporte. Atendemos por email y WhatsApp en menos de 4 horas hábiles.',
+  alternates: { canonical: '/contacto/' },
+  openGraph: {
+    title: 'Contacto · G3 Logistics',
+    description: 'Demo gratuita o cotización Enterprise. Respondemos en menos de 4 horas.',
+    url: '/contacto/',
+  },
 };
 
 export default function ContactoPage() {

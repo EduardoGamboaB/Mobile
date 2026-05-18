@@ -402,6 +402,7 @@ header.site {
   display: flex;
   gap: 24px;
   align-items: center;
+  position: relative;
 }
 .site nav a {
   color: rgba(255,255,255,0.82);
@@ -409,8 +410,55 @@ header.site {
 }
 .site nav a:hover { color: var(--white); }
 
-@media (max-width: 720px) {
-  .site nav a:not(.btn) { display: none; }
+.menu-toggle {
+  display: none;
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--white);
+  cursor: pointer;
+}
+.menu-toggle:hover { background: rgba(255,255,255,0.14); }
+
+@media (max-width: 820px) {
+  .site nav > a:not(.btn) { display: none; }
+  .menu-toggle { display: inline-flex; }
+
+  details.mobile-menu { position: static; }
+  details.mobile-menu summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+  }
+  details.mobile-menu summary::-webkit-details-marker { display: none; }
+  details.mobile-menu[open] .menu-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: var(--gutter);
+    left: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    background: var(--navy-900);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 60;
+  }
+  details.mobile-menu .menu-panel { display: none; }
+  details.mobile-menu .menu-panel a {
+    padding: 12px 14px;
+    color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    border-radius: 10px;
+  }
+  details.mobile-menu .menu-panel a:hover { background: rgba(255,255,255,0.06); }
+}
+
+@media (min-width: 821px) {
+  details.mobile-menu { display: none; }
 }
 
 .brand {

@@ -3,9 +3,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'G3 Admin — Centro de mando para tu flota | G3 Logistics',
+  title: 'G3 Admin · Centro de mando para tu flota',
   description:
-    'Panel web para dueños y dispatchers: viajes, mapa en vivo, autorización de pagos, scoring y alertas. Plan gratuito con 1 unidad.',
+    'Panel web para dueños y dispatchers: viajes con folio automático, mapa en vivo, autorización de pagos, scoring de conductores y alertas inteligentes. Plan gratuito con 1 unidad.',
+  alternates: { canonical: '/productos/admin/' },
+  openGraph: {
+    title: 'G3 Admin · Centro de mando para tu flota',
+    description: 'Panel web para owners y dispatchers — fleet management, mapa en vivo, pagos.',
+    url: '/productos/admin/',
+  },
 };
 
 const FEATURES = [

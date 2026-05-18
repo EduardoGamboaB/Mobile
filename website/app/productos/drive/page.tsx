@@ -3,9 +3,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'G3 Drive — La app para el operador en carretera | G3 Logistics',
+  title: 'G3 Drive · App móvil para conductores',
   description:
-    'App móvil para conductores: bitácora, evidencias con OCR, chat con dispatcher, SOS y modo offline. Pensada para usarse con guantes.',
+    'App para el conductor: bitácora en un toque, evidencias con OCR, chat con dispatcher, botón SOS y modo offline. Disponible para iOS y Android.',
+  alternates: { canonical: '/productos/drive/' },
+  openGraph: {
+    title: 'G3 Drive · App móvil para conductores',
+    description: 'App del operador — bitácora, OCR, SOS, modo offline.',
+    url: '/productos/drive/',
+  },
 };
 
 const FEATURES = [
