@@ -54,6 +54,13 @@ HTTP con interceptor 402 → upgrade automático.
 │   ├── lib/store.ts                  Zustand con tier sync + JWT
 │   ├── __tests__/                    18 tests (unit + e2e dispatcher flow)
 │   └── README.md
+├── holding/                        ← G3 Holding · estrategia + marca + organización
+│   ├── brand/                        Brand book (esencia, arquitectura,
+│   │                                 identidad visual, voz, aplicaciones)
+│   │   └── assets/logos/             SVGs vectoriales por entidad + paleta
+│   └── organization/                 Manual organizacional (estructura,
+│                                     roles, gobierno, políticas, cadencias,
+│                                     procesos)
 └── supabase/                       ← migraciones legacy (V1 sin backend propio)
 ```
 

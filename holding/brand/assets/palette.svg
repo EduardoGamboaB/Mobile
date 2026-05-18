@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" role="img" aria-label="Paleta cromática G3">
+  <title>Paleta cromática G3</title>
+  <style>
+    .label { font-family: -apple-system, Inter, sans-serif; font-size: 14px; font-weight: 700; }
+    .hex   { font-family: -apple-system, Inter, sans-serif; font-size: 12px; opacity: 0.75; }
+    .group { font-family: -apple-system, Inter, sans-serif; font-size: 16px; font-weight: 800; fill: #0A1633; }
+  </style>
+
+  <rect width="1100" height="480" fill="#FFFFFF"/>
+
+  <!-- BRAND -->
+  <text x="40" y="40" class="group">Brand</text>
+  <g transform="translate(40,60)">
+    <rect width="160" height="120" fill="#0A1633" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">navy-900</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#0A1633</text>
+  </g>
+  <g transform="translate(210,60)">
+    <rect width="160" height="120" fill="#0F1E3D" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">navy-800</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#0F1E3D</text>
+  </g>
+  <g transform="translate(380,60)">
+    <rect width="160" height="120" fill="#1B2D5C" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">navy-700</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#1B2D5C</text>
+  </g>
+  <g transform="translate(550,60)">
+    <rect width="160" height="120" fill="#FF7A45" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">road-500</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#FF7A45</text>
+  </g>
+  <g transform="translate(720,60)">
+    <rect width="160" height="120" fill="#FF8F66" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">road-400</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#FF8F66</text>
+  </g>
+  <g transform="translate(890,60)">
+    <rect width="160" height="120" fill="#FFF1E8" rx="10" stroke="#E5E7EB"/>
+    <text x="14" y="86" class="label" fill="#0A1633">road-100</text>
+    <text x="14" y="106" class="hex" fill="#0A1633">#FFF1E8</text>
+  </g>
+
+  <!-- NEUTRALS -->
+  <text x="40" y="220" class="group">Neutros</text>
+  <g transform="translate(40,240)">
+    <rect width="160" height="120" fill="#0F172A" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">ink-900</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#0F172A</text>
+  </g>
+  <g transform="translate(210,240)">
+    <rect width="160" height="120" fill="#334155" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">ink-700</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#334155</text>
+  </g>
+  <g transform="translate(380,240)">
+    <rect width="160" height="120" fill="#64748B" rx="10"/>
+    <text x="14" y="86" class="label" fill="#FFFFFF">ink-500</text>
+    <text x="14" y="106" class="hex" fill="#FFFFFF">#64748B</text>
+  </g>
+  <g transform="translate(550,240)">
+    <rect width="160" height="120" fill="#CBD5E1" rx="10"/>
+    <text x="14" y="86" class="label" fill="#0A1633">ink-300</text>
+    <text x="14" y="106" class="hex" fill="#0A1633">#CBD5E1</text>
+  </g>
+  <g transform="translate(720,240)">
+    <rect width="160" height="120" fill="#F1F5F9" rx="10" stroke="#E5E7EB"/>
+    <text x="14" y="86" class="label" fill="#0A1633">ink-100</text>
+    <text x="14" y="106" class="hex" fill="#0A1633">#F1F5F9</text>
+  </g>
+  <g transform="translate(890,240)">
+    <rect width="160" height="120" fill="#FFFFFF" rx="10" stroke="#E5E7EB"/>
+    <text x="14" y="86" class="label" fill="#0A1633">white</text>
+    <text x="14" y="106" class="hex" fill="#0A1633">#FFFFFF</text>
+  </g>
+
+  <!-- STATUS -->
+  <text x="40" y="400" class="group">Status</text>
+  <g transform="translate(40,420)">
+    <rect width="220" height="40" fill="#16A34A" rx="8"/>
+    <text x="14" y="26" class="label" fill="#FFFFFF">green-600 · #16A34A</text>
+  </g>
+  <g transform="translate(280,420)">
+    <rect width="220" height="40" fill="#F59E0B" rx="8"/>
+    <text x="14" y="26" class="label" fill="#FFFFFF">amber-500 · #F59E0B</text>
+  </g>
+</svg>
