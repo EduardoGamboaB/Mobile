@@ -4,71 +4,102 @@
 
 ### Monograma G3 (símbolo)
 
-El símbolo es un cuadrado redondeado con la marca textual "G3" en
-blanco sobre gradiente naranja diagonal. Es la pieza más reconocible
-del grupo y aparece en todas las subsidiarias.
+El símbolo es un **logotipo italic, navy, atravesado por tres líneas
+diagonales** que sugieren movimiento y velocidad. Es la pieza más
+reconocible del grupo y aparece en todas las subsidiarias.
 
-**Construcción geométrica**:
+**Construcción**:
 
-```
-   ┌─────────────────────┐ ← cuadrado contenedor 64×64
-   │   ┌─────────────┐   │   border-radius = 14 (22%)
-   │   │             │   │
-   │   │     G3      │   │ ← caracteres centrados ópticamente
-   │   │             │   │   font-weight: 900
-   │   └─────────────┘   │   letter-spacing: -1
-   └─────────────────────┘
-   gradiente: 135°
-   stop 0%: #FF8F66
-   stop 100%: #FF5E1A
-```
+- Letras "G3" en peso 900 (black), itálica
+- Inclinación: 12° hacia la derecha (sentido de la marcha)
+- Color por defecto: **navy 800 (`#0F1E3D`)** sobre fondo claro
+- Tres líneas diagonales paralelas que cortan transversalmente las
+  letras, rotadas −12° respecto al eje horizontal
+- Espesor de línea: ~4% del cap-height
+- Separación entre líneas: equidistantes en la altura total del
+  monograma
+- Letter-spacing: −5% del font-size (las letras casi se tocan)
+
+**Concepto**: las líneas representan **carretera en velocidad** vista
+desde la cabina y refuerzan que G3 mueve carga, no la estaciona.
 
 Disponible en `assets/logos/`:
 
-- `g3-mark.svg` — monograma a color (orange gradient)
-- `g3-mark-mono-light.svg` — monograma blanco para fondos oscuros
-- `g3-mark-mono-dark.svg` — monograma navy 900 para fondos claros
+- `g3-mark.svg` — monograma navy sobre fondo claro (uso principal)
+- `g3-mark-mono-light.svg` — blanco para fondos navy / oscuros
+- `g3-mark-mono-dark.svg` — negro para alto contraste e impresión
 
 ### Wordmark por entidad
 
-Cada empresa del holding tiene una versión wordmark que combina el
-monograma con el nombre completo en tipografía sólida.
+Cada empresa del holding combina el monograma con un descriptor
+debajo en peso black, mayúsculas y tracking abierto.
 
-| Entidad | Archivo |
-|---|---|
-| G3 (paraguas) | `g3-wordmark.svg` |
-| G3 Logistics | `g3-logistics-wordmark.svg` |
-| G3 Tech | `g3-tech-wordmark.svg` |
-| Fundación G3 | `fundacion-g3-wordmark.svg` |
+| Entidad | Archivo | Descriptor |
+|---|---|---|
+| G3 (paraguas) | `g3-wordmark.svg` | GRUPO G3 |
+| G3 Logistics | `g3-logistics-wordmark.svg` | LOGISTICS |
+| G3 Tech | `g3-tech-wordmark.svg` | TECH |
+| Fundación G3 | `fundacion-g3-wordmark.svg` | FUNDACIÓN |
+
+El descriptor se centra horizontalmente respecto al monograma y se
+separa por una distancia equivalente a 20% del cap-height del propio
+monograma.
 
 ### Reglas de uso
 
-- **Tamaño mínimo**: 24px de alto en digital, 8mm en impreso. Por
-  debajo, el monograma pierde legibilidad.
-- **Área de protección**: zona libre de cualquier elemento = altura
-  de un carácter "G" del propio logo en sus 4 lados.
-- **Color de fondo permitido**: blanco, navy 900, navy 800, naranja
-  (sólo el monograma blanco). Nunca sobre fondos con menos del 60%
-  de contraste WCAG.
-- **Rotación**: nunca. El logo siempre horizontal.
-- **Inclinación o efecto 3D**: nunca.
-- **Sombras o glow**: nunca, el gradiente ya aporta dimensión.
-- **Modificar gradiente, tipografía o proporciones**: nunca.
+- **Tamaño mínimo**: 24 px de alto en digital, 8 mm en impreso.
+  Debajo de ese tamaño las líneas diagonales pierden definición y
+  el monograma se ve como mancha.
+- **Área de protección**: zona libre = altura del descriptor
+  (el "LOGISTICS" / "TECH") en sus 4 lados. Nunca otro elemento
+  invade esta zona.
+- **Colores de fondo permitidos**:
+  - Fondo blanco / muy claro → mark navy (`g3-mark.svg`)
+  - Fondo navy 900/800/700 → mark blanco (`g3-mark-mono-light.svg`)
+  - Fondo naranja road-500 → mark blanco
+  - Fondo en fotografía → solo con capa de contraste navy 900 al 70%
+- **Rotación**: el logo ya viene con su inclinación italic
+  intrínseca. No se rota adicionalmente.
+- **Sombras o glow**: nunca.
+- **Modificación de las líneas diagonales**: nunca (ni quitarlas,
+  ni añadir más, ni cambiar el ángulo).
+- **Forzar el monograma dentro de un cuadro**: nunca lo
+  encerramos en un contenedor (caja, círculo, escudo). El logo
+  vive libre.
+
+### Excepción: favicon e iconos pequeños
+
+Para usos extremos donde el logo debería estar pero el espacio no
+permite el monograma completo (favicon, app icon, avatar de redes),
+se usa una **variante encapsulada**:
+
+- Cuadrado de esquinas redondeadas (radius 16% del lado)
+- Fondo navy 800 sólido
+- Monograma G3 blanco italic + líneas diagonales blancas semi-transparentes (mismo concepto)
+
+Esta variante vive en `website/app/icon.svg` y en los íconos de las
+apps móviles.
 
 ## 2. Paleta cromática
+
+> **Cambio crítico vs versión anterior**: el navy es ahora **el color
+> de identidad de marca** (presente en el logo). El naranja queda
+> reservado como **color de acción** (CTAs, botones primarios,
+> énfasis puntual). Esto crea una jerarquía visual más sobria sin
+> sacrificar energía.
 
 ### Colores corporativos
 
 | Token CSS | Hex | Uso |
 |---|---|---|
-| `--navy-900` | `#0A1633` | Fondos oscuros principales, headers |
-| `--navy-800` | `#0F1E3D` | Hero sections, footer |
+| `--navy-900` | `#0A1633` | Fondos oscuros principales, headers, librea de vehículos |
+| `--navy-800` | `#0F1E3D` | **Color del logo**, hero sections, footer |
 | `--navy-700` | `#1B2D5C` | Botones secundarios, navy decorativo |
-| `--navy-600` | `#2A3F7A` | Hover states de navy |
+| `--navy-600` | `#2A3F7A` | Hover de elementos navy |
 | `--navy-50` | `#F4F6FB` | Fondos suaves, secciones tintadas |
-| `--road-500` | `#FF7A45` | **Color principal de marca**, CTAs |
-| `--road-400` | `#FF8F66` | Hover de naranja, gradientes |
-| `--road-100` | `#FFF1E8` | Backgrounds suaves de énfasis |
+| `--road-500` | `#FF7A45` | **Color de acción** — CTAs primarios, énfasis |
+| `--road-400` | `#FF8F66` | Hover de naranja, gradientes en hero |
+| `--road-100` | `#FFF1E8` | Background suave de énfasis |
 
 ### Neutros (texto y UI)
 
@@ -92,16 +123,29 @@ monograma con el nombre completo en tipografía sólida.
 ### Reglas de combinación
 
 - **Ratio mínimo de contraste**: 4.5:1 (WCAG AA) en cualquier texto
-- **Naranja como acento, no como base**: nunca cubrir más del 15% de
-  un layout en naranja. Es señal, no relleno.
-- **Navy es el color institucional**: fondos serios, comunicación al
-  consejo, propuestas a clientes corporativos.
-- **Naranja es el color de la acción**: CTAs, indicadores de viaje
-  en vivo, alertas operativas.
+- **Naranja como acción, no como base**: nunca cubrir más del 10%
+  de un layout en naranja. Es señal de acción, no decoración.
+- **Navy es la identidad**: dominante en cualquier composición —
+  fondos, logo, tipografía de títulos en contextos claros.
+- **El logo nunca es naranja**: aunque el naranja existe en la
+  paleta, el monograma G3 siempre va en navy (claro) o blanco
+  (oscuro). Naranja como color del logo se vetó por confusión con
+  marcas existentes y por jerarquía con el navy.
 
 Ver swatch en `assets/palette.svg`.
 
 ## 3. Tipografía
+
+### Tipografía del logo
+
+El monograma usa **'Arial Black' / Helvetica Neue Bold / Impact**
+como stack — pesos black 900 disponibles en cualquier sistema
+operativo. Italic y letter-spacing negativo definidos en el SVG.
+
+Para nuevas variantes de wordmark hay que respetar:
+- Peso: 900 (black)
+- Italic intrínseco (no usar `transform: skew`)
+- Letter-spacing: −5% del font-size
 
 ### Tipografía primaria (digital)
 
@@ -112,16 +156,15 @@ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
              "Helvetica Neue", Arial, system-ui, sans-serif;
 ```
 
-Decisión deliberada: las fuentes del sistema son gratuitas, no añaden
-latency, y se ven nativas en cada plataforma. Sólo si en el futuro
+Decisión deliberada: las fuentes del sistema son gratuitas, no
+añaden latency, y se ven nativas en cada plataforma. Si en el futuro
 queremos diferenciación visual fuerte, evaluar **Inter** o **Söhne**.
 
 ### Tipografía secundaria (impreso, presentaciones)
 
-- **Cabeceras**: Inter (Google Fonts, peso 700-900, kerning -0.02em)
+- **Cabeceras**: Inter (peso 700-900, kerning −0.02em)
 - **Cuerpo**: Inter (peso 400, kerning normal)
-- **Datos numéricos**: Inter (peso 600, *tabular-nums* para
-  alineación en columnas)
+- **Datos numéricos**: Inter (peso 600, *tabular-nums*)
 
 ### Jerarquía
 
@@ -136,25 +179,22 @@ queremos diferenciación visual fuerte, evaluar **Inter** o **Söhne**.
 
 ### Reglas
 
-- **Mayúsculas decorativas**: sólo en eyebrows y tags. Nunca en
-  títulos completos.
+- **Mayúsculas decorativas**: solo en eyebrows, tags y descriptores
+  del logo. Nunca en títulos completos.
 - **Cursivas**: para *énfasis editorial* o nombres de productos en
   contexto narrativo. Nunca para títulos.
-- **Subrayado**: solo en hipervínculos en cuerpo de texto.
+- **Subrayado**: solo en hipervínculos de cuerpo de texto.
 
 ## 4. Iconografía
 
 ### Sistema
 
-- **Stroke**: 1.8px en grids de 24×24
+- **Stroke**: 1.8 px en grids de 24×24
 - **Estilo**: línea (outlined), no fill
-- **Esquinas**: redondeadas (stroke-linecap: round)
-- **Color**: hereda del texto contenedor (`currentColor`)
+- **Esquinas**: redondeadas (`stroke-linecap: round`)
+- **Color**: hereda del contenedor (`currentColor`)
 
-Esto permite que cualquier icono se monte sobre cualquier color sin
-hacer variantes.
-
-### Set base (entregado)
+### Set base entregado
 
 Implementado en `website/components/Icon.tsx`:
 
@@ -171,41 +211,40 @@ Implementado en `website/components/Icon.tsx`:
 
 ### Fotografía
 
-- **Sí**: tractos en carretera (cielo real, polvo real, no
-  postproducción exagerada). Manos de operadores trabajando. Detalle
-  de cabina, papeles, comida en carretera.
+- **Sí**: tractos en carretera (cielo real, polvo real, sin
+  postproducción exagerada). Manos de operadores trabajando.
+  Detalle de cabina, papeles, comida en carretera.
 - **Sí**: gente real del equipo (no stock).
-- **No**: fotos genéricas de stock con corbata, laptop y sonrisa
-  perfecta. No camiones color flúor.
-- **No**: filtros de Instagram, viñeteado fuerte, virados de color.
+- **No**: fotos genéricas de stock con corbata, laptop y sonrisa.
+  Camiones color flúor.
+- **No**: filtros de Instagram, viñeteado fuerte, virados.
 - **Estilo de edición**: natural, exposición correcta, saturación
-  ligeramente reducida (-5%), nitidez normal.
+  ligeramente reducida (−5%), nitidez normal.
 
 ### Ilustración
 
 - Cuando hace falta ilustrar (UI mocks, diagramas), usar el **mismo
-  set de iconos** y la **paleta corporativa**. Nunca usar packs de
-  ilustraciones genéricas tipo "blob people".
+  set de iconos** y la **paleta corporativa**.
 - Diagramas técnicos: trazo limpio, navy sobre blanco, naranja
-  como acento.
+  como acento puntual.
 
 ### Visualización de datos
 
 - **Datos cuantitativos**: barras y áreas en navy. Líneas en
-  naranja para énfasis (ej. la métrica que importa hoy).
-- **Datos categóricos**: paleta extendida partiendo del navy 700,
-  navy 600, road 500, road 400, green 600. Máximo 5 categorías por
-  gráfica.
-- **Ejes y grids**: ink-300 al 50%. No usar gridlines fuertes.
+  naranja para énfasis (la métrica que importa hoy).
+- **Datos categóricos**: paleta extendida partiendo de navy 700,
+  navy 600, road 500, road 400, green 600. Máximo 5 categorías
+  por gráfica.
+- **Ejes y grids**: ink-300 al 50%. No gridlines fuertes.
 
 ## 6. Layout y espaciado
 
 ### Container
 
-- Ancho máximo: **1180px**
+- Ancho máximo: **1180 px**
 - Padding horizontal responsivo: `clamp(16px, 4vw, 32px)`
 
-### Sistema de espaciado (escala de 8px)
+### Sistema de espaciado (escala de 8 px)
 
 | Token | px | Uso |
 |---|---|---|
@@ -221,9 +260,9 @@ Implementado en `website/components/Icon.tsx`:
 
 | Token | Valor | Uso |
 |---|---|---|
-| radius-sm | 8px | Inputs, badges |
-| radius | 14px | Botones, modales pequeños |
-| radius-lg | 22px | Cards, contenedores |
+| radius-sm | 8 px | Inputs, badges |
+| radius | 14 px | Botones, modales pequeños |
+| radius-lg | 22 px | Cards, contenedores |
 | 999px | full | Pills, botones redondos |
 
 ### Sombras
@@ -248,3 +287,4 @@ manteniendo nombres idénticos.
 | Versión | Fecha | Cambio |
 |---|---|---|
 | 1.0 | 2026-05-18 | Documento inicial |
+| 1.1 | 2026-05-18 | Logo italic navy con speed lines (referencia G3 Logistics). Naranja pasa de identidad a acento de acción. |

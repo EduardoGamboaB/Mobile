@@ -111,8 +111,9 @@ Diseño minimalista y legible a distancia:
 
 ### Patios y CEDIS
 
-- **Letrero exterior**: G3 wordmark grande, iluminado, navy
-  background, monograma naranja.
+- **Letrero exterior**: G3 wordmark grande, iluminado. Versión
+  blanca del monograma sobre fondo navy 900; o monograma navy
+  sobre placa blanca retroiluminada.
 - **Numeración de andenes**: navy con números blancos, peso 900.
 - **Señalética de seguridad**: 100% en normativa STPS/NOM-026
   (colores estándar de seguridad). La marca no compite con

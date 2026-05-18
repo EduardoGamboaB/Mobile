@@ -467,23 +467,41 @@ header.site {
 }
 
 .brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
   color: var(--white);
+  text-decoration: none;
 }
 .brand__mark {
-  width: 30px; height: 30px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--road-500), var(--road-400));
-  display: grid; place-items: center;
+  width: 56px;
+  height: 38px;
   color: var(--white);
-  font-weight: 900;
-  font-size: 0.9rem;
+  flex-shrink: 0;
 }
+.brand__wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  line-height: 1;
+}
+.brand__name {
+  font-family: 'Arial Black', 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 900;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--white);
+}
+
+/* En fondos claros (si alguna vez el header se invierte) */
+.section--tint .brand,
+header.site--inverse .brand {
+  color: var(--navy-900);
+}
+.section--tint .brand__name,
+header.site--inverse .brand__name {
+  color: var(--navy-900);
+}
+
 
 footer.site {
   background: var(--navy-900);

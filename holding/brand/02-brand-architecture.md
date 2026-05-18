@@ -27,7 +27,7 @@ G3 Holding    G3 Logistics      G3 Tech         Fundación G3
 Atributos compartidos por todo el grupo. Nadie compra "G3" directamente
 — es el sello de pertenencia.
 
-- Logo monograma G3 en gradiente naranja
+- Logo monograma G3 italic navy con tres líneas diagonales
 - Paleta corporativa navy + naranja carretera
 - Tipografía de sistema
 - Promesa: *"Tu carga, en vivo. Nuestra tecnología, abierta."*

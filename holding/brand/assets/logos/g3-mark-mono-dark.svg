@@ -1,6 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="G3 (sobre fondo claro)">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" role="img" aria-label="G3 (alto contraste)">
   <title>G3</title>
-  <rect width="256" height="256" rx="56" fill="none" stroke="#0A1633" stroke-width="4"/>
-  <text x="128" y="174" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif"
-        font-size="118" font-weight="900" fill="#0A1633" text-anchor="middle" letter-spacing="-4">G3</text>
+  <defs>
+    <mask id="speedLinesG3Dark">
+      <rect width="400" height="240" fill="white"/>
+      <g transform="rotate(-12 200 120)">
+        <rect x="-60" y="56"  width="520" height="10" fill="black"/>
+        <rect x="-60" y="112" width="520" height="10" fill="black"/>
+        <rect x="-60" y="168" width="520" height="10" fill="black"/>
+      </g>
+    </mask>
+  </defs>
+  <text x="200" y="200"
+        font-family="'Arial Black', 'Helvetica Neue', Helvetica, Impact, sans-serif"
+        font-size="250" font-weight="900"
+        font-style="italic"
+        fill="#000000"
+        text-anchor="middle"
+        letter-spacing="-12"
+        mask="url(#speedLinesG3Dark)">G3</text>
 </svg>

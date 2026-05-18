@@ -1,18 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 128" role="img" aria-label="Fundación G3">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 340" role="img" aria-label="Fundación G3">
   <title>Fundación G3</title>
   <defs>
-    <linearGradient id="g3FG" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FF8F66"/>
-      <stop offset="100%" stop-color="#FF5E1A"/>
-    </linearGradient>
+    <mask id="speedLinesGF">
+      <rect width="560" height="340" fill="white"/>
+      <g transform="rotate(-12 280 130)">
+        <rect x="-60" y="64"  width="700" height="12" fill="black"/>
+        <rect x="-60" y="124" width="700" height="12" fill="black"/>
+        <rect x="-60" y="184" width="700" height="12" fill="black"/>
+      </g>
+    </mask>
   </defs>
-  <rect x="0" y="0" width="128" height="128" rx="28" fill="url(#g3FG)"/>
-  <text x="64" y="92" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif"
-        font-size="62" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="-2.5">G3</text>
-  <g transform="translate(156,12)">
-    <text x="0" y="70" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif"
-          font-size="48" font-weight="700" fill="#0A1633" letter-spacing="-1">Fundación</text>
-    <text x="0" y="100" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif"
-          font-size="16" font-weight="600" fill="#64748B" letter-spacing="2.2">OPERADORES Y COMUNIDAD</text>
-  </g>
+  <text x="280" y="216"
+        font-family="'Arial Black', 'Helvetica Neue', Helvetica, Impact, sans-serif"
+        font-size="270" font-weight="900"
+        font-style="italic"
+        fill="#0F1E3D"
+        text-anchor="middle"
+        letter-spacing="-14"
+        mask="url(#speedLinesGF)">G3</text>
+  <text x="280" y="296"
+        font-family="'Arial Black', 'Helvetica Neue', Helvetica, sans-serif"
+        font-size="48" font-weight="800"
+        fill="#0F1E3D"
+        text-anchor="middle"
+        letter-spacing="4">FUNDACIÓN</text>
 </svg>
