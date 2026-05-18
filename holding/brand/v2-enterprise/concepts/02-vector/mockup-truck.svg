@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 600" role="img" aria-label="Tracto Vector">
+  <title>Tracto · Vector</title>
+  <rect width="1400" height="600" fill="#E7E9EC"/>
+  <line x1="0" y1="500" x2="1400" y2="500" stroke="#101317" stroke-dasharray="4 6"/>
+  <!-- CAJA -->
+  <g>
+    <rect x="20" y="180" width="780" height="280" fill="#101317"/>
+    <!-- Detalle volt line -->
+    <line x1="20" y1="240" x2="800" y2="240" stroke="#7DF9A4" stroke-width="3"/>
+    <line x1="20" y1="248" x2="600" y2="248" stroke="#7DF9A4" stroke-width="1" opacity="0.6"/>
+    <!-- Mark grande -->
+    <g transform="translate(120,280)">
+      <g fill="none" stroke="#E7E9EC" stroke-linecap="square">
+        <path d="M 70,0 L 30,0 L 20,20 L 20,60 L 30,80 L 70,80" stroke-width="11"/>
+        <path d="M 70,80 L 70,40 L 45,40" stroke-width="8"/>
+        <path d="M 87,0 L 135,0 L 145,20 L 135,40 L 100,40" stroke-width="11"/>
+        <path d="M 87,80 L 135,80 L 145,60 L 135,40 L 100,40" stroke-width="11"/>
+      </g>
+    </g>
+    <text x="320" y="320" font-family="'Space Grotesk', sans-serif"
+          font-size="58" font-weight="700" fill="#E7E9EC" letter-spacing="-3">logistics</text>
+    <text x="320" y="354" font-family="'JetBrains Mono', monospace"
+          font-size="14" fill="#7DF9A4" letter-spacing="4">/ INTELLIGENT MOBILITY · UNIT 0042</text>
+    <circle cx="180" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+    <circle cx="280" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+    <circle cx="700" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+  </g>
+  <!-- TRACTO -->
+  <g>
+    <path d="M 820,460 L 820,340 L 900,260 L 1080,260 L 1080,460 Z" fill="#101317"/>
+    <rect x="1080" y="380" width="40" height="80" fill="#101317"/>
+    <path d="M 920,280 L 1060,280 L 1060,350 L 850,350 Z" fill="#1F3A8A" opacity="0.7"/>
+    <line x1="820" y1="448" x2="1120" y2="448" stroke="#7DF9A4" stroke-width="3"/>
+    <!-- Mark sobre puerta -->
+    <g transform="translate(980,380)">
+      <g fill="none" stroke="#E7E9EC" stroke-linecap="square">
+        <path d="M 35,0 L 15,0 L 10,10 L 10,30 L 15,40 L 35,40" stroke-width="5"/>
+        <path d="M 35,40 L 35,20 L 22,20" stroke-width="4"/>
+        <path d="M 43,0 L 68,0 L 73,10 L 68,20 L 50,20" stroke-width="5"/>
+        <path d="M 43,40 L 68,40 L 73,30 L 68,20 L 50,20" stroke-width="5"/>
+      </g>
+    </g>
+    <circle cx="900" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+    <circle cx="1010" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+    <circle cx="1100" cy="500" r="38" fill="#101317" stroke="#1F3A8A" stroke-width="3"/>
+  </g>
+  <!-- Anotaciones -->
+  <g font-family="'JetBrains Mono', monospace" font-size="11" fill="#101317">
+    <text x="1180" y="280">VECTOR-MARK + WORDMARK</text>
+    <text x="1180" y="296">VOLT-LINE → STATUS RAIL</text>
+    <text x="1180" y="312">COBALT-RING → WHEELS</text>
+  </g>
+</svg>

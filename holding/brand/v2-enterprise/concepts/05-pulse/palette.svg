@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" role="img" aria-label="Paleta Pulse">
+  <title>Paleta Pulse</title>
+  <style>
+    .lbl { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; }
+    .hex { font-family: 'Inter', monospace; font-size: 11px; opacity: 0.7; font-feature-settings: 'tnum'; }
+  </style>
+  <rect width="1200" height="200" fill="#FAFAF7"/>
+  <g transform="translate(20,30)"><rect width="180" height="140" fill="#0D0F12"/><text x="14" y="100" class="lbl" fill="#FAFAF7">Ink</text><text x="14" y="120" class="hex" fill="#FAFAF7">#0D0F12</text></g>
+  <g transform="translate(210,30)"><rect width="180" height="140" fill="#535862"/><text x="14" y="100" class="lbl" fill="#FAFAF7">Slate</text><text x="14" y="120" class="hex" fill="#FAFAF7">#535862</text></g>
+  <g transform="translate(400,30)"><rect width="180" height="140" fill="#E5E7EB"/><text x="14" y="100" class="lbl" fill="#0D0F12">Fog</text><text x="14" y="120" class="hex" fill="#0D0F12">#E5E7EB</text></g>
+  <g transform="translate(590,30)"><rect width="180" height="140" fill="#FAFAF7" stroke="#E5E7EB"/><text x="14" y="100" class="lbl" fill="#0D0F12">Paper</text><text x="14" y="120" class="hex" fill="#0D0F12">#FAFAF7</text></g>
+  <g transform="translate(780,30)"><rect width="180" height="140" fill="#0066FF"/><text x="14" y="100" class="lbl" fill="#FAFAF7">Electric</text><text x="14" y="120" class="hex" fill="#FAFAF7">#0066FF</text></g>
+  <g transform="translate(970,30)"><rect width="180" height="140" fill="#C9A36B"/><text x="14" y="100" class="lbl" fill="#0D0F12">Sand</text><text x="14" y="120" class="hex" fill="#0D0F12">#C9A36B</text></g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" role="img" aria-label="G3 Logistics">
+  <title>G3 Logistics — Vector</title>
+  <g fill="none" stroke="#101317" stroke-linecap="square">
+    <path d="M 140,40 L 60,40 L 40,80 L 40,160 L 60,200 L 140,200" stroke-width="22"/>
+    <path d="M 140,200 L 140,120 L 90,120" stroke-width="16"/>
+    <path d="M 60,210 L 150,210" stroke-width="6" stroke="#1F3A8A"/>
+    <path d="M 175,40 L 270,40 L 290,80 L 270,118 L 200,118" stroke-width="22"/>
+    <path d="M 175,200 L 270,200 L 290,160 L 270,122 L 200,122" stroke-width="22"/>
+    <path d="M 270,118 L 295,118" stroke-width="6" stroke="#1F3A8A"/>
+    <path d="M 270,122 L 295,122" stroke-width="6" stroke="#1F3A8A"/>
+  </g>
+  <g transform="translate(340,110)">
+    <text font-family="'Space Grotesk', 'Inter Display', sans-serif"
+          font-size="48" font-weight="700" fill="#101317" letter-spacing="-2">logistics</text>
+    <text y="38" font-family="'Geist Mono', 'JetBrains Mono', monospace"
+          font-size="13" font-weight="500" fill="#1F3A8A" letter-spacing="4">/ INTELLIGENT MOBILITY</text>
+  </g>
+</svg>

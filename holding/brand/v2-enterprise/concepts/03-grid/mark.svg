@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="G3 Grid">
+  <title>G3 — Concepto Grid</title>
+  <!-- Cada punto es 16×16 con 4 de gap. Grid de 16×10 -->
+  <g fill="#0A0A0F">
+    <!-- Letra G como pixel pattern (5×6) -->
+    <!-- Fila 1 -->
+    <rect x="40" y="40"  width="16" height="16"/><rect x="60" y="40"  width="16" height="16"/><rect x="80" y="40"  width="16" height="16"/><rect x="100" y="40" width="16" height="16"/><rect x="120" y="40" width="16" height="16"/>
+    <!-- Fila 2 -->
+    <rect x="40" y="60"  width="16" height="16"/>
+    <!-- Fila 3 -->
+    <rect x="40" y="80"  width="16" height="16"/>
+    <!-- Fila 4 (puente medio) -->
+    <rect x="40" y="100" width="16" height="16"/><rect x="80" y="100" width="16" height="16"/><rect x="100" y="100" width="16" height="16"/><rect x="120" y="100" width="16" height="16"/>
+    <!-- Fila 5 -->
+    <rect x="40" y="120" width="16" height="16"/><rect x="120" y="120" width="16" height="16"/>
+    <!-- Fila 6 -->
+    <rect x="40" y="140" width="16" height="16"/><rect x="120" y="140" width="16" height="16"/>
+    <!-- Fila 7 -->
+    <rect x="40" y="160" width="16" height="16"/><rect x="60" y="160" width="16" height="16"/><rect x="80" y="160" width="16" height="16"/><rect x="100" y="160" width="16" height="16"/><rect x="120" y="160" width="16" height="16"/>
+  </g>
+
+  <!-- Letra 3 -->
+  <g fill="#0A0A0F">
+    <rect x="170" y="40" width="16" height="16"/><rect x="190" y="40" width="16" height="16"/><rect x="210" y="40" width="16" height="16"/><rect x="230" y="40" width="16" height="16"/><rect x="250" y="40" width="16" height="16"/>
+    <rect x="250" y="60" width="16" height="16"/>
+    <rect x="250" y="80" width="16" height="16"/>
+    <rect x="190" y="100" width="16" height="16"/><rect x="210" y="100" width="16" height="16"/><rect x="230" y="100" width="16" height="16"/><rect x="250" y="100" width="16" height="16"/>
+    <rect x="250" y="120" width="16" height="16"/>
+    <rect x="250" y="140" width="16" height="16"/>
+    <rect x="170" y="160" width="16" height="16"/><rect x="190" y="160" width="16" height="16"/><rect x="210" y="160" width="16" height="16"/><rect x="230" y="160" width="16" height="16"/><rect x="250" y="160" width="16" height="16"/>
+  </g>
+
+  <!-- Cuatro puntos activos en iris (sugieren data live) -->
+  <g fill="#5B6CFF">
+    <rect x="120" y="40"  width="16" height="16"/>
+    <rect x="40"  y="160" width="16" height="16"/>
+    <rect x="250" y="100" width="16" height="16"/>
+    <rect x="170" y="160" width="16" height="16"/>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="App icon Grid">
+  <title>App icon · Grid</title>
+  <rect width="512" height="512" rx="112" fill="#0A0A0F"/>
+  <g fill="#F0F1F4" transform="translate(76,148)">
+    <rect x="0"   y="0"   width="34" height="34"/><rect x="40"  y="0"   width="34" height="34"/><rect x="80"  y="0"   width="34" height="34"/><rect x="120" y="0"   width="34" height="34"/><rect x="160" y="0"   width="34" height="34"/>
+    <rect x="0"   y="40"  width="34" height="34"/>
+    <rect x="0"   y="80"  width="34" height="34"/>
+    <rect x="0"   y="120" width="34" height="34"/><rect x="80"  y="120" width="34" height="34"/><rect x="120" y="120" width="34" height="34"/><rect x="160" y="120" width="34" height="34"/>
+    <rect x="0"   y="160" width="34" height="34"/><rect x="160" y="160" width="34" height="34"/>
+    <rect x="0"   y="200" width="34" height="34"/><rect x="160" y="200" width="34" height="34"/>
+    <rect x="0"   y="240" width="34" height="34"/><rect x="40"  y="240" width="34" height="34"/><rect x="80"  y="240" width="34" height="34"/><rect x="120" y="240" width="34" height="34"/><rect x="160" y="240" width="34" height="34"/>
+    <rect x="216" y="0"   width="34" height="34"/><rect x="256" y="0"   width="34" height="34"/><rect x="296" y="0"   width="34" height="34"/><rect x="336" y="0"   width="34" height="34"/>
+    <rect x="336" y="40"  width="34" height="34"/>
+    <rect x="336" y="80"  width="34" height="34"/>
+    <rect x="256" y="120" width="34" height="34"/><rect x="296" y="120" width="34" height="34"/><rect x="336" y="120" width="34" height="34"/>
+    <rect x="336" y="160" width="34" height="34"/>
+    <rect x="336" y="200" width="34" height="34"/>
+    <rect x="216" y="240" width="34" height="34"/><rect x="256" y="240" width="34" height="34"/><rect x="296" y="240" width="34" height="34"/><rect x="336" y="240" width="34" height="34"/>
+  </g>
+  <g fill="#5B6CFF" transform="translate(76,148)">
+    <rect x="160" y="0"   width="34" height="34"/>
+    <rect x="336" y="120" width="34" height="34"/>
+  </g>
+</svg>

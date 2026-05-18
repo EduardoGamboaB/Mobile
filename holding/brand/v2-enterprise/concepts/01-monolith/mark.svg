@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" role="img" aria-label="G3 Monolith">
+  <title>G3 — Concepto Monolith</title>
+  <!-- Bloque base macizo -->
+  <rect width="300" height="200" fill="#0B0D10"/>
+  <!-- Sustracciones para formar G3 (negativo perfecto) -->
+  <g fill="#F5F4F1">
+    <!-- Letra G: ranura horizontal superior, ranura vertical derecha, ranura inferior, hueco central -->
+    <rect x="40" y="40" width="92" height="20"/>
+    <rect x="40" y="40" width="20" height="120"/>
+    <rect x="40" y="140" width="92" height="20"/>
+    <rect x="112" y="100" width="20" height="60"/>
+    <rect x="80" y="92" width="52" height="20"/>
+    <!-- Letra 3: tres barras horizontales + barra vertical derecha (parcial) -->
+    <rect x="168" y="40" width="92" height="20"/>
+    <rect x="168" y="90" width="92" height="20"/>
+    <rect x="168" y="140" width="92" height="20"/>
+    <rect x="240" y="40" width="20" height="120"/>
+  </g>
+  <!-- Borde fino titanium (solo se ve en zooms grandes) -->
+  <rect width="300" height="200" fill="none" stroke="#9CA3AF" stroke-width="0.5"/>
+</svg>

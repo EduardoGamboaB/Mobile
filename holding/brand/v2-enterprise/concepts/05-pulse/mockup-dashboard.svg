@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" role="img" aria-label="Dashboard Pulse">
+  <title>Dashboard · Pulse</title>
+  <rect width="1400" height="800" fill="#FAFAF7"/>
+  <rect x="0" y="0" width="1400" height="72" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <!-- Brand mini -->
+  <text x="32" y="48" font-family="'PP Editorial New', serif" font-size="32" font-weight="500" font-style="italic" fill="#0D0F12" letter-spacing="-1">G3</text>
+  <circle cx="76" cy="34" r="3.5" fill="#0066FF"/>
+  <text x="88" y="44" font-family="'Inter', sans-serif" font-size="14" font-weight="500" fill="#0D0F12">Logistics</text>
+  <!-- Nav links -->
+  <g font-family="'Inter', sans-serif" font-size="13" fill="#535862">
+    <text x="240" y="44">Overview</text>
+    <text x="320" y="44">Fleet</text>
+    <text x="380" y="44">Trips</text>
+    <text x="440" y="44">Analytics</text>
+    <text x="520" y="44">Billing</text>
+  </g>
+  <text x="1300" y="44" font-family="'Inter', sans-serif" font-size="13" fill="#0D0F12" text-anchor="end">María R.</text>
+
+  <g transform="translate(40, 110)">
+    <rect width="380" height="180" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Active units</text>
+    <text x="24" y="106" font-family="'Inter', sans-serif" font-size="56" font-weight="600" fill="#0D0F12" letter-spacing="-2">147</text>
+    <text x="24" y="138" font-family="'Inter', sans-serif" font-size="13" fill="#0066FF">↗ +12 in last 24h</text>
+  </g>
+
+  <g transform="translate(440, 110)">
+    <rect width="380" height="180" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">On-time deliveries</text>
+    <text x="24" y="106" font-family="'Inter', sans-serif" font-size="56" font-weight="600" fill="#0D0F12" letter-spacing="-2">99.4<tspan font-size="32" fill="#535862">%</tspan></text>
+    <text x="24" y="138" font-family="'Inter', sans-serif" font-size="13" fill="#535862">30-day rolling avg</text>
+  </g>
+
+  <g transform="translate(840, 110)">
+    <rect width="520" height="180" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Requires attention</text>
+    <text x="24" y="106" font-family="'Inter', sans-serif" font-size="56" font-weight="600" fill="#0D0F12" letter-spacing="-2">2</text>
+    <text x="24" y="138" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Units flagged · Engine, Route</text>
+    <rect x="380" y="80" width="116" height="36" rx="6" fill="#0066FF"/>
+    <text x="438" y="103" font-family="'Inter', sans-serif" font-size="13" fill="#FAFAF7" font-weight="500" text-anchor="middle">Review</text>
+  </g>
+
+  <g transform="translate(40, 310)">
+    <rect width="780" height="380" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Fleet map · Mexico</text>
+    <g fill="#0D0F12">
+      <circle cx="180" cy="200" r="4"/>
+      <circle cx="240" cy="180" r="4"/>
+      <circle cx="320" cy="220" r="4"/>
+      <circle cx="500" cy="240" r="4"/>
+      <circle cx="580" cy="190" r="4"/>
+      <circle cx="660" cy="280" r="4"/>
+    </g>
+    <circle cx="420" cy="160" r="6" fill="#0066FF"/>
+    <circle cx="380" cy="320" r="6" fill="#0066FF"/>
+  </g>
+
+  <g transform="translate(840, 310)">
+    <rect width="520" height="180" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Revenue · MTD</text>
+    <text x="24" y="106" font-family="'Inter', sans-serif" font-size="48" font-weight="600" fill="#0D0F12" letter-spacing="-2">$8,412,000 <tspan font-size="20" fill="#0066FF">+18%</tspan></text>
+    <text x="24" y="138" font-family="'Inter', sans-serif" font-size="13" fill="#535862">MXN · net · vs previous month</text>
+  </g>
+
+  <g transform="translate(840, 510)">
+    <rect width="520" height="180" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <text x="24" y="40" font-family="'Inter', sans-serif" font-size="13" fill="#535862">AI assist · last 24h</text>
+    <text x="24" y="106" font-family="'Inter', sans-serif" font-size="48" font-weight="600" fill="#0D0F12" letter-spacing="-2">12,840</text>
+    <text x="24" y="138" font-family="'Inter', sans-serif" font-size="13" fill="#535862">Inferences · 6 agents online</text>
+  </g>
+</svg>

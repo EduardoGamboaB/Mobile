@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" role="img" aria-label="G3 Logistics">
+  <title>G3 Logistics — Pulse</title>
+  <rect width="800" height="200" fill="#FAFAF7"/>
+  <text x="40" y="140"
+        font-family="'PP Editorial New', 'Söhne', 'Inter Display', serif"
+        font-size="120" font-weight="500"
+        font-style="italic"
+        fill="#0D0F12"
+        letter-spacing="-6">G3</text>
+  <circle cx="220" cy="105" r="5" fill="#0066FF"/>
+  <text x="252" y="118"
+        font-family="'Inter', 'Helvetica Neue', sans-serif"
+        font-size="48" font-weight="500"
+        fill="#0D0F12"
+        letter-spacing="-1">Logistics</text>
+  <text x="252" y="148"
+        font-family="'Inter', sans-serif"
+        font-size="12" font-weight="500"
+        fill="#535862"
+        letter-spacing="2">INTELLIGENT FREIGHT INFRASTRUCTURE</text>
+</svg>

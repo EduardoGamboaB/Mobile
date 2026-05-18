@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" role="img" aria-label="Paleta Forge">
+  <title>Paleta Forge</title>
+  <style>
+    .lbl { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 2px; }
+    .hex { font-family: 'Roboto Mono', monospace; font-size: 11px; opacity: 0.75; }
+  </style>
+  <rect width="1200" height="200" fill="#EFEAE0"/>
+  <g transform="translate(20,30)"><rect width="180" height="140" fill="#0E1112"/><text x="14" y="100" class="lbl" fill="#EFEAE0">CAST IRON</text><text x="14" y="120" class="hex" fill="#EFEAE0">#0E1112</text></g>
+  <g transform="translate(210,30)"><rect width="180" height="140" fill="#3A3F45"/><text x="14" y="100" class="lbl" fill="#EFEAE0">BRUSHED STEEL</text><text x="14" y="120" class="hex" fill="#EFEAE0">#3A3F45</text></g>
+  <g transform="translate(400,30)"><rect width="180" height="140" fill="#A1A6AB"/><text x="14" y="100" class="lbl" fill="#0E1112">CONCRETE</text><text x="14" y="120" class="hex" fill="#0E1112">#A1A6AB</text></g>
+  <g transform="translate(590,30)"><rect width="180" height="140" fill="#EFEAE0" stroke="#0E1112"/><text x="14" y="100" class="lbl" fill="#0E1112">BONE</text><text x="14" y="120" class="hex" fill="#0E1112">#EFEAE0</text></g>
+  <g transform="translate(780,30)"><rect width="180" height="140" fill="#CC2229"/><text x="14" y="100" class="lbl" fill="#EFEAE0">CAT RED</text><text x="14" y="120" class="hex" fill="#EFEAE0">#CC2229</text></g>
+  <g transform="translate(970,30)"><rect width="180" height="140" fill="#FFD400"/><text x="14" y="100" class="lbl" fill="#0E1112">HI-VIS</text><text x="14" y="120" class="hex" fill="#0E1112">#FFD400</text></g>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" role="img" aria-label="G3 Logistics">
+  <title>G3 Logistics — Monolith</title>
+  <!-- Mark -->
+  <rect x="0" y="0" width="300" height="200" fill="#0B0D10"/>
+  <g fill="#F5F4F1">
+    <rect x="40" y="40" width="92" height="20"/>
+    <rect x="40" y="40" width="20" height="120"/>
+    <rect x="40" y="140" width="92" height="20"/>
+    <rect x="112" y="100" width="20" height="60"/>
+    <rect x="80" y="92" width="52" height="20"/>
+    <rect x="168" y="40" width="92" height="20"/>
+    <rect x="168" y="90" width="92" height="20"/>
+    <rect x="168" y="140" width="92" height="20"/>
+    <rect x="240" y="40" width="20" height="120"/>
+  </g>
+  <!-- Wordmark -->
+  <g transform="translate(340, 92)">
+    <text font-family="'JetBrains Mono', 'Courier New', monospace"
+          font-size="36" font-weight="700" fill="#0B0D10"
+          letter-spacing="6">LOGISTICS</text>
+    <text y="38" font-family="'JetBrains Mono', 'Courier New', monospace"
+          font-size="14" font-weight="500" fill="#9CA3AF"
+          letter-spacing="3">HOLDING / GROUP G3 / MX</text>
+  </g>
+</svg>

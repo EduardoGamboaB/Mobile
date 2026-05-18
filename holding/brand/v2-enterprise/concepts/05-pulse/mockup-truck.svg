@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 600" role="img" aria-label="Tracto Pulse">
+  <title>Tracto · Pulse</title>
+  <rect width="1400" height="600" fill="#FAFAF7"/>
+  <line x1="0" y1="500" x2="1400" y2="500" stroke="#0D0F12" stroke-dasharray="2 6"/>
+  <!-- CAJA blanco premium -->
+  <rect x="20" y="180" width="780" height="280" fill="#FAFAF7" stroke="#0D0F12" stroke-width="1.5"/>
+  <!-- Wordmark grande en italic editorial -->
+  <text x="180" y="300" font-family="'PP Editorial New', 'Söhne', serif" font-size="100" font-weight="500" font-style="italic" fill="#0D0F12" letter-spacing="-5">G3</text>
+  <circle cx="290" cy="265" r="5" fill="#0066FF"/>
+  <text x="310" y="282" font-family="'Inter', sans-serif" font-size="48" font-weight="500" fill="#0D0F12" letter-spacing="-1">Logistics</text>
+  <text x="310" y="312" font-family="'Inter', sans-serif" font-size="11" font-weight="500" fill="#535862" letter-spacing="2">INTELLIGENT FREIGHT INFRASTRUCTURE</text>
+  <!-- Línea inferior delgadísima -->
+  <rect x="20" y="450" width="780" height="1" fill="#0D0F12"/>
+  <text x="20" y="478" font-family="'Inter', monospace" font-size="11" fill="#535862" letter-spacing="2">UNIT-0042 · 53' DRY VAN · MX</text>
+  <circle cx="180" cy="500" r="38" fill="#0D0F12"/>
+  <circle cx="280" cy="500" r="38" fill="#0D0F12"/>
+  <circle cx="700" cy="500" r="38" fill="#0D0F12"/>
+  <!-- TRACTO -->
+  <g>
+    <path d="M 820,460 L 820,340 L 900,260 L 1080,260 L 1080,460 Z" fill="#FAFAF7" stroke="#0D0F12" stroke-width="1.5"/>
+    <rect x="1080" y="380" width="40" height="80" fill="#FAFAF7" stroke="#0D0F12" stroke-width="1.5"/>
+    <path d="M 920,280 L 1060,280 L 1060,350 L 850,350 Z" fill="#E5E7EB"/>
+    <!-- Solo el monograma G3 en la puerta -->
+    <text x="980" y="430" font-family="'PP Editorial New', serif" font-size="48" font-weight="500" font-style="italic" fill="#0D0F12" letter-spacing="-2">G3</text>
+    <circle cx="1042" cy="408" r="3" fill="#0066FF"/>
+    <circle cx="900" cy="500" r="38" fill="#0D0F12"/>
+    <circle cx="1010" cy="500" r="38" fill="#0D0F12"/>
+    <circle cx="1100" cy="500" r="38" fill="#0D0F12"/>
+  </g>
+  <g font-family="'Inter', monospace" font-size="11" fill="#535862">
+    <text x="1180" y="280">PURE TYPOGRAPHY</text>
+    <text x="1180" y="296">NO HEAVY DECORATION</text>
+    <text x="1180" y="312">ELECTRIC DOT · BRAND SIGNATURE</text>
+  </g>
+</svg>

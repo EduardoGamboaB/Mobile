@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="App icon Monolith">
+  <title>App icon · Monolith</title>
+  <rect width="512" height="512" rx="112" fill="#0B0D10"/>
+  <g fill="#F5F4F1" transform="translate(76,156)">
+    <rect x="0" y="0" width="160" height="35"/>
+    <rect x="0" y="0" width="35" height="200"/>
+    <rect x="0" y="165" width="160" height="35"/>
+    <rect x="125" y="100" width="35" height="100"/>
+    <rect x="80" y="90" width="80" height="35"/>
+    <rect x="200" y="0" width="160" height="35"/>
+    <rect x="200" y="83" width="160" height="35"/>
+    <rect x="200" y="165" width="160" height="35"/>
+    <rect x="325" y="0" width="35" height="200"/>
+  </g>
+  <rect x="0" y="490" width="512" height="6" fill="#D72638"/>
+</svg>

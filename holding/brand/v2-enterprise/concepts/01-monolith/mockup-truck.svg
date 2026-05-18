@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 600" role="img" aria-label="Tracto Monolith">
+  <title>Aplicación: tracto + caja seca · Monolith</title>
+  <rect width="1400" height="600" fill="#F5F4F1"/>
+  <!-- Suelo -->
+  <line x1="0" y1="500" x2="1400" y2="500" stroke="#9CA3AF" stroke-dasharray="4 8"/>
+  <!-- CAJA SECA -->
+  <g>
+    <rect x="20" y="180" width="780" height="280" fill="#0B0D10"/>
+    <!-- Línea técnica naranja crítica (signal) -->
+    <rect x="20" y="450" width="780" height="6" fill="#D72638"/>
+    <!-- Mark en costado -->
+    <g transform="translate(180,240)">
+      <rect width="180" height="120" fill="#F5F4F1"/>
+      <g fill="#0B0D10">
+        <rect x="24" y="24" width="55" height="12"/>
+        <rect x="24" y="24" width="12" height="72"/>
+        <rect x="24" y="84" width="55" height="12"/>
+        <rect x="67" y="60" width="12" height="36"/>
+        <rect x="48" y="55" width="31" height="12"/>
+        <rect x="101" y="24" width="55" height="12"/>
+        <rect x="101" y="54" width="55" height="12"/>
+        <rect x="101" y="84" width="55" height="12"/>
+        <rect x="144" y="24" width="12" height="72"/>
+      </g>
+    </g>
+    <!-- Descriptor -->
+    <text x="420" y="320" font-family="'JetBrains Mono', monospace"
+          font-size="42" font-weight="700" fill="#F5F4F1" letter-spacing="8">LOGISTICS</text>
+    <text x="420" y="354" font-family="'JetBrains Mono', monospace"
+          font-size="13" font-weight="500" fill="#9CA3AF" letter-spacing="3">UNIT 0042 · DRY VAN 53FT · MX-NL</text>
+    <!-- Llantas -->
+    <circle cx="180" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="180" cy="500" r="14" fill="#9CA3AF"/>
+    <circle cx="280" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="280" cy="500" r="14" fill="#9CA3AF"/>
+    <circle cx="700" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="700" cy="500" r="14" fill="#9CA3AF"/>
+  </g>
+  <!-- TRACTO -->
+  <g>
+    <path d="M 820,460 L 820,340 L 900,260 L 1080,260 L 1080,460 Z" fill="#0B0D10"/>
+    <rect x="1080" y="380" width="40" height="80" fill="#0B0D10"/>
+    <!-- Cristal -->
+    <path d="M 920,280 L 1060,280 L 1060,350 L 850,350 Z" fill="#1A1F26" opacity="0.85"/>
+    <!-- Detalle signal -->
+    <rect x="820" y="454" width="300" height="6" fill="#D72638"/>
+    <!-- Mark en puerta -->
+    <g transform="translate(960,370)">
+      <rect width="90" height="60" fill="#F5F4F1"/>
+      <g fill="#0B0D10">
+        <rect x="12" y="12" width="27" height="6"/>
+        <rect x="12" y="12" width="6" height="36"/>
+        <rect x="12" y="42" width="27" height="6"/>
+        <rect x="33" y="30" width="6" height="18"/>
+        <rect x="24" y="27" width="15" height="6"/>
+        <rect x="51" y="12" width="27" height="6"/>
+        <rect x="51" y="27" width="27" height="6"/>
+        <rect x="51" y="42" width="27" height="6"/>
+        <rect x="72" y="12" width="6" height="36"/>
+      </g>
+    </g>
+    <!-- Llantas tracto -->
+    <circle cx="900" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="900" cy="500" r="14" fill="#9CA3AF"/>
+    <circle cx="1010" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="1010" cy="500" r="14" fill="#9CA3AF"/>
+    <circle cx="1100" cy="500" r="38" fill="#1A1F26"/>
+    <circle cx="1100" cy="500" r="14" fill="#9CA3AF"/>
+  </g>
+  <!-- Anotaciones técnicas -->
+  <g font-family="'JetBrains Mono', monospace" font-size="11" fill="#9CA3AF">
+    <text x="1180" y="280">UNIT-MARK · 90×60 cm</text>
+    <text x="1180" y="296">SIDE-MARK · 180×120 cm</text>
+    <text x="1180" y="312">SIGNAL-LINE · 6 cm h.</text>
+    <text x="1180" y="344">CMYK 91/85/79/72</text>
+  </g>
+</svg>

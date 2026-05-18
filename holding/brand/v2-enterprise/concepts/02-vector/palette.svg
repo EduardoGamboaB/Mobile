@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200" role="img" aria-label="Paleta Vector">
+  <title>Paleta Vector</title>
+  <style>
+    .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; }
+    .hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.7; }
+  </style>
+  <rect width="1000" height="200" fill="#E7E9EC"/>
+  <g transform="translate(20,30)">
+    <rect width="180" height="140" fill="#101317"/>
+    <text x="14" y="100" class="lbl" fill="#E7E9EC">CARBON</text>
+    <text x="14" y="120" class="hex" fill="#E7E9EC">#101317</text>
+  </g>
+  <g transform="translate(210,30)">
+    <rect width="180" height="140" fill="#E7E9EC" stroke="#101317"/>
+    <text x="14" y="100" class="lbl" fill="#101317">PLATINUM</text>
+    <text x="14" y="120" class="hex" fill="#101317">#E7E9EC</text>
+  </g>
+  <g transform="translate(400,30)">
+    <rect width="180" height="140" fill="#1F3A8A"/>
+    <text x="14" y="100" class="lbl" fill="#E7E9EC">COBALT</text>
+    <text x="14" y="120" class="hex" fill="#E7E9EC">#1F3A8A</text>
+  </g>
+  <g transform="translate(590,30)">
+    <rect width="180" height="140" fill="#7DF9A4"/>
+    <text x="14" y="100" class="lbl" fill="#101317">VOLT</text>
+    <text x="14" y="120" class="hex" fill="#101317">#7DF9A4</text>
+  </g>
+  <g transform="translate(780,30)">
+    <rect width="180" height="140" fill="#FF4D2E"/>
+    <text x="14" y="100" class="lbl" fill="#E7E9EC">MAGMA</text>
+    <text x="14" y="120" class="hex" fill="#E7E9EC">#FF4D2E</text>
+  </g>
+</svg>

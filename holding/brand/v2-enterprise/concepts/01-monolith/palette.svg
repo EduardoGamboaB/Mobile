@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200" role="img" aria-label="Paleta Monolith">
+  <title>Paleta Monolith</title>
+  <style>
+    .lbl { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+    .hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.7; }
+  </style>
+  <rect width="1000" height="200" fill="#F5F4F1"/>
+  <g transform="translate(20,30)">
+    <rect width="180" height="140" fill="#0B0D10"/>
+    <text x="14" y="100" class="lbl" fill="#F5F4F1">OBSIDIAN</text>
+    <text x="14" y="120" class="hex" fill="#F5F4F1">#0B0D10</text>
+  </g>
+  <g transform="translate(210,30)">
+    <rect width="180" height="140" fill="#1A1F26"/>
+    <text x="14" y="100" class="lbl" fill="#F5F4F1">STEEL</text>
+    <text x="14" y="120" class="hex" fill="#F5F4F1">#1A1F26</text>
+  </g>
+  <g transform="translate(400,30)">
+    <rect width="180" height="140" fill="#9CA3AF"/>
+    <text x="14" y="100" class="lbl" fill="#0B0D10">TITANIUM</text>
+    <text x="14" y="120" class="hex" fill="#0B0D10">#9CA3AF</text>
+  </g>
+  <g transform="translate(590,30)">
+    <rect width="180" height="140" fill="#F5F4F1" stroke="#9CA3AF"/>
+    <text x="14" y="100" class="lbl" fill="#0B0D10">BONE</text>
+    <text x="14" y="120" class="hex" fill="#0B0D10">#F5F4F1</text>
+  </g>
+  <g transform="translate(780,30)">
+    <rect width="180" height="140" fill="#D72638"/>
+    <text x="14" y="100" class="lbl" fill="#F5F4F1">SIGNAL</text>
+    <text x="14" y="120" class="hex" fill="#F5F4F1">#D72638</text>
+  </g>
+</svg>

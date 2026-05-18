@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="G3 Vector">
+  <title>G3 — Concepto Vector</title>
+  <!-- Fondo transparente. Trazos vectoriales sobre fondo neutro -->
+  <g fill="none" stroke="#101317" stroke-linecap="square">
+    <!-- G: forma abierta hacia la derecha -->
+    <!-- Espesor variable simulado con paths separados -->
+    <path d="M 140,40 L 60,40 L 40,80 L 40,160 L 60,200 L 140,200" stroke-width="22"/>
+    <!-- Trazo medio de la G -->
+    <path d="M 140,200 L 140,120 L 90,120" stroke-width="16"/>
+    <!-- Vector de aceleración inferior -->
+    <path d="M 60,210 L 150,210" stroke-width="6" stroke="#1F3A8A"/>
+
+    <!-- 3: dos vectores apuntando derecha -->
+    <path d="M 175,40 L 270,40 L 290,80 L 270,118 L 200,118" stroke-width="22"/>
+    <path d="M 175,200 L 270,200 L 290,160 L 270,122 L 200,122" stroke-width="22"/>
+    <!-- Punta del 3: vector extra -->
+    <path d="M 270,118 L 295,118" stroke-width="6" stroke="#1F3A8A"/>
+    <path d="M 270,122 L 295,122" stroke-width="6" stroke="#1F3A8A"/>
+  </g>
+</svg>

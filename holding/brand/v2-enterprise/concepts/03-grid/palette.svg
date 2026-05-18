@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 200" role="img" aria-label="Paleta Grid">
+  <title>Paleta Grid</title>
+  <style>
+    .lbl { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; }
+    .hex { font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.7; }
+  </style>
+  <rect width="1400" height="200" fill="#F0F1F4"/>
+  <g transform="translate(20,30)"><rect width="180" height="140" fill="#0A0A0F"/><text x="14" y="100" class="lbl" fill="#F0F1F4">VOID</text><text x="14" y="120" class="hex" fill="#F0F1F4">#0A0A0F</text></g>
+  <g transform="translate(210,30)"><rect width="180" height="140" fill="#15161D"/><text x="14" y="100" class="lbl" fill="#F0F1F4">SURFACE</text><text x="14" y="120" class="hex" fill="#F0F1F4">#15161D</text></g>
+  <g transform="translate(400,30)"><rect width="180" height="140" fill="#F0F1F4" stroke="#0A0A0F"/><text x="14" y="100" class="lbl" fill="#0A0A0F">MIST</text><text x="14" y="120" class="hex" fill="#0A0A0F">#F0F1F4</text></g>
+  <g transform="translate(590,30)"><rect width="180" height="140" fill="#5B6CFF"/><text x="14" y="100" class="lbl" fill="#F0F1F4">IRIS</text><text x="14" y="120" class="hex" fill="#F0F1F4">#5B6CFF</text></g>
+  <g transform="translate(780,30)"><rect width="180" height="140" fill="#C8FF3D"/><text x="14" y="100" class="lbl" fill="#0A0A0F">ACID</text><text x="14" y="120" class="hex" fill="#0A0A0F">#C8FF3D</text></g>
+  <g transform="translate(970,30)"><rect width="180" height="140" fill="#FF3B5C"/><text x="14" y="100" class="lbl" fill="#F0F1F4">CRIMSON</text><text x="14" y="120" class="hex" fill="#F0F1F4">#FF3B5C</text></g>
+  <g transform="translate(1160,30)"><rect width="180" height="140" fill="#FFB020"/><text x="14" y="100" class="lbl" fill="#0A0A0F">AMBER</text><text x="14" y="120" class="hex" fill="#0A0A0F">#FFB020</text></g>
+</svg>

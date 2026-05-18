@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="App icon Vector">
+  <title>App icon · Vector</title>
+  <rect width="512" height="512" rx="112" fill="#101317"/>
+  <g fill="none" stroke="#E7E9EC" stroke-linecap="square" transform="translate(72,140)">
+    <path d="M 140,0 L 60,0 L 40,40 L 40,160 L 60,200 L 140,200" stroke-width="22"/>
+    <path d="M 140,200 L 140,120 L 90,120" stroke-width="18"/>
+    <path d="M 60,210 L 150,210" stroke-width="8" stroke="#7DF9A4"/>
+    <path d="M 175,0 L 270,0 L 290,40 L 270,118 L 200,118" stroke-width="22"/>
+    <path d="M 175,200 L 270,200 L 290,160 L 270,122 L 200,122" stroke-width="22"/>
+    <path d="M 270,118 L 305,118" stroke-width="8" stroke="#7DF9A4"/>
+    <path d="M 270,122 L 305,122" stroke-width="8" stroke="#7DF9A4"/>
+  </g>
+</svg>
