@@ -52,7 +52,7 @@ export default function TripsPage() {
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button className="btn outline sm"><FilterI size={16} /> Filtros</button>
-          <button className="btn primary sm"><PlusI size={16} /> Nuevo viaje</button>
+          <Link href="/trips/new/" className="btn primary sm"><PlusI size={16} /> Nuevo viaje</Link>
         </div>
       </div>
 
@@ -92,7 +92,7 @@ export default function TripsPage() {
         <tbody>
           {filtered.map((t) => {
             const driver = drivers.find((d) => d.id === t.driverId);
-            const unit = units.find((u) => u.id === t.unitId);
+            const unit = units.find((u) => u.id === t.tractorId);
             return (
               <tr key={t.id} onClick={() => (window.location.href = `/trips/${t.id}/`)}>
                 <td>

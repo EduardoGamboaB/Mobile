@@ -30,9 +30,7 @@ export default function DashboardPage() {
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button className="btn outline sm">Exportar</button>
-          <button className="btn accent sm">
-            <span style={{ display: 'inline-flex', marginRight: 4 }}>+</span>Nuevo viaje
-          </button>
+          <Link href="/trips/new/" className="btn accent sm"><span style={{ display: 'inline-flex', marginRight: 4 }}>+</span>Nuevo viaje</Link>
         </div>
       </div>
 

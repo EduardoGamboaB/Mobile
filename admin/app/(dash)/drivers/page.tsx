@@ -67,7 +67,7 @@ export default function DriversPage() {
               </td>
               <td>
                 <strong>{d.unitNumber ?? '—'}</strong>
-                <div className="caption">{units.find((u) => u.number === d.unitNumber)?.type ?? ''}</div>
+                <div className="caption">{(() => { const u = units.find((u) => u.number === d.unitNumber); return u ? `${u.brand} ${u.model}` : ''; })()}</div>
               </td>
               <td><span className={`chip ${statusVariant(d.status)}`}>{statusLabel(d.status)}</span></td>
               {showScoring ? (

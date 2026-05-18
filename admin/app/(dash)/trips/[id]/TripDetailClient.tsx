@@ -23,7 +23,7 @@ export default function TripDetailClient({ id }: { id: string }) {
   }
 
   const driver = driverById(trip.driverId);
-  const unit = unitById(trip.unitId);
+  const unit = unitById(trip.tractorId);
   const tripIncidents = incidents.filter((i) => i.tripFolio === trip.folio);
 
   return (
@@ -129,7 +129,7 @@ export default function TripDetailClient({ id }: { id: string }) {
               <span className="icon-tile sm navy"><PackageI size={16} /></span>
               <div>
                 <strong>{unit?.number}</strong>
-                <div className="caption">{unit?.type} · {unit?.plates}</div>
+                <div className="caption">{`${unit?.brand} ${unit?.model}`} · {unit?.plates}</div>
               </div>
             </div>
             <div className="row-between" style={{ marginTop: 16 }}>
