@@ -16,17 +16,18 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'G3 Logistics — Operación inteligente para transporte de carga',
+    default: 'G3 Logistics — Transportistas en México con tecnología propia',
     template: '%s | G3 Logistics',
   },
   description:
-    'Suite completa para autotransportistas y flotas en México: G3 Admin (panel web) y G3 Drive (app móvil). Bitácora, evidencias con OCR, mapa en vivo, asistente IA. Desde plan gratuito.',
+    'Operamos transporte de carga en México y construimos la tecnología que lo hace posible. Mueve tu carga con nosotros o lleva G3 Admin y G3 Drive a tu propia flota.',
   keywords: [
-    'logística México',
-    'transporte de carga',
-    'gestión de flota',
+    'transporte de carga México',
+    'transportistas México',
     'autotransporte',
-    'bitácora digital',
+    'logística México',
+    'fletes terrestres',
+    'gestión de flota',
     'TMS México',
     'G3 Logistics',
     'app conductores',
@@ -40,9 +41,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'G3 Logistics',
-    title: 'G3 Logistics — Operación inteligente para transporte de carga',
+    title: 'G3 Logistics — Transportistas en México con tecnología propia',
     description:
-      'G3 Admin + G3 Drive: panel web y app móvil para autotransportistas y flotas en México.',
+      'Movemos tu carga y construimos los productos (G3 Admin + G3 Drive) que lo hacen posible.',
     locale: 'es_MX',
     url: SITE_URL,
   },
@@ -50,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'G3 Logistics',
     description:
-      'Operación inteligente para transporte de carga: panel + app móvil. Desde plan gratuito.',
+      'Transportistas en México que construyen su propia tecnología. Mueve tu carga o lleva nuestros productos a tu flota.',
   },
   robots: {
     index: true,
@@ -67,13 +68,20 @@ const ORG_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
   description:
-    'Plataforma de gestión y operación para transporte de carga en México.',
+    'Empresa mexicana de transporte de carga terrestre que opera flota propia y desarrolla la tecnología (G3 Admin y G3 Drive) usada para gestionarla.',
   address: { '@type': 'PostalAddress', addressCountry: 'MX' },
   contactPoint: [
     {
       '@type': 'ContactPoint',
       contactType: 'sales',
-      email: 'ventas@g3logistics.mx',
+      email: 'fletes@g3logistics.mx',
+      areaServed: 'MX',
+      availableLanguage: ['Spanish'],
+    },
+    {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      email: 'tecnologia@g3logistics.mx',
       areaServed: 'MX',
       availableLanguage: ['Spanish'],
     },
@@ -87,10 +95,28 @@ const ORG_JSON_LD = {
   ],
 };
 
+const SERVICE_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'Transporte de carga terrestre',
+  provider: { '@type': 'Organization', name: 'G3 Logistics' },
+  areaServed: { '@type': 'Country', name: 'México' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de transporte',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga seca' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga refrigerada' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga sobredimensionada' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dedicado / Spot' } },
+    ],
+  },
+};
+
 const SOFTWARE_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'G3 Logistics',
+  name: 'G3 Admin + G3 Drive',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web, iOS, Android',
   offers: {
@@ -110,6 +136,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}
         />
         <script
           type="application/ld+json"

@@ -66,8 +66,9 @@ export default function AdminPage() {
             <span className="eyebrow">Producto · Web</span>
             <h1>G3 Admin</h1>
             <p className="lead">
-              El centro de mando para dueños y dispatchers. Toda tu operación
-              en una pantalla — viajes, flota, conductores, pagos y alertas.
+              El centro de mando que usamos para operar nuestra propia flota
+              — viajes, mapa en vivo, autorización de pagos y alertas. Hoy
+              disponible también para tu operación.
             </p>
             <div className="hero__cta">
               <Link href="/contacto/" className="btn btn--primary">

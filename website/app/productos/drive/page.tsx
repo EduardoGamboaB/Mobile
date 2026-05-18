@@ -56,9 +56,9 @@ export default function DrivePage() {
             <span className="eyebrow">Producto · Móvil</span>
             <h1>G3 Drive</h1>
             <p className="lead">
-              La app del operador en carretera. Diseñada para usarse con
-              guantes, con poca señal y sin mirar el celular más de 2
-              segundos por interacción.
+              La app que llevan los conductores de nuestra flota. Diseñada
+              para usarse con guantes, con poca señal y sin mirar el celular
+              más de 2 segundos por interacción.
             </p>
             <div className="hero__cta">
               <Link href="/contacto/" className="btn btn--primary">

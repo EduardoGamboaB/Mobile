@@ -9,36 +9,38 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">Suite G3 Logistics</span>
+            <span className="eyebrow">G3 Logistics</span>
             <h1>
-              Operación inteligente para el transporte de carga en México.
+              Transportistas en México. Construimos la tecnología que usamos.
             </h1>
             <p className="lead">
-              Una plataforma con dos productos integrados: <strong>G3 Admin</strong> para
-              tu oficina y <strong>G3 Drive</strong> para tus conductores. Desde
-              autotransportistas individuales hasta flotas empresariales.
+              Operamos una flota de carga terrestre y desarrollamos los
+              productos que la hacen eficiente:&nbsp;
+              <strong>G3 Admin</strong> para la oficina y&nbsp;
+              <strong>G3 Drive</strong> para el conductor. Ahora también para
+              tu flota.
             </p>
             <div className="hero__cta">
-              <Link href="/contacto/" className="btn btn--primary">
-                Solicitar demo <Icon name="arrow" />
+              <Link href="/contacto/?intent=fletes" className="btn btn--primary">
+                Cotizar un viaje <Icon name="arrow" />
               </Link>
-              <Link href="/precios/" className="btn btn--ghost">
-                Ver precios
+              <Link href="/productos/admin/" className="btn btn--ghost">
+                Ver nuestros productos
               </Link>
             </div>
 
             <div className="hero__stats">
               <div>
-                <div className="hero__stat-num">$0</div>
-                <div className="hero__stat-label">Plan inicial</div>
+                <div className="hero__stat-num">+1,200</div>
+                <div className="hero__stat-label">Viajes / mes</div>
               </div>
               <div>
-                <div className="hero__stat-num">5</div>
-                <div className="hero__stat-label">Planes escalables</div>
+                <div className="hero__stat-num">32</div>
+                <div className="hero__stat-label">Estados con cobertura</div>
               </div>
               <div>
-                <div className="hero__stat-num">6</div>
-                <div className="hero__stat-label">Agentes de IA</div>
+                <div className="hero__stat-num">99.4%</div>
+                <div className="hero__stat-label">Entregas a tiempo</div>
               </div>
               <div>
                 <div className="hero__stat-num">24/7</div>
@@ -49,6 +51,9 @@ export default function HomePage() {
 
           <div className="preview" aria-hidden>
             <div className="preview__chrome"><span /><span /><span /></div>
+            <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
+              Operación G3 · Hoy
+            </div>
             <div className="preview__rows">
               <div className="preview__row">
                 <span>G3-2026-00134 · CDMX → Mty</span>
@@ -71,207 +76,170 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --------------------- Value props (3 columnas) ----------------- */}
+      {/* ----------------- Dos caminos: cliente o flota ----------------- */}
       <section className="section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span className="eyebrow">Por qué G3</span>
-            <h2>Lo construimos para quien mueve la carga, no para reportes.</h2>
-            <p style={{ maxWidth: 640, margin: '0 auto' }}>
-              Cada función fue probada con autotransportistas reales antes de
-              llegar a producción. Sin abstracciones inútiles, sin features
-              fantasma — solo lo que mueve el negocio.
-            </p>
+            <span className="eyebrow">Dos formas de trabajar con G3</span>
+            <h2>Mueve tu carga con nosotros, o lleva nuestra tecnología a tu flota.</h2>
           </div>
 
-          <div className="grid grid--3">
-            <div className="card">
-              <div className="card__icon"><Icon name="route" /></div>
-              <h3>De un tracto a una flota completa</h3>
+          <div className="grid grid--2">
+            <div className="card" style={{ borderTop: '4px solid var(--road-500)' }}>
+              <div className="card__icon"><Icon name="truck" /></div>
+              <h3>¿Necesitas mover carga?</h3>
               <p>
-                Empieza gratis con tu primer tracto y crece sin migrar. Los
-                mismos datos, el mismo flujo, el plan que se ajusta cada mes.
+                Cotiza un viaje con nuestra flota. Seca, refrigerada,
+                sobredimensionada o dedicada. Operamos en 32 estados con
+                trazabilidad completa desde nuestra propia tecnología.
               </p>
+              <ul className="list-check" style={{ marginTop: 8 }}>
+                <li>Cotización en menos de 4 horas hábiles</li>
+                <li>Posición del tracto en vivo durante todo el viaje</li>
+                <li>Evidencias de entrega digitales con OCR</li>
+                <li>Atención en español por humanos, no chatbots</li>
+              </ul>
+              <Link href="/servicios/" className="btn btn--dark" style={{ marginTop: 'auto' }}>
+                Ver servicios de carga <Icon name="arrow" />
+              </Link>
             </div>
-            <div className="card">
+
+            <div className="card" style={{ borderTop: '4px solid var(--navy-700)' }}>
               <div className="card__icon"><Icon name="sparkles" /></div>
-              <h3>IA donde sí mueve la aguja</h3>
+              <h3>¿Tienes flota propia?</h3>
               <p>
-                OCR de evidencias, clasificación de bitácora, ruteo de
-                incidentes y chat con dispatcher. Seis agentes que ahorran
-                horas, no marketing.
+                Los mismos productos que usamos para operar (G3 Admin y G3
+                Drive) están disponibles para otros transportistas. Probados
+                en kilómetros reales, no en demo controlada.
               </p>
-            </div>
-            <div className="card">
-              <div className="card__icon"><Icon name="wallet" /></div>
-              <h3>Tu cobro, no del cliente</h3>
-              <p>
-                Cuando el conductor entrega, tú decides cuándo se libera el
-                pago. Sin esperas de 45 días ni reclamos perdidos en correos.
-              </p>
+              <ul className="list-check" style={{ marginTop: 8 }}>
+                <li>Plan gratuito con 1 unidad — sin tarjeta</li>
+                <li>Escala a flotas empresariales (30+ unidades)</li>
+                <li>API + integración ERP en planes Business+</li>
+                <li>Soporte directo del equipo que construye los productos</li>
+              </ul>
+              <Link href="/productos/admin/" className="btn btn--dark" style={{ marginTop: 'auto' }}>
+                Ver G3 Admin <Icon name="arrow" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ------------------------ Producto: G3 Admin -------------------- */}
+      {/* --------------------- Servicios de carga ---------------------- */}
       <section className="section section--tint">
-        <div className="container split">
-          <div>
-            <span className="eyebrow">Producto · Web</span>
-            <h2>G3 Admin</h2>
-            <p>
-              El centro de mando para dueños y dispatchers. Captura viajes,
-              autoriza pagos, monitorea el mapa en vivo y revisa el scoring de
-              tus conductores y unidades — todo desde el navegador.
-            </p>
-            <ul className="list-check">
-              <li>Captura de viajes con folio automático G3-AAAA-NNNNN</li>
-              <li>Mapa en vivo con posición y velocidad de cada tracto</li>
-              <li>Autorización manual de pagos al conductor (a partir de Starter)</li>
-              <li>Scoring de conductores y unidades en tiempo real</li>
-              <li>Alertas accionables (licencias, mantenimiento, SOS)</li>
-              <li>Integración con tu ERP y exportación de reportes</li>
-            </ul>
-            <Link href="/productos/admin/" className="btn btn--dark">
-              Conocer G3 Admin <Icon name="arrow" />
-            </Link>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span className="eyebrow">Servicios de transporte</span>
+            <h2>Cuatro tipos de carga, cobertura nacional.</h2>
           </div>
 
-          <div className="preview" style={{ background: 'var(--white)', border: '1px solid var(--ink-100)' }}>
-            <div className="preview__chrome">
-              <span style={{ background: '#e5e7eb' }} />
-              <span style={{ background: '#e5e7eb' }} />
-              <span style={{ background: '#e5e7eb' }} />
-            </div>
-            <div style={{ padding: '4px 4px 0', color: 'var(--ink-700)' }}>
-              <div style={{ fontSize: '0.78rem', color: 'var(--ink-500)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>
-                Mapa en vivo · 4 unidades activas
+          <div className="grid grid--4">
+            {[
+              { icon: 'truck' as const, name: 'Carga seca', desc: 'Caja 53\' y 48\' para mercancía general, producto terminado y materias primas.' },
+              { icon: 'shield' as const, name: 'Refrigerada', desc: 'Cadena de frío entre -20°C y +20°C para alimentos, perecederos y farma.' },
+              { icon: 'route' as const, name: 'Sobredimensionada', desc: 'Plataforma y lowboy para maquinaria, estructuras y carga indivisible.' },
+              { icon: 'wallet' as const, name: 'Dedicado / Spot', desc: 'Unidad asignada a tu operación, o flete puntual con cotización en horas.' },
+            ].map((s) => (
+              <div key={s.name} className="card">
+                <div className="card__icon"><Icon name={s.icon} /></div>
+                <h3>{s.name}</h3>
+                <p style={{ marginBottom: 0 }}>{s.desc}</p>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                {[
-                  ['T-101', 'CDMX → Mty', '88 km/h'],
-                  ['T-203', 'GDL → Tampico', '76 km/h'],
-                  ['T-117', 'QRO → Puebla', '64 km/h'],
-                  ['T-088', 'Mty → Saltillo', '92 km/h'],
-                ].map(([u, route, sp]) => (
-                  <div key={u} style={{
-                    background: 'var(--navy-50)', padding: '12px',
-                    borderRadius: 10, fontSize: '0.85rem',
-                  }}>
-                    <strong style={{ color: 'var(--navy-900)' }}>{u}</strong>
-                    <div style={{ color: 'var(--ink-500)' }}>{route}</div>
-                    <div style={{ color: 'var(--road-500)', fontWeight: 700, marginTop: 2 }}>{sp}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 40 }}>
+            <Link href="/servicios/" className="btn btn--dark">
+              Ver detalle de servicios <Icon name="arrow" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* ------------------------ Producto: G3 Drive -------------------- */}
-      <section className="section">
-        <div className="container split split--reverse">
-          <div>
-            <span className="eyebrow">Producto · Móvil</span>
-            <h2>G3 Drive</h2>
-            <p>
-              La app para el conductor. Pensada para usarse en carretera, con
-              guantes y poca señal. Bitácora en un toque, evidencias con
-              cámara, chat con dispatcher y botón SOS siempre visible.
+      {/* ------------------- Productos: G3 Admin + Drive --------------- */}
+      <section className="section section--dark">
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <span className="eyebrow">Productos tech</span>
+            <h2>La suite que opera nuestra flota.</h2>
+            <p style={{ maxWidth: 620, margin: '0 auto' }}>
+              No los compramos. Los construimos porque ninguna herramienta del
+              mercado servía para cómo operamos. Hoy son productos
+              independientes que puedes contratar para tu flota.
             </p>
-            <ul className="list-check">
-              <li>Bitácora con clasificación automática del gasto (combustible, casetas, etc.)</li>
-              <li>Cámara con OCR para cartas porte, facturas y comprobantes</li>
-              <li>Chat con dispatcher y compartir ubicación en vivo</li>
-              <li>Botón SOS visible siempre, escala a admin y a seguridad</li>
-              <li>Funciona offline — sincroniza cuando recupera señal</li>
-              <li>Indicador de ingresos del viaje y del mes</li>
-            </ul>
-            <Link href="/productos/drive/" className="btn btn--dark">
-              Conocer G3 Drive <Icon name="arrow" />
-            </Link>
           </div>
 
-          <div style={{ display: 'grid', placeItems: 'center' }}>
-            <div className="phone" aria-hidden>
-              <div className="phone__notch" />
-              <div className="phone__screen">
-                <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-                  Viaje activo
-                </div>
-                <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--white)' }}>
-                  G3-2026-00134
-                </div>
-                <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>
-                  CDMX → Monterrey · 720 km
-                </div>
-                <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', margin: '8px 0' }} />
+          <div className="grid grid--2">
+            <div className="card">
+              <div className="card__icon"><Icon name="chart" /></div>
+              <h3>G3 Admin</h3>
+              <p>
+                Panel web para owners y dispatchers: viajes con folio
+                automático, mapa en vivo, autorización de pagos, scoring de
+                conductores y unidades, alertas inteligentes.
+              </p>
+              <Link href="/productos/admin/" className="btn btn--ghost" style={{ marginTop: 16 }}>
+                Conocer G3 Admin <Icon name="arrow" />
+              </Link>
+            </div>
 
-                <div style={{ background: 'rgba(255,122,69,0.18)', borderRadius: 10, padding: '12px 14px', color: '#ffd5c2' }}>
-                  <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.8 }}>Ingreso del viaje</div>
-                  <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', marginTop: 2 }}>$18,500</div>
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 4 }}>
-                  {[
-                    ['Caseta 95', '$340'],
-                    ['Diesel 180L', '$4,860'],
-                    ['Comida operativa', '$220'],
-                  ].map(([k, v]) => (
-                    <div key={k} style={{
-                      display: 'flex', justifyContent: 'space-between',
-                      background: 'rgba(255,255,255,0.05)',
-                      padding: '10px 12px', borderRadius: 8,
-                      fontSize: '0.85rem', color: 'rgba(255,255,255,0.85)',
-                    }}>
-                      <span>{k}</span>
-                      <strong>{v}</strong>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ marginTop: 'auto', display: 'flex', gap: 8 }}>
-                  <button style={{ flex: 1, padding: '12px', border: 'none', borderRadius: 999, background: 'var(--road-500)', color: 'white', fontWeight: 700 }}>
-                    Llegué
-                  </button>
-                  <button style={{ width: 48, padding: '12px', border: 'none', borderRadius: 999, background: 'rgba(255,255,255,0.1)', color: 'white', fontWeight: 700 }} aria-label="SOS">
-                    SOS
-                  </button>
-                </div>
-              </div>
+            <div className="card">
+              <div className="card__icon"><Icon name="phone" /></div>
+              <h3>G3 Drive</h3>
+              <p>
+                App móvil para el conductor: bitácora en un toque, evidencias
+                con cámara y OCR, chat con dispatcher, botón SOS y modo
+                offline para zonas sin señal.
+              </p>
+              <Link href="/productos/drive/" className="btn btn--ghost" style={{ marginTop: 16 }}>
+                Conocer G3 Drive <Icon name="arrow" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* --------------------------- Pricing --------------------------- */}
-      <section className="section section--tint" id="precios">
+      <section className="section section--tint">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <span className="eyebrow">Precios</span>
-            <h2>Empieza gratis. Sube de plan solo cuando crezcas.</h2>
-            <p style={{ maxWidth: 640, margin: '0 auto' }}>
-              Cinco planes en MXN sin sorpresas. Si necesitas un plan más allá
-              de Business, hablemos.
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
+            <span className="eyebrow">Precios de productos tech</span>
+            <h2>Planes para llevar la suite a tu flota.</h2>
+            <p style={{ maxWidth: 620, margin: '0 auto' }}>
+              Si necesitas mover carga, ve a&nbsp;
+              <Link href="/servicios/" style={{ color: 'var(--road-500)', textDecoration: 'underline' }}>servicios</Link>
+              &nbsp;para cotizar. Esta tabla es para contratar el software.
             </p>
           </div>
-          <PricingTable />
+          <div style={{ marginTop: 48 }}>
+            <PricingTable />
+          </div>
         </div>
       </section>
 
-      {/* ---------------------------- CTA ------------------------------ */}
+      {/* ---------------------------- CTA dual -------------------------- */}
       <section className="section section--dark">
         <div className="container">
-          <div className="cta-band">
-            <div>
-              <h2>Habla con nosotros 30 minutos.</h2>
-              <p>Te mostramos cómo G3 se conecta con tu operación actual.</p>
+          <div className="grid grid--2">
+            <div className="cta-band" style={{ background: 'linear-gradient(135deg, var(--road-500), #ff5e1a)' }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem' }}>Cotiza tu viaje</h2>
+                <p>Operamos tu carga con nuestra flota.</p>
+              </div>
+              <Link href="/contacto/?intent=fletes" className="btn btn--dark">
+                Solicitar
+              </Link>
             </div>
-            <Link href="/contacto/" className="btn btn--dark">
-              Agendar demo <Icon name="arrow" />
-            </Link>
+            <div className="cta-band" style={{ background: 'linear-gradient(135deg, var(--navy-700), var(--navy-900))' }}>
+              <div>
+                <h2 style={{ fontSize: '1.5rem' }}>Prueba la tech</h2>
+                <p>Plan Free con 1 unidad, sin tarjeta.</p>
+              </div>
+              <Link href="/contacto/?intent=tech" className="btn btn--primary">
+                Empezar
+              </Link>
+            </div>
           </div>
         </div>
       </section>
