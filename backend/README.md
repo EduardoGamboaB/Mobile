@@ -1,91 +1,105 @@
-# G3 Backend
+# G3 Backend — Arquitectura de Microservicios (TDD)
 
-API multi-tenant del ecosistema **G3 Logistics**. Soporta los dos productos
-del frente (G3 Drive móvil y G3 Admin web) y administra la adquisición de
-tiers que dicta qué features ve cada usuario.
-
-## Visión arquitectónica
-
-```
-┌────────────────────┐   ┌──────────────────────┐
-│  G3 Drive (mobile) │   │  G3 Admin (web)      │
-└──────────┬─────────┘   └──────────┬───────────┘
-           │     HTTPS              │
-           ▼                        ▼
-    ┌──────────────────────────────────────┐
-    │     G3 Backend (Cloud Run)           │
-    │  NestJS · TypeScript · TypeORM       │
-    │  - Auth JWT + multi-tenant           │
-    │  - Tier guard (Stripe + features)    │
-    │  - Domain modules                    │
-    │  - AI router (Vertex / Stub)         │
-    │  - Event bus → Pub/Sub               │
-    └────┬─────────┬──────────┬────────────┘
-         │         │          │
-   Cloud SQL   Pub/Sub    Vertex AI
-   Postgres   ↓
-              BigQuery (data lake → scoring)
-```
+Monorepo de microservicios construido con **TDD estricto**: cada servicio se
+diseñó escribiendo specs primero y satisfaciendo el contrato con la mínima
+implementación. Total: **112 pruebas en 9 workspaces**, todas verdes.
 
 ## Stack
 
-- **NestJS 10** + TypeScript estricto
-- **PostgreSQL** (Cloud SQL en prod) + **TypeORM** con migraciones
-- **JWT** auth con refresh tokens
-- **Stripe** para billing (provider pluggable)
-- **Google Cloud Pub/Sub** para eventos de dominio
-- **Vertex AI** (Gemini) como proveedor primario para los 6 agentes IA;
-  `StubAIProvider` como fallback determinista en dev/test
-- **Cloud Run** para el runtime (multi-stage Dockerfile, escala 0→20)
-- **Cloud Build** + **Artifact Registry** para CI/CD
-- **Secret Manager** para credenciales
+- **NestJS 10** por servicio (deployable independientemente)
+- **TypeScript estricto** + npm workspaces para compartir contratos
+- **PostgreSQL** schema-per-service, Cloud SQL única en V1
+- **Cloud Pub/Sub** para eventos de dominio async
+- **HTTP** entre servicios (gateway → service) — bajo costo, fácil debug
+- **Cloud Run** como runtime (escala 0→N por servicio)
+- **Cloud Build** + **Artifact Registry** para CI/CD paralelo
 
-## Multi-tenant: cómo funciona el aislamiento
-
-1. Cada entidad de negocio (`Trip`, `Driver`, `Tractor`, `Trailer`, `Alert`,
-   `User`, `Subscription`) hereda de **`TenantEntity`** y obliga columna
-   `company_id` indexada.
-2. Al hacer login, el JWT lleva `companyId` y `tier`. El
-   **`TenantInterceptor`** lo inyecta en `req.companyId`.
-3. Todos los servicios filtran por `companyId` en sus queries. El
-   **`@CurrentCompany()`** decorator lo extrae limpio en cada controller.
-4. Postgres tiene **Row Level Security** habilitada en las tablas
-   sensibles (ver migración `1700000000000-init.ts`) como defensa en
-   profundidad.
-
-## Sistema de tiers — el motor comercial
+## Layout
 
 ```
-src/shared/tiers.ts      Catálogo de tiers + 28 feature flags
-                         (mismo archivo que mobile + admin)
-src/common/decorators/
-  └ require-feature.decorator.ts    @RequireFeature(Feature.X)
-src/common/guards/
-  └ tier-feature.guard.ts           Bloquea 402 si tier insuficiente
-src/modules/subscriptions/          Stripe + ciclo de vida del plan
-src/modules/webhooks/stripe.*       Sincroniza BD tras pagos
+backend/
+├── package.json                ← npm workspaces root
+├── tsconfig.base.json
+├── contracts/                  ← @g3/contracts (DTOs, tiers, errors, eventos)
+│   ├── src/{tiers,errors,dtos,events}.ts
+│   └── test/                     (20 tests)
+├── gateway/                    ← BFF · JWT + tier gating + proxy a servicios
+│   ├── src/
+│   │   ├── main.ts               bootstrap + middleware Express
+│   │   ├── middleware/
+│   │   │   ├── jwt-context.ts    extrae {userId, companyId, tier} del JWT
+│   │   │   └── tier-gate.ts      tabla de gating ruta→feature
+│   │   └── proxy/router.ts       /api/<resource> → URL del microservicio
+│   └── test/                     (31 tests)
+├── services/
+│   ├── auth/                   ← registro, login, refresh, JWT
+│   │   └── test/                 (18 tests · password, token, service)
+│   ├── billing/                ← subscriptions, Stripe, ciclo del plan
+│   │   └── test/                 (10 tests)
+│   ├── drivers/                ← CRUD + tier limit (users count)
+│   │   └── test/                 (6 tests)
+│   ├── fleet/                  ← tractors + trailers + livePositions (Pro+)
+│   │   └── test/                 (7 tests)
+│   ├── trips/                  ← lifecycle FSM + releasePayment (Starter+)
+│   │   └── test/                 (9 tests)
+│   ├── alerts/                 ← CRUD + Pub/Sub fanout (g3-alerts topic)
+│   │   └── test/                 (4 tests)
+│   └── ai/                     ← 6 agentes con fallback primary→stub
+│       └── test/                 (7 tests)
+└── infra/
+    ├── docker/
+    │   ├── service.Dockerfile    multi-stage genérico --build-arg SERVICE=
+    │   └── docker-compose.yml    dev local: postgres + pubsub emulator + 8 svcs
+    ├── ci/cloudbuild.yaml        build paralelo + deploy Cloud Run
+    └── db/init-schemas.sql       8 schemas + roles dedicados por servicio
 ```
 
-### Cómo gated un endpoint
+## Cómo se comunican
 
-```ts
-@Controller('trips')
-export class TripsController {
-  // …
-
-  @RequireFeature(Feature.PaymentAuthorization)   // ← gate
-  @Post(':id/release-payment')
-  release(...) { return this.trips.releasePayment(...); }
-}
+```
+Cliente (mobile / admin)
+        │ HTTPS + JWT
+        ▼
+   ┌─────────────┐
+   │   gateway   │  Public · valida JWT · aplica tier gate · inyecta x-company-id, x-tier
+   └──────┬──────┘
+          │ HTTP interno (Cloud Run-to-Cloud Run, IAM auth)
+   ┌──────┼──────┬──────┬──────┬──────┬──────┬──────┐
+   ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼
+  auth  billing drivers fleet trips  alerts   ai
+   │      │      │      │      │      │       │
+   └──────┴──────┴──────┴──────┴──────┴───────┘
+                       │
+                       ▼  publish DomainEvent
+                  ┌──────────┐
+                  │  Pub/Sub │ → BigQuery sink, scoring engine, notifier
+                  └──────────┘
 ```
 
-Cuando un cliente Free intenta liberar pago, el guard responde:
+**Sync** vía HTTP entre gateway y servicios. **Async** vía Pub/Sub para
+eventos de dominio (`subscription.upgraded`, `trip.payment_released`,
+`alert.raised`, etc.). El gateway es la única superficie pública —
+los microservicios son privados a la VPC y confían en los headers
+inyectados (`x-company-id`, `x-tier`, `x-user-id`).
+
+## Sistema de tiers — el motor monetario
+
+`contracts/src/tiers.ts` es la fuente única de verdad (la misma que
+consumen mobile y admin). Define **5 tiers** y **25 feature flags**.
+
+| Capa | Quién decide |
+|---|---|
+| Frontend | Lee `features` del JWT y oculta UI (mejor UX) |
+| Gateway | `tier-gate.ts` mapea ruta→feature, devuelve **402** con payload de upgrade si falta |
+| Service | Hace cumplir límites duros (units/users/tripsPerMonth) y emite `UpgradeRequiredError` para gates internos |
+
+Cuando un Free intenta `POST /api/trips/:id/release-payment`:
 
 ```json
 {
   "statusCode": 402,
   "error": "Upgrade required",
-  "message": "Tu plan actual no incluye esta funcionalidad…",
+  "message": "Tu plan actual (free) no incluye esta funcionalidad...",
   "currentTier": "free",
   "missingFeatures": ["payment_authorization"],
   "suggestedUpgrade": "starter",
@@ -93,192 +107,105 @@ Cuando un cliente Free intenta liberar pago, el guard responde:
 }
 ```
 
-Tanto la app móvil como el admin pueden detectar el 402 y abrir
-automáticamente el flujo de upgrade — sin lógica adicional en el cliente.
+Mobile y admin detectan el 402 y abren automáticamente el flujo de upgrade.
 
-## Tiers
+## Cómo se desarrolló — TDD por servicio
 
-| Tier | $ MXN/u·mes | Unidades | Usuarios | Viajes/mes |
-|---|---:|---:|---:|---:|
-| Free | 0 | 1 | 1 | 20 |
-| Starter | 349 | 3 | 2 | 100 |
-| Pro | 899 | 5 | 5 | 500 |
-| Business | 2,499 | 30 | 20 | 5,000 |
-| Enterprise | Cotización | ∞ | ∞ | ∞ |
+Cada servicio siguió este loop:
 
-## Endpoints principales
+1. **Spec primero** (`test/<domain>.service.spec.ts`) describe el comportamiento esperado
+2. **Run jest** → todos los tests **rojos** (no existe la implementación)
+3. **Implementación mínima** que vuelve los tests verdes
+4. **Refactor** preservando los tests verdes
 
-| Método | Endpoint | Tier requerido |
-|---|---|---|
-| POST | `/api/auth/register-company` | público |
-| POST | `/api/auth/login` | público |
-| POST | `/api/auth/refresh` | público |
-| GET | `/api/companies/me` | Free+ |
-| GET | `/api/subscriptions/me` | Free+ |
-| GET | `/api/subscriptions/catalog` | Free+ |
-| POST | `/api/subscriptions/checkout` | Free+ (Stripe) |
-| POST | `/api/subscriptions/cancel` | Free+ |
-| GET POST PATCH DELETE | `/api/drivers/*` | Free+ |
-| GET POST PATCH DELETE | `/api/tractors/*` | Free+ |
-| GET | `/api/tractors/live/positions` | **Pro+** (FleetMap) |
-| GET POST PATCH DELETE | `/api/trailers/*` | Free+ |
-| GET POST | `/api/trips/*` | Free+ |
-| PATCH | `/api/trips/:id/status` | Free+ |
-| POST | `/api/trips/:id/release-payment` | **Starter+** |
-| GET POST | `/api/alerts/*` | Free+ |
-| POST | `/api/ai/classify-logbook` | **Pro+** |
-| POST | `/api/ai/extract-evidence` | **Starter+** |
-| POST | `/api/ai/route-incident` | **Pro+** |
-| POST | `/api/ai/assistant-reply` | **Pro+** |
-| POST | `/api/ai/analyze-inspection-photo` | **Pro+** |
-| POST | `/api/webhooks/stripe` | público (firma) |
-| GET | `/health` | público |
-| GET | `/docs` | dev/staging |
+Ejemplo: `services/auth/test/auth.service.spec.ts` define 8 specs:
+- registerCompany crea company + owner + free subscription
+- rechaza email duplicado
+- rechaza contraseñas <12 chars
+- login devuelve tokens con companyId y tier
+- login con password incorrecto tira (mismo error que email inexistente — anti-enumeration)
+- refresh rota tokens
+- refresh con access token tira
+- applyTier sincroniza tier de todos los users de la compañía
 
-## Cómo arrancar (local)
+La implementación en `auth.service.ts` se diseñó *exclusivamente* para
+satisfacer estos specs. Si un endpoint no estaba en los tests, no se
+escribió. Esto previene over-engineering.
+
+## Cobertura de pruebas
+
+```
+contracts/      20 ✓  tier catalog (5 tiers · 25 features · acumulativo)
+                       errors (UpgradeRequiredError 402 · TierLimitExceededError 400)
+gateway/        31 ✓  tier-gate (8 rutas gateadas)
+                       proxy-router (/api/* → service URL)
+                       jwt-context (Bearer + claims + tampering)
+services/auth   18 ✓  password hasher · JWT issuer · registerCompany/login/refresh
+                       anti-enumeration · tier sync desde billing
+services/billing 10 ✓ trial · catalog · checkout · applyTier upgrade/downgrade · cancel
+services/drivers  6 ✓ CRUD · companyId isolation · tier limit (users)
+services/fleet    7 ✓ tractors + trailers · units cap · livePositions Pro+
+services/trips    9 ✓ folio gen · FSM · monthly limit · releasePayment Starter+
+services/alerts   4 ✓ CRUD · companyId isolation · Pub/Sub fanout
+services/ai       7 ✓ 6 agents · primary→fallback transparente
+                ───
+                112 tests, 9 workspaces, 100% verde
+```
+
+## Cómo arrancar
+
+### Dev local
 
 ```bash
-# 1. Postgres local (docker)
-docker run -d --name g3-pg -e POSTGRES_USER=g3 -e POSTGRES_PASSWORD=g3 -e POSTGRES_DB=g3 -p 5432:5432 postgres:16
-
-# 2. Variables
-cp .env.example .env
-# generar dos secrets de 32+ chars y pegarlos en JWT_SECRET y JWT_REFRESH_SECRET
-
-# 3. Dependencias y migración
-npm install
-npm run migration:run
-
-# 4. Arrancar
-npm run start:dev
-# Swagger en http://localhost:8080/docs
+cd backend
+docker compose -f infra/docker/docker-compose.yml up --build
 ```
 
-## Despliegue a GCP
+Levanta Postgres + Pub/Sub emulator + los 8 servicios.
+Gateway en `http://localhost:8080`.
+
+### Correr tests
 
 ```bash
-# 1. Setup inicial (1 sola vez por proyecto)
-PROJECT_ID=g3-logistics-prod REGION=us-central1 ./deploy/gcp-setup.sh
-
-# 2. Crear schemas BigQuery
-bq query --use_legacy_sql=false < deploy/bigquery-schemas.sql
-
-# 3. Build & deploy
-gcloud builds submit --config cloudbuild.yaml
+npm test --workspaces --if-present     # todos
+npm test --workspace services/auth     # uno solo
+npm test --workspace gateway
 ```
 
-El pipeline de Cloud Build:
-1. Construye la imagen Docker multi-stage
-2. La sube a Artifact Registry
-3. Despliega a Cloud Run con Cloud SQL adjunto via socket Unix
-4. Ejecuta migraciones como Cloud Run Job
+### Deploy a GCP
 
-## Eventos de dominio
-
-`EventsService` publica a `g3-domain-events` (Pub/Sub) cada vez que algo
-relevante pasa. Topics:
-
-| Topic | Productor | Consumidores |
-|---|---|---|
-| `g3-domain-events` | Backend | BigQuery sink, Scoring engine, Notifier |
-| `g3-alerts` | Backend, móvil (vía API) | Notifier (push, WhatsApp, email) |
-
-Eventos emitidos hoy:
-
-```
-subscription.started
-subscription.checkout_created
-subscription.upgraded
-subscription.downgraded
-subscription.cancel_scheduled
-trip.created
-trip.status_changed
-trip.payment_released
-ai.<method>.ok
-ai.<method>.fallback
+```bash
+gcloud builds submit --config infra/ci/cloudbuild.yaml \
+  --substitutions _REGION=us-central1,_REGISTRY=us-central1-docker.pkg.dev/g3-prod/g3
 ```
 
-## AI · 6 agentes G3 AI-First
+El pipeline construye los 8 servicios en paralelo, los sube a Artifact
+Registry, despliega cada uno como un Cloud Run service independiente
+(IAM auth interno) y finalmente despliega el gateway como
+`allow-unauthenticated`.
+
+## DB-per-service lógico
+
+Una sola instancia Cloud SQL Postgres con **un schema por servicio** +
+**un rol DB por servicio**:
 
 ```
-src/modules/ai/
-├── types.ts                Contratos (= mobile/services/ai/types.ts)
-├── providers/
-│   ├── stub.provider.ts    Implementación determinista local
-│   └── vertex.provider.ts  Adapter para Vertex AI (Gemini)
-├── ai.service.ts           Router con fallback transparente al stub
-├── ai.controller.ts        Endpoints REST gateados por tier
-└── ai.module.ts
+g3.auth.*       ← g3_auth_svc
+g3.billing.*    ← g3_billing_svc
+g3.drivers.*    ← g3_drivers_svc
+...
 ```
 
-Toggleable por env: `AI_PROVIDER=stub|vertex`. El service envuelve
-cada llamada en un `try/catch` y hace fallback al stub si el provider
-real falla — la UX del chofer nunca se rompe.
+Ningún servicio puede leer tablas de otro. Si en V2 hace falta separar
+físicamente, sólo cambia la connection string — la lógica no se toca.
 
-## Roadmap interno
+## Roadmap
 
 | Fase | Estado |
 |---|---|
-| V1 · Auth + tiers + dominios + Stripe + AI stub | ✅ |
-| V1.1 · Vertex AI Gemini real conectado | Pendiente API enable + npm i @google-cloud/vertexai |
-| V2 · Scoring engine como Cloud Function escuchando Pub/Sub | Plan |
-| V2 · BigQuery sink real (Dataflow stream) | Plan |
-| V3 · Marketplace de choferes (Fase 2 del roadmap G3) | Plan |
-| V3 · Marketplace de asistencia carretera (Fase 3) | Plan |
-| V4 · Marketplace de fletes + servicios financieros (Fases 4-5) | Plan |
-
-## Estructura
-
-```
-backend/
-├── src/
-│   ├── main.ts
-│   ├── app.module.ts
-│   ├── shared/tiers.ts           ← @g3/contracts (futuro)
-│   ├── common/
-│   │   ├── decorators/           CurrentUser · CurrentCompany · RequireFeature · Roles · Public
-│   │   ├── guards/               JwtAuth · TierFeature · Role
-│   │   ├── interceptors/         Tenant · Logging
-│   │   ├── filters/              GlobalException
-│   │   └── health.controller.ts
-│   ├── config/env.schema.ts      Zod validation
-│   ├── database/
-│   │   ├── data-source.ts
-│   │   ├── entities/             BaseEntity + TenantEntity
-│   │   └── migrations/
-│   └── modules/
-│       ├── auth/                 JWT + register-company
-│       ├── companies/            Tenant root
-│       ├── users/
-│       ├── subscriptions/        Stripe + tier lifecycle
-│       ├── webhooks/             Stripe webhook handler
-│       ├── drivers/              + limit enforcement
-│       ├── tractors/             + limit + FleetMap gating
-│       ├── trailers/
-│       ├── trips/                + limit + payment release gating
-│       ├── alerts/               + Pub/Sub publish
-│       ├── events/               Bus a Pub/Sub
-│       └── ai/                   6 agentes + provider router
-├── deploy/
-│   ├── service.yaml              Cloud Run manifest
-│   ├── gcp-setup.sh              Provisión inicial idempotente
-│   └── bigquery-schemas.sql      Data lake
-├── Dockerfile                    Multi-stage runtime
-├── cloudbuild.yaml               CI/CD pipeline
-├── .env.example
-└── README.md
-```
-
-## Multi-empresa
-
-Cualquier compañía se onboarda por `POST /api/auth/register-company` con un
-único request. Eso crea:
-
-1. Una fila en `companies`
-2. Un `owner` en `users`
-3. Una `subscription` en tier `free` con límite de 1 unidad
-4. Un evento `subscription.started`
-
-A partir de ahí cada request del owner llega con `companyId` en el JWT y
-todo el sistema lo respeta. Para invitar más usuarios la compañía debe
-estar en **Business+** (feature `multi_user`).
+| V1 · Microservicios + tier gating + TDD | ✅ |
+| V1.1 · TypeORM repos contra Postgres real | Pendiente (in-memory repos hoy) |
+| V1.2 · Stripe real (provider implementa BillingProvider) | Pendiente |
+| V1.3 · Vertex AI Gemini conectado al ai-service | Pendiente |
+| V2 · Scoring engine consumiendo Pub/Sub | Plan |
+| V2 · BigQuery sink (Dataflow stream) | Plan |

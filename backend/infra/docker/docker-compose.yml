@@ -1,0 +1,107 @@
+# G3 microservices — desarrollo local
+# Levanta los 7 servicios + gateway + postgres + pubsub emulator.
+#
+#   cd backend && docker compose -f infra/docker/docker-compose.yml up --build
+#
+# Una vez arriba:
+#   curl http://localhost:8080/health
+#   curl -X POST http://localhost:8080/api/auth/register-company -d '{...}'
+
+version: '3.9'
+
+x-service-base: &base
+  build:
+    context: ../..
+    dockerfile: infra/docker/service.Dockerfile
+  restart: unless-stopped
+  environment:
+    NODE_ENV: development
+    JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
+    JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
+    PUBSUB_EMULATOR_HOST: pubsub-emulator:8085
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_USER: g3
+    DB_PASS: g3
+    DB_NAME: g3
+  depends_on:
+    - postgres
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: g3
+      POSTGRES_PASSWORD: g3
+      POSTGRES_DB: g3
+    ports: ['5432:5432']
+    volumes: ['pgdata:/var/lib/postgresql/data']
+
+  pubsub-emulator:
+    image: gcr.io/google.com/cloudsdktool/cloud-sdk:emulators
+    command: gcloud beta emulators pubsub start --project=g3-dev --host-port=0.0.0.0:8085
+    ports: ['8085:8085']
+
+  gateway:
+    <<: *base
+    build:
+      context: ../..
+      dockerfile: infra/docker/service.Dockerfile
+      args:
+        SERVICE: gateway
+    ports: ['8080:8080']
+    environment:
+      PORT: 8080
+      AUTH_URL: http://auth:8081
+      BILLING_URL: http://billing:8082
+      DRIVERS_URL: http://drivers:8083
+      FLEET_URL: http://fleet:8084
+      TRIPS_URL: http://trips:8085
+      ALERTS_URL: http://alerts:8086
+      AI_URL: http://ai:8087
+      JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
+    depends_on: [auth, billing, drivers, fleet, trips, alerts, ai]
+
+  auth:
+    <<: *base
+    build:
+      context: ../..
+      dockerfile: infra/docker/service.Dockerfile
+      args: { SERVICE: services/auth }
+    environment:
+      PORT: 8081
+      JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
+      JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
+
+  billing:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/billing } }
+    environment: { PORT: 8082 }
+
+  drivers:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/drivers } }
+    environment: { PORT: 8083 }
+
+  fleet:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/fleet } }
+    environment: { PORT: 8084 }
+
+  trips:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/trips } }
+    environment: { PORT: 8085 }
+
+  alerts:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/alerts } }
+    environment: { PORT: 8086 }
+
+  ai:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/ai } }
+    environment: { PORT: 8087 }
+
+volumes:
+  pgdata:

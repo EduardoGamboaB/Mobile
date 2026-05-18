@@ -1,0 +1,116 @@
+# Pipeline Cloud Build para los 8 microservicios + gateway.
+# Construye en paralelo, sube a Artifact Registry y despliega a Cloud Run.
+#
+#   gcloud builds submit --config infra/ci/cloudbuild.yaml \
+#     --substitutions _REGION=us-central1,_REGISTRY=us-central1-docker.pkg.dev/g3-prod/g3
+
+substitutions:
+  _REGION: us-central1
+  _REGISTRY: us-central1-docker.pkg.dev/g3-prod/g3
+  _TAG: $SHORT_SHA
+
+steps:
+  # ---------- BUILD (parallel) ----------
+  - id: build-gateway
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=gateway',
+           '-t', '${_REGISTRY}/gateway:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-auth
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/auth',
+           '-t', '${_REGISTRY}/auth:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-billing
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/billing',
+           '-t', '${_REGISTRY}/billing:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-drivers
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/drivers',
+           '-t', '${_REGISTRY}/drivers:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-fleet
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/fleet',
+           '-t', '${_REGISTRY}/fleet:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-trips
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/trips',
+           '-t', '${_REGISTRY}/trips:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-alerts
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/alerts',
+           '-t', '${_REGISTRY}/alerts:${_TAG}', '.']
+    waitFor: ['-']
+  - id: build-ai
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/ai',
+           '-t', '${_REGISTRY}/ai:${_TAG}', '.']
+    waitFor: ['-']
+
+  # ---------- PUSH ----------
+  - id: push-all
+    name: gcr.io/cloud-builders/docker
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        for s in gateway auth billing drivers fleet trips alerts ai; do
+          docker push ${_REGISTRY}/$s:${_TAG} &
+        done
+        wait
+    waitFor: [build-gateway, build-auth, build-billing, build-drivers,
+              build-fleet, build-trips, build-alerts, build-ai]
+
+  # ---------- DEPLOY a Cloud Run (uno por servicio) ----------
+  - id: deploy-services
+    name: gcr.io/google.cloud-sdk/cloud-sdk
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        for s in auth billing drivers fleet trips alerts ai; do
+          gcloud run deploy g3-$s \
+            --image=${_REGISTRY}/$s:${_TAG} \
+            --region=${_REGION} \
+            --platform=managed \
+            --no-allow-unauthenticated \
+            --service-account=g3-runtime@$PROJECT_ID.iam.gserviceaccount.com \
+            --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID \
+            --set-secrets=JWT_ACCESS_SECRET=g3-jwt-access:latest,JWT_REFRESH_SECRET=g3-jwt-refresh:latest \
+            --add-cloudsql-instances=$PROJECT_ID:${_REGION}:g3-postgres
+        done
+    waitFor: [push-all]
+
+  - id: deploy-gateway
+    name: gcr.io/google.cloud-sdk/cloud-sdk
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        gcloud run deploy g3-gateway \
+          --image=${_REGISTRY}/gateway:${_TAG} \
+          --region=${_REGION} \
+          --platform=managed \
+          --allow-unauthenticated \
+          --set-env-vars=AUTH_URL=$(gcloud run services describe g3-auth --region=${_REGION} --format='value(status.url)'),BILLING_URL=$(gcloud run services describe g3-billing --region=${_REGION} --format='value(status.url)'),DRIVERS_URL=$(gcloud run services describe g3-drivers --region=${_REGION} --format='value(status.url)'),FLEET_URL=$(gcloud run services describe g3-fleet --region=${_REGION} --format='value(status.url)'),TRIPS_URL=$(gcloud run services describe g3-trips --region=${_REGION} --format='value(status.url)'),ALERTS_URL=$(gcloud run services describe g3-alerts --region=${_REGION} --format='value(status.url)'),AI_URL=$(gcloud run services describe g3-ai --region=${_REGION} --format='value(status.url)') \
+          --set-secrets=JWT_ACCESS_SECRET=g3-jwt-access:latest
+    waitFor: [deploy-services]
+
+options:
+  machineType: E2_HIGHCPU_8
+  logging: CLOUD_LOGGING_ONLY
+
+images:
+  - '${_REGISTRY}/gateway:${_TAG}'
+  - '${_REGISTRY}/auth:${_TAG}'
+  - '${_REGISTRY}/billing:${_TAG}'
+  - '${_REGISTRY}/drivers:${_TAG}'
+  - '${_REGISTRY}/fleet:${_TAG}'
+  - '${_REGISTRY}/trips:${_TAG}'
+  - '${_REGISTRY}/alerts:${_TAG}'
+  - '${_REGISTRY}/ai:${_TAG}'

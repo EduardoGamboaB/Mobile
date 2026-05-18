@@ -31,18 +31,22 @@ HTTP con interceptor 402 → upgrade automático.
 │   ├── src/stores/                   Zustand (auth, subscription, theme)
 │   ├── __tests__/                    49 tests (unit + e2e con fetch mock)
 │   └── ...
-├── backend/                        ← G3 Backend · NestJS
-│   ├── src/
-│   │   ├── shared/tiers.ts           catálogo de 5 tiers + 28 features
-│   │   ├── common/guards/            JwtAuth · TierFeature (402) · Role
-│   │   ├── database/                 entities + migraciones + RLS
-│   │   └── modules/                  auth, subscriptions, drivers, tractors,
-│   │                                 trailers, trips, alerts, ai, events,
-│   │                                 webhooks (Stripe), companies, users
-│   ├── deploy/                       gcp-setup.sh · bigquery-schemas.sql ·
-│   │                                 service.yaml (Cloud Run)
-│   ├── Dockerfile · cloudbuild.yaml  CI/CD a Cloud Run + Cloud SQL
-│   └── README.md
+├── backend/                        ← G3 Backend · microservicios + TDD
+│   ├── contracts/                    @g3/contracts (tiers, DTOs, errors, eventos)
+│   ├── gateway/                      BFF: JWT + tier gating + proxy
+│   ├── services/                     7 microservicios NestJS independientes
+│   │   ├── auth/                       registro · login · refresh · JWT
+│   │   ├── billing/                    subscriptions · Stripe · ciclo del plan
+│   │   ├── drivers/                    CRUD + tier limit (users)
+│   │   ├── fleet/                      tractors + trailers + livePositions Pro+
+│   │   ├── trips/                      lifecycle FSM + releasePayment Starter+
+│   │   ├── alerts/                     CRUD + Pub/Sub fanout
+│   │   └── ai/                         6 agentes con fallback primary→stub
+│   ├── infra/
+│   │   ├── docker/                     Dockerfile genérico + compose dev local
+│   │   ├── ci/cloudbuild.yaml          build paralelo + deploy Cloud Run
+│   │   └── db/init-schemas.sql         schema-per-service + roles aislados
+│   └── README.md                     112 tests, 9 workspaces, TDD estricto
 ├── admin/                          ← G3 Admin · Next.js 14
 │   ├── app/                          App Router (dashboard, trips, fleet,
 │   │                                 drivers, monitor, plans, settings)
