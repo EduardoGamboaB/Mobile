@@ -4,6 +4,10 @@ import { supabase } from '@/api/supabase';
 import { getMyProfile } from '@/api/profiles';
 import { isDemo, DEMO_USER_ID, demoProfile } from '@/demo';
 import type { Profile } from '@/models';
+import { isLive } from '@/api/g3/config';
+import { authApi, type RegisterCompanyInput } from '@/api/g3/auth';
+import { tokenStore } from '@/api/g3/client';
+import { useSubscriptionStore } from '@/stores/subscription';
 
 interface AuthState {
   session: Session | null;
@@ -14,6 +18,8 @@ interface AuthState {
   signInWithPhone: (phone: string) => Promise<void>;
   verifyOtp: (phone: string, token: string) => Promise<void>;
   signInWithEmail: (email: string, password: string) => Promise<void>;
+  signInG3: (email: string, password: string) => Promise<void>;
+  registerCompanyG3: (input: RegisterCompanyInput) => Promise<void>;
   signInAsDemo: () => void;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
@@ -99,16 +105,88 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ session: data.session, profile, loading: false });
   },
 
+  signInG3: async (email, password) => {
+    set({ loading: true });
+    try {
+      const res = await authApi.login({ email, password });
+      const g3Session = {
+        access_token: res.accessToken,
+        refresh_token: res.refreshToken,
+        expires_in: 3_600,
+        token_type: 'bearer',
+        user: {
+          id: res.user.id,
+          aud: 'g3',
+          email: res.user.email,
+          app_metadata: { role: res.user.role, companyId: res.user.companyId },
+          user_metadata: {},
+          created_at: new Date().toISOString(),
+        },
+      } as unknown as Session;
+      set({
+        session: g3Session,
+        profile: {
+          ...demoProfile,
+          id: res.user.id,
+          email: res.user.email,
+          role: res.user.role === 'driver' ? 'driver' : 'admin',
+        } as Profile,
+        loading: false,
+      });
+      await useSubscriptionStore.getState().syncFromBackend();
+    } catch (e) {
+      set({ loading: false });
+      throw e;
+    }
+  },
+
+  registerCompanyG3: async (input) => {
+    set({ loading: true });
+    try {
+      const res = await authApi.registerCompany(input);
+      const g3Session = {
+        access_token: res.accessToken,
+        refresh_token: res.refreshToken,
+        expires_in: 3_600,
+        token_type: 'bearer',
+        user: {
+          id: res.user.id,
+          aud: 'g3',
+          email: res.user.email,
+          app_metadata: { role: res.user.role, companyId: res.user.companyId },
+          user_metadata: {},
+          created_at: new Date().toISOString(),
+        },
+      } as unknown as Session;
+      set({
+        session: g3Session,
+        profile: {
+          ...demoProfile,
+          id: res.user.id,
+          email: res.user.email,
+          full_name: input.ownerName,
+          role: 'admin',
+        } as Profile,
+        loading: false,
+      });
+      await useSubscriptionStore.getState().syncFromBackend();
+    } catch (e) {
+      set({ loading: false });
+      throw e;
+    }
+  },
+
   signInAsDemo: () => {
     set({ session: demoSession(), profile: { ...demoProfile } });
   },
 
   signOut: async () => {
+    if (isLive) await tokenStore.clear();
     if (isDemo) {
       set({ session: null, profile: null });
       return;
     }
-    await supabase.auth.signOut();
+    await supabase.auth.signOut().catch(() => undefined);
     set({ session: null, profile: null });
   },
 

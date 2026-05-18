@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    "target": "es2020",
+    "types": ["jest", "node"]
+  },
+  "include": ["src/**/*", "__tests__/**/*", "__mocks__/**/*"]
+}

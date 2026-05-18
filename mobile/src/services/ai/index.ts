@@ -1,3 +1,5 @@
+import { isLive } from '@/api/g3/config';
+import { aiHttp } from '@/api/g3/ai';
 import type { AIService } from './types';
 import { stubAI } from './stubProvider';
 
@@ -7,10 +9,12 @@ import { stubAI } from './stubProvider';
  *   import { ai } from '@/services/ai';
  *   const r = await ai.classifyLogbookEvent({ text: 'Carga diesel 180 L' });
  *
- * En V2 esto se construirá según `EXPO_PUBLIC_AI_PROVIDER`
- * (`stub` | `openai` | `anthropic` | `supabase`) y devolverá el provider
- * correspondiente. Por ahora siempre devolvemos el stub local.
+ * Cuando `EXPO_PUBLIC_G3_API_URL` está configurado, se usa el cliente HTTP
+ * que llama a `/api/ai/*` del backend (gateado por tier). En demo se usa
+ * el stub local determinista.
  */
-export const ai: AIService = stubAI;
+export const ai: AIService = isLive ? aiHttp : stubAI;
 
+export { stubAI } from './stubProvider';
+export { aiHttp } from '@/api/g3/ai';
 export * from './types';
