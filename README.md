@@ -1,32 +1,23 @@
-# G3 Logistics — Mobile App
+# G3 Logistics — Monorepo
 
-Aplicación móvil cross-platform (iOS / Android) para operadores de tráiler de **G3 Logistics**.
-Permite al chofer iniciar sesión, gestionar su perfil, registrar viajes, llevar bitácora, subir
-evidencias y reportar incidencias — diseñada para funcionar en carretera con conectividad
-intermitente.
+Ecosistema completo de **G3 Logistics**: app móvil para choferes (**G3 Drive**),
+panel web de administración (**G3 Admin**) y API multi-tenant en GCP (**G3 Backend**).
+Los tres proyectos comparten catálogo de tiers y feature flags, y se integran via
+HTTP con interceptor 402 → upgrade automático.
 
----
-
-## Stack recomendado (MVP)
-
-| Capa            | Tecnología                                        | Por qué                                          |
-|-----------------|---------------------------------------------------|--------------------------------------------------|
-| Mobile          | **React Native + Expo (TypeScript)**              | Un solo código para iOS/Android, OTA updates, módulos nativos listos (cámara, GPS, almacenamiento). |
-| Backend         | **Supabase** (Postgres + Auth + Storage)          | Backend completo en una plataforma, RLS para seguridad, escalable, sin servidor que mantener en V1. |
-| Base de datos   | **PostgreSQL** (gestionado por Supabase)          | SQL maduro, relacional, listo para reportería futura. |
-| Auth            | **Supabase Auth** (email + teléfono/OTP)          | Multi-método, JWT, integrado con RLS.            |
-| State server    | **TanStack Query** (`@tanstack/react-query`)      | Caché, refetch, reintentos, offline.             |
-| State cliente   | **Zustand**                                       | Minimal, sin boilerplate.                        |
-| Storage local   | **expo-secure-store** + **AsyncStorage** + **expo-sqlite** | Tokens seguros + cola offline + bitácoras locales. |
-| Navegación      | **React Navigation** (stack + bottom tabs)        | Estándar de React Native.                        |
-| Maps / GPS      | **expo-location** + **react-native-maps**         | Ubicación y mapas.                               |
-| Cámara          | **expo-image-picker** + **expo-camera**           | Evidencias fotográficas.                         |
-
-> **Por qué no NestJS de inicio:** Supabase nos da Auth + DB + Storage + Realtime sin escribir
-> servidor. Cuando V2 requiera lógica de negocio compleja (autorizaciones de pago, integraciones
-> con SAT, cálculo de rentabilidad), añadimos un servicio NestJS que consume el mismo Postgres.
-
----
+```
+┌────────────────────┐   ┌──────────────────────┐
+│  G3 Drive (mobile) │   │  G3 Admin (web)      │
+│  RN + Expo         │   │  Next.js 14          │
+└──────────┬─────────┘   └──────────┬───────────┘
+           │     HTTPS              │
+           ▼                        ▼
+    ┌──────────────────────────────────────┐
+    │     G3 Backend (Cloud Run)           │
+    │  NestJS · TypeScript · TypeORM       │
+    │  Postgres · Stripe · Pub/Sub · Vertex│
+    └──────────────────────────────────────┘
+```
 
 ## Estructura del monorepo
 
@@ -34,33 +25,98 @@ intermitente.
 /
 ├── README.md                       ← este archivo
 ├── docs/                           ← arquitectura, modelo, user stories, roadmap
-│   ├── ARCHITECTURE.md
-│   ├── DATA_MODEL.md
-│   ├── USER_STORIES.md
-│   ├── API_ENDPOINTS.md
-│   ├── SCREENS.md
-│   └── ROADMAP.md
-├── supabase/
-│   └── migrations/
-│       └── 0001_initial_schema.sql ← tablas, RLS, storage buckets
-└── mobile/                         ← app React Native + Expo
-    ├── App.tsx
-    ├── app.json
-    ├── package.json
-    ├── tsconfig.json
-    └── src/
-        ├── api/                    ← cliente Supabase + repositorios
-        ├── components/             ← UI compartido
-        ├── constants/              ← enums, configuración
-        ├── hooks/                  ← hooks reutilizables
-        ├── models/                 ← tipos TS del dominio
-        ├── navigation/             ← stacks y tabs
-        ├── screens/                ← pantallas (auth, dashboard, trip, …)
-        ├── services/               ← lógica de offline, evidencia, ubicación
-        ├── stores/                 ← Zustand stores
-        ├── theme/                  ← colores, tipografía, espaciado
-        └── utils/                  ← helpers
+├── mobile/                         ← G3 Drive · React Native + Expo
+│   ├── src/api/g3/                   cliente HTTP tipado del backend
+│   ├── src/services/ai/              router stub ↔ HTTP de los 6 agentes IA
+│   ├── src/stores/                   Zustand (auth, subscription, theme)
+│   ├── __tests__/                    49 tests (unit + e2e con fetch mock)
+│   └── ...
+├── backend/                        ← G3 Backend · NestJS
+│   ├── src/
+│   │   ├── shared/tiers.ts           catálogo de 5 tiers + 28 features
+│   │   ├── common/guards/            JwtAuth · TierFeature (402) · Role
+│   │   ├── database/                 entities + migraciones + RLS
+│   │   └── modules/                  auth, subscriptions, drivers, tractors,
+│   │                                 trailers, trips, alerts, ai, events,
+│   │                                 webhooks (Stripe), companies, users
+│   ├── deploy/                       gcp-setup.sh · bigquery-schemas.sql ·
+│   │                                 service.yaml (Cloud Run)
+│   ├── Dockerfile · cloudbuild.yaml  CI/CD a Cloud Run + Cloud SQL
+│   └── README.md
+├── admin/                          ← G3 Admin · Next.js 14
+│   ├── app/                          App Router (dashboard, trips, fleet,
+│   │                                 drivers, monitor, plans, settings)
+│   ├── lib/api/                      cliente HTTP G3 (mismo patrón que mobile)
+│   ├── lib/store.ts                  Zustand con tier sync + JWT
+│   ├── __tests__/                    18 tests (unit + e2e dispatcher flow)
+│   └── README.md
+└── supabase/                       ← migraciones legacy (V1 sin backend propio)
 ```
+
+## Cómo se integran los tres
+
+1. **Catálogo de tiers compartido** — `mobile/src/constants/tiers.ts`,
+   `admin/lib/tiers.ts` y `backend/src/shared/tiers.ts` definen los mismos
+   5 tiers (Free, Starter $349, Pro $899, Business $2,499, Enterprise) y
+   las features que cada uno desbloquea.
+2. **Gating uniforme** — el backend protege endpoints con `@RequireFeature(...)`.
+   Si el tier del usuario no incluye la feature, responde **HTTP 402** con
+   `{currentTier, missingFeatures, suggestedUpgrade, upgradeUrl}`.
+3. **Detección en frontend** — el cliente HTTP (`api/g3/client.ts` en mobile,
+   `lib/api/client.ts` en admin) escucha 402 y dispara `onUpgradeRequired`:
+   en mobile navega a la pantalla **Plans**; en admin abre el modal de upgrade.
+4. **Sync de tier** — tras un checkout exitoso (webhook Stripe →
+   `subscription.applyTier`), el frontend llama `/api/subscriptions/me` y
+   actualiza el store local. El siguiente request ya pasa el gate.
+5. **AI router con fallback** — `services/ai/index.ts` (mobile) y `lib/api`
+   (admin) eligen entre **stub local** (demo) y **HTTP real** según
+   `EXPO_PUBLIC_G3_API_URL` / `NEXT_PUBLIC_G3_API_URL`. El backend mismo
+   hace fallback al stub si Vertex AI falla.
+
+## Quick start
+
+| Proyecto | Setup |
+|---|---|
+| **Mobile** | `cd mobile && npm install && npx expo start` |
+| **Backend** | `cd backend && npm install && npm run migration:run && npm run start:dev` |
+| **Admin** | `cd admin && npm install && npm run dev` |
+
+Cada subdirectorio tiene su propio README con detalles de despliegue,
+variables de entorno y comandos. El backend incluye scripts de provisión
+idempotentes para GCP en `backend/deploy/`.
+
+## Suite de pruebas end-to-end
+
+| Proyecto | Suites | Tests | Comando |
+|---|---:|---:|---|
+| Mobile | 12 | **49** | `cd mobile && npm test` |
+| Admin | 4 | **18** | `cd admin && npm test` |
+
+Cubren: registro multi-empresa, sync de tier, ciclo completo de viaje
+(`assigned → in_transit → arrived → delivered → paid`), 402 → checkout →
+tier actualizado, gating de FleetMap y PaymentAuthorization, OCR de
+evidencia vía IA, multi-tenant con companyId distinto por sesión, refresh
+automático de JWT en 401, y switch live/demo del módulo IA. Todos los
+tests usan `fetch` mockeado — no requieren red, DB ni emulador.
+
+---
+
+## Stack original (referencia histórica V1)
+
+| Capa            | Tecnología                                        |
+|-----------------|---------------------------------------------------|
+| Mobile          | React Native + Expo (TypeScript)                  |
+| Backend         | Supabase (Postgres + Auth + Storage) → NestJS en GCP en V2 |
+| Base de datos   | PostgreSQL (Cloud SQL en V2)                      |
+| Auth            | Supabase Auth → JWT propio en backend G3          |
+| State server    | TanStack Query                                    |
+| State cliente   | Zustand                                           |
+| Storage local   | expo-secure-store + AsyncStorage + expo-sqlite    |
+| Navegación      | React Navigation                                  |
+| Maps / GPS      | expo-location + react-native-maps                 |
+| Cámara          | expo-image-picker + expo-camera                   |
+
+
 
 ---
 
