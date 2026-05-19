@@ -1,0 +1,3306 @@
+{
+  "source": "DSI Grupo Salinas — Controles_DSI.xlsx",
+  "extracted_at": "2026-05-19",
+  "total_controls": 181,
+  "controls": [
+    {
+      "code": "GCP-BDVM-322",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "",
+      "ponderacion": 3,
+      "description": "Restringir el acceso al servicio mediante Security Group acotados a los servicios que indispensablemente deben de conectarse al RDS.",
+      "helps": "Ayuda a limitar los accesos y la comunicación a la BD de usuarios no autorizados",
+      "how": "Adjuntar captura de los Security ocupados para validación",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "GCP-BDVM-324",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "",
+      "ponderacion": 3,
+      "description": "Asegurar que se llevan a cabo escaneos y cierre de vulnerabilidades de forma periódica para las vulnerabilidades reportadas de la base de datos",
+      "helps": "Permite detectar de forma oportuna las vulnerabilidades conocidas de la base de datos",
+      "how": "Adjunta evidencia de la salida de los escaneos sin vulnerabilidades críticas altas ni medias. Requisitos: - IPs de la base de datos Pasos: 1. Enviar a CSA la información anterior para programar los escaneos 2. IT deberá cerrar las vulnerabilidades reportadas en el escaneo 3. Una vez resueltas las vulnerabilidades se vuelve a correr un escaneo de validación",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "GCP-BDVM-321",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "",
+      "ponderacion": 3,
+      "description": "Cumplir con el checklistCIS Assessor de base de datos de CSA.",
+      "helps": "Hardeniza la BD",
+      "how": "Adjuntar la evidencia del score alcanzado despues de configurar el RDS",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Las opciones de SO son RHEL, SUSE y Windows, en caso de ocupar otra imagen se debe validar con el área de CSA.",
+      "helps": "Compute Engine ofrece numerosas imágenes públicas preconfiguradas con sistemas operativos Linux o Windows compatibles. Usa estas imágenes de sistema operativo para crear y, luego, iniciar instancias. Compute Engine usa tu imagen seleccionada a fin de crear un disco de arranque persistente para cada instancia.",
+      "how": "Favor de revisar el documento en la sección de Ayuda para mayor referencia. \nhttps://cloud.google.com/compute/docs/images",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "El servicio no es para persistir datos, la persistencia se debe de realizar en servicios definidos para este fin como discos adicionales o servicios de bases de datos",
+      "helps": "Compute Engine ofrece varios tipos de opciones de almacenamiento para tus instancias. Cada una de las siguientes opciones de almacenamiento tiene características únicas de precio y rendimiento: Disco persistente zonal: Almacenamiento en bloque eficaz y confiable Disco persistente regional: Almacenamiento en bloque regional replicado en dos zonas SSD local: almacenamiento en bloque local transitorio de alto rendimiento. Depósitos de Cloud Storage: almacenamiento de objetos asequible Filestore: Almacenamiento de archivos de alto rendimiento para usuarios de Google Cloud. Si no estás seguro de qué opción usar, la solución más común es agregar un disco persistente a tu instancia o puedes consultarlo con el área de Cloud",
+      "how": "Favor de consultar el manual en la sección de ayuda, en el se encuentra como cumplir el punto.",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 4,
+      "description": "Se debe contar con monitoreo de vulnerabilidades y amenazas en Compute Engine",
+      "helps": "Security Command Center te permite filtrar y ver las vulnerabilidades y los hallazgos de amenazas  de muchas formas diferentes, como filtrar según un tipo de hallazgo específico, un tipo de recurso o un elemento  específico. Cada fuente de seguridad podría proporcionar más filtros para ayudarte a organizar los hallazgos de tu  organización.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/security-command-center/docs/concepts-security-sources",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Se deben mantener actualizado los parches. Este punto se cumple estando sin requerimiento de parches en el servicio de OS patch management.",
+      "helps": "Usa la Administración de parches de SO para aplicar parches del sistema operativo en un conjunto  de instancias de VM de Compute Engine. Las VM de larga duración requieren actualizaciones periódicas del  sistema para proteger contra defectos y vulnerabilidades.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/os-patch-management",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Se deben de actualizar las versiones de SO para cumplir con la definición de DSI. Este  control sirve para que las versiones de SO que se usen tengan soporte y que dicha versión no cuente con  vulnerabilidad crítica. Este punto se cumple teniendo un SO con soporte.",
+      "helps": "Usa la Administración de parches de SO para aplicar parches del sistema operativo en un conjunto  de instancias de VM de Compute Engine. Las VM de larga duración requieren actualizaciones periódicas del  sistema para proteger contra defectos y vulnerabilidades.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/images/os-details",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Certificar la instancia de acuerdo a su función con el checklist de CSA vigente Este  punto se cumple teniendo en los SO el porcentaje del CIS requeridos por DSI y estar registrado en IEECO.",
+      "helps": "Sometemos nuestros productos a verificaciones independientes periódicas de los controles de  seguridad, privacidad y cumplimiento, lo que nos permite obtener informes de auditoría y certificaciones para  demostrar el cumplimiento. También creamos documentos de recursos y mapeos que te ayudarán con el  cumplimiento para casos en los que no se requieran o no se puedan aplicar certificaciones formales.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/security/compliance",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-07",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.",
+      "helps": "Las reglas de firewall se definen a nivel de red y solo se aplican a la red en la que se crean sin  embargo, el nombre que elijas para cada una de ellas debe ser exclusivo del proyecto y se debe poner una  descripción referente a la funcionalidad o uso..\nPara cada interfaz de red, Cloud Console enumera todas las reglas de firewall que se aplican a la interfaz y las reglas que están en uso. Las reglas de firewall pueden enmascarar otras reglas, por lo que una interfaz podría no estar usando todas las reglas que se le aplican. Las reglas de firewall se asocian con una instancia de VM y se aplican a ella mediante el parámetro de objetivo de \nuna regla. Si consultas la lista de todas las reglas que se aplican, puedes verificar si una regla en particular se está  aplicando a una interfaz.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/using-firewallslisting-rules-vm",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-08",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Usar cuentas de servicio de corta duración cuando el Engine necesite consumir otros servicios de GCP",
+      "helps": "Una cuenta de servicio es un tipo especial de cuenta que usa una aplicación o carga de trabajo de  procesamiento, como una instancia de máquina virtual VM de Compute Engine, en lugar de una persona.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-short-lived-service-account-credentialshles-419",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-09",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 4,
+      "description": "Instalar agentes para registrar la actividad del sistema en el registro de eventos de  Windows Ejemplo: Sysmon, Servicio de logs Ejemplo: Splunk y Threat Prevention: Deep Security según aplique en el SO",
+      "helps": "El agente de Logging transmite registros de tus instancias de VM y de paquetes de software de  terceros seleccionados a Cloud Logging. Se recomienda ejecutar el agente de Logging en todas las instancias de VM.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/logging/docs/agent/logging/installation",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-10",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Metadata accesible: Deshabilitada.",
+      "helps": "gcloud compute instances remove-metadata puede ser usado para remover metadata de las  instancias",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sdk/gcloud/reference/compute/instances/remove-metadata\nhttps://cloud.google.com/compute/docs/metadata/querying-metadata\nhttps://cloud.google.com/compute/docs/metadata/overview",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-11",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Activar protección contra terminación accidental",
+      "helps": "Como parte de tu carga de trabajo, puede haber ciertas instancias de VM que sean críticas para  ejecutar tu aplicación o servicios, como una instancia que ejecuta un servidor SQL, un servidor utilizado como  administrador de licencias, etcétera. Es posible que estas instancias de VM deban permanecer en ejecución de  forma indefinida, por lo que necesitas una forma de proteger estas VM para que no se borren.\nMediante la configuración de la marca deletionProtection, se puede proteger una instancia de VM contra la  eliminación por error. Si un usuario intenta borrar una instancia de VM para la que estableciste la marca  deletionProtection, la solicitud falla. Solo un usuario al que se le otorgó una función con el permiso compute.instances.create puede restablecer la marca para permitir que se borre el recurso",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/instances/preventing-accidental-vm-deletion",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-12",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Registro de Tags: Ecosistema y área",
+      "helps": "Las etiquetas son pares clave-valor que se pueden usar en Google Cloud para agrupar recursos  relacionados o asociados. Por ejemplo, en Compute Engine, puedes usar etiquetas para agrupar las VM en  categorías como producción, etapa de pruebas o desarrollo, de modo que puedas buscar recursos que  pertenezcan a cada etapa de desarrollo",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/labeling-resources",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-13",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Generar alerta cuando: \n Una instancia sea creada  Una instancia sea apagada \n Una instancia sea encendida  Una instancia sea reiniciada",
+      "helps": "Una política de alertas describe el conjunto de condiciones que quieres supervisar. Estas  condiciones pueden relacionarse con el estado de una aplicación, el valor de una métrica del sistema o con el  consumo de recursos. Por ejemplo, puede ser conveniente que una política supervise una verificación de tiempo  de actividad o una que supervise el uso de la API de Cloud Monitoring. Una política de alertas también te permite  especificar cómo deseas que se te notifique cuando se cumplan las condiciones de la política y qué documentación  incluir en esa notificación",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/monitoring/alerts/using-alerting-ui\nhttps://cloud.google.com/compute/docs/reference/rest/v1/instances",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-14",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Cuentas de servicio asociadas a instancias no deben tener acceso completo a la API",
+      "helps": "El principio de privilegio mínimo POLP, también conocido como principio de autoridad mínima,  es el concepto de seguridad de otorgar al usuario/sistema/servicio el conjunto mínimo de permisos necesarios para  realizar con éxito sus tareas. El principio de privilegios mínimos evita una posible escalada de privilegios, se debe  asegurar que las instancias de Google Compute Engine no estén configuradas para usar la cuenta de servicio predeterminada con el alcance de acceso de la API de la nube establecido en  Allow full access to all Cloud APIs",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nSe debe revisar el Cloud API Access scope para determinar que los permisos asociados al service account por  default no se puedan ocupar para elevar privilegios, en este ejemplo se revisa que en diversos servicios se  encuentra deshabilitados y solo se tienen accesos a ciertos servicios con permisos específicos, cumpliendo con el  principio del menor privilegio\nhttps://cloud.google.com/compute/docs/access/service-accountshles_419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-15",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Las imágenes de disco no deben estar compartidas públicamente",
+      "helps": ": Para evitar exponer datos confidenciales",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/imageshles_419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-16",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Las instancias de máquinas virtuales no deben tener direcciones IP públicas",
+      "helps": "Evita exponer IaaS y sufrir un ataque de infiltrado a recursos internos",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/ip-addresseshles-419externaladdresses",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-17",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Deshabilitar la eliminación automática para discos persistentes de instancias de VM",
+      "helps": "Evita que se pueda eliminar el disco cuando se elimina la máquina virtual VM.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sdk/gcloud/reference/compute/instances/set-disk-auto-delete",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-18",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Deshabilitar el IP Forwarding para instancias de máquinas virtuales",
+      "helps": "Las instancias de VM solo puedan enviar paquetes cuyos orígenes están configurados para  coincidir con una dirección IP interna de su interfaz en la red.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/using-routescanipforward",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-19",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Desactivar la compatibilidad con la consola serial interactiva Interactive Serial Console \nSupport",
+      "helps": "Restringe el acceso a la VM para evitar el mal uso de la terminal o interactuar con cualquiera de  los puertos en serie de la instancia",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/troubleshooting/troubleshooting-using-serial-consolehles-419disable_access",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-20",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Habilitar la función de seguridad Block Project-Wide SSH Keys",
+      "helps": "En evitar que los usuarios accedan a instancias de máquina virtual VM mediante la eliminación y  el bloqueo de claves SSH de las VM",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/connect/restrict-ssh-keys",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-21",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Habilitar la función de seguridad  Shielded VM",
+      "helps": "En ofrecer integridad verificable de las instancias de VM de Compute Engine, para que se pueda  estar seguro de que las instancias no se expusieron a software malicioso o rootkits de nivel de inicio y kernel.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/shielded-vm/docs/shielded-vm",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-22",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Habilitar la función de computación confidencial para instancias de máquinas virtuales  Confidential Computing for Virtual Machine Instances, siempre y cuando el modelo de instancia sea compatible.",
+      "helps": "Confidential Computing es la protección de los datos en uso con entorno de ejecución confiable  TEE basado en hardware",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/confidential-vm/docs/about-cvmhles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-23",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Habilitar la función  OS Login for GCP Projects",
+      "helps": "Permite usar las funciones de administración de identidades y accesos IAM de Compute Engine  para otorgar o revocar el acceso SSH a tus instancias de Linux. El Acceso al SO es una alternativa para administrar  el acceso a instancias si agregas y quitas llaves SSH en los metadatos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/oslogin/set-up-oslogin",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-24",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Se debe usar el inicio de sesión del SO con autenticación 2FA para instancias de VM",
+      "helps": "En agregar una capa de seguridad adicional mediante la verificación en dos pasos, también conocida como autenticación de dos factores o 2FA.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/oslogin/setup-two-factor-authenticationhles_419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-25",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Habilitar Virtual Machine Disk Encryption con Customer-Managed Keys",
+      "helps": "En crear y administrar tus claves a través de Cloud Key Management Service. Las claves de encriptación administradas por el cliente se pueden almacenar como claves de software, en un clúster de HSM o de forma externa",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/storage/docs/encryption/customer-managed-keys",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Bloque de Acceso al Público: Asegúrese de que sus aplicaciones funcionen correctamente sin acceso público. Si necesita algún nivel de acceso público a sus depósitos u objetos dentro puede personalizar la configuración individual a continuación para adaptarse a sus casos de uso de almacenamiento específicos.",
+      "helps": "Tener un mejor control de acceso a los repositorios de almacenamiento.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/access-control",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Versionamiento del Bucket: El control de versiones es una forma de mantener múltiples variantes de un objeto en el mismo depósito. Puede utilizar el control de versiones para conservar, recuperar y restaurar todas las versiones de todos los objetos almacenados en su bucket",
+      "helps": "Tener un manejo adecuado de los objetos almacenados y así no perder los objetos de versiones anteriores que lleguen a ser requeridas en el futuro. Ayuda una búsqueda más rápida y a restaurar datos por errores accidentales.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/gsutil/addlhelp/ObjectVersioningandConcurrencyControlhles419overview",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Descripción del Control: Tags: El bucket deberá encontrarse taggeado, de esta manera la evaluación del proyecto estará controlado y referida al ecosistema, debe contar al menos con los siguientes Keys: Área: Indicaran el área responsable del servicio. Ecosistema: El nombre del ecosistema registrado en el inventario electrónico.",
+      "helps": "Ayuda a analizar de forma sencilla el costo de uso de diferentes servicios y tener inventariado a los servicios para futuros análisis y administración de ellos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/bucket-metadatahles-419labels",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Cifrado: El bucket deberá encontrarse cifrado",
+      "helps": "Saber el tipo de cifrado y el nivel del mismo, el nivel de cifrado como mínimo deberá cumplir AES 256 y SHA 256, Brinda una seguridad adicional sobre los datos en reposo.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/encryption",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Logs de acceso a buckets: El bucket deberá tener habilitado el Server Access Logging.",
+      "helps": "Deberán existir logs del consumo de los servicios de Cloud Storage mediante los métodos HTTPS, así mismo, la dirección IP de quien está consumiendo los servicios y especificar el recurso que se consumió",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/audit-logginghles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "AuditLog: mediante los registros LogEntry y los registros de auditoría AuditLog se podrán obtener los datos de acceso necesarios para Cloud Storage. Con la información que se pueda obtener mediante estos registros, podremos ver el nombre, email e IP desde donde se realizan los cambios.",
+      "helps": "Permite utilizar los logs para analisis de seguridad dar seguimiento a los cambios que ocurren en los recursos, auditorias y localizacion de fallas.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/hosting-static-websitelb-backend",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-07",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Web Host Cloud Storage: En caso de que el bucket se ocupe para Host de una página estática, es necesario que esté vinculada por CDN GCP Expone el contenido mediante un balanceador.",
+      "helps": "Permite tener una respuesta acelerada y más rápida de los sitios.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/hosting-static-websitelb-backend",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-08",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "Lista de Control de Acceso ACL: No asignar el bucket al grupo: allUsers  allAuthenticatedUsers",
+      "helps": "Brinda un mejor control de acceso a los buckets y objetos de los mismos, ofreciendo de esta manera mayor seguridad.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/access-controlhles-419using_permissions_with_acls",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Storage-09",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Storage",
+      "service": "Cloud Storage",
+      "ponderacion": 3,
+      "description": "CORS: En caso de que el bucket se ocupe para Host de una página estática, es necesario que esté vinculada por CDN de la siguiente manera, en donde únicamente se permita el origen del dominio donde se va a consumir los recursos del bucket.",
+      "helps": "Brinda un mejor control de acceso a los buckets y objetos de los mismos, ofreciendo de esta manera mayor seguridad.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/storage/docs/cross-originhles_419",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Datos de contacto actualizados",
+      "helps": "Muchos servicios de Google Cloud, como la Facturación de Cloud, envían notificaciones para compartir información importante con los usuarios de Google Cloud. Según la configuración predeterminada, estas notificaciones se envían a los miembros con determinadas funciones de administración de identidades y accesos IAM. Con los contactos esenciales, puedes personalizar quién recibe notificaciones si proporcionas tu propia lista de contactos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/managing-notification-contacts",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Información de contacto de seguridad",
+      "helps": "El nivel en el que asignas contactos de seguridad depende de las prácticas de seguridad específicas de tu organización. Por ejemplo, si los propietarios de proyectos individuales están a cargo de la seguridad de sus propios proyectos, debes asignar tus contactos de seguridad a nivel del proyecto. Sin embargo, si un grupo de toda la organización administra la seguridad de todos los proyectos, tendrías que asignarles contactos de seguridad a nivel de la organización.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/managing-notification-contactscontact-inheritance",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Mecanismos de recuperación en la cuenta de GCP",
+      "helps": "Un administrador puede recuperar su cuenta vía la inscripción de diferentes factores de autenticación en el caso que olvide su contraseña. Dentro de los cuales se encuentra: Llamada telefónica, correo electrónico, agregando registros al DNS, con ayuda otro administrador que tenga permisos para restablecer contraseñas o contactando al servicio de soporte técnico.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/33561hles::textReset20your20administrator20passw\nord,email20address20or20phone20number",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Google Cloud Identity Admin Groups",
+      "helps": "Mediante la configuración de grupos en Cloud identity Admin, se debe crear un grupo por rol y cada cuenta deberá ser asignada a los grupos donde se desea heredar permisos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identity/docs/groupshles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Auditoría de Administradores",
+      "helps": "Tener visibilidad y trace de los eventos realizados por los administradores",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/a/answer/9725452",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "No debe existir Service Accounts Key ni cuentas de servicio privilegiadas Administrador",
+      "helps": "De forma predeterminada, todos los proyectos de Google Cloud incluyen un solo usuario, es decir, el creador original del proyecto. Ningún otro usuario tiene acceso al proyecto y, por lo tanto, tampoco puede acceder a recursos de Compute Engine hasta que se lo agregue como miembro del proyecto o se lo vincule a un recurso\nespecífico.\nSe pueden hacer uso del google SDK para dar permisos a ambientes de trabajo ó llaves de service accounts con permisos, estas cuentas de servicio nunca deben tener privilegios sobre el proyecto. En esta página, se describe cómo agregar usuarios nuevos al proyecto y cómo establecer el control de acceso para los recursos GCP",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys\nhttps://cloud.google.com/docs/authentication/best-practices-applications",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-07",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Credenciales de acceso para service accounts",
+      "helps": "Las service accounts funcionan como credenciales para procesos o ambientes en GCP, es decir no están asociadas a una cuenta personal, estas credenciales al no estar vinculadas a una persona miembro de la organización no tienen acceso a la consola, adicionalmente es recomendable generar credenciales de corta duración y no llaves en formatos de archivo",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys\nhttps://cloud.google.com/iam/docs/create-short-lived-credentials-direct",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-08",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Root  Usuarios con acceso a consola deberán tener habilitado MFA",
+      "helps": "La autenticación de varios factores MFA es una herramienta importante para proteger los recursos empresariales. La MFA, también llamada verificación en dos pasos 2SV, exige que los usuarios verifiquen su identidad por medio de algo que sepan como una contraseña, y de algo que tengan como una clave física o un código de acceso.\nPara proteger los datos y las cuentas de usuario, tu empresa decidió que todos los usuarios se deben autenticar mediante la 2SV para acceder a los recursos de la empresa",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/9176657hles",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-09",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Los permisos a los usuarios IAM serán asignados mediante roles.",
+      "helps": "Los grupos de Google te pueden ayudar a administrar usuarios a gran escala. Cada miembro de un grupo de Google hereda las funciones de administración de identidades y accesos IAM otorgadas a ese grupo.\nEsta herencia significa que puedes usar la membresía de un grupo para administrar las funciones de los usuarios en lugar de otorgar funciones de IAM a usuarios individuales.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/understanding-roleshles",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-10",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Política de contraseña",
+      "helps": "En esta guía, se describen las orientaciones y recomendaciones de contraseñas para usuarios de aplicaciones en línea que requieren autenticación. Se establece un conjunto de recomendaciones centradas en el usuario para crear y almacenar contraseñas, que incluye el equilibrio entre la seguridad de la contraseña y la usabilidad. Una guía relacionada, Seguridad moderna mediante contraseña para los diseñadores de sistemas, ofrece orientación a los ingenieros que compilan aplicaciones en línea que requieren autenticación.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/solutions/modern-password-security-for-users",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-11",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Las credenciales no utilizadas durante 90 días o más estén deshabilitadas",
+      "helps": "Las credenciales no utilizadas durante 90 días o más estén deshabilitadas",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identityhlessection-5\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-12",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Solo debe existir una cuenta de servicio para cada ambiente o proceso registrado en IAM, un solo un usuario",
+      "helps": "Los ambientes de desarrollo o procesos dentro del proyecto de GCP solo podrán tener una cuenta  de servicio asignada.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-13",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Las claves de acceso se deben rotar cada 90 días o menos",
+      "helps": "Un administrador puede establecer requerimientos de contraseña para los usuarios de la organización. Cloud Identity permite crear temporalidades de expiración de 30, 60, 90 180 y 365 días para las identidades. Estas pueden ser configuradas granular mente para cumplir con los requerimientos de la organización",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/139399hles",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-14",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Comprobar que no hay miembros de IAM con roles de servicio en el nivel de proyecto",
+      "helps": "Asegurarse de que los roles Usuario de cuenta de servicio y Creador de token de cuenta de servicio se asignen a un usuario para una cuenta de servicio de GCP específica en lugar de a un usuario en el nivel de proyecto de GCP, a fin de implementar el principio de privilegios mínimos POLP. El principio de privilegio mínimo también conocido como el principio de privilegio mínimo es la práctica de proporcionar a cada usuario la cantidad mínima de acceso requerida para realizar las tareas. El rol Usuario de cuenta de servicio iam.serviceAccountUser permite a un usuario de IAM adjuntar una cuenta de servicio a un servicio de trabajo de larga duración, como una aplicación de App Engine o un trabajo de flujo de datos, mientras que el rol Creador de token de cuenta de servicio iam.serviceAccountTokenCreator permite a un usuario suplantar directamente la identidad de una cuenta de\nservicio.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/impersonating-service-accounts",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-15",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Configurar los registros de auditoría de acceso a datos de Google Cloud para realizar un seguimiento de todas las actividades Cloud Audit Logs to Track All Activities",
+      "helps": "Asegurarse de que la función Registros de auditoría de Google Cloud esté configurada para realizar un seguimiento de los registros de acceso a datos de todos los servicios y usuarios de Google Cloud Platform GCP, con el fin de mejorar la seguridad general del acceso y cumplir los requisitos de cumplimiento. Una vez configurada, la función puede registrar todas las actividades relacionadas con el administrador, así como todas las solicitudes de acceso de lectura y escritura a los datos del usuario.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/logging/docs/audit/configure-data-access",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-16",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Habilitar la aplicación de claves de seguridad para cuentas de administrador",
+      "helps": "Asegurarse de que se aplique la separación de funciones para todos los roles relacionados con Cloud Key Management Service KMS. El principio de separación de funciones también conocido como separación de funciones tiene como objetivo primordial la prevención del fraude y el error humano. Este objetivo se logra desmantelando las tareas y los privilegios asociados para un proceso de negocio específico entre múltiples usuarios/identidades. Google Cloud proporciona roles predefinidos que se pueden utilizar para implementar el principio de separación de funciones, cuando sea necesario. El rol de administrador de Cloud KMS predefinido está destinado a que los usuarios administren las claves de KMS, pero no las usen. Los roles Cloud KMS CryptoKey\nEncrypter/Decrypter están destinados a servicios que pueden usar claves para cifrar y descifrar datos, pero no para administrarlos. Para cumplir con las prácticas recomendadas de seguridad en la nube, los usuarios de IAM no deben tener el rol de administrador ni ninguno de los roles de cifrado/descifrador de CryptoKey asignados al mismo tiempo.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-IAM - GCP-17",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "IAM - GCP",
+      "ponderacion": 3,
+      "description": "Restringir el acceso de administrador para cuentas de servicio",
+      "helps": "Asegurar de que las cuentas de servicio gestionadas por el usuario de Google Cloud no utilicen roles privilegiados de administrador para aplicar el principio de privilegios mínimos y evitar modificaciones accidentales o intencionadas que puedan provocar fugas de datos o pérdida de datos. Una cuenta de servicio administrada por el usuario es una identidad que una instancia de máquina virtual VM o una aplicación puede usar para ejecutar solicitudes de API en su nombre. Las cuentas de servicio de GCP solo pueden crear, modificar o eliminar recursos si concede los permisos de IAM necesarios, en el nivel de proyecto o recurso.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-BigQuery-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Data Analytics",
+      "service": "BigQuery",
+      "ponderacion": 3,
+      "description": "Credenciales de inicio de sesión: la administración y operación de BigQuery está basado en la consola de IAM, por lo que deberá apegarse al menor privilegio el acceso otorgado al usuario",
+      "helps": "A los usuarios, grupos o cuentas de servicio se les otorga acceso a roles predefinidos o personalizados para darles permisos a fin de que realicen acciones en los recursos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-BigQuery-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Data Analytics",
+      "service": "BigQuery",
+      "ponderacion": 3,
+      "description": "Gestión de acceso IAM con restricciones: Se deben definir políticas para acceso a recursos específicos, no se permiten permisos full.",
+      "helps": "Puedes otorgar acceso en los siguientes niveles de recursos de BigQuery:\n- Nivel de organización o proyecto de Google Cloud\n- Nivel de conjunto de datos\n- Nivel de tabla o vista",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-BigQuery-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Data Analytics",
+      "service": "BigQuery",
+      "ponderacion": 3,
+      "description": "La comunicación a otros servicios de GCP deberá ser por roles en service accounts",
+      "helps": "Cuando una identidad un usuario o una cuenta de servicio llama a una API de Google Cloud, BigQuery requiere que la identidad tenga los permisos adecuados para usar el recurso. Puedes otorgar permisos si asignas roles a un usuario, a un grupo o a una cuenta de servicio.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-BigQuery-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Data Analytics",
+      "service": "BigQuery",
+      "ponderacion": 3,
+      "description": "Los datos que se ingresan en BigQuery son cifrados de manera automática en reposo, tránsito y memoria.",
+      "helps": "BigQuery encripta de forma automática todos los datos antes de que se escriban en el disco, cuando están en tránsito en red y cuando están en memoria para ser procesados. Los datos se desencriptan de manera automática cuando los lee un usuario autorizado.",
+      "how": "https://cloud.google.com/bigquery/docs/encryption-atrest hles_419::textBigQuery20automatically20encrypts20all20data,individual20values20within20a20table.",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-BigQuery-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Data Analytics",
+      "service": "BigQuery",
+      "ponderacion": 3,
+      "description": "BigQuery conserva el contenido de una tabla llamada tabla base en un momento determinado.",
+      "helps": "Se puede guardar una instantánea de una tabla actual o crear una instantánea de una tabla como estaba en un momento determinado durante los últimos siete días.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/table-snapshots-intro",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Cumplir con el checklist CIS Assessor de base de datos de CSA",
+      "helps": "El estándar de CIS nos ayuda a realizar un hardening de seguridad con respecto a las configuraciones que se tienen en la base de datos.",
+      "how": "Favor de contactar al evaluador para los porcentajes solicitados.",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "VoBo del área de Arquitectura de las versiones de RDS que se ocuparán",
+      "helps": "Ejecuta las mismas bases de datos relacionales que conoces con sus colecciones de extensiones enriquecidas, marcas de configuración y ecosistema de desarrollador, pero sin las dificultades de la autoadministración.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Los accesos o interacción con otros servicios dentro de la nube deberá ser por ROLESIAM, deberán estar acotados al menor privilegio, todo esto si es que la cuenta de servicio se comunica con otros servicios",
+      "helps": "En asegurar la integridad de los datos al prevenir acciones no permitidas para todos los usuarios",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/iam-rolesroles\nhttps://cloud.google.com/sql/docs/postgres/iam-rolesroles\nhttps://cloud.google.com/sql/docs/sqlserver/iam-rolesroles",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Restringir el uso de componentes que puedan acceder y conectarse a Cloud SQL mediante grupos de Seguridad.",
+      "helps": "No permite el acceso o conexión a Cloud SQL si no se tiene autorización mediante los grupos de seguridad.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identity/docs/groupshles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Plan de actualizaciónupgrade o migración, según sea el caso de la versión.",
+      "helps": "Database Migration Service DMS facilita la migración de tus bases de datos de producción a Cloud SQL con un tiempo de inactividad mínimo",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://Drive.google.com/drive/u/0/utm_sourceenpli1",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Cualquier cambio a los grupos de parámetros se deben de notificar al equipo de CSA de la unidad de negocio",
+      "helps": "Tener un control de los cambios que se realizan en la plataforma",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-07",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Especificaciones para el usuario y contraseña de la BD",
+      "helps": "Seguridad en los usuarios administradores, para evitar el uso indebido de permisos",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n\nAsí mismo, este deberá estar almacenado en una bóveda de secretos, ya sea de GCP o externa",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-08",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Se cuenta con HA para que los datos siguen estando disponibles para aplicaciones cliente a pesar de interrupciones zonales.",
+      "helps": "Reduce el tiempo de inactividad cuando una zona o una instancia deja de estar disponible. Esto puede ocurrir durante una interrupción zonal o cuando una instancia se daña",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/high-availabilityHA-configuration",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-09",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Acceso Público: NO. Por defecto las instancias de Cloud SQL no tienen configurada una IP publica para ser consumidas por aplicaciones de internet",
+      "helps": "En evita el acceso a cualquier persona no autenticada en GCP. En caso de requerir exponer una IP publica, esta deberá configurarse en un rango de IPs autorizadas para acceder",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/configure-iphles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-10",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Plan de BackupRetención diaria, los backups deberán están encriptados",
+      "helps": "Ayudan a restablecer los datos perdidos en la instancia de Cloud SQL. Además, si una instancia tiene un problema, puedes restablecerla a un estado anterior mediante la copia de seguridad para reemplazarla.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/backup-recovery/backups\nhttps://cloud.google.com/sql/faqencryption",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-11",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 3,
+      "description": "Se debe de habilitar el monitoreo para mayor granularidad sobre los siguientes puntos:\n Audit Logs\n Error Logs\n General Logs\n Slow Query Logs",
+      "helps": "En responder las preguntas Quién hizo qué, dónde y cuándo. Dentro de tus recursos de Google Cloud.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/audit-logginghles-419\nhttps://cloud.google.com/logging/docs/audithles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud SQL-12",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "Cloud SQL",
+      "ponderacion": 5,
+      "description": "Habilitar la encriptación de datos con Customer-Managed Keys, Solo si aplica alguna regulacion en su UN",
+      "helps": "Proteger la confidencialidad de los datos para seguridad e integridad de los mismos, además de crear y administrar tus claves a través de Cloud Key Management Service. Las claves de encriptación administradas por el cliente se pueden almacenar las llaves con las que se cifran los datos en reposo y tránsito desde la base de datos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/configure-cmek",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud Armor-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Cloud Armor",
+      "ponderacion": 3,
+      "description": "Mientras el backend sea de tipo HTTPS y se utilice un balanceador de cargas en GCP,  las aplicaciones expuestas a internet pueden contar con protección de Cloud armor, cuyas políticas deben tener una regla default de negación y el set de reglas inicial para mitigar el Top 10 de OWASP",
+      "helps": "Google Cloud Armor es una plataforma de seguridad encargada de la protección a gran escala de las infraestructuras y aplicaciones contra los ataques web, como inyección y denegación de servicio distribuido DDoS. Las reglas preconfiguradas de Google Cloud Armor son reglas complejas de firewall de aplicación web WAF con decenas de firmas que se compilan a partir de estándares de la industria de código abierto. Google ofrece estas reglas tal como están. Las reglas permiten que Google Cloud Armor evalúe decenas de firmas de tráfico distintas, ya que consulta las reglas con nombres prácticos en lugar de requerir que definas cada firma de forma manual.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/integrating-cloud-armorhles-419\nhttps://cloud.google.com/architecture/owasp-top-ten-mitigationhles-419google_cloud_armor_a02\nhttps://cloud.google.com/armor/docs/rule-tuningsql_injection_sqli\nhttps://cloud.google.com/architecture/owasp-top-ten-mitigationhles-419insecure-design",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Armor-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Cloud Armor",
+      "ponderacion": 3,
+      "description": "Mediante permisos IAM pueden validar los permisos que se asignan o requiera Cloud Armor",
+      "helps": "Ayuda a granular los permisos, deberá estar apegado al menor privilegio",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419iam-perms",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Armor-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Cloud Armor",
+      "ponderacion": 3,
+      "description": "Mediante el uso de Cloud Logging y cloud monitoring se tiene control sobre los logs de manera automática, adicionalmente se debe integrar con logs based metrics para determinar alertas basadas en umbrales y alertas mínimas de creación, eliminación, encendido y apagado",
+      "helps": "Gestión de registros totalmente gestionada y en tiempo real, que admite exabytes de datos y ofrece funciones de almacenamiento, búsqueda, análisis y alertas sobre eventos y metricas de Cloud Armor.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/audit-logginghles-419\nhttps://cloud.google.com/logginghles\nhttps://cloud.google.com/logging/docs/logs-based-metricshles_419",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-101",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberán crear de los usuarios rtcyaa y app_care para Administración y Conciliación por parte del DSI CyAAL IT",
+      "helps": "Garantizar accesos para administración y validación de puntos de seguridad y gestión de usuarios así como conexión en caso de contingencia",
+      "how": "Generando los usuarios en el servidor\nSe valida con el Formato de listado de usuarios ubicado en la ayuda de IEECO",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-102",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Si el sistema lo soporta ningún perfil/rol a excepción del administrativo y el correspondiente a DSI CyAAL deberá contar con permiso para la gestión de usuarios y privilegios.",
+      "helps": "Eliminar el riesgo de movimientos a usuarios y/o privilegios del servidor no autorizados",
+      "how": "Adjuntando el Formato de usuarios y privilegios ubicado en la ayuda de IEECO donde se deberá indicar los usuarios que pertenecen a cada grupo",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-103",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá proporcionar listado de usuarios indicando área, responsable y grupo asignado así como los grupos existentes en el servidor",
+      "helps": "Identificar los usuarios y grupos existentes en el servidor.",
+      "how": "Para Linux - adjuntando la salida que genera la ejecución del shell jason, con el contenido del archivo passwd y group\nPara Windows - adjuntando la imagen que muestre el listado de usuarios",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-104",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Todos los usuarios con altos privilegios deberán ser resguardados en la bóveda de Seguridad Cyberark",
+      "helps": "Permite tener el registro de las personas que ingresan al equipo con altos privilegios",
+      "how": "Adjuntando la imagen de la cuenta integrada a Cyberark",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-106",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "No deberán existir cuentas locales personalizadas. Todas las cuentas deben estar justificadas y deberán contar con los privilegios mínimos necesarios.",
+      "helps": "Diferenciar y asignar accesos basados en privilegios específicos por rol.",
+      "how": "Adjuntando el formato de usuarios ubicado en la ayuda de IEECO",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-107",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "En el servidor ningún usuario deberá contar con permisos de root",
+      "helps": "Garantizar la Restricción de altos privilegios",
+      "how": "Ningún usuario deberá tener UID0 ni con permisos de root en la plantilla de SUDO",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-108",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá tener restricción de acceso por IP",
+      "helps": "Controlar y limitar las conexiones autorizadas",
+      "how": "Para Linux adjuntando la salida que genera la ejecución del Shell jason, que muestre el archivo hosts/hosts.allow/iptables\nPara Windows configurando las reglas de Firewall contenidas en el Manual de Configuración para Enrolamiento a Bóveda",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-109",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá habilitar la Restricción de acceso directo al servidor con usuario root Nota: El control solo aplica para S.O Linux",
+      "helps": "Evitar accesos directos con el superusuario",
+      "how": "La salida que genera la ejecución del shell jason deberá incluir el parámetro PermitRootLogin NO",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-110",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá Configurar plantilla SUDO donde se defina los siguientes perfiles: Administración de usuarios Cambios de contraseña Cyberark Restricción SU Nota: El control solo aplica para S.O Linux",
+      "helps": "Limitar privilegios a usuarios",
+      "how": "La salida que genera la ejecución del shell jason deberá incluir la configuración del archivo sudoers con los comandos requeridos",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-111",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberán configurar políticas de seguridad local para gestión de contraseñas",
+      "helps": "Garantiza la robustez de contraseñas, así como su rotación",
+      "how": "Para Linux - adjuntando la salida que genera la ejecución del shell jason, que incluya los siguientes valores:\nPASS_MAX_DAYS 90\nPASS_MIN_DAYS 0\nPASS_MIN_LEN 16\nPASS_WARN_AGE 7\nPara Windows - configurando las políticas contenidas en el Manual de Configuración para Enrolamiento a Bóveda",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-105",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "El servidor deberá enviar al colector de LOGS aquellos correspondientes al ABC de usuarios y ACLs",
+      "helps": "Permite identificar los movimientos generados relacionados con la gestión de usuarios y privilegios",
+      "how": "Adjuntando la imagen que muestre la configuración de este punto\n\nTotalPlay - 10.180.249.10 / 10.180.239.10 / 10.216.4.50 / 10.180.239.217",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Habilitar los logs estándar para recibir los logs de cada solicitud  enviada a la distribución",
+      "helps": "Al estar asociados al Load Balancer de tipo HTTPS , registrar logs ayuda a la identificación de solicitudes y saber que pasos seguir en caso de algún tipo de problema .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/cdn/docs/logginghles_419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Se deberá configurar cloud CDN sobre balanceadores asegurándose que todas sean peticiones HTTPS.",
+      "helps": "Activar Cloud CDN en el balanceador de cargas y activar el reenvío de peticiones ayuda a encriptar solicitudes y respuestas HTTP para mantener la seguridad .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirecthles-419 \nhttps://cloud.google.com/cdn/docs/setting-up-cdn-with-mighles-419load-balancer",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Controlar el acceso al contenido almacenado en caché mediante autenticación de las solicitudes .",
+      "helps": "Permite o bloquea las solicitudes a contenido que no se encuentren firmadas,  utilizando URL firmadas o cookies firmadas para validar el request origen .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/cdn/docs/authenticate-contenthles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Se deberá configurar una política de Cloud Armor para la geo restricción",
+      "helps": "Permite o bloquea las solicitudes entrantes de las regiones y códigos de país que se configuren en la política . Añadiendo Cloud CDN permiten restringir las descargas de contenido a los usuarios en ubicaciones específicas.  Las reglas de cloud Armor permiten : \n Rechazar solicitudes basadas en direcciones y rangos CIDR IPv4 e IPv6,\n Permitir o denegar solicitudes según el código de país geografía,\nPermitir solicitudes basadas en direcciones y rangos CIDR de IPv4 y de IPv6.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/media-cdn/docs/security-policieshles-419",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Asegurar la configuración hacia el origen utiliza HTTPS TLS 1.2",
+      "helps": "En cumplir las mejores prácticas en seguridad web ya sea que se entregue contenido desde instancias de Compute Engine, un bucket de Cloud Storage o un origen externo ubicado fuera de Google Cloud .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/cdn/docs/web-security-best-practices\nhttps://cloud.google.com/cdn/docs/configure-private-origin-authenticationhles-419gcloud",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud CDN-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud CDN",
+      "ponderacion": 3,
+      "description": "Asegurar mediante Cloud Armor que todos los balanceadores de carga con Cloud CDN tengan integrada la protección del firewall activo",
+      "helps": "Asegurar mediante Cloud Armor que todos los balanceadores de carga con Cloud CDN tengan integrada la protección del firewall activo",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/integrating-cloud-armorhles-419cloud-cdn \nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419https-load-balancer",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Mediante el acceso a VPC sin servidores, se puede conectar Cloud functions directo a otros servicios de  la red de VPC de manera privada",
+      "helps": "Evitar exposición de servicios internos y asegurar el monitoreo del flujo de datos mediante la red interna de la VPC",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/networking/connecting-vpchles-419",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Se deberá forzar el uso del protocolo HTTPS para todas las funciones.",
+      "helps": "Usar HTTPS en Cloud Functions proporciona una capa adicional de seguridad en la comunicación entre el cliente y el servidor, lo que reduce el riesgo de que los datos sensibles sean interceptados o modificados por terceros no autorizados.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/calling/http",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Puedes usar Secret Manager para almacenar de forma segura claves de API, contraseñas y otra información sensible.",
+      "helps": "Secret Manager te permite almacenar, administrar y acceder a secretos como BLOB binarios o strings de texto. Con los permisos adecuados, puedes ver el contenido del secreto como variables de entorno en Cloud functions. Secret Manager funciona bien con el fin de almacenar información de configuración, como contraseñas de bases de datos, claves de API o certificados TLS necesarios para una aplicación en el entorno de ejecución. Un sistema de administración de claves, como Cloud KMS, te permite administrar claves criptográficas y usarlas para encriptar o desencriptar datos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/configuring/secrets",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Hacer uso del registro de labels, Cada función deberá tener etiquetado  Ecosistema y área",
+      "helps": "En tener un mejor control al momento de evaluar y agrupar servicios, así mismo, identificar los servicios que se engloban en un ecosistema dentro de una nube",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/creating-managing-labelslabel_support",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Mediante permisos IAM pueden validar y asignar los permisos invocación, lectura ó escritura de la función mediante roles que se asignan o requiera Cloud Functions",
+      "helps": ": Ayuda a granular los permisos mediante roles, deberá estar apegado al menor privilegio, por default cloud functions solo permite invocaciones autenticadas aunque la función está expuesta a internet mediante una URL pública.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/reference/iam/permissions",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": ":  Mediante el uso de Cloud Logging y cloud monitoring se tiene control sobre los logs y métricas de manera automática",
+      "helps": "Gestión de registros totalmente gestionada y en tiempo real, que admite exabytes de datos y ofrece funciones de almacenamiento, búsqueda, análisis y alertas de las funciones desplegadas.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/monitoring",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-07",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Las cuentas de servicio asociadas a una función ambiente de ejecución deben seguir el principio de mínimo privilegio en IAM",
+      "helps": ": Los permisos asignados en IAM sobre las cuentas de servicio permiten delimitar los recursos y capacidades a nivel permiso que tienen las funciones en el proyecto de GCP",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/securing/function-identityhles_419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Functions-08",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Functions",
+      "ponderacion": 3,
+      "description": "Vulnerabilidades en Codigo",
+      "helps": "Se debera ejecutar alguna herramienta sobre el codigo como checkmarx y debera contener 0 vulnerabilidades",
+      "how": "Adjuntar evidencia del analisis",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Pub Sub-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Integración de aplicaciones",
+      "service": "Cloud Pub/Sub",
+      "ponderacion": 3,
+      "description": "Mediante Cloud KMS encripta las claves por cada tema que se crea en PUB/SUB.",
+      "helps": "Se usa Cloud KMS a fin de encriptar las claves de encriptación de datos DEK que Pub/Sub crea para cada tema.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/encryptionhles-419using-cmek",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Pub Sub-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Integración de aplicaciones",
+      "service": "Cloud Pub/Sub",
+      "ponderacion": 3,
+      "description": "Pub/Sub se basa en una autenticación OAuth estándar que usan otros productos de Google Cloud y admite IAM detallado, lo que permite controlar el acceso a recursos individuales..",
+      "helps": "Evita que usuarios no autorizados publiquen mensajes",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/overviewhles-419integrations",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Pub Sub-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Integración de aplicaciones",
+      "service": "Cloud Pub/Sub",
+      "ponderacion": 3,
+      "description": "Una etiqueta es un par clave-valor que te ayuda a organizar los recursos de Google Cloud. Puedes adjuntar una etiqueta a cada recurso y, luego, usarlas para filtrarlos.",
+      "helps": "Una etiqueta es un par clave-valor que te ayuda a organizar los recursos de Google Cloud. Puedes adjuntar una etiqueta a cada recurso y, luego, usarlas para filtrarlos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/labelshles_419",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Pub Sub-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Integración de aplicaciones",
+      "service": "Cloud Pub/Sub",
+      "ponderacion": 3,
+      "description": "En Pub/Sub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber de forma predeterminada.",
+      "helps": "En Pub/Sub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber de forma predeterminada.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/overviewhles-419core_concepts",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Pub Sub-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Integración de aplicaciones",
+      "service": "Cloud Pub/Sub",
+      "ponderacion": 3,
+      "description": "Supervisa PubSub usando Cloud Monitoring.",
+      "helps": "En PubSub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber  de forma predeterminada",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/monitoringhles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-01",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Usar  la Información  que proporcionan los registros de auditoríaCloud Audit  para  Secret Manager .",
+      "helps": "Mantener la fiabilidad, la disponibilidad , monitoreo y la confidencialidad de los Secretos. Garantiza que todas las llamadas a la API de Secret Manager realizadas en las claves de su cuenta de GCP se registren automáticamente en archivos  de logs  de auditoría.\nLos tipos de registros de auditoría están disponibles para Secret Manager: \nRegistros de auditoría de actividad del administrador,\nRegistros de auditoría de acceso a los datos",
+      "how": "https://cloud.google.com/secret-manager/docs/audit-logginghles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-02",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Configurar notificaciones para un Secret en Pub/Sub para informar sobre cambios en los secretos administrados por Secret Manager.",
+      "helps": "Las notificaciones ayudan a realizar un seguimiento de los cambios en los metadatos secretos, como la descripción secreta y la configuración de rotación. También a activar flujos de trabajo como el reinicio de una aplicación cuando se agrega una nueva versión de un secreto o la notificación a ingenieros de seguridad cuando se borra un secreto",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/secret-manager/docs/event-notificationshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-03",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Se deberán asignar permisos en IAM sobre las cuentas que utilizarán Secret Manager. Siempre otorgando roles solo con los permisos necesarios. Otorgar funciones más amplias, como roles básicos, infringe el principio de privilegio mínimo .",
+      "helps": "Mantener la fiabilidad  y permite acceso a usuarios y las cuentas de servicio, usando los principios de mínimo privilegio, realicen acciones específicas de acceso a la API de Secret Manager. IAM no otorga permisos a los usuarios directamente, sino a funciones que incluyen uno o más permisos.\nCon el principio de privilegio mínimo, se otorga el nivel mínimo de acceso a los recursos necesarios para realizar una tarea determinada",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/secret-manager/docs/authenticationhles-419\nhttps://cloud.google.com/secret-manager/docs/access-controlhles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-04",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Crea programas de rotación en Secret Manager para robustecer la seguridad para los aplicativos y contraseñas que se almacenan en Secret Manager .",
+      "helps": "Ayuda a limitar la duración de un secreto filtrado que permanece válido y que podría exponer una vulnerabilidad. Además permite la fiabilidad del proceso .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/secret-manager/docs/rotation-recommendationshles-419\nhttps://cloud.google.com/secret-manager/docs/creating-and-managing-expiring-secretshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-05",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Habilita las claves de encriptación administradas por el cliente CMEK para Secret Manager .",
+      "helps": "Permite mantener la confidencialidad y la integridad de los datos en reposo, además de un mayor control de los Secrets, la compatibilidad con CMEK para Secret Manager te permite configurar la clave de Cloud KMS que protege los datos en reposo en Secret Manager .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/secret-manager/docs/cmekhles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Secrets Manager-06",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Identity and Security",
+      "service": "Secret Manager",
+      "ponderacion": 3,
+      "description": "Analizar Secretos almacenados usando las herramientas de auditoria de Cloud Asset Inventory .",
+      "helps": "Analizar Secretos almacenados usando las herramientas de auditoria de Cloud Asset Inventory .",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/secret-manager/docs/analyze-resourceshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-01",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "Cloud Load Balancing internos te permite ubicar tus recursos detrás de una sola dirección IP que sea accesible de manera interna sin exponer IPs ni recursos a internet.",
+      "helps": "Distribuye automáticamente el tráfico entrante entre varios destinos. Monitoriza el estado de sus destinos registrados y direcciona el tráfico sólo a los destinos en buen estado.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/load-balancing-overviewhles_419\nhttps://cloud.google.com/load-balancing/docs/featureshles_419health-checks",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-02",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "Toda instancia virtual detrás de un Load Balancer deberá configurar su consumo de internet a través de proyecto de salida a Internet segura.",
+      "helps": "Proveer un mecanismo de control que garantice la inspección profunda de los paquetes, filtrado de contenido y control de flujo de comunicaciones capa 4 a capa 7. Además se garantiza un canal centralizado para el control de flujos, orígenes y destinos seguros para el consumo de internet en los proyectos.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/shared-vpchles_419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-03",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "En service projects solo utilizar Load Balancers de tipo local.",
+      "helps": "Todos los Load Balancers deben de ser de tipo local en los service projects para balancear la carga de tráfico hacia componentes de cómputo como instancias virtuales, cluster de kubernetes, microservicios. Etc",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/l7-internalhles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-04",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "Habilitar flow logs en las subredes donde se despliegan Load Balancers.",
+      "helps": "Diagnosticar reglas de grupo de seguridad muy restrictivas, monitorizar el tráfico que llega a su instancia, determinar la dirección del tráfico hacia y desde las interfaces de red. Todas las instancias Backend que utilizan un balanceador de carga, al tener activo flow logs, generan logs que se pueden consultar desde Cloud Logging y con posibilidad de exportar a Cloud Storage",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/flow-logshles-419vm-to-vm-flows-internal-tcp-udp-lb\nhttps://cloud.google.com/logging/docs/view/logs-explorer-summaryhles",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-05",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "Mediante reglas de Firewall se pueden acotar orígenes, destinos y servicios a través de reglas de firewall",
+      "helps": "Las reglas de permiso de entrada, permiten que el tráfico de Google Front End y de la subred llegue a tus backends.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/httpshles_419firewall-rules",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Balanceador de carga-06",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Networking",
+      "service": "Cloud Load Balancing",
+      "ponderacion": 3,
+      "description": "Todo Load Balancer deberá contar con la protección de un WAF",
+      "helps": "Agrega un nivel de protección antes de que los agentes malintencionados lleguen a la aplicación.",
+      "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419https-load-balancer",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-01",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Asegurar de que solo los usuarios y servicios que necesitan acceso a Vertex AI tengan los roles adecuados, tales como Vertex AI Admin, Vertex AI Viewer, Vertex AI Developer. Aplica el principio de menor privilegio, otorgando solo los permisos mínimos necesarios. \nNo utilizar roles primitivos.",
+      "helps": "A asegurar que solo los usuarios y servicios que necesitan acceso a Vertex AI tengan los roles adecuados y aplicar el principio de menor privilegio ayuda a minimizar el riesgo de acceso no autorizado, reduciendo la superficie de ataque y garantizando que cada usuario y servicio solo pueda realizar las acciones necesarias, lo que mejora la seguridad general del entorno y protege los datos sensibles.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/access-control",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-05",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Realizar el llenado del documento Gobierno de Seguridad GenIA para la utilización de inteligencia generativa, en el cual se deben cumplir los controles de acuerdo con el Alcance del proyecto.",
+      "helps": "Asegura el correcto uso de las herramientas de IA",
+      "how": "Favor de consultar el documento de GCP documento Controles de Seguridad para GenIA.docx",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-06",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Validación del FM Foundation Model: Busca asegurar que los modelos de aprendizaje automático ML utilizados en Vertex AI cumplen con los estándares de calidad, seguridad y rendimiento necesarios para su implementación.",
+      "helps": "Identificar que el modelo se encuentra dentro de los estándares de DSI.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/generative-ai/docs/learn/models",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-07",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Cloud Storage siempre encripta los datos antes de escribirse a disco, Encriptación en reposo.",
+      "helps": "Asegurar el correcto cifrado de las herramientas de la información en buckets de Google Cloud Storage.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/storage/docs/encryption\nhttps://cloud.google.com/vertex-ai/docs/general/cmek",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-08",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar el registro de actividades y auditoría en Vertex para registrar eventos importantes, como operaciones de escritura de metadata o información de configuración.",
+      "helps": "Proporcionan una capa crítica de seguridad, cumplimiento y optimización, ayudando a \nasegurar que los sistemas de almacenamiento sean eficientes, seguros y conformes con las normas \naplicables.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/audit-logging\nhttps://cloud.google.com/vertex-ai/docs/workbench/managed/audit-logging\nhttps://cloud.google.com/vertex-ai/docs/workbench/user-managed/audit-logging",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-09",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilite el servicio de Controles de Servicio de VPC.",
+      "helps": "Esta configuración crea un perímetro de seguridad que limita cómo los datos pueden ser accesados y compartidos, incluso dentro de la propia infraestructura de Google Cloud.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/vpc-service-controlshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-10",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Utilizar solo regiones autorizadas en despliegue de servicios para utilizar Vertex. No es posible utilizar Vertex Ai en todas las regiones de GCP actualmente.",
+      "helps": "Utilizar solo las regiones autorizadas garantiza que se cumplan criterios esenciales como requisitos de rendimiento, cumplimiento normativo y estrategias de resiliencia, garantizando así operaciones en la nube eficientes, seguras y alineadas con los objetivos estratégicos de la organización.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/generative-ai/docs/learn/locationshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-11",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Activar la protección de alguna herramienta propia de GCP o de terceros como mecanismo de protección para IA.",
+      "helps": "Asegura la integridad y confidencialidad de los modelos y datos utilizados, mitigando riesgos de accesos no autorizados, previniendo ataques maliciosos, y garantizando el cumplimiento de normativas de seguridad y privacidad, lo que a su vez aumenta la confianza de los usuarios en las soluciones de IA implementadas.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://console.cloud.google.com/vertex-ai/publishers/meta/model-garden/prompt-guard",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-01",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Identifique cualquier servicio de Cloud de acceso público dentro de su cuenta GCP y actualice su política de IAM con el fin de protegerse contra usuarios no autorizados que están enviando solicitudes para invocar estos servicios.",
+      "helps": "Los permisos de acceso mal configurados son una vulnerabilidad de seguridad común que involucra recursos de Google Cloud. Conceder permisos a allUsers y allAuthenticatedUsers puede permitir a cualquiera invocar sus servicios. Para evitar filtraciones de datos sensibles, pérdida de datos y cargos inesperados en su factura GCP, asegúrese de que el acceso anónimo y/o público a sus servicios de Cloud Run no esté permitido.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/iam/docs/overviewhles-419",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-02",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que sus servicios de Cloud Run no estén configurados para permitir el acceso de la red de salida sin restricciones con el fin de prevenir vulnerabilidades de seguridad y minimizar los costos de la nube. Para asegurarse de que el tráfico de salida de su servicio se limita a los rangos de IP internos y no puede comunicarse con redes externas o el Internet público, establezca el parámetro VpcConnector EgressConfiguración a PRIVATE-RANGES-ONLY.",
+      "helps": "Los actores maliciosos pueden explotar el acceso irrestricto a la red saliente para exfiltrar datos sensibles, lanzar ataques como los ataques Man-In-In-The-Middle MITM y Denial-of-Service DoS, o incurren en cargos inesperados.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/run/docs/configuring/networking-best-practiceshles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-03",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Para evitar el escalado incontrolado, el agotamiento de los recursos y los costos inesperados, asegúrese que sus servicios de Cloud Run se configuren con un número máximo óptimo de instancias asignadas. Así mismo, para minimizar la latencia en frío y mejorar el rendimiento, asegúrense de que sus servicios de Google Cloud Run tengan un número suficiente de instancias de contenedores configurados.",
+      "helps": "Puede controlar su comportamiento de escalado de servicio de Cloud Run estableciendo un número máximo de instancias de contenedores. Esto limita los costes y evita los recursos descendentes abrumadores con el tráfico.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/functions/docs/configuring/max-instanceshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-04",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que el valor configurado para las peticiones máximas concurrentes por instancia es óptimo para mejorar la capacidad de respuesta y escalabilidad durante los picos de tráfico, y mejorar la experiencia del usuario.",
+      "helps": "Configurar solicitudes de concurrencia más altas por instancia para los servicios de Google Cloud Run permite a su aplicación manejar más interacciones simultáneas de los usuarios, mejorando la capacidad de respuesta y la experiencia del usuario.",
+      "how": "Favor de consultar el documento de GCP Cloud Run.",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-05",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que siempre utilice la versión más reciente del lenguaje de programación de sus cargas para sus servicios de Cloud Run.",
+      "helps": "Es crucial para la seguridad, el rendimiento y el acceso a las últimas características y bibliotecas. Asegura que sus servicios se beneficien de correcciones de errores, optimizaciones y compatibilidad mejorada.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/run/docs/configuring/services/runtime-base-imageshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-06",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que sus servicios de Cloud Run se refieren a cuentas de servicio activas existentes con el fin de evitar fallos de ejecución e interrupciones operativas.",
+      "helps": "Una cuenta de servicio es esencial para que el servicio de Cloud Run se pueda ejecutar con éxito. Esto provee de los permisos y credenciales necesarios al servicio para el acceso a otros recursos y realiza sus tareas dentro del entorno de la nube GCP. Si la cuenta de servicio está deshabilitada o eliminada, el servicio no funcionará, lo que conducirá a interrupciones del servicio y pérdida de datos potenciales.",
+      "how": "Favor de consultar el documento de GCP Cloud Run.",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TV AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-07",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que los servicios de Cloud Run invocados por Pub/Sub tengan un Dead-Letter Topic DLT configurado para manejar mensajes no disponibles.",
+      "helps": "Cuando un mensaje no puede ser reconocido, Google Cloud Pub/Sub puede enviar el mensaje a un Dead-Letter Topic DLT que almacena el mensaje para un acceso posterior.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://console.cloud.google.com/cloudpubsub/subscription/createhles-419projectdsi-poc",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-08",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que las actualizaciones automáticas de seguridad en tiempo de ejecución están habilitadas para sus servicios de Cloud Run con el fin de mantener los servicios seguros y protegidos contra vulnerabilidades sin intervención manual.",
+      "helps": "Google libera parches de seguridad y actualizaciones de mantenimiento después de un período de pruebas de estabilidad.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/run/docs/configuring/services/automatic-base-image-updateshles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-09",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que la función de Binary Authorization esté habilitada para sus servicios de Google Cloud Run. La habilitación de la Binary Authorization para los servicios de Cloud Run mejora la seguridad asegurando que sólo se puedan implementar imágenes de contenedores de confianza, reduciendo el riesgo de desplegar software vulnerable o no autorizado.",
+      "helps": "Binary Authorization tiene por objeto mitigar los peligros potenciales asociados con el despliegue de software defectuoso, inseguro o no autorizado en esos entornos. Con Binary Authorization, usted tiene la capacidad de bloquear el despliegue de imágenes a menos que se adhieran a una política que usted establece.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/binary-authorization/docs/run/enabling-binauthz-cloud-runhles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-10",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que el soporte HTTP/2 de extremo a extremo esté habilitado para sus servicios de Cloud Run con el fin de beneficiarse de las mejoras de rendimiento introducidas por el protocolo HTTP/2.",
+      "helps": "Permitir el HTTP/2 de extremo a extremo para los servicios de Cloud Run mejora el rendimiento reduciendo la latencia, permitiendo flujos multiplexados a través de una sola conexión, y permitiendo una transferencia de datos más rápida. También proporciona una mejor eficiencia en el uso de los recursos, ya que varias solicitudes pueden tramitarse simultáneamente a lo largo de la misma conexión, reduciendo los gastos generales de conexión.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/run/docs/configuring/http2hles-419",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Cloud Run-11",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Cloud Run",
+      "ponderacion": 5,
+      "description": "Asegúrese de que las etiquetas definidas por el usuario se están utilizando para etiquetar, recopilar y organizar servicios de Cloud Run dentro de sus proyectos. Las etiquetas definidas por el usuario son una forma ligera y eficiente de agrupar los recursos de la nube relacionados o asociados.",
+      "helps": "A medida que sus proyectos de Google Cloud Platform GCP crecen cada vez más complejos, las estrategias de gestión eficaces se vuelven esenciales.",
+      "how": "Favor de consultar el documento de GCP Cloud Run, adjunto en la sección de ayuda, manuales cloud, Cloud Run:\nhttps://cloud.google.com/resource-manager/docs/creating-managing-labelshles-419\nhttps://cloud.google.com/run/docs/configuring/services/labelshles-419",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Firebase-01",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Accede y administra tus reglas de seguridad de Firebase.",
+      "helps": "Son cruciales para garantizar la seguridad y el control de acceso en tus aplicaciones, permitiendo especificar quién puede leer, escribir o eliminar datos, lo que ayuda a prevenir accesos no autorizados y proteger información sensible. Estas reglas permiten una validación de datos efectiva y facilitan auditorías mediante el registro de accesos, y pueden configurarse de manera dinámica según la información del usuario, asegurando un acceso granular. Al integrarse con Firestore, Realtime Database y Storage, las reglas aseguran que solo los usuarios autenticados interactúen con los recursos específicos.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/rules/manage-deployhles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Firebase-02",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Para este caso de uso de Firebase solo Analytics se deben configurar las reglas en modo bloqueado para los servicios Cloud Firestore, Reatime Database y Cloud Storage.",
+      "helps": "Son esenciales para garantizar la seguridad y el control de acceso a los datos, ya que impiden el acceso no autorizado y protegen información sensible de potenciales amenazas. Estas reglas permiten definir claramente quién puede leer, escribir o modificar datos, asegurando que solo usuarios autenticados y autorizados interactúen con la base de datos. Además, reducen el riesgo de cambios accidentales, facilitan la auditoría de interacciones y ayudan a cumplir con normativas de protección de datos, promoviendo así el desarrollo de aplicaciones seguras y confiables.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/rules/basicshles-419default_rules_locked_mode",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Firebase-03",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Control de Acceso a la Consola de Firebase.",
+      "helps": "A proteger la seguridad y la integridad de los proyectos, ya que limita quién puede acceder a la consola y qué permisos tienen, asegurando que solo los usuarios autorizados puedan realizar modificaciones en configuraciones y acceder a datos sensibles. Al utilizar IAM Identity and Access Management para gestionar permisos a nivel de proyecto, se minimiza el riesgo de cambios accidentales y se optimiza la administración de recursos. Además, este enfoque facilita la auditoría de actividades, ayuda a cumplir con regulaciones de protección de datos y promueve la confianza en el uso de servicios de Firebase.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/projects/iam/permissionshles",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-Firebase-04",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Aplica restricciones de claves de API.\nLas claves de API no están restringidas de forma predeterminada. Las claves no restringidas son inseguras porque cualquier persona puede usarlas desde cualquier lugar. Para las aplicaciones de producción, debes establecer restricciones de aplicaciones y restricciones de API.",
+      "helps": "Las restricciones de aplicaciones especifican qué sitios web, direcciones IP o apps pueden usar una clave de API.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://cloud.google.com/docs/authentication/api-keyshlesapi_key_restrictions",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Firebase-05",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Mantenga las claves del servidor FCM en secreto.",
+      "helps": "A diferencia de las claves API para los servicios de Firebase, las claves del servidor FCM son confidenciales y deben mantenerse en secreto.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/cloud-messaging/auth-serverhlesauthorize-legacy-protocol-send-requests",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Firebase-06",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Mantenga en secreto las claves de la cuenta de servicio.",
+      "helps": "Además, a diferencia de las claves API para los servicios de Firebase, las claves privadas de la cuenta de servicio son confidenciales y deben mantenerse en secreto.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/admin/setuphlesinitialize-sdk",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Firebase-07",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Reglas de seguridad de prueba unitaria con Emulator Suite agregarlo a CI.",
+      "helps": "Para asegurarse de que sus reglas de seguridad se mantengan al día con el desarrollo de su aplicación, pruebe sus reglas con el conjunto de emuladores Firebase y agregue estas pruebas a su canal de CI. Consulte estas guías para Cloud Firestore y Realtime Database.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/emulator-suitehles\nhttps://firebase.google.com/docs/firestore/security/test-rules-emulatorhles\nhttps://firebase.google.com/docs/rules/unit-testshlesdatabase",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Firebase-08",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Developer Tools",
+      "service": "Firebase Analytics",
+      "ponderacion": 5,
+      "description": "Nunca coloques información confidencial en las variables de entorno de una función en la nube.",
+      "helps": "A menudo, en una aplicación Node.js autohospedada, se utilizan variables de entorno para contener información confidencial, como claves privadas. No hagas esto en Cloud Functions. Debido a que Cloud Functions reutiliza entornos entre invocaciones de funciones, la información confidencial no debe almacenarse en el entorno.",
+      "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/support/guides/security-checklisthlescloud_function_safety",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-03",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Workbench\nLas instancias notebook de Vertex AI se crean como una instancia de Compute Engine. Son creadas dentro de una subred de una VPC, por lo que esta gestiona quién tiene acceso a la instancia.",
+      "helps": "Asegurar la información limitando quién puede acceder a la instancia.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vpc/docs/vpc",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-12",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nUsar solo runtime templates en Colab Enterprise.",
+      "helps": "Mejora la seguridad al asegurar que todas las configuraciones y prácticas de seguridad sean consistentes y aplicadas uniformemente, incluyendo autenticación, autorización, encriptación y monitoreo, lo que reduce el riesgo de vulnerabilidades y errores humanos, facilitando el cumplimiento de normativas y regulaciones de seguridad.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\n https://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-13",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nUsar solo runtime templates sin acceso a internet.",
+      "helps": "A fortalecer la seguridad al aislar los entornos de ejecución, reduciendo el riesgo de ataques externos, filtraciones de datos y ejecución de código malicioso, mientras asegura que todas las configuraciones y dependencias sean predefinidas y controladas, lo que facilita el cumplimiento de normativas y mantienen un alto nivel de confidencialidad e integridad de los datos y el código.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/colab/docs/runtimesconfiguration-internet-access",
+      "active": "Si",
+      "business_units": [
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-14",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nAgregar etiquetas en los runtime templates de Colab Enterprise.",
+      "helps": "A mejorar la organización y gestión de recursos, facilitando la identificación y clasificación de Notebooks según proyectos, equipos o propósitos específicos, lo que simplifica la búsqueda, el monitoreo y la aplicación de políticas de seguridad y acceso basadas en etiquetas, mejorando la eficiencia y el control sobre los entornos de desarrollo.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\n https://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-15",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Colab Enterprise.\nHabilitar arranque seguro en la creación de runtime template en Colab Enterprise.",
+      "helps": "A fortalecer la seguridad al verificar la integridad y autenticidad del firmware y del sistema operativo, previniendo la ejecución de código malicioso o no autorizado durante el proceso de inicio, lo que reduce el riesgo de ataques de firmware y asegura que el entorno de ejecución se inicie en un estado confiable y seguro.",
+      "how": "Favor de consultar el documento de GCP Vertex AI",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-16",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Solo aplica para caso de uso notebook de Colab Enterprise\nHabilitar cierre de actividad en la creación de runtime template en Colab Enterprise.",
+      "helps": "A mejorar la seguridad y el rendimiento al automáticamente detener los Notebooks inactivos, lo que reduce el riesgo de exposición a amenazas persistentes, libera recursos computacionales no utilizados y minimiza costos, asegurando que el entorno de desarrollo sea más eficiente y seguro.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TOTALPLAY",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-18",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Si es necesario contar con salida a internet de algún servicio, la salida hacia internet se debe realizar a través de la VPC de seguridad definida por el DSI y montada en el Shared Service.",
+      "helps": "Centraliza el control de acceso, mejora la seguridad con firewalls y proxies, facilita el monitoreo y registro del tráfico, reduce la superficie de ataque, bloquea tráfico malicioso, filtra contenido, optimiza costos, facilita el cumplimiento de normativas, y asegura la resiliencia y continuidad del negocio, proporcionando una capa adicional de protección y control sobre los servicios que necesitan acceso a Internet.",
+      "how": "Favor de consultar el documento de GCP Vertex AI",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "BANCO AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-17",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Solo aplica para caso de uso notebook de Colab Enterprise\nHabilitar credenciales de usuario final en la creación de runtime templates de Colab Enterprise.",
+      "helps": "A mejorar la seguridad y el control de acceso al asegurar que cada usuario se autentique con sus propias credenciales, lo que permite un seguimiento preciso de las acciones realizadas, reduce el riesgo de acceso no autorizado y facilita el cumplimiento de normativas de seguridad y auditorías.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TOTAL CYBER-SEC",
+        "TV AZTECA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-04",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Seguridad de los Modelos y Datos. Asegúrate de que los datos en tránsito y en reposo están encriptados. Revisa la configuración de encriptación en la consola de GCP.",
+      "helps": "El utilizar solo modelos y servicios que cumplan con la encriptación de datos en tránsito y reposo aseguran la confidencialidad de los datos sensibles.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/vertexai-security-controlshles-419",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "ELEKTRA",
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-02",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "SOLO aplica para caso de uso notebook de Workbench\nLas instancias de Vertex AI Workbench pueden estar tanto en una VPC del proyecto personal, como en una manejada por Google. En caso de seleccionar una manejada por Google, se debe gestionar un VPC Peering, de lo contrario, el workbench se crea dentro de una instancia común.",
+      "helps": "Se puede controlar las redes donde se hospedan las instancias de jupyter notebook de Vertex AI.",
+      "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/workbench/managed/networkingvpc",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC",
+        "ELEKTRA",
+        "BANCO AZTECA",
+        "TV AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "GCP-GKE-07",
+      "area": "Cloud DSI",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "GKE",
+      "ponderacion": 3,
+      "description": "Habilitar MFA en Cloud Identity en la Organización",
+      "helps": "Habilitar MFA Autenticación Multifactor en una cuenta de GCP ayuda a reforzar la seguridad al requerir una segunda forma de verificación como un código de un dispositivo móvil o una llave física además de la contraseña, reduciendo significativamente el riesgo de accesos no autorizados, ataques de phishing o compromiso de credenciales, lo que protege los recursos críticos de la nube y cumple con mejores prácticas de seguridad y estándares de cumplimiento.",
+      "how": "Favor de consultar el manual en: Ayuda - Ayuda - Manuales Cloud y descargar el documento para revisar como cumplir el punto:\nhttps://cloud.google.com/docs/authentication/mfa-requirementenable",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "TV AZTECA",
+        "TOTAL CYBER-SEC",
+        "BANCO AZTECA",
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-N2-4746",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "En el servidor ningún usuario deberá contar con permisos de root.",
+      "helps": "Garantizar la Restricción de altos privilegios.",
+      "how": "Ningún usuario deberá tener UID0 ni con permisos de root en la plantilla de SUDO.",
+      "active": "Si",
+      "business_units": [
+        "BANCO AZTECA",
+        "BANCO AZTECA",
+        "BANCO AZTECA",
+        "BANCO AZTECA",
+        "BANCO AZTECA",
+        "BANCO AZTECA"
+      ]
+    },
+    {
+      "code": "Google-N2-4759",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá tener restricción de acceso por IP.",
+      "helps": "Controlar y limitar las conexiones autorizadas.",
+      "how": "Para Linux adjuntando la salida que genera la ejecución del Shell jason, que muestre el archivo hosts/hosts.allow/iptables\nPara Windows configurando las reglas de Firewall contenidas en el Manual de Configuración para Enrolamiento a Bóveda.",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-N2-4761",
+      "area": "CyAAL IT",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se deberá Configurar plantilla SUDO donde se defina los siguientes perfiles: Administración de usuarios Cambios de contraseña Cyberark Restricción SU Nota: El control solo aplica para S.O Linux.",
+      "helps": "Limitar privilegios a usuarios.",
+      "how": "La salida que genera la ejecución del shell jason deberá incluir la configuración del archivo sudoers con los comandos requeridos.",
+      "active": "Si",
+      "business_units": [
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA",
+        "ELEKTRA"
+      ]
+    },
+    {
+      "code": "Google-TODOS-1547",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Security Groups Deben de ser acotados en orígenes, destinos  y servicios",
+      "helps": "Evita que se tenga acceso desde cualquier origen desconocido",
+      "how": "Adjuntar imagen de los Security Groups asociados",
+      "active": "Si",
+      "business_units": [
+        "TOTAL CYBER-SEC"
+      ]
+    },
+    {
+      "code": "GCP-BDVM-323",
+      "area": "CSA",
+      "cloud": "Google",
+      "service_type": "Database",
+      "service": "",
+      "ponderacion": 3,
+      "description": "Asegurar que la versión esta soportada por el fabricante. Sólo se tomará como valida la versión actual la versión actual - 1 o la versión LTS Long Term Support",
+      "helps": "Disminuye el riesgo de vulnerabilidades tipo 0-day vulnerabilidades recientes sin parches",
+      "how": "Adjunta evidencia de las últimas versiones del manejador de base de datos utilizadas",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-3061",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.",
+      "helps": "Ayuda acotar los accesos a los recursos",
+      "how": "DSI valida con usuario de GCP",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-3062",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 5,
+      "description": "Se requiere validar que el elemento envía Logs a un servidor Syslog. Tanto del SO como del aplicativo",
+      "helps": "En tener trazabilidad de todos los cambios que se lleguen a ejecutar en los elementos.",
+      "how": "Realizar configuración de syslog en elementos y compartir evidencia.",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-3063",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 4,
+      "description": "Reglas de Firewall deben de ser acotados en orígenes, destinos  y servicios\nNo redes abiertas /0\nNo servicios ALL\nNo redes abiertas /8, /16, /24 para puertos críticos 3389, 22, 23, 21",
+      "helps": "Evita que se tenga acceso desde cualquier origen desconocido",
+      "how": "DSI revisa con usuario de GCP",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-3064",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Disco duro cifrado",
+      "helps": "Robustecer la seguridad de la información almacenada",
+      "how": "Compartir evidencia de la configuración del apartado Disk",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Compute Engine VMs-3065",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Compute",
+      "service": "Compute Engine VMs",
+      "ponderacion": 3,
+      "description": "Sin direccionamiento público expuesto en instancias virtuales",
+      "helps": "En evitar IPs expuestas a internet",
+      "how": "Compartir evidencia del apartado de configuración EIP",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-GKE-3221",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Hybrid and Multi-cloud",
+      "service": "GKE",
+      "ponderacion": 5,
+      "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.\nReglas de Firewall deben de ser acotados en orígenes, destinos  y servicios\nNo redes abiertas /0\nNo servicios ALL\nNo redes abiertas /8, /16, /24 para puertos críticos 3389, 22, 23, 21\nSe permitirán /16 de los segmentos on-premise",
+      "helps": "Ayuda acotar los accesos a los recursos",
+      "how": "DSI valida con usuario de GCP",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-GKE-3222",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Hybrid and Multi-cloud",
+      "service": "GKE",
+      "ponderacion": 5,
+      "description": "Se requiere validar que el elemento envía Logs a un servidor Syslog y Logs de kubernetes.",
+      "helps": "En tener trazabilidad de todos los cambios que se lleguen a ejecutar en los elementos.",
+      "how": "Realizar configuración de syslog en elementos y compartir evidencia.",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-GKE-3223",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "Hybrid and Multi-cloud",
+      "service": "GKE",
+      "ponderacion": 5,
+      "description": "Instalación de Agente PRISMA",
+      "helps": "Detección y protección automática contra vulnerabilidades, procesos y actividad maliciosa.",
+      "how": "Instalar Agente",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5241",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+      "helps": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+      "how": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5242",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+      "helps": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+      "how": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5243",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+      "helps": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+      "how": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5244",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "helps": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "how": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5245",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "helps": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "how": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5246",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+      "helps": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+      "how": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5247",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+      "helps": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+      "how": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5248",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+      "helps": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+      "how": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5249",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+      "helps": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+      "how": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5250",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+      "helps": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+      "how": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5251",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+      "helps": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+      "how": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5252",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+      "helps": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+      "how": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5253",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Implementación de servicio Security Command Center  para servicios de IA",
+      "helps": "Implementación de servicio Security Command Center  para servicios de IA",
+      "how": "Implementación de servicio Security Command Center  para servicios de IA",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    },
+    {
+      "code": "Google-Vertex AI-5254",
+      "area": "NetSec",
+      "cloud": "Google",
+      "service_type": "AI/ML",
+      "service": "Vertex AI",
+      "ponderacion": 5,
+      "description": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+      "helps": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+      "how": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+      "active": "Si",
+      "business_units": [
+        "TOTALPLAY"
+      ]
+    }
+  ]
+}

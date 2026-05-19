@@ -1,0 +1,154 @@
+[
+  {
+    "code": "Google-Firebase-01",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Accede y administra tus reglas de seguridad de Firebase.",
+    "helps": "Son cruciales para garantizar la seguridad y el control de acceso en tus aplicaciones, permitiendo especificar quién puede leer, escribir o eliminar datos, lo que ayuda a prevenir accesos no autorizados y proteger información sensible. Estas reglas permiten una validación de datos efectiva y facilitan auditorías mediante el registro de accesos, y pueden configurarse de manera dinámica según la información del usuario, asegurando un acceso granular. Al integrarse con Firestore, Realtime Database y Storage, las reglas aseguran que solo los usuarios autenticados interactúen con los recursos específicos.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/rules/manage-deployhles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Firebase-02",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Para este caso de uso de Firebase solo Analytics se deben configurar las reglas en modo bloqueado para los servicios Cloud Firestore, Reatime Database y Cloud Storage.",
+    "helps": "Son esenciales para garantizar la seguridad y el control de acceso a los datos, ya que impiden el acceso no autorizado y protegen información sensible de potenciales amenazas. Estas reglas permiten definir claramente quién puede leer, escribir o modificar datos, asegurando que solo usuarios autenticados y autorizados interactúen con la base de datos. Además, reducen el riesgo de cambios accidentales, facilitan la auditoría de interacciones y ayudan a cumplir con normativas de protección de datos, promoviendo así el desarrollo de aplicaciones seguras y confiables.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/rules/basicshles-419default_rules_locked_mode",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Firebase-03",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Control de Acceso a la Consola de Firebase.",
+    "helps": "A proteger la seguridad y la integridad de los proyectos, ya que limita quién puede acceder a la consola y qué permisos tienen, asegurando que solo los usuarios autorizados puedan realizar modificaciones en configuraciones y acceder a datos sensibles. Al utilizar IAM Identity and Access Management para gestionar permisos a nivel de proyecto, se minimiza el riesgo de cambios accidentales y se optimiza la administración de recursos. Además, este enfoque facilita la auditoría de actividades, ayuda a cumplir con regulaciones de protección de datos y promueve la confianza en el uso de servicios de Firebase.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/projects/iam/permissionshles",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Firebase-04",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Aplica restricciones de claves de API.\nLas claves de API no están restringidas de forma predeterminada. Las claves no restringidas son inseguras porque cualquier persona puede usarlas desde cualquier lugar. Para las aplicaciones de producción, debes establecer restricciones de aplicaciones y restricciones de API.",
+    "helps": "Las restricciones de aplicaciones especifican qué sitios web, direcciones IP o apps pueden usar una clave de API.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://cloud.google.com/docs/authentication/api-keyshlesapi_key_restrictions",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Firebase-05",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Mantenga las claves del servidor FCM en secreto.",
+    "helps": "A diferencia de las claves API para los servicios de Firebase, las claves del servidor FCM son confidenciales y deben mantenerse en secreto.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/cloud-messaging/auth-serverhlesauthorize-legacy-protocol-send-requests",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Firebase-06",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Mantenga en secreto las claves de la cuenta de servicio.",
+    "helps": "Además, a diferencia de las claves API para los servicios de Firebase, las claves privadas de la cuenta de servicio son confidenciales y deben mantenerse en secreto.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/admin/setuphlesinitialize-sdk",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Firebase-07",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Reglas de seguridad de prueba unitaria con Emulator Suite agregarlo a CI.",
+    "helps": "Para asegurarse de que sus reglas de seguridad se mantengan al día con el desarrollo de su aplicación, pruebe sus reglas con el conjunto de emuladores Firebase y agregue estas pruebas a su canal de CI. Consulte estas guías para Cloud Firestore y Realtime Database.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/docs/emulator-suitehles\nhttps://firebase.google.com/docs/firestore/security/test-rules-emulatorhles\nhttps://firebase.google.com/docs/rules/unit-testshlesdatabase",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Firebase-08",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Developer Tools",
+    "service": "Firebase Analytics",
+    "ponderacion": 5,
+    "description": "Nunca coloques información confidencial en las variables de entorno de una función en la nube.",
+    "helps": "A menudo, en una aplicación Node.js autohospedada, se utilizan variables de entorno para contener información confidencial, como claves privadas. No hagas esto en Cloud Functions. Debido a que Cloud Functions reutiliza entornos entre invocaciones de funciones, la información confidencial no debe almacenarse en el entorno.",
+    "how": "Favor de consultar el documento de GCP Firebase, adjunto en la sección de ayuda, manuales cloud, Cloud Firebase:\nhttps://firebase.google.com/support/guides/security-checklisthlescloud_function_safety",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  }
+]

@@ -1,0 +1,235 @@
+[
+  {
+    "code": "Google-Cloud SQL-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Cumplir con el checklist CIS Assessor de base de datos de CSA",
+    "helps": "El estándar de CIS nos ayuda a realizar un hardening de seguridad con respecto a las configuraciones que se tienen en la base de datos.",
+    "how": "Favor de contactar al evaluador para los porcentajes solicitados.",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "VoBo del área de Arquitectura de las versiones de RDS que se ocuparán",
+    "helps": "Ejecuta las mismas bases de datos relacionales que conoces con sus colecciones de extensiones enriquecidas, marcas de configuración y ecosistema de desarrollador, pero sin las dificultades de la autoadministración.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Los accesos o interacción con otros servicios dentro de la nube deberá ser por ROLESIAM, deberán estar acotados al menor privilegio, todo esto si es que la cuenta de servicio se comunica con otros servicios",
+    "helps": "En asegurar la integridad de los datos al prevenir acciones no permitidas para todos los usuarios",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/iam-rolesroles\nhttps://cloud.google.com/sql/docs/postgres/iam-rolesroles\nhttps://cloud.google.com/sql/docs/sqlserver/iam-rolesroles",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Restringir el uso de componentes que puedan acceder y conectarse a Cloud SQL mediante grupos de Seguridad.",
+    "helps": "No permite el acceso o conexión a Cloud SQL si no se tiene autorización mediante los grupos de seguridad.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identity/docs/groupshles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Plan de actualizaciónupgrade o migración, según sea el caso de la versión.",
+    "helps": "Database Migration Service DMS facilita la migración de tus bases de datos de producción a Cloud SQL con un tiempo de inactividad mínimo",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://Drive.google.com/drive/u/0/utm_sourceenpli1",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-06",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Cualquier cambio a los grupos de parámetros se deben de notificar al equipo de CSA de la unidad de negocio",
+    "helps": "Tener un control de los cambios que se realizan en la plataforma",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-07",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Especificaciones para el usuario y contraseña de la BD",
+    "helps": "Seguridad en los usuarios administradores, para evitar el uso indebido de permisos",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n\nAsí mismo, este deberá estar almacenado en una bóveda de secretos, ya sea de GCP o externa",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-08",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Se cuenta con HA para que los datos siguen estando disponibles para aplicaciones cliente a pesar de interrupciones zonales.",
+    "helps": "Reduce el tiempo de inactividad cuando una zona o una instancia deja de estar disponible. Esto puede ocurrir durante una interrupción zonal o cuando una instancia se daña",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/high-availabilityHA-configuration",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-09",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Acceso Público: NO. Por defecto las instancias de Cloud SQL no tienen configurada una IP publica para ser consumidas por aplicaciones de internet",
+    "helps": "En evita el acceso a cualquier persona no autenticada en GCP. En caso de requerir exponer una IP publica, esta deberá configurarse en un rango de IPs autorizadas para acceder",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/configure-iphles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-10",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Plan de BackupRetención diaria, los backups deberán están encriptados",
+    "helps": "Ayudan a restablecer los datos perdidos en la instancia de Cloud SQL. Además, si una instancia tiene un problema, puedes restablecerla a un estado anterior mediante la copia de seguridad para reemplazarla.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/backup-recovery/backups\nhttps://cloud.google.com/sql/faqencryption",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-11",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 3,
+    "description": "Se debe de habilitar el monitoreo para mayor granularidad sobre los siguientes puntos:\n Audit Logs\n Error Logs\n General Logs\n Slow Query Logs",
+    "helps": "En responder las preguntas Quién hizo qué, dónde y cuándo. Dentro de tus recursos de Google Cloud.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/audit-logginghles-419\nhttps://cloud.google.com/logging/docs/audithles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud SQL-12",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Database",
+    "service": "Cloud SQL",
+    "ponderacion": 5,
+    "description": "Habilitar la encriptación de datos con Customer-Managed Keys, Solo si aplica alguna regulacion en su UN",
+    "helps": "Proteger la confidencialidad de los datos para seguridad e integridad de los mismos, además de crear y administrar tus claves a través de Cloud Key Management Service. Las claves de encriptación administradas por el cliente se pueden almacenar las llaves con las que se cifran los datos en reposo y tránsito desde la base de datos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sql/docs/mysql/configure-cmek",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  }
+]

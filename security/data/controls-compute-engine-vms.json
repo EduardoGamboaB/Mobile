@@ -1,0 +1,792 @@
+[
+  {
+    "code": "Google-Compute Engine VMs-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Las opciones de SO son RHEL, SUSE y Windows, en caso de ocupar otra imagen se debe validar con el área de CSA.",
+    "helps": "Compute Engine ofrece numerosas imágenes públicas preconfiguradas con sistemas operativos Linux o Windows compatibles. Usa estas imágenes de sistema operativo para crear y, luego, iniciar instancias. Compute Engine usa tu imagen seleccionada a fin de crear un disco de arranque persistente para cada instancia.",
+    "how": "Favor de revisar el documento en la sección de Ayuda para mayor referencia. \nhttps://cloud.google.com/compute/docs/images",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "El servicio no es para persistir datos, la persistencia se debe de realizar en servicios definidos para este fin como discos adicionales o servicios de bases de datos",
+    "helps": "Compute Engine ofrece varios tipos de opciones de almacenamiento para tus instancias. Cada una de las siguientes opciones de almacenamiento tiene características únicas de precio y rendimiento: Disco persistente zonal: Almacenamiento en bloque eficaz y confiable Disco persistente regional: Almacenamiento en bloque regional replicado en dos zonas SSD local: almacenamiento en bloque local transitorio de alto rendimiento. Depósitos de Cloud Storage: almacenamiento de objetos asequible Filestore: Almacenamiento de archivos de alto rendimiento para usuarios de Google Cloud. Si no estás seguro de qué opción usar, la solución más común es agregar un disco persistente a tu instancia o puedes consultarlo con el área de Cloud",
+    "how": "Favor de consultar el manual en la sección de ayuda, en el se encuentra como cumplir el punto.",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 4,
+    "description": "Se debe contar con monitoreo de vulnerabilidades y amenazas en Compute Engine",
+    "helps": "Security Command Center te permite filtrar y ver las vulnerabilidades y los hallazgos de amenazas  de muchas formas diferentes, como filtrar según un tipo de hallazgo específico, un tipo de recurso o un elemento  específico. Cada fuente de seguridad podría proporcionar más filtros para ayudarte a organizar los hallazgos de tu  organización.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/security-command-center/docs/concepts-security-sources",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Se deben mantener actualizado los parches. Este punto se cumple estando sin requerimiento de parches en el servicio de OS patch management.",
+    "helps": "Usa la Administración de parches de SO para aplicar parches del sistema operativo en un conjunto  de instancias de VM de Compute Engine. Las VM de larga duración requieren actualizaciones periódicas del  sistema para proteger contra defectos y vulnerabilidades.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/os-patch-management",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Se deben de actualizar las versiones de SO para cumplir con la definición de DSI. Este  control sirve para que las versiones de SO que se usen tengan soporte y que dicha versión no cuente con  vulnerabilidad crítica. Este punto se cumple teniendo un SO con soporte.",
+    "helps": "Usa la Administración de parches de SO para aplicar parches del sistema operativo en un conjunto  de instancias de VM de Compute Engine. Las VM de larga duración requieren actualizaciones periódicas del  sistema para proteger contra defectos y vulnerabilidades.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/images/os-details",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-06",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Certificar la instancia de acuerdo a su función con el checklist de CSA vigente Este  punto se cumple teniendo en los SO el porcentaje del CIS requeridos por DSI y estar registrado en IEECO.",
+    "helps": "Sometemos nuestros productos a verificaciones independientes periódicas de los controles de  seguridad, privacidad y cumplimiento, lo que nos permite obtener informes de auditoría y certificaciones para  demostrar el cumplimiento. También creamos documentos de recursos y mapeos que te ayudarán con el  cumplimiento para casos en los que no se requieran o no se puedan aplicar certificaciones formales.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/security/compliance",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-07",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.",
+    "helps": "Las reglas de firewall se definen a nivel de red y solo se aplican a la red en la que se crean sin  embargo, el nombre que elijas para cada una de ellas debe ser exclusivo del proyecto y se debe poner una  descripción referente a la funcionalidad o uso..\nPara cada interfaz de red, Cloud Console enumera todas las reglas de firewall que se aplican a la interfaz y las reglas que están en uso. Las reglas de firewall pueden enmascarar otras reglas, por lo que una interfaz podría no estar usando todas las reglas que se le aplican. Las reglas de firewall se asocian con una instancia de VM y se aplican a ella mediante el parámetro de objetivo de \nuna regla. Si consultas la lista de todas las reglas que se aplican, puedes verificar si una regla en particular se está  aplicando a una interfaz.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/using-firewallslisting-rules-vm",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-08",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Usar cuentas de servicio de corta duración cuando el Engine necesite consumir otros servicios de GCP",
+    "helps": "Una cuenta de servicio es un tipo especial de cuenta que usa una aplicación o carga de trabajo de  procesamiento, como una instancia de máquina virtual VM de Compute Engine, en lugar de una persona.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-short-lived-service-account-credentialshles-419",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-09",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 4,
+    "description": "Instalar agentes para registrar la actividad del sistema en el registro de eventos de  Windows Ejemplo: Sysmon, Servicio de logs Ejemplo: Splunk y Threat Prevention: Deep Security según aplique en el SO",
+    "helps": "El agente de Logging transmite registros de tus instancias de VM y de paquetes de software de  terceros seleccionados a Cloud Logging. Se recomienda ejecutar el agente de Logging en todas las instancias de VM.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/logging/docs/agent/logging/installation",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-10",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Metadata accesible: Deshabilitada.",
+    "helps": "gcloud compute instances remove-metadata puede ser usado para remover metadata de las  instancias",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sdk/gcloud/reference/compute/instances/remove-metadata\nhttps://cloud.google.com/compute/docs/metadata/querying-metadata\nhttps://cloud.google.com/compute/docs/metadata/overview",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-11",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Activar protección contra terminación accidental",
+    "helps": "Como parte de tu carga de trabajo, puede haber ciertas instancias de VM que sean críticas para  ejecutar tu aplicación o servicios, como una instancia que ejecuta un servidor SQL, un servidor utilizado como  administrador de licencias, etcétera. Es posible que estas instancias de VM deban permanecer en ejecución de  forma indefinida, por lo que necesitas una forma de proteger estas VM para que no se borren.\nMediante la configuración de la marca deletionProtection, se puede proteger una instancia de VM contra la  eliminación por error. Si un usuario intenta borrar una instancia de VM para la que estableciste la marca  deletionProtection, la solicitud falla. Solo un usuario al que se le otorgó una función con el permiso compute.instances.create puede restablecer la marca para permitir que se borre el recurso",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/instances/preventing-accidental-vm-deletion",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-12",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Registro de Tags: Ecosistema y área",
+    "helps": "Las etiquetas son pares clave-valor que se pueden usar en Google Cloud para agrupar recursos  relacionados o asociados. Por ejemplo, en Compute Engine, puedes usar etiquetas para agrupar las VM en  categorías como producción, etapa de pruebas o desarrollo, de modo que puedas buscar recursos que  pertenezcan a cada etapa de desarrollo",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/labeling-resources",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-13",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Generar alerta cuando: \n Una instancia sea creada  Una instancia sea apagada \n Una instancia sea encendida  Una instancia sea reiniciada",
+    "helps": "Una política de alertas describe el conjunto de condiciones que quieres supervisar. Estas  condiciones pueden relacionarse con el estado de una aplicación, el valor de una métrica del sistema o con el  consumo de recursos. Por ejemplo, puede ser conveniente que una política supervise una verificación de tiempo  de actividad o una que supervise el uso de la API de Cloud Monitoring. Una política de alertas también te permite  especificar cómo deseas que se te notifique cuando se cumplan las condiciones de la política y qué documentación  incluir en esa notificación",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/monitoring/alerts/using-alerting-ui\nhttps://cloud.google.com/compute/docs/reference/rest/v1/instances",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-14",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Cuentas de servicio asociadas a instancias no deben tener acceso completo a la API",
+    "helps": "El principio de privilegio mínimo POLP, también conocido como principio de autoridad mínima,  es el concepto de seguridad de otorgar al usuario/sistema/servicio el conjunto mínimo de permisos necesarios para  realizar con éxito sus tareas. El principio de privilegios mínimos evita una posible escalada de privilegios, se debe  asegurar que las instancias de Google Compute Engine no estén configuradas para usar la cuenta de servicio predeterminada con el alcance de acceso de la API de la nube establecido en  Allow full access to all Cloud APIs",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nSe debe revisar el Cloud API Access scope para determinar que los permisos asociados al service account por  default no se puedan ocupar para elevar privilegios, en este ejemplo se revisa que en diversos servicios se  encuentra deshabilitados y solo se tienen accesos a ciertos servicios con permisos específicos, cumpliendo con el  principio del menor privilegio\nhttps://cloud.google.com/compute/docs/access/service-accountshles_419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-15",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Las imágenes de disco no deben estar compartidas públicamente",
+    "helps": ": Para evitar exponer datos confidenciales",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/imageshles_419",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-16",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Las instancias de máquinas virtuales no deben tener direcciones IP públicas",
+    "helps": "Evita exponer IaaS y sufrir un ataque de infiltrado a recursos internos",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/ip-addresseshles-419externaladdresses",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-17",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Deshabilitar la eliminación automática para discos persistentes de instancias de VM",
+    "helps": "Evita que se pueda eliminar el disco cuando se elimina la máquina virtual VM.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/sdk/gcloud/reference/compute/instances/set-disk-auto-delete",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-18",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Deshabilitar el IP Forwarding para instancias de máquinas virtuales",
+    "helps": "Las instancias de VM solo puedan enviar paquetes cuyos orígenes están configurados para  coincidir con una dirección IP interna de su interfaz en la red.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/using-routescanipforward",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-19",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Desactivar la compatibilidad con la consola serial interactiva Interactive Serial Console \nSupport",
+    "helps": "Restringe el acceso a la VM para evitar el mal uso de la terminal o interactuar con cualquiera de  los puertos en serie de la instancia",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/troubleshooting/troubleshooting-using-serial-consolehles-419disable_access",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-20",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Habilitar la función de seguridad Block Project-Wide SSH Keys",
+    "helps": "En evitar que los usuarios accedan a instancias de máquina virtual VM mediante la eliminación y  el bloqueo de claves SSH de las VM",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/connect/restrict-ssh-keys",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-21",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Habilitar la función de seguridad  Shielded VM",
+    "helps": "En ofrecer integridad verificable de las instancias de VM de Compute Engine, para que se pueda  estar seguro de que las instancias no se expusieron a software malicioso o rootkits de nivel de inicio y kernel.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/shielded-vm/docs/shielded-vm",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-22",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Habilitar la función de computación confidencial para instancias de máquinas virtuales  Confidential Computing for Virtual Machine Instances, siempre y cuando el modelo de instancia sea compatible.",
+    "helps": "Confidential Computing es la protección de los datos en uso con entorno de ejecución confiable  TEE basado en hardware",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/confidential-vm/docs/about-cvmhles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-23",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Habilitar la función  OS Login for GCP Projects",
+    "helps": "Permite usar las funciones de administración de identidades y accesos IAM de Compute Engine  para otorgar o revocar el acceso SSH a tus instancias de Linux. El Acceso al SO es una alternativa para administrar  el acceso a instancias si agregas y quitas llaves SSH en los metadatos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/oslogin/set-up-oslogin",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-24",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Se debe usar el inicio de sesión del SO con autenticación 2FA para instancias de VM",
+    "helps": "En agregar una capa de seguridad adicional mediante la verificación en dos pasos, también conocida como autenticación de dos factores o 2FA.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/compute/docs/oslogin/setup-two-factor-authenticationhles_419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-25",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Habilitar Virtual Machine Disk Encryption con Customer-Managed Keys",
+    "helps": "En crear y administrar tus claves a través de Cloud Key Management Service. Las claves de encriptación administradas por el cliente se pueden almacenar como claves de software, en un clúster de HSM o de forma externa",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/storage/docs/encryption/customer-managed-keys",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-101",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberán crear de los usuarios rtcyaa y app_care para Administración y Conciliación por parte del DSI CyAAL IT",
+    "helps": "Garantizar accesos para administración y validación de puntos de seguridad y gestión de usuarios así como conexión en caso de contingencia",
+    "how": "Generando los usuarios en el servidor\nSe valida con el Formato de listado de usuarios ubicado en la ayuda de IEECO",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-102",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Si el sistema lo soporta ningún perfil/rol a excepción del administrativo y el correspondiente a DSI CyAAL deberá contar con permiso para la gestión de usuarios y privilegios.",
+    "helps": "Eliminar el riesgo de movimientos a usuarios y/o privilegios del servidor no autorizados",
+    "how": "Adjuntando el Formato de usuarios y privilegios ubicado en la ayuda de IEECO donde se deberá indicar los usuarios que pertenecen a cada grupo",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-103",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá proporcionar listado de usuarios indicando área, responsable y grupo asignado así como los grupos existentes en el servidor",
+    "helps": "Identificar los usuarios y grupos existentes en el servidor.",
+    "how": "Para Linux - adjuntando la salida que genera la ejecución del shell jason, con el contenido del archivo passwd y group\nPara Windows - adjuntando la imagen que muestre el listado de usuarios",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-104",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Todos los usuarios con altos privilegios deberán ser resguardados en la bóveda de Seguridad Cyberark",
+    "helps": "Permite tener el registro de las personas que ingresan al equipo con altos privilegios",
+    "how": "Adjuntando la imagen de la cuenta integrada a Cyberark",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-106",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "No deberán existir cuentas locales personalizadas. Todas las cuentas deben estar justificadas y deberán contar con los privilegios mínimos necesarios.",
+    "helps": "Diferenciar y asignar accesos basados en privilegios específicos por rol.",
+    "how": "Adjuntando el formato de usuarios ubicado en la ayuda de IEECO",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-107",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "En el servidor ningún usuario deberá contar con permisos de root",
+    "helps": "Garantizar la Restricción de altos privilegios",
+    "how": "Ningún usuario deberá tener UID0 ni con permisos de root en la plantilla de SUDO",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-108",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá tener restricción de acceso por IP",
+    "helps": "Controlar y limitar las conexiones autorizadas",
+    "how": "Para Linux adjuntando la salida que genera la ejecución del Shell jason, que muestre el archivo hosts/hosts.allow/iptables\nPara Windows configurando las reglas de Firewall contenidas en el Manual de Configuración para Enrolamiento a Bóveda",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-109",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá habilitar la Restricción de acceso directo al servidor con usuario root Nota: El control solo aplica para S.O Linux",
+    "helps": "Evitar accesos directos con el superusuario",
+    "how": "La salida que genera la ejecución del shell jason deberá incluir el parámetro PermitRootLogin NO",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-110",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá Configurar plantilla SUDO donde se defina los siguientes perfiles: Administración de usuarios Cambios de contraseña Cyberark Restricción SU Nota: El control solo aplica para S.O Linux",
+    "helps": "Limitar privilegios a usuarios",
+    "how": "La salida que genera la ejecución del shell jason deberá incluir la configuración del archivo sudoers con los comandos requeridos",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-111",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberán configurar políticas de seguridad local para gestión de contraseñas",
+    "helps": "Garantiza la robustez de contraseñas, así como su rotación",
+    "how": "Para Linux - adjuntando la salida que genera la ejecución del shell jason, que incluya los siguientes valores:\nPASS_MAX_DAYS 90\nPASS_MIN_DAYS 0\nPASS_MIN_LEN 16\nPASS_WARN_AGE 7\nPara Windows - configurando las políticas contenidas en el Manual de Configuración para Enrolamiento a Bóveda",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-105",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "El servidor deberá enviar al colector de LOGS aquellos correspondientes al ABC de usuarios y ACLs",
+    "helps": "Permite identificar los movimientos generados relacionados con la gestión de usuarios y privilegios",
+    "how": "Adjuntando la imagen que muestre la configuración de este punto\n\nTotalPlay - 10.180.249.10 / 10.180.239.10 / 10.216.4.50 / 10.180.239.217",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-N2-4746",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "En el servidor ningún usuario deberá contar con permisos de root.",
+    "helps": "Garantizar la Restricción de altos privilegios.",
+    "how": "Ningún usuario deberá tener UID0 ni con permisos de root en la plantilla de SUDO.",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "BANCO AZTECA",
+      "BANCO AZTECA",
+      "BANCO AZTECA",
+      "BANCO AZTECA",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-N2-4759",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá tener restricción de acceso por IP.",
+    "helps": "Controlar y limitar las conexiones autorizadas.",
+    "how": "Para Linux adjuntando la salida que genera la ejecución del Shell jason, que muestre el archivo hosts/hosts.allow/iptables\nPara Windows configurando las reglas de Firewall contenidas en el Manual de Configuración para Enrolamiento a Bóveda.",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-N2-4761",
+    "area": "CyAAL IT",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se deberá Configurar plantilla SUDO donde se defina los siguientes perfiles: Administración de usuarios Cambios de contraseña Cyberark Restricción SU Nota: El control solo aplica para S.O Linux.",
+    "helps": "Limitar privilegios a usuarios.",
+    "how": "La salida que genera la ejecución del shell jason deberá incluir la configuración del archivo sudoers con los comandos requeridos.",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-TODOS-1547",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Security Groups Deben de ser acotados en orígenes, destinos  y servicios",
+    "helps": "Evita que se tenga acceso desde cualquier origen desconocido",
+    "how": "Adjuntar imagen de los Security Groups asociados",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-3061",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.",
+    "helps": "Ayuda acotar los accesos a los recursos",
+    "how": "DSI valida con usuario de GCP",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-3062",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 5,
+    "description": "Se requiere validar que el elemento envía Logs a un servidor Syslog. Tanto del SO como del aplicativo",
+    "helps": "En tener trazabilidad de todos los cambios que se lleguen a ejecutar en los elementos.",
+    "how": "Realizar configuración de syslog en elementos y compartir evidencia.",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-3063",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 4,
+    "description": "Reglas de Firewall deben de ser acotados en orígenes, destinos  y servicios\nNo redes abiertas /0\nNo servicios ALL\nNo redes abiertas /8, /16, /24 para puertos críticos 3389, 22, 23, 21",
+    "helps": "Evita que se tenga acceso desde cualquier origen desconocido",
+    "how": "DSI revisa con usuario de GCP",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-3064",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Disco duro cifrado",
+    "helps": "Robustecer la seguridad de la información almacenada",
+    "how": "Compartir evidencia de la configuración del apartado Disk",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Compute Engine VMs-3065",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Compute Engine VMs",
+    "ponderacion": 3,
+    "description": "Sin direccionamiento público expuesto en instancias virtuales",
+    "helps": "En evitar IPs expuestas a internet",
+    "how": "Compartir evidencia del apartado de configuración EIP",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  }
+]

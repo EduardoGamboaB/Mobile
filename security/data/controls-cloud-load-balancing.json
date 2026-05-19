@@ -1,0 +1,116 @@
+[
+  {
+    "code": "Google-Balanceador de carga-01",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "Cloud Load Balancing internos te permite ubicar tus recursos detrás de una sola dirección IP que sea accesible de manera interna sin exponer IPs ni recursos a internet.",
+    "helps": "Distribuye automáticamente el tráfico entrante entre varios destinos. Monitoriza el estado de sus destinos registrados y direcciona el tráfico sólo a los destinos en buen estado.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/load-balancing-overviewhles_419\nhttps://cloud.google.com/load-balancing/docs/featureshles_419health-checks",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Balanceador de carga-02",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "Toda instancia virtual detrás de un Load Balancer deberá configurar su consumo de internet a través de proyecto de salida a Internet segura.",
+    "helps": "Proveer un mecanismo de control que garantice la inspección profunda de los paquetes, filtrado de contenido y control de flujo de comunicaciones capa 4 a capa 7. Además se garantiza un canal centralizado para el control de flujos, orígenes y destinos seguros para el consumo de internet en los proyectos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/shared-vpchles_419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Balanceador de carga-03",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "En service projects solo utilizar Load Balancers de tipo local.",
+    "helps": "Todos los Load Balancers deben de ser de tipo local en los service projects para balancear la carga de tráfico hacia componentes de cómputo como instancias virtuales, cluster de kubernetes, microservicios. Etc",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/l7-internalhles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Balanceador de carga-04",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "Habilitar flow logs en las subredes donde se despliegan Load Balancers.",
+    "helps": "Diagnosticar reglas de grupo de seguridad muy restrictivas, monitorizar el tráfico que llega a su instancia, determinar la dirección del tráfico hacia y desde las interfaces de red. Todas las instancias Backend que utilizan un balanceador de carga, al tener activo flow logs, generan logs que se pueden consultar desde Cloud Logging y con posibilidad de exportar a Cloud Storage",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/vpc/docs/flow-logshles-419vm-to-vm-flows-internal-tcp-udp-lb\nhttps://cloud.google.com/logging/docs/view/logs-explorer-summaryhles",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Balanceador de carga-05",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "Mediante reglas de Firewall se pueden acotar orígenes, destinos y servicios a través de reglas de firewall",
+    "helps": "Las reglas de permiso de entrada, permiten que el tráfico de Google Front End y de la subred llegue a tus backends.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/httpshles_419firewall-rules",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Balanceador de carga-06",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud Load Balancing",
+    "ponderacion": 3,
+    "description": "Todo Load Balancer deberá contar con la protección de un WAF",
+    "helps": "Agrega un nivel de protección antes de que los agentes malintencionados lleguen a la aplicación.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419https-load-balancer",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  }
+]

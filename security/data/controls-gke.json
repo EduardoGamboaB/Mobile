@@ -1,0 +1,66 @@
+[
+  {
+    "code": "GCP-GKE-07",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "GKE",
+    "ponderacion": 3,
+    "description": "Habilitar MFA en Cloud Identity en la Organización",
+    "helps": "Habilitar MFA Autenticación Multifactor en una cuenta de GCP ayuda a reforzar la seguridad al requerir una segunda forma de verificación como un código de un dispositivo móvil o una llave física además de la contraseña, reduciendo significativamente el riesgo de accesos no autorizados, ataques de phishing o compromiso de credenciales, lo que protege los recursos críticos de la nube y cumple con mejores prácticas de seguridad y estándares de cumplimiento.",
+    "how": "Favor de consultar el manual en: Ayuda - Ayuda - Manuales Cloud y descargar el documento para revisar como cumplir el punto:\nhttps://cloud.google.com/docs/authentication/mfa-requirementenable",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-GKE-3221",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Hybrid and Multi-cloud",
+    "service": "GKE",
+    "ponderacion": 5,
+    "description": "Utilizar reglas de firewall como mecanismo primario para controlar el acceso de red a la instancia, autorizando accesos específicos cumpliendo con el principio de menor privilegio.\nReglas de Firewall deben de ser acotados en orígenes, destinos  y servicios\nNo redes abiertas /0\nNo servicios ALL\nNo redes abiertas /8, /16, /24 para puertos críticos 3389, 22, 23, 21\nSe permitirán /16 de los segmentos on-premise",
+    "helps": "Ayuda acotar los accesos a los recursos",
+    "how": "DSI valida con usuario de GCP",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-GKE-3222",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Hybrid and Multi-cloud",
+    "service": "GKE",
+    "ponderacion": 5,
+    "description": "Se requiere validar que el elemento envía Logs a un servidor Syslog y Logs de kubernetes.",
+    "helps": "En tener trazabilidad de todos los cambios que se lleguen a ejecutar en los elementos.",
+    "how": "Realizar configuración de syslog en elementos y compartir evidencia.",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-GKE-3223",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "Hybrid and Multi-cloud",
+    "service": "GKE",
+    "ponderacion": 5,
+    "description": "Instalación de Agente PRISMA",
+    "helps": "Detección y protección automática contra vulnerabilidades, procesos y actividad maliciosa.",
+    "how": "Instalar Agente",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "code": "Google-Cloud CDN-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Habilitar los logs estándar para recibir los logs de cada solicitud  enviada a la distribución",
+    "helps": "Al estar asociados al Load Balancer de tipo HTTPS , registrar logs ayuda a la identificación de solicitudes y saber que pasos seguir en caso de algún tipo de problema .",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/cdn/docs/logginghles_419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud CDN-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Se deberá configurar cloud CDN sobre balanceadores asegurándose que todas sean peticiones HTTPS.",
+    "helps": "Activar Cloud CDN en el balanceador de cargas y activar el reenvío de peticiones ayuda a encriptar solicitudes y respuestas HTTP para mantener la seguridad .",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirecthles-419 \nhttps://cloud.google.com/cdn/docs/setting-up-cdn-with-mighles-419load-balancer",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Cloud CDN-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Controlar el acceso al contenido almacenado en caché mediante autenticación de las solicitudes .",
+    "helps": "Permite o bloquea las solicitudes a contenido que no se encuentren firmadas,  utilizando URL firmadas o cookies firmadas para validar el request origen .",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/cdn/docs/authenticate-contenthles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud CDN-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Se deberá configurar una política de Cloud Armor para la geo restricción",
+    "helps": "Permite o bloquea las solicitudes entrantes de las regiones y códigos de país que se configuren en la política . Añadiendo Cloud CDN permiten restringir las descargas de contenido a los usuarios en ubicaciones específicas.  Las reglas de cloud Armor permiten : \n Rechazar solicitudes basadas en direcciones y rangos CIDR IPv4 e IPv6,\n Permitir o denegar solicitudes según el código de país geografía,\nPermitir solicitudes basadas en direcciones y rangos CIDR de IPv4 y de IPv6.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\n https://cloud.google.com/media-cdn/docs/security-policieshles-419",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud CDN-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Asegurar la configuración hacia el origen utiliza HTTPS TLS 1.2",
+    "helps": "En cumplir las mejores prácticas en seguridad web ya sea que se entregue contenido desde instancias de Compute Engine, un bucket de Cloud Storage o un origen externo ubicado fuera de Google Cloud .",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/cdn/docs/web-security-best-practices\nhttps://cloud.google.com/cdn/docs/configure-private-origin-authenticationhles-419gcloud",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud CDN-06",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Networking",
+    "service": "Cloud CDN",
+    "ponderacion": 3,
+    "description": "Asegurar mediante Cloud Armor que todos los balanceadores de carga con Cloud CDN tengan integrada la protección del firewall activo",
+    "helps": "Asegurar mediante Cloud Armor que todos los balanceadores de carga con Cloud CDN tengan integrada la protección del firewall activo",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/integrating-cloud-armorhles-419cloud-cdn \nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419https-load-balancer",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  }
+]

@@ -61,6 +61,16 @@ HTTP con interceptor 402 → upgrade automático.
 │   └── organization/                 Manual organizacional (estructura,
 │                                     roles, gobierno, políticas, cadencias,
 │                                     procesos)
+├── security/                       ← Módulo de seguridad · políticas DSI Grupo Salinas
+│   ├── 01-policy-source.md           origen del catálogo (1,594 controles)
+│   ├── 02-stack-mapping.md           181 controles GCP aplicables a G3
+│   ├── 03-controls/                  fichas por servicio (Cloud Run, SQL,
+│   │                                 IAM, Secret Manager, Vertex AI, etc.)
+│   ├── 04-development-workflow.md    flujo dev con seguridad integrada
+│   ├── 05-security-checklist.md      PR checklist obligatorio
+│   ├── 06-testing-protocol.md        SAST + DAST + pentest + auditoría
+│   ├── 07-incident-response.md       runbook + postmortem template
+│   └── data/                         controls.json + per-service JSON
 └── supabase/                       ← migraciones legacy (V1 sin backend propio)
 ```
 

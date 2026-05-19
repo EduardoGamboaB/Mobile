@@ -1,0 +1,59 @@
+[
+  {
+    "code": "Google-Cloud Armor-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "Cloud Armor",
+    "ponderacion": 3,
+    "description": "Mientras el backend sea de tipo HTTPS y se utilice un balanceador de cargas en GCP,  las aplicaciones expuestas a internet pueden contar con protección de Cloud armor, cuyas políticas deben tener una regla default de negación y el set de reglas inicial para mitigar el Top 10 de OWASP",
+    "helps": "Google Cloud Armor es una plataforma de seguridad encargada de la protección a gran escala de las infraestructuras y aplicaciones contra los ataques web, como inyección y denegación de servicio distribuido DDoS. Las reglas preconfiguradas de Google Cloud Armor son reglas complejas de firewall de aplicación web WAF con decenas de firmas que se compilan a partir de estándares de la industria de código abierto. Google ofrece estas reglas tal como están. Las reglas permiten que Google Cloud Armor evalúe decenas de firmas de tráfico distintas, ya que consulta las reglas con nombres prácticos en lugar de requerir que definas cada firma de forma manual.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/integrating-cloud-armorhles-419\nhttps://cloud.google.com/architecture/owasp-top-ten-mitigationhles-419google_cloud_armor_a02\nhttps://cloud.google.com/armor/docs/rule-tuningsql_injection_sqli\nhttps://cloud.google.com/architecture/owasp-top-ten-mitigationhles-419insecure-design",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Armor-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "Cloud Armor",
+    "ponderacion": 3,
+    "description": "Mediante permisos IAM pueden validar los permisos que se asignan o requiera Cloud Armor",
+    "helps": "Ayuda a granular los permisos, deberá estar apegado al menor privilegio",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/configure-security-policieshles-419iam-perms",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Armor-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "Cloud Armor",
+    "ponderacion": 3,
+    "description": "Mediante el uso de Cloud Logging y cloud monitoring se tiene control sobre los logs de manera automática, adicionalmente se debe integrar con logs based metrics para determinar alertas basadas en umbrales y alertas mínimas de creación, eliminación, encendido y apagado",
+    "helps": "Gestión de registros totalmente gestionada y en tiempo real, que admite exabytes de datos y ofrece funciones de almacenamiento, búsqueda, análisis y alertas sobre eventos y metricas de Cloud Armor.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/armor/docs/audit-logginghles-419\nhttps://cloud.google.com/logginghles\nhttps://cloud.google.com/logging/docs/logs-based-metricshles_419",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY"
+    ]
+  }
+]

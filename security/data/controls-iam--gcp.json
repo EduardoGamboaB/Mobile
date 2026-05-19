@@ -1,0 +1,325 @@
+[
+  {
+    "code": "Google-IAM - GCP-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Datos de contacto actualizados",
+    "helps": "Muchos servicios de Google Cloud, como la Facturación de Cloud, envían notificaciones para compartir información importante con los usuarios de Google Cloud. Según la configuración predeterminada, estas notificaciones se envían a los miembros con determinadas funciones de administración de identidades y accesos IAM. Con los contactos esenciales, puedes personalizar quién recibe notificaciones si proporcionas tu propia lista de contactos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/managing-notification-contacts",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Información de contacto de seguridad",
+    "helps": "El nivel en el que asignas contactos de seguridad depende de las prácticas de seguridad específicas de tu organización. Por ejemplo, si los propietarios de proyectos individuales están a cargo de la seguridad de sus propios proyectos, debes asignar tus contactos de seguridad a nivel del proyecto. Sin embargo, si un grupo de toda la organización administra la seguridad de todos los proyectos, tendrías que asignarles contactos de seguridad a nivel de la organización.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/managing-notification-contactscontact-inheritance",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Mecanismos de recuperación en la cuenta de GCP",
+    "helps": "Un administrador puede recuperar su cuenta vía la inscripción de diferentes factores de autenticación en el caso que olvide su contraseña. Dentro de los cuales se encuentra: Llamada telefónica, correo electrónico, agregando registros al DNS, con ayuda otro administrador que tenga permisos para restablecer contraseñas o contactando al servicio de soporte técnico.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/33561hles::textReset20your20administrator20passw\nord,email20address20or20phone20number",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Google Cloud Identity Admin Groups",
+    "helps": "Mediante la configuración de grupos en Cloud identity Admin, se debe crear un grupo por rol y cada cuenta deberá ser asignada a los grupos donde se desea heredar permisos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identity/docs/groupshles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Auditoría de Administradores",
+    "helps": "Tener visibilidad y trace de los eventos realizados por los administradores",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/a/answer/9725452",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-06",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "No debe existir Service Accounts Key ni cuentas de servicio privilegiadas Administrador",
+    "helps": "De forma predeterminada, todos los proyectos de Google Cloud incluyen un solo usuario, es decir, el creador original del proyecto. Ningún otro usuario tiene acceso al proyecto y, por lo tanto, tampoco puede acceder a recursos de Compute Engine hasta que se lo agregue como miembro del proyecto o se lo vincule a un recurso\nespecífico.\nSe pueden hacer uso del google SDK para dar permisos a ambientes de trabajo ó llaves de service accounts con permisos, estas cuentas de servicio nunca deben tener privilegios sobre el proyecto. En esta página, se describe cómo agregar usuarios nuevos al proyecto y cómo establecer el control de acceso para los recursos GCP",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys\nhttps://cloud.google.com/docs/authentication/best-practices-applications",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-07",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Credenciales de acceso para service accounts",
+    "helps": "Las service accounts funcionan como credenciales para procesos o ambientes en GCP, es decir no están asociadas a una cuenta personal, estas credenciales al no estar vinculadas a una persona miembro de la organización no tienen acceso a la consola, adicionalmente es recomendable generar credenciales de corta duración y no llaves en formatos de archivo",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys\nhttps://cloud.google.com/iam/docs/create-short-lived-credentials-direct",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-08",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Root  Usuarios con acceso a consola deberán tener habilitado MFA",
+    "helps": "La autenticación de varios factores MFA es una herramienta importante para proteger los recursos empresariales. La MFA, también llamada verificación en dos pasos 2SV, exige que los usuarios verifiquen su identidad por medio de algo que sepan como una contraseña, y de algo que tengan como una clave física o un código de acceso.\nPara proteger los datos y las cuentas de usuario, tu empresa decidió que todos los usuarios se deben autenticar mediante la 2SV para acceder a los recursos de la empresa",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/9176657hles",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-09",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Los permisos a los usuarios IAM serán asignados mediante roles.",
+    "helps": "Los grupos de Google te pueden ayudar a administrar usuarios a gran escala. Cada miembro de un grupo de Google hereda las funciones de administración de identidades y accesos IAM otorgadas a ese grupo.\nEsta herencia significa que puedes usar la membresía de un grupo para administrar las funciones de los usuarios en lugar de otorgar funciones de IAM a usuarios individuales.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/understanding-roleshles",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-10",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Política de contraseña",
+    "helps": "En esta guía, se describen las orientaciones y recomendaciones de contraseñas para usuarios de aplicaciones en línea que requieren autenticación. Se establece un conjunto de recomendaciones centradas en el usuario para crear y almacenar contraseñas, que incluye el equilibrio entre la seguridad de la contraseña y la usabilidad. Una guía relacionada, Seguridad moderna mediante contraseña para los diseñadores de sistemas, ofrece orientación a los ingenieros que compilan aplicaciones en línea que requieren autenticación.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/solutions/modern-password-security-for-users",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-11",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Las credenciales no utilizadas durante 90 días o más estén deshabilitadas",
+    "helps": "Las credenciales no utilizadas durante 90 días o más estén deshabilitadas",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/identityhlessection-5\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-12",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Solo debe existir una cuenta de servicio para cada ambiente o proceso registrado en IAM, un solo un usuario",
+    "helps": "Los ambientes de desarrollo o procesos dentro del proyecto de GCP solo podrán tener una cuenta  de servicio asignada.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/creating-managing-service-account-keys",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-13",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Las claves de acceso se deben rotar cada 90 días o menos",
+    "helps": "Un administrador puede establecer requerimientos de contraseña para los usuarios de la organización. Cloud Identity permite crear temporalidades de expiración de 30, 60, 90 180 y 365 días para las identidades. Estas pueden ser configuradas granular mente para cumplir con los requerimientos de la organización",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://support.google.com/cloudidentity/answer/139399hles",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-14",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Comprobar que no hay miembros de IAM con roles de servicio en el nivel de proyecto",
+    "helps": "Asegurarse de que los roles Usuario de cuenta de servicio y Creador de token de cuenta de servicio se asignen a un usuario para una cuenta de servicio de GCP específica en lugar de a un usuario en el nivel de proyecto de GCP, a fin de implementar el principio de privilegios mínimos POLP. El principio de privilegio mínimo también conocido como el principio de privilegio mínimo es la práctica de proporcionar a cada usuario la cantidad mínima de acceso requerida para realizar las tareas. El rol Usuario de cuenta de servicio iam.serviceAccountUser permite a un usuario de IAM adjuntar una cuenta de servicio a un servicio de trabajo de larga duración, como una aplicación de App Engine o un trabajo de flujo de datos, mientras que el rol Creador de token de cuenta de servicio iam.serviceAccountTokenCreator permite a un usuario suplantar directamente la identidad de una cuenta de\nservicio.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/iam/docs/impersonating-service-accounts",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-15",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Configurar los registros de auditoría de acceso a datos de Google Cloud para realizar un seguimiento de todas las actividades Cloud Audit Logs to Track All Activities",
+    "helps": "Asegurarse de que la función Registros de auditoría de Google Cloud esté configurada para realizar un seguimiento de los registros de acceso a datos de todos los servicios y usuarios de Google Cloud Platform GCP, con el fin de mejorar la seguridad general del acceso y cumplir los requisitos de cumplimiento. Una vez configurada, la función puede registrar todas las actividades relacionadas con el administrador, así como todas las solicitudes de acceso de lectura y escritura a los datos del usuario.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/logging/docs/audit/configure-data-access",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-16",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Habilitar la aplicación de claves de seguridad para cuentas de administrador",
+    "helps": "Asegurarse de que se aplique la separación de funciones para todos los roles relacionados con Cloud Key Management Service KMS. El principio de separación de funciones también conocido como separación de funciones tiene como objetivo primordial la prevención del fraude y el error humano. Este objetivo se logra desmantelando las tareas y los privilegios asociados para un proceso de negocio específico entre múltiples usuarios/identidades. Google Cloud proporciona roles predefinidos que se pueden utilizar para implementar el principio de separación de funciones, cuando sea necesario. El rol de administrador de Cloud KMS predefinido está destinado a que los usuarios administren las claves de KMS, pero no las usen. Los roles Cloud KMS CryptoKey\nEncrypter/Decrypter están destinados a servicios que pueden usar claves para cifrar y descifrar datos, pero no para administrarlos. Para cumplir con las prácticas recomendadas de seguridad en la nube, los usuarios de IAM no deben tener el rol de administrador ni ninguno de los roles de cifrado/descifrador de CryptoKey asignados al mismo tiempo.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-IAM - GCP-17",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Identity and Security",
+    "service": "IAM - GCP",
+    "ponderacion": 3,
+    "description": "Restringir el acceso de administrador para cuentas de servicio",
+    "helps": "Asegurar de que las cuentas de servicio gestionadas por el usuario de Google Cloud no utilicen roles privilegiados de administrador para aplicar el principio de privilegios mínimos y evitar modificaciones accidentales o intencionadas que puedan provocar fugas de datos o pérdida de datos. Una cuenta de servicio administrada por el usuario es una identidad que una instancia de máquina virtual VM o una aplicación puede usar para ejecutar solicitudes de API en su nombre. Las cuentas de servicio de GCP solo pueden crear, modificar o eliminar recursos si concede los permisos de IAM necesarios, en el nivel de proyecto o recurso.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  }
+]

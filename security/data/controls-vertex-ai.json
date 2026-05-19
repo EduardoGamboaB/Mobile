@@ -1,0 +1,554 @@
+[
+  {
+    "code": "Google-Vertex AI-01",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Asegurar de que solo los usuarios y servicios que necesitan acceso a Vertex AI tengan los roles adecuados, tales como Vertex AI Admin, Vertex AI Viewer, Vertex AI Developer. Aplica el principio de menor privilegio, otorgando solo los permisos mínimos necesarios. \nNo utilizar roles primitivos.",
+    "helps": "A asegurar que solo los usuarios y servicios que necesitan acceso a Vertex AI tengan los roles adecuados y aplicar el principio de menor privilegio ayuda a minimizar el riesgo de acceso no autorizado, reduciendo la superficie de ataque y garantizando que cada usuario y servicio solo pueda realizar las acciones necesarias, lo que mejora la seguridad general del entorno y protege los datos sensibles.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/access-control",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-05",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Realizar el llenado del documento Gobierno de Seguridad GenIA para la utilización de inteligencia generativa, en el cual se deben cumplir los controles de acuerdo con el Alcance del proyecto.",
+    "helps": "Asegura el correcto uso de las herramientas de IA",
+    "how": "Favor de consultar el documento de GCP documento Controles de Seguridad para GenIA.docx",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-06",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Validación del FM Foundation Model: Busca asegurar que los modelos de aprendizaje automático ML utilizados en Vertex AI cumplen con los estándares de calidad, seguridad y rendimiento necesarios para su implementación.",
+    "helps": "Identificar que el modelo se encuentra dentro de los estándares de DSI.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/generative-ai/docs/learn/models",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-07",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Cloud Storage siempre encripta los datos antes de escribirse a disco, Encriptación en reposo.",
+    "helps": "Asegurar el correcto cifrado de las herramientas de la información en buckets de Google Cloud Storage.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/storage/docs/encryption\nhttps://cloud.google.com/vertex-ai/docs/general/cmek",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-08",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar el registro de actividades y auditoría en Vertex para registrar eventos importantes, como operaciones de escritura de metadata o información de configuración.",
+    "helps": "Proporcionan una capa crítica de seguridad, cumplimiento y optimización, ayudando a \nasegurar que los sistemas de almacenamiento sean eficientes, seguros y conformes con las normas \naplicables.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/audit-logging\nhttps://cloud.google.com/vertex-ai/docs/workbench/managed/audit-logging\nhttps://cloud.google.com/vertex-ai/docs/workbench/user-managed/audit-logging",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-09",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilite el servicio de Controles de Servicio de VPC.",
+    "helps": "Esta configuración crea un perímetro de seguridad que limita cómo los datos pueden ser accesados y compartidos, incluso dentro de la propia infraestructura de Google Cloud.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/vpc-service-controlshles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-10",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Utilizar solo regiones autorizadas en despliegue de servicios para utilizar Vertex. No es posible utilizar Vertex Ai en todas las regiones de GCP actualmente.",
+    "helps": "Utilizar solo las regiones autorizadas garantiza que se cumplan criterios esenciales como requisitos de rendimiento, cumplimiento normativo y estrategias de resiliencia, garantizando así operaciones en la nube eficientes, seguras y alineadas con los objetivos estratégicos de la organización.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/generative-ai/docs/learn/locationshles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-11",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Activar la protección de alguna herramienta propia de GCP o de terceros como mecanismo de protección para IA.",
+    "helps": "Asegura la integridad y confidencialidad de los modelos y datos utilizados, mitigando riesgos de accesos no autorizados, previniendo ataques maliciosos, y garantizando el cumplimiento de normativas de seguridad y privacidad, lo que a su vez aumenta la confianza de los usuarios en las soluciones de IA implementadas.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://console.cloud.google.com/vertex-ai/publishers/meta/model-garden/prompt-guard",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-03",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Workbench\nLas instancias notebook de Vertex AI se crean como una instancia de Compute Engine. Son creadas dentro de una subred de una VPC, por lo que esta gestiona quién tiene acceso a la instancia.",
+    "helps": "Asegurar la información limitando quién puede acceder a la instancia.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vpc/docs/vpc",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-12",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nUsar solo runtime templates en Colab Enterprise.",
+    "helps": "Mejora la seguridad al asegurar que todas las configuraciones y prácticas de seguridad sean consistentes y aplicadas uniformemente, incluyendo autenticación, autorización, encriptación y monitoreo, lo que reduce el riesgo de vulnerabilidades y errores humanos, facilitando el cumplimiento de normativas y regulaciones de seguridad.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\n https://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-13",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nUsar solo runtime templates sin acceso a internet.",
+    "helps": "A fortalecer la seguridad al aislar los entornos de ejecución, reduciendo el riesgo de ataques externos, filtraciones de datos y ejecución de código malicioso, mientras asegura que todas las configuraciones y dependencias sean predefinidas y controladas, lo que facilita el cumplimiento de normativas y mantienen un alto nivel de confidencialidad e integridad de los datos y el código.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/colab/docs/runtimesconfiguration-internet-access",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-14",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Colab Enterprise\nAgregar etiquetas en los runtime templates de Colab Enterprise.",
+    "helps": "A mejorar la organización y gestión de recursos, facilitando la identificación y clasificación de Notebooks según proyectos, equipos o propósitos específicos, lo que simplifica la búsqueda, el monitoreo y la aplicación de políticas de seguridad y acceso basadas en etiquetas, mejorando la eficiencia y el control sobre los entornos de desarrollo.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\n https://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-15",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Colab Enterprise.\nHabilitar arranque seguro en la creación de runtime template en Colab Enterprise.",
+    "helps": "A fortalecer la seguridad al verificar la integridad y autenticidad del firmware y del sistema operativo, previniendo la ejecución de código malicioso o no autorizado durante el proceso de inicio, lo que reduce el riesgo de ataques de firmware y asegura que el entorno de ejecución se inicie en un estado confiable y seguro.",
+    "how": "Favor de consultar el documento de GCP Vertex AI",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-16",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Solo aplica para caso de uso notebook de Colab Enterprise\nHabilitar cierre de actividad en la creación de runtime template en Colab Enterprise.",
+    "helps": "A mejorar la seguridad y el rendimiento al automáticamente detener los Notebooks inactivos, lo que reduce el riesgo de exposición a amenazas persistentes, libera recursos computacionales no utilizados y minimiza costos, asegurando que el entorno de desarrollo sea más eficiente y seguro.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-18",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Si es necesario contar con salida a internet de algún servicio, la salida hacia internet se debe realizar a través de la VPC de seguridad definida por el DSI y montada en el Shared Service.",
+    "helps": "Centraliza el control de acceso, mejora la seguridad con firewalls y proxies, facilita el monitoreo y registro del tráfico, reduce la superficie de ataque, bloquea tráfico malicioso, filtra contenido, optimiza costos, facilita el cumplimiento de normativas, y asegura la resiliencia y continuidad del negocio, proporcionando una capa adicional de protección y control sobre los servicios que necesitan acceso a Internet.",
+    "how": "Favor de consultar el documento de GCP Vertex AI",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-17",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Solo aplica para caso de uso notebook de Colab Enterprise\nHabilitar credenciales de usuario final en la creación de runtime templates de Colab Enterprise.",
+    "helps": "A mejorar la seguridad y el control de acceso al asegurar que cada usuario se autentique con sus propias credenciales, lo que permite un seguimiento preciso de las acciones realizadas, reduce el riesgo de acceso no autorizado y facilita el cumplimiento de normativas de seguridad y auditorías.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/colab/create-runtime-template",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-04",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Seguridad de los Modelos y Datos. Asegúrate de que los datos en tránsito y en reposo están encriptados. Revisa la configuración de encriptación en la consola de GCP.",
+    "helps": "El utilizar solo modelos y servicios que cumplan con la encriptación de datos en tránsito y reposo aseguran la confidencialidad de los datos sensibles.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/general/vertexai-security-controlshles-419",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-02",
+    "area": "Cloud DSI",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "SOLO aplica para caso de uso notebook de Workbench\nLas instancias de Vertex AI Workbench pueden estar tanto en una VPC del proyecto personal, como en una manejada por Google. En caso de seleccionar una manejada por Google, se debe gestionar un VPC Peering, de lo contrario, el workbench se crea dentro de una instancia común.",
+    "helps": "Se puede controlar las redes donde se hospedan las instancias de jupyter notebook de Vertex AI.",
+    "how": "Favor de consultar el documento de GCP Vertex AI, adjunto en la sección de ayuda, manuales cloud, GCP Vertex AI:\nhttps://cloud.google.com/vertex-ai/docs/workbench/managed/networkingvpc",
+    "active": "Si",
+    "business_units": [
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5241",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+    "helps": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+    "how": "Habilitar el filtrado de contenido dirigido a la detección y filtro de contenido dañino integrando 4 categorías odio, sexual, violencia y autolesión implementando el nivel de severidad Alto",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5242",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+    "helps": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+    "how": "Implementar filtros de contenido personalizados para complementar y robustecer la entrada y salida del Modelo de IA acorde a los casos de uso definidos",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5243",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+    "helps": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+    "how": "Implementar blocklist para la detección y bloqueo de texto dañino que puedan generar resultados de IA inseguros que comprometan a la Compañia",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5244",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "helps": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "how": "Implementar Prompt Shields frente a ataques jailbreak para avisos de usuario, integrando las categorías: Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5245",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "helps": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "how": "Implementar Prompt Shields frente a ataques para avisos de documentos, integrando las categorías: Contenido manipulado, LLM comprometido con acceso a infraestructura, Recopilación de información, Disponibilidad, Fraude, Malware, Cambio de reglas al sistema, Confusión al Modelo, Juego de roles y Ataques de codificación.",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5246",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+    "helps": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+    "how": "Habilitar la deteccion de ataques a base de datos de fuentes internas",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5247",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+    "helps": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+    "how": "Habilitar la detección de material protegido marcado como contenido textual conocido",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5248",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+    "helps": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+    "how": "Habilitar la detección de material protegido marcado como contenido de codigo protegido",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5249",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+    "helps": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+    "how": "Implementar limites de protección para administración de riesgos asociados al contenido de texto e imagen",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5250",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+    "helps": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+    "how": "Limitar el lenguaje del Modelo a contenido solo en Español México",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5251",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+    "helps": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+    "how": "Limitar el aprendizaje del Modelo de IA solo a los casos de uso definidos. No habilitado de entrenamiento de IA",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5252",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+    "helps": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+    "how": "Habilitar la trazabilidad logs de todos los movimientos de configuración del Modulo de IA, los eventos de entrada, salida del Modelo de IA asi como eventos de seguridad detectados por los modulos de IA e integrarlos a SIEM de DSI Splunk",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5253",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Implementación de servicio Security Command Center  para servicios de IA",
+    "helps": "Implementación de servicio Security Command Center  para servicios de IA",
+    "how": "Implementación de servicio Security Command Center  para servicios de IA",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Vertex AI-5254",
+    "area": "NetSec",
+    "cloud": "Google",
+    "service_type": "AI/ML",
+    "service": "Vertex AI",
+    "ponderacion": 5,
+    "description": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+    "helps": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+    "how": "Habilitar la encripción en transito y reposo del Modelo de AI y que sea administrado por Totalplay",
+    "active": "Si",
+    "business_units": [
+      "TOTALPLAY"
+    ]
+  }
+]

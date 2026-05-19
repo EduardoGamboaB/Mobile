@@ -1,0 +1,97 @@
+[
+  {
+    "code": "Google-Pub Sub-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Integración de aplicaciones",
+    "service": "Cloud Pub/Sub",
+    "ponderacion": 3,
+    "description": "Mediante Cloud KMS encripta las claves por cada tema que se crea en PUB/SUB.",
+    "helps": "Se usa Cloud KMS a fin de encriptar las claves de encriptación de datos DEK que Pub/Sub crea para cada tema.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/encryptionhles-419using-cmek",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Pub Sub-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Integración de aplicaciones",
+    "service": "Cloud Pub/Sub",
+    "ponderacion": 3,
+    "description": "Pub/Sub se basa en una autenticación OAuth estándar que usan otros productos de Google Cloud y admite IAM detallado, lo que permite controlar el acceso a recursos individuales..",
+    "helps": "Evita que usuarios no autorizados publiquen mensajes",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/overviewhles-419integrations",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Pub Sub-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Integración de aplicaciones",
+    "service": "Cloud Pub/Sub",
+    "ponderacion": 3,
+    "description": "Una etiqueta es un par clave-valor que te ayuda a organizar los recursos de Google Cloud. Puedes adjuntar una etiqueta a cada recurso y, luego, usarlas para filtrarlos.",
+    "helps": "Una etiqueta es un par clave-valor que te ayuda a organizar los recursos de Google Cloud. Puedes adjuntar una etiqueta a cada recurso y, luego, usarlas para filtrarlos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/labelshles_419",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Pub Sub-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Integración de aplicaciones",
+    "service": "Cloud Pub/Sub",
+    "ponderacion": 3,
+    "description": "En Pub/Sub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber de forma predeterminada.",
+    "helps": "En Pub/Sub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber de forma predeterminada.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/overviewhles-419core_concepts",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Pub Sub-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Integración de aplicaciones",
+    "service": "Cloud Pub/Sub",
+    "ponderacion": 3,
+    "description": "Supervisa PubSub usando Cloud Monitoring.",
+    "helps": "En PubSub un mensaje pasa directamente entre el creador del mensaje llamado Publicador Publisher  y el  cliente o Suscriptor subscriber  de forma predeterminada",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/pubsub/docs/monitoringhles-419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  }
+]

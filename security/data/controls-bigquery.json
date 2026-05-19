@@ -1,0 +1,97 @@
+[
+  {
+    "code": "Google-BigQuery-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Data Analytics",
+    "service": "BigQuery",
+    "ponderacion": 3,
+    "description": "Credenciales de inicio de sesión: la administración y operación de BigQuery está basado en la consola de IAM, por lo que deberá apegarse al menor privilegio el acceso otorgado al usuario",
+    "helps": "A los usuarios, grupos o cuentas de servicio se les otorga acceso a roles predefinidos o personalizados para darles permisos a fin de que realicen acciones en los recursos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-BigQuery-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Data Analytics",
+    "service": "BigQuery",
+    "ponderacion": 3,
+    "description": "Gestión de acceso IAM con restricciones: Se deben definir políticas para acceso a recursos específicos, no se permiten permisos full.",
+    "helps": "Puedes otorgar acceso en los siguientes niveles de recursos de BigQuery:\n- Nivel de organización o proyecto de Google Cloud\n- Nivel de conjunto de datos\n- Nivel de tabla o vista",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-BigQuery-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Data Analytics",
+    "service": "BigQuery",
+    "ponderacion": 3,
+    "description": "La comunicación a otros servicios de GCP deberá ser por roles en service accounts",
+    "helps": "Cuando una identidad un usuario o una cuenta de servicio llama a una API de Google Cloud, BigQuery requiere que la identidad tenga los permisos adecuados para usar el recurso. Puedes otorgar permisos si asignas roles a un usuario, a un grupo o a una cuenta de servicio.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/access-controlhles419permissions_and_predefined_roles",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-BigQuery-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Data Analytics",
+    "service": "BigQuery",
+    "ponderacion": 3,
+    "description": "Los datos que se ingresan en BigQuery son cifrados de manera automática en reposo, tránsito y memoria.",
+    "helps": "BigQuery encripta de forma automática todos los datos antes de que se escriban en el disco, cuando están en tránsito en red y cuando están en memoria para ser procesados. Los datos se desencriptan de manera automática cuando los lee un usuario autorizado.",
+    "how": "https://cloud.google.com/bigquery/docs/encryption-atrest hles_419::textBigQuery20automatically20encrypts20all20data,individual20values20within20a20table.",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "ELEKTRA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-BigQuery-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Data Analytics",
+    "service": "BigQuery",
+    "ponderacion": 3,
+    "description": "BigQuery conserva el contenido de una tabla llamada tabla base en un momento determinado.",
+    "helps": "Se puede guardar una instantánea de una tabla actual o crear una instantánea de una tabla como estaba en un momento determinado durante los últimos siete días.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/bigquery/docs/table-snapshots-intro",
+    "active": "Si",
+    "business_units": [
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA"
+    ]
+  }
+]

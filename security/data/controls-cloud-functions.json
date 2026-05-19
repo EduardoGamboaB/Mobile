@@ -1,0 +1,153 @@
+[
+  {
+    "code": "Google-Cloud Functions-01",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Mediante el acceso a VPC sin servidores, se puede conectar Cloud functions directo a otros servicios de  la red de VPC de manera privada",
+    "helps": "Evitar exposición de servicios internos y asegurar el monitoreo del flujo de datos mediante la red interna de la VPC",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/networking/connecting-vpchles-419",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTALPLAY",
+      "BANCO AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-02",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Se deberá forzar el uso del protocolo HTTPS para todas las funciones.",
+    "helps": "Usar HTTPS en Cloud Functions proporciona una capa adicional de seguridad en la comunicación entre el cliente y el servidor, lo que reduce el riesgo de que los datos sensibles sean interceptados o modificados por terceros no autorizados.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/calling/http",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TV AZTECA",
+      "TOTAL CYBER-SEC",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-03",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Puedes usar Secret Manager para almacenar de forma segura claves de API, contraseñas y otra información sensible.",
+    "helps": "Secret Manager te permite almacenar, administrar y acceder a secretos como BLOB binarios o strings de texto. Con los permisos adecuados, puedes ver el contenido del secreto como variables de entorno en Cloud functions. Secret Manager funciona bien con el fin de almacenar información de configuración, como contraseñas de bases de datos, claves de API o certificados TLS necesarios para una aplicación en el entorno de ejecución. Un sistema de administración de claves, como Cloud KMS, te permite administrar claves criptográficas y usarlas para encriptar o desencriptar datos.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/configuring/secrets",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-04",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Hacer uso del registro de labels, Cada función deberá tener etiquetado  Ecosistema y área",
+    "helps": "En tener un mejor control al momento de evaluar y agrupar servicios, así mismo, identificar los servicios que se engloban en un ecosistema dentro de una nube",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/resource-manager/docs/creating-managing-labelslabel_support",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTALPLAY",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-05",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Mediante permisos IAM pueden validar y asignar los permisos invocación, lectura ó escritura de la función mediante roles que se asignan o requiera Cloud Functions",
+    "helps": ": Ayuda a granular los permisos mediante roles, deberá estar apegado al menor privilegio, por default cloud functions solo permite invocaciones autenticadas aunque la función está expuesta a internet mediante una URL pública.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/reference/iam/permissions",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "ELEKTRA",
+      "TOTALPLAY"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-06",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": ":  Mediante el uso de Cloud Logging y cloud monitoring se tiene control sobre los logs y métricas de manera automática",
+    "helps": "Gestión de registros totalmente gestionada y en tiempo real, que admite exabytes de datos y ofrece funciones de almacenamiento, búsqueda, análisis y alertas de las funciones desplegadas.",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/monitoring",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TV AZTECA",
+      "TOTALPLAY",
+      "BANCO AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-07",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Las cuentas de servicio asociadas a una función ambiente de ejecución deben seguir el principio de mínimo privilegio en IAM",
+    "helps": ": Los permisos asignados en IAM sobre las cuentas de servicio permiten delimitar los recursos y capacidades a nivel permiso que tienen las funciones en el proyecto de GCP",
+    "how": "Favor de revisar el documento que se encuentra en la sección de Ayuda - Ayuda- Manuales Cloud\nhttps://cloud.google.com/functions/docs/securing/function-identityhles_419",
+    "active": "Si",
+    "business_units": [
+      "BANCO AZTECA",
+      "ELEKTRA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY",
+      "TV AZTECA"
+    ]
+  },
+  {
+    "code": "Google-Cloud Functions-08",
+    "area": "CSA",
+    "cloud": "Google",
+    "service_type": "Compute",
+    "service": "Cloud Functions",
+    "ponderacion": 3,
+    "description": "Vulnerabilidades en Codigo",
+    "helps": "Se debera ejecutar alguna herramienta sobre el codigo como checkmarx y debera contener 0 vulnerabilidades",
+    "how": "Adjuntar evidencia del analisis",
+    "active": "Si",
+    "business_units": [
+      "ELEKTRA",
+      "TV AZTECA",
+      "BANCO AZTECA",
+      "TOTAL CYBER-SEC",
+      "TOTALPLAY"
+    ]
+  }
+]
