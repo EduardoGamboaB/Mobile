@@ -1,0 +1,83 @@
+# Semgrep — reglas custom G3
+# Complementan las suites públicas (p/owasp-top-ten, p/typescript, p/secrets).
+# Se ejecutan en CI vía cloudbuild.yaml.
+
+rules:
+  - id: g3-no-jwt-in-localstorage
+    pattern-either:
+      - pattern: localStorage.setItem('token', ...)
+      - pattern: localStorage.setItem('accessToken', ...)
+      - pattern: localStorage.setItem('refreshToken', ...)
+      - pattern: localStorage.setItem('jwt', ...)
+    message: |
+      No guardar JWT en localStorage. Usa httpOnly cookie (web) o
+      Secure Storage de Expo (mobile). Ver security/05-security-checklist.md K.
+    languages: [typescript, javascript]
+    severity: ERROR
+
+  - id: g3-no-console-log-pii
+    pattern-either:
+      - pattern: console.log($EMAIL)
+      - pattern: console.log(..., $EMAIL, ...)
+    metavariable-regex:
+      metavariable: $EMAIL
+      regex: '.*(email|password|phone|rfc|curp|token).*'
+    message: |
+      Posible PII en console.log. Usa logger interno con userId, no datos personales.
+      Ver security/05-security-checklist.md F.
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: g3-no-query-without-companyid
+    patterns:
+      - pattern-either:
+          - pattern: $REPO.find(...)
+          - pattern: $REPO.findOne(...)
+          - pattern: $REPO.findAll(...)
+      - pattern-not: $REPO.find({ companyId: ..., ... })
+      - pattern-not: $REPO.findOne({ companyId: ..., ... })
+      - pattern-not: $REPO.findByCompanyId(...)
+    message: |
+      Query sin filtro por companyId. Verifica que el aislamiento multi-tenant
+      esté garantizado. Ver security/05-security-checklist.md B.
+    paths:
+      include:
+        - "backend/services/**/*.service.ts"
+      exclude:
+        - "**/test/**"
+        - "**/*.spec.ts"
+    languages: [typescript]
+    severity: WARNING
+
+  - id: g3-no-string-concat-in-sql
+    pattern-either:
+      - pattern: $DB.query(`... ${...} ...`)
+      - pattern: $DB.query("..." + $VAR + "...")
+    message: |
+      Posible SQL injection con string concat. Usa parametrización.
+      Ver security/05-security-checklist.md D.
+    languages: [typescript, javascript]
+    severity: ERROR
+
+  - id: g3-no-dangerously-set-inner-html
+    pattern: dangerouslySetInnerHTML={{__html: $X}}
+    message: |
+      dangerouslySetInnerHTML expone XSS. Si es estrictamente necesario,
+      sanitiza con DOMPurify y documenta excepción en el PR.
+    paths:
+      exclude:
+        - "website/app/layout.tsx"   # JSON-LD schema.org (OK)
+    languages: [typescript, javascript]
+    severity: WARNING
+
+  - id: g3-no-http-hardcoded
+    pattern-regex: '"http://(?!localhost|127\.0\.0\.1|0\.0\.0\.0)[^"]+"'
+    message: |
+      URL HTTP plana en código. Usar HTTPS en cualquier comunicación externa.
+    paths:
+      exclude:
+        - "**/test/**"
+        - "**/*.spec.ts"
+        - "**/*.md"
+    languages: [typescript, javascript]
+    severity: WARNING

@@ -10,47 +10,85 @@ substitutions:
   _TAG: $SHORT_SHA
 
 steps:
-  # ---------- BUILD (parallel) ----------
+  # ---------- SECURITY (pre-build, falla rápido) ----------
+  - id: sec-gitleaks
+    name: zricethezav/gitleaks:latest
+    entrypoint: gitleaks
+    args: ['detect', '--source=.', '--no-banner', '--redact', '--exit-code=1']
+    waitFor: ['-']
+
+  - id: sec-semgrep
+    name: returntocorp/semgrep:latest
+    entrypoint: semgrep
+    args:
+      - '--config=p/owasp-top-ten'
+      - '--config=p/typescript'
+      - '--config=p/secrets'
+      - '--severity=ERROR'
+      - '--error'
+      - '--metrics=off'
+      - '.'
+    waitFor: ['-']
+
+  - id: sec-npm-audit
+    name: node:20-alpine
+    entrypoint: sh
+    args:
+      - -c
+      - |
+        set -e
+        for dir in backend backend/contracts backend/gateway backend/services/auth \
+                   backend/services/billing backend/services/drivers backend/services/fleet \
+                   backend/services/trips backend/services/alerts backend/services/ai \
+                   mobile admin website; do
+          if [ -f "$dir/package.json" ]; then
+            echo "=== npm audit $dir ==="
+            (cd "$dir" && npm audit --audit-level=high --omit=dev || exit 1)
+          fi
+        done
+    waitFor: ['-']
+
+  # ---------- BUILD (parallel) — solo si seguridad pasa ----------
   - id: build-gateway
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=gateway',
            '-t', '${_REGISTRY}/gateway:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-auth
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/auth',
            '-t', '${_REGISTRY}/auth:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-billing
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/billing',
            '-t', '${_REGISTRY}/billing:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-drivers
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/drivers',
            '-t', '${_REGISTRY}/drivers:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-fleet
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/fleet',
            '-t', '${_REGISTRY}/fleet:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-trips
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/trips',
            '-t', '${_REGISTRY}/trips:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-alerts
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/alerts',
            '-t', '${_REGISTRY}/alerts:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
   - id: build-ai
     name: gcr.io/cloud-builders/docker
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/ai',
            '-t', '${_REGISTRY}/ai:${_TAG}', '.']
-    waitFor: ['-']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
 
   # ---------- PUSH ----------
   - id: push-all

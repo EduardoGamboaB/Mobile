@@ -1,0 +1,39 @@
+# Gitleaks config — G3
+# https://github.com/gitleaks/gitleaks
+
+title = "G3 — secrets allowlist"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Falsos positivos conocidos en G3"
+paths = [
+    # Tests con secretos sintéticos (claramente fake, prefijos test_/dev_)
+    '''.*test.*\.spec\.ts$''',
+    '''.*\.test\.ts$''',
+    # Documentación con ejemplos
+    '''.*\.md$''',
+    # Fixtures
+    '''.*fixtures.*\.json$''',
+    # Lockfiles
+    '''package-lock\.json$''',
+    # Catálogo DSI exportado (referencia, sin secretos reales)
+    '''security/data/.*\.json$''',
+]
+
+regexes = [
+    # JWT secrets de test (32 a's, 32 b's, etc.)
+    '''['"][ab]{32,}['"]''',
+    # Stripe test keys
+    '''sk_test_[A-Za-z0-9]{20,}''',
+    '''pk_test_[A-Za-z0-9]{20,}''',
+    # UUIDs (no son secretos por sí mismos)
+    '''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
+]
+
+[[rules]]
+id = "g3-jwt-real-secret"
+description = "Posible JWT secret real en código"
+regex = '''(?i)(jwt[_-]?(access|refresh)[_-]?secret)\s*[=:]\s*['"][A-Za-z0-9+/=]{32,}['"]'''
+keywords = ["jwt_access_secret", "jwt_refresh_secret", "JWT_ACCESS_SECRET"]

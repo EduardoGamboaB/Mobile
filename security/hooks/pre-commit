@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# G3 · Pre-commit security hook
+#
+# Instalación (una sola vez):
+#   ln -sf ../../security/hooks/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+#
+# Qué hace:
+#   1. gitleaks scan en los archivos staged
+#   2. semgrep en archivos modificados (rápido)
+#   3. npm audit en workspaces con package.json modificado
+#
+# Para saltarse el hook en emergencia: git commit --no-verify
+# (pero documenta por qué en el PR)
+
+set -e
+
+YELLOW='\033[1;33m'
+GREEN='\033[1;32m'
+RED='\033[1;31m'
+RESET='\033[0m'
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+# 1. Gitleaks ─────────────────────────────────────────────────────
+if command -v gitleaks >/dev/null 2>&1; then
+  echo -e "${YELLOW}[pre-commit] gitleaks scan...${RESET}"
+  if ! gitleaks protect --staged --no-banner --redact; then
+    echo -e "${RED}[pre-commit] gitleaks detectó secretos. Aborta.${RESET}"
+    echo "Si es falso positivo, añade a .gitleaks.toml allowlist."
+    exit 1
+  fi
+else
+  echo -e "${YELLOW}[pre-commit] gitleaks no instalado. brew install gitleaks${RESET}"
+fi
+
+# 2. Semgrep (rápido, solo archivos staged) ──────────────────────
+TS_FILES=$(echo "$STAGED" | grep -E '\.(ts|tsx|js|jsx)$' || true)
+if [ -n "$TS_FILES" ] && command -v semgrep >/dev/null 2>&1; then
+  echo -e "${YELLOW}[pre-commit] semgrep en archivos staged...${RESET}"
+  if ! echo "$TS_FILES" | xargs semgrep --config=.semgrep.yml --error --metrics=off --quiet; then
+    echo -e "${RED}[pre-commit] semgrep detectó violaciones. Aborta.${RESET}"
+    exit 1
+  fi
+fi
+
+# 3. npm audit en workspaces afectados ────────────────────────────
+WORKSPACES=$(echo "$STAGED" | grep -oE '^(backend|mobile|admin|website)(/[^/]+)?/package\.json$' | sort -u)
+for pkg in $WORKSPACES; do
+  dir=$(dirname "$pkg")
+  echo -e "${YELLOW}[pre-commit] npm audit en $dir...${RESET}"
+  if ! (cd "$dir" && npm audit --audit-level=high --omit=dev 2>&1 | tail -5); then
+    echo -e "${RED}[pre-commit] vulnerabilidades high/critical en $dir.${RESET}"
+    echo "Resuelve con: cd $dir && npm audit fix"
+    exit 1
+  fi
+done
+
+echo -e "${GREEN}[pre-commit] OK · listo para commit${RESET}"

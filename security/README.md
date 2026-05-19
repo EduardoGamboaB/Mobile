@@ -51,10 +51,29 @@ security/
 ├── 05-security-checklist.md        PR checklist obligatorio
 ├── 06-testing-protocol.md          pruebas de seguridad por capa
 ├── 07-incident-response.md         qué hacer cuando algo se rompe
-└── data/
-    ├── controls.json               181 controles G3 en JSON canónico
-    └── controls-<servicio>.json    desglosado por servicio
+├── data/                           181 controles G3 + por servicio (JSON)
+├── hooks/                          pre-commit con gitleaks + semgrep + npm audit
+│   ├── pre-commit                    hook ejecutable
+│   └── install.sh                    symlink a .git/hooks/
+├── scripts/                        scripts de operación
+│   ├── audit-controls.sh             auditoría trimestral contra GCP
+│   └── apply-quickwins.sh            aplica los 8 quick wins
+├── reports/audit/                  reportes históricos de auditoría (CSV + MD)
+└── postmortems/                    archivo histórico de incidentes
+    ├── README.md
+    └── _template.md
 ```
+
+## Integraciones en el repo
+
+- **`.github/PULL_REQUEST_TEMPLATE.md`** — checklist obligatorio en cada PR
+- **`.gitleaks.toml`** — config + allowlist de gitleaks
+- **`.semgrep.yml`** — reglas custom G3 (no JWT en localStorage,
+  validación companyId, anti SQL injection, etc.)
+- **`backend/infra/ci/cloudbuild.yaml`** — pipeline con security gate
+  (gitleaks + semgrep + npm audit) **antes** de cualquier build
+- **`security/hooks/pre-commit`** — hook local opcional (instalable con
+  `bash security/hooks/install.sh`)
 
 ## Reglas del módulo
 
