@@ -1,0 +1,1092 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2100 8340" font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+<rect width="2100" height="8340" fill="#F0F2F7"/>
+<g transform="translate(50, 50)">
+  <text font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1">G3 Drive · Mobile App</text>
+  <text y="34" font-family="-apple-system" font-size="14" fill="#64748B">31 pantallas · Flujo completo del operador en carretera</text>
+</g>
+<text x="50" y="164" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Onboarding & Auth</text>
+<line x1="50" y1="174" x2="2050" y2="174" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Splash)">
+    <defs><clipPath id="clip-Splash"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#0A1633"/>
+    <g transform="translate(86,210)">
+      <text x="40" y="40" text-anchor="middle" font-family="Arial Black" font-size="48"
+            font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-3">G3</text>
+      <text x="40" y="60" text-anchor="middle" font-family="-apple-system" font-size="9"
+            font-weight="700" fill="#FFFFFF" letter-spacing="2">DRIVE</text>
+    </g>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="10" fill="rgba(255,255,255,0.5)">Cargando...</text>
+    
+  </g>
+</g>
+<text x="200" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Splash</text>
+<g transform="translate(400,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Onboarding 1/4)">
+    <defs><clipPath id="clip-Onboarding 1/4"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F4F6FB"/>
+    <text x="230" y="24" text-anchor="end" font-family="-apple-system" font-size="11"
+          font-weight="600" fill="#64748B">Saltar</text>
+    <rect x="96" y="50" width="60" height="60" rx="14" fill="#DBE7F7"/>
+    <text x="126" y="89" text-anchor="middle" font-size="28" fill="#1B2D5C">🚚</text>
+    <text x="126" y="145" text-anchor="middle" font-family="-apple-system" font-size="15"
+          font-weight="800" fill="#0A1633">Tu unidad operativa,</text>
+    <text x="126" y="162" text-anchor="middle" font-family="-apple-system" font-size="15"
+          font-weight="800" fill="#0A1633">en el bolsillo</text>
+    <text x="126" y="190" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="#64748B">G3 Drive centraliza viajes,</text>
+    <text x="126" y="202" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="#64748B">bitácoras y evidencias.</text>
+    <g transform="translate(104,410)">
+      <rect width="10" height="3" rx="1.5" fill="#0A1633"/>
+      <circle cx="20" cy="1.5" r="1.5" fill="#CBD5E1"/>
+      <circle cx="30" cy="1.5" r="1.5" fill="#CBD5E1"/>
+      <circle cx="40" cy="1.5" r="1.5" fill="#CBD5E1"/>
+    </g>
+    <rect x="20" y="440" width="212" height="32" rx="16" fill="#0A1633"/>
+    <text x="126" y="460" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Continuar</text>
+    
+  </g>
+</g>
+<text x="540" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Onboarding 1/4</text>
+<g transform="translate(740,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Onboarding 4/4)">
+    <defs><clipPath id="clip-Onboarding 4/4"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F4F6FB"/>
+    <text x="22" y="24" font-family="-apple-system" font-size="11" font-weight="600" fill="#64748B">← Atrás</text>
+    <rect x="96" y="50" width="60" height="60" rx="14" fill="#FFEDD5"/>
+    <text x="126" y="89" text-anchor="middle" font-size="28">💰</text>
+    <text x="126" y="145" text-anchor="middle" font-family="-apple-system" font-size="15"
+          font-weight="800" fill="#0A1633">Cobros más rápidos</text>
+    <text x="126" y="190" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="#64748B">Liberación de pago en cuanto</text>
+    <text x="126" y="202" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="#64748B">la carga se entrega.</text>
+    <g transform="translate(104,410)">
+      <circle cx="0" cy="1.5" r="1.5" fill="#CBD5E1"/>
+      <circle cx="10" cy="1.5" r="1.5" fill="#CBD5E1"/>
+      <circle cx="20" cy="1.5" r="1.5" fill="#CBD5E1"/>
+      <rect x="28" y="0" width="10" height="3" rx="1.5" fill="#0A1633"/>
+    </g>
+    <rect x="20" y="440" width="212" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="460" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Empezar</text>
+    
+  </g>
+</g>
+<text x="880" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Onboarding 4/4</text>
+<g transform="translate(1080,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Phone Login)">
+    <defs><clipPath id="clip-Phone Login"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="20" font-weight="800" fill="#0A1633">Hola operador</text>
+    <text x="22" y="50" font-family="-apple-system" font-size="11" fill="#64748B">Entra con tu teléfono</text>
+    <rect x="22" y="80" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="30" y="103" font-family="-apple-system" font-size="11" fill="#334155">🇲🇽 +52</text>
+    <line x1="62" y1="86" x2="62" y2="110" stroke="#CBD5E1"/>
+    <text x="70" y="103" font-family="-apple-system" font-size="12" fill="#64748B">55 0000 0000</text>
+    <rect x="22" y="130" width="208" height="36" rx="8" fill="#0A1633"/>
+    <text x="126" y="153" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">Continuar</text>
+    <text x="126" y="190" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">o</text>
+    <rect x="22" y="200" width="208" height="34" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="126" y="222" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="600" fill="#0A1633">Continuar con correo</text>
+    
+  </g>
+</g>
+<text x="1220" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Phone Login</text>
+<g transform="translate(1420,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Email Login)">
+    <defs><clipPath id="clip-Email Login"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="24" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="20" font-weight="800" fill="#0A1633">Entra con tu correo</text>
+    <text x="22" y="100" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">CORREO</text>
+    <rect x="22" y="108" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="32" y="131" font-family="-apple-system" font-size="11" fill="#64748B">tu@empresa.mx</text>
+    <text x="22" y="170" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">CONTRASEÑA</text>
+    <rect x="22" y="178" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="32" y="201" font-family="-apple-system" font-size="11" fill="#64748B">••••••••</text>
+    <text x="230" y="234" text-anchor="end" font-family="-apple-system" font-size="10" fill="#1B2D5C">¿Olvidaste tu contraseña?</text>
+    <rect x="22" y="260" width="208" height="36" rx="8" fill="#0A1633"/>
+    <text x="126" y="283" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">Iniciar sesión</text>
+    
+  </g>
+</g>
+<text x="1560" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Email Login</text>
+<g transform="translate(1760,190)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-OTP Verify)">
+    <defs><clipPath id="clip-OTP Verify"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="24" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="20" font-weight="800" fill="#0A1633">Código de</text>
+    <text x="22" y="78" font-family="-apple-system" font-size="20" font-weight="800" fill="#0A1633">verificación</text>
+    <text x="22" y="110" font-family="-apple-system" font-size="10" fill="#64748B">Enviado a +52 55 ••• 0000</text>
+    <g transform="translate(22, 140)">
+      <rect x="0"   y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#0A1633" stroke-width="2"/>
+      <rect x="42"  y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#CBD5E1"/>
+      <rect x="84"  y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#CBD5E1"/>
+      <rect x="126" y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#CBD5E1"/>
+      <rect x="168" y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#CBD5E1"/>
+      <rect x="210" y="0" width="34" height="44" rx="8" fill="#F1F5F9" stroke="#CBD5E1"/>
+      <text x="17" y="30" text-anchor="middle" font-family="-apple-system" font-size="18" font-weight="700" fill="#0A1633">4</text>
+    </g>
+    <text x="22" y="220" font-family="-apple-system" font-size="10" fill="#64748B">Reenviar en 0:42</text>
+    <rect x="22" y="250" width="208" height="36" rx="8" fill="#0A1633"/>
+    <text x="126" y="273" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">Verificar</text>
+    
+  </g>
+</g>
+<text x="1900" y="792" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">OTP Verify</text>
+<g transform="translate(60,890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Forgot Password)">
+    <defs><clipPath id="clip-Forgot Password"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="24" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Recupera tu acceso</text>
+    <text x="22" y="100" font-family="-apple-system" font-size="10" fill="#64748B">Te mandamos un link al correo</text>
+    <text x="22" y="112" font-family="-apple-system" font-size="10" fill="#64748B">para crear nueva contraseña.</text>
+    <rect x="22" y="140" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="32" y="163" font-family="-apple-system" font-size="11" fill="#64748B">tu@empresa.mx</text>
+    <rect x="22" y="200" width="208" height="36" rx="8" fill="#0A1633"/>
+    <text x="126" y="223" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">Enviar link</text>
+    
+  </g>
+</g>
+<text x="200" y="1492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Forgot Password</text>
+<text x="50" y="1614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Dashboard & Main</text>
+<line x1="50" y1="1624" x2="2050" y2="1624" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,1640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Dashboard)">
+    <defs><clipPath id="clip-Dashboard"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#0A1633"/>
+    <text x="22" y="32" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.6)">Hola, Pedro</text>
+    <text x="22" y="52" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Bitácora</text>
+    <rect x="194" y="22" width="36" height="36" rx="18" fill="rgba(255,255,255,0.1)"/>
+    <text x="212" y="46" text-anchor="middle" font-size="14">🔔</text>
+    <rect x="214" y="22" width="14" height="14" rx="7" fill="#FF7A45"/>
+    <text x="221" y="33" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#FFFFFF">3</text>
+    <rect x="22" y="80" width="208" height="60" rx="12" fill="rgba(255,122,69,0.15)"/>
+    <text x="32" y="98" font-family="-apple-system" font-size="8" fill="rgba(255,255,255,0.7)" letter-spacing="1">VIAJE ACTIVO</text>
+    <text x="32" y="116" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF">G3-2026-00134</text>
+    <text x="32" y="132" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.7)">CDMX → Monterrey</text>
+    <rect x="22" y="155" width="208" height="50" rx="12" fill="rgba(255,255,255,0.06)"/>
+    <text x="32" y="175" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.6)" letter-spacing="1">PRÓXIMA ACCIÓN</text>
+    <text x="32" y="193" font-family="-apple-system" font-size="11" font-weight="600" fill="#FFFFFF">Inspección pre-viaje</text>
+    <text x="22" y="232" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">Eventos hoy</text>
+    <rect x="22" y="245" width="208" height="38" rx="10" fill="rgba(255,255,255,0.04)"/>
+    <text x="32" y="263" font-family="-apple-system" font-size="10" font-weight="600" fill="#FFFFFF">⛽ Diesel · 180L</text>
+    <text x="32" y="278" font-family="-apple-system" font-size="8" fill="rgba(255,255,255,0.6)">09:30 · $4,860</text>
+    <rect x="22" y="290" width="208" height="38" rx="10" fill="rgba(255,255,255,0.04)"/>
+    <text x="32" y="308" font-family="-apple-system" font-size="10" font-weight="600" fill="#FFFFFF">🚧 Caseta 95</text>
+    <text x="32" y="323" font-family="-apple-system" font-size="8" fill="rgba(255,255,255,0.6)">07:18 · $340</text>
+    <rect x="22" y="410" width="208" height="42" rx="21" fill="#FF7A45"/>
+    <text x="126" y="436" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">+ Registrar evento</text>
+    
+  </g>
+</g>
+<text x="200" y="2242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Dashboard</text>
+<g transform="translate(400,1640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Notifications)">
+    <defs><clipPath id="clip-Notifications"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Notificaciones</text>
+    <g transform="translate(0, 80)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <circle cx="32" cy="20" r="5" fill="#FF7A45"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Viaje asignado</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="9" fill="#64748B">G3-2026-00135 · CDMX → Q</text>
+      <text x="230" y="20" text-anchor="end" font-family="-apple-system" font-size="8" fill="#64748B">12 min</text>
+    </g>
+    <g transform="translate(0, 142)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Pago liberado</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="9" fill="#64748B">$18,500 · G3-2026-00133</text>
+      <text x="230" y="20" text-anchor="end" font-family="-apple-system" font-size="8" fill="#64748B">1 h</text>
+    </g>
+    <g transform="translate(0, 204)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <text x="44" y="20" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Documento próximo a vencer</text>
+      <text x="44" y="36" font-family="-apple-system" font-size="9" fill="#64748B">Licencia federal · 14 días</text>
+      <text x="230" y="20" text-anchor="end" font-family="-apple-system" font-size="8" fill="#64748B">2 h</text>
+    </g>
+    
+  </g>
+</g>
+<text x="540" y="2242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Notifications</text>
+<g transform="translate(740,1640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Pending Sync)">
+    <defs><clipPath id="clip-Pending Sync"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Pendientes</text>
+    <text x="22" y="78" font-family="-apple-system" font-size="9" fill="#64748B">por sincronizar</text>
+    <rect x="14" y="100" width="224" height="40" rx="8" fill="#FEF3C7" stroke="#F59E0B"/>
+    <text x="22" y="120" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">⚠ Sin conexión</text>
+    <text x="22" y="134" font-family="-apple-system" font-size="9" fill="#334155">4 eventos esperando</text>
+    <g transform="translate(0, 160)">
+      <rect x="14" y="0" width="224" height="46" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Evento de bitácora</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Diesel · 180L · 09:30</text>
+      <circle cx="224" cy="23" r="6" fill="#F59E0B"/>
+    </g>
+    <g transform="translate(0, 212)">
+      <rect x="14" y="0" width="224" height="46" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Foto evidencia</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Carta porte · 11:15</text>
+      <circle cx="224" cy="23" r="6" fill="#F59E0B"/>
+    </g>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#0A1633"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system" font-size="11"
+          font-weight="700" fill="#FFFFFF">Reintentar sincronización</text>
+    
+  </g>
+</g>
+<text x="880" y="2242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Pending Sync</text>
+<text x="50" y="2364" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Trips</text>
+<line x1="50" y1="2374" x2="2050" y2="2374" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,2390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Trips List)">
+    <defs><clipPath id="clip-Trips List"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Viajes</text>
+    <rect x="22" y="50" width="60" height="22" rx="11" fill="#0A1633"/>
+    <text x="52" y="64" text-anchor="middle" font-family="-apple-system" font-size="9" font-weight="700" fill="#FFFFFF">Activos</text>
+    <rect x="88" y="50" width="60" height="22" rx="11" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="118" y="64" text-anchor="middle" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">Próximos</text>
+    <g transform="translate(0, 90)">
+      <rect x="14" y="0" width="224" height="80" rx="12" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1">G3-2026-00134</text>
+      <rect x="174" y="8" width="54" height="18" rx="9" fill="rgba(22,163,74,0.15)"/>
+      <text x="201" y="20" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#16A34A">EN RUTA</text>
+      <text x="22" y="40" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">CDMX → Monterrey</text>
+      <text x="22" y="58" font-family="-apple-system" font-size="9" fill="#64748B">720 km · ETA hoy 17:30</text>
+      <text x="22" y="72" font-family="-apple-system" font-size="10" font-weight="700" fill="#FF7A45">$18,500</text>
+    </g>
+    <g transform="translate(0, 184)">
+      <rect x="14" y="0" width="224" height="80" rx="12" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1">G3-2026-00136</text>
+      <rect x="166" y="8" width="62" height="18" rx="9" fill="rgba(245,158,11,0.15)"/>
+      <text x="197" y="20" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#F59E0B">ASIGNADO</text>
+      <text x="22" y="40" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">GDL → Tampico</text>
+      <text x="22" y="58" font-family="-apple-system" font-size="9" fill="#64748B">880 km · Mañana 6:00</text>
+      <text x="22" y="72" font-family="-apple-system" font-size="10" font-weight="700" fill="#FF7A45">$22,100</text>
+    </g>
+    
+  </g>
+</g>
+<text x="200" y="2992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Trips List</text>
+<g transform="translate(400,2390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Trip Detail)">
+    <defs><clipPath id="clip-Trip Detail"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1">G3-2026-00134</text>
+    <text x="22" y="76" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">CDMX → Monterrey</text>
+    <rect x="22" y="92" width="58" height="20" rx="10" fill="rgba(22,163,74,0.15)"/>
+    <text x="51" y="105" text-anchor="middle" font-family="-apple-system" font-size="9" font-weight="700" fill="#16A34A">EN RUTA</text>
+    <rect x="14" y="125" width="224" height="58" rx="10" fill="#0A1633"/>
+    <text x="24" y="143" font-family="-apple-system" font-size="8" fill="rgba(255,255,255,0.6)" letter-spacing="1">INGRESO VIAJE</text>
+    <text x="24" y="167" font-family="-apple-system" font-size="20" font-weight="800" fill="#FFFFFF">$18,500</text>
+    <text x="22" y="200" font-family="-apple-system" font-size="9" font-weight="600" fill="#64748B" letter-spacing="1">DETALLE</text>
+    <line x1="22" y1="218" x2="230" y2="218" stroke="#F1F5F9"/>
+    <text x="22" y="234" font-family="-apple-system" font-size="9" fill="#64748B">Origen</text>
+    <text x="230" y="234" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">CDMX</text>
+    <line x1="22" y1="246" x2="230" y2="246" stroke="#F1F5F9"/>
+    <text x="22" y="262" font-family="-apple-system" font-size="9" fill="#64748B">Destino</text>
+    <text x="230" y="262" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">Monterrey</text>
+    <line x1="22" y1="274" x2="230" y2="274" stroke="#F1F5F9"/>
+    <text x="22" y="290" font-family="-apple-system" font-size="9" fill="#64748B">Tracto</text>
+    <text x="230" y="290" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">T-038</text>
+    <line x1="22" y1="302" x2="230" y2="302" stroke="#F1F5F9"/>
+    <text x="22" y="318" font-family="-apple-system" font-size="9" fill="#64748B">Carga</text>
+    <text x="230" y="318" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">Seca · 28 t</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Marcar como llegué</text>
+    
+  </g>
+</g>
+<text x="540" y="2992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Trip Detail</text>
+<g transform="translate(740,2390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-History)">
+    <defs><clipPath id="clip-History"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Historial</text>
+    <text x="22" y="78" font-family="-apple-system" font-size="9" fill="#64748B">Últimos 30 días · 47 viajes</text>
+    <g transform="translate(0, 100)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">CDMX → GDL</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">17 may · G3-2026-00130</text>
+      <text x="22" y="48" font-family="-apple-system" font-size="10" font-weight="700" fill="#FF7A45">$15,800</text>
+      <text x="230" y="34" text-anchor="end" font-size="10" fill="#16A34A">✓</text>
+    </g>
+    <g transform="translate(0, 162)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Mty → Saltillo</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">14 may · G3-2026-00128</text>
+      <text x="22" y="48" font-family="-apple-system" font-size="10" font-weight="700" fill="#FF7A45">$9,200</text>
+      <text x="230" y="34" text-anchor="end" font-size="10" fill="#16A34A">✓</text>
+    </g>
+    <g transform="translate(0, 224)">
+      <rect x="14" y="0" width="224" height="56" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">QRO → Puebla</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">12 may · G3-2026-00126</text>
+      <text x="22" y="48" font-family="-apple-system" font-size="10" font-weight="700" fill="#FF7A45">$6,400</text>
+      <text x="230" y="34" text-anchor="end" font-size="10" fill="#16A34A">✓</text>
+    </g>
+    
+  </g>
+</g>
+<text x="880" y="2992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">History</text>
+<g transform="translate(1080,2390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Map Route)">
+    <defs><clipPath id="clip-Map Route"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <defs>
+      <linearGradient id="mapGrad" x1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#E5E7EB"/>
+        <stop offset="1" stop-color="#CBD5E1"/>
+      </linearGradient>
+    </defs>
+    <rect width="252" height="480" fill="url(#mapGrad)"/>
+    <!-- Roads -->
+    <path d="M 30,440 Q 126,330 222,40" stroke="#FF7A45" stroke-width="3" fill="none" stroke-dasharray="6 3"/>
+    <path d="M 0,240 L 252,220" stroke="#FFFFFF" stroke-width="6" opacity="0.6"/>
+    <path d="M 96,0 L 146,480" stroke="#FFFFFF" stroke-width="4" opacity="0.5"/>
+    <!-- Origin -->
+    <circle cx="30" cy="440" r="8" fill="#FF7A45"/>
+    <circle cx="30" cy="440" r="3" fill="#FFFFFF"/>
+    <!-- Truck -->
+    <g transform="translate(114,210)">
+      <rect width="24" height="14" rx="3" fill="#0A1633"/>
+      <text x="12" y="11" text-anchor="middle" font-size="10">🚛</text>
+    </g>
+    <!-- Destination -->
+    <rect x="214" y="32" width="16" height="16" rx="2" fill="#0A1633"/>
+    <!-- Top card -->
+    <rect x="14" y="14" width="224" height="50" rx="12" fill="#FFFFFF" opacity="0.95"/>
+    <text x="24" y="32" font-family="-apple-system" font-size="9" fill="#64748B" letter-spacing="1">ETA</text>
+    <text x="24" y="50" font-family="-apple-system" font-size="14" font-weight="800" fill="#0A1633">17:34 hoy</text>
+    <text x="228" y="32" text-anchor="end" font-family="-apple-system" font-size="9" fill="#64748B">Velocidad</text>
+    <text x="228" y="50" text-anchor="end" font-family="-apple-system" font-size="14" font-weight="800" fill="#0A1633">88 km/h</text>
+    <!-- Bottom bar -->
+    <rect x="14" y="422" width="224" height="40" rx="20" fill="#FFFFFF"/>
+    <text x="126" y="448" text-anchor="middle" font-family="-apple-system" font-size="10"
+          font-weight="700" fill="#0A1633">Compartir ubicación en vivo</text>
+    
+  </g>
+</g>
+<text x="1220" y="2992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Map Route</text>
+<text x="50" y="3114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Logbook & Evidence</text>
+<line x1="50" y1="3124" x2="2050" y2="3124" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Logbook Create)">
+    <defs><clipPath id="clip-Logbook Create"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Cancelar</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Registrar evento</text>
+    <text x="22" y="85" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">TIPO</text>
+    <g transform="translate(14, 95)">
+      <rect x="0" y="0" width="60" height="58" rx="10" fill="rgba(255,122,69,0.12)" stroke="#FF7A45" stroke-width="2"/>
+      <text x="30" y="22" text-anchor="middle" font-size="16">⛽</text>
+      <text x="30" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#0A1633">Diesel</text>
+      <rect x="68" y="0" width="60" height="58" rx="10" fill="#F1F5F9"/>
+      <text x="98" y="22" text-anchor="middle" font-size="16">🚧</text>
+      <text x="98" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" fill="#334155">Caseta</text>
+      <rect x="136" y="0" width="60" height="58" rx="10" fill="#F1F5F9"/>
+      <text x="166" y="22" text-anchor="middle" font-size="16">🍔</text>
+      <text x="166" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" fill="#334155">Comida</text>
+    </g>
+    <text x="22" y="180" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">MONTO</text>
+    <rect x="22" y="190" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="32" y="213" font-family="-apple-system" font-size="13" font-weight="600" fill="#0A1633">$ 4,860.00</text>
+    <text x="22" y="250" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">LITROS</text>
+    <rect x="22" y="260" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="32" y="283" font-family="-apple-system" font-size="12" fill="#0A1633">180 L</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">📷 Foto del recibo</text>
+    
+  </g>
+</g>
+<text x="200" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Logbook Create</text>
+<g transform="translate(400,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Evidence Upload)">
+    <defs><clipPath id="clip-Evidence Upload"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#0F0F1A"/>
+    <!-- Camera view -->
+    <rect x="20" y="60" width="212" height="300" rx="12" fill="#1A1A2E"/>
+    <!-- Frame guides -->
+    <path d="M 30,80 L 30,100 M 30,80 L 50,80" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 222,80 L 222,100 M 222,80 L 202,80" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 30,370 L 30,350 M 30,370 L 50,370" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M 222,370 L 222,350 M 222,370 L 202,370" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="126" y="240" text-anchor="middle" font-size="40">📄</text>
+    <text x="126" y="380" text-anchor="middle" font-family="-apple-system" font-size="10"
+          fill="rgba(255,255,255,0.7)">Carta porte</text>
+    <text x="126" y="394" text-anchor="middle" font-family="-apple-system" font-size="8"
+          fill="rgba(255,255,255,0.5)">Coloca dentro del marco</text>
+    <!-- Bottom controls -->
+    <circle cx="126" cy="436" r="22" fill="#FFFFFF"/>
+    <circle cx="126" cy="436" r="16" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+    <text x="22" y="34" font-family="-apple-system" font-size="11" fill="#FFFFFF">✕</text>
+    <text x="230" y="34" text-anchor="end" font-family="-apple-system" font-size="11" fill="#FFFFFF">⚡</text>
+    
+  </g>
+</g>
+<text x="540" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Evidence Upload</text>
+<g transform="translate(740,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-QR Scanner)">
+    <defs><clipPath id="clip-QR Scanner"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#0F0F1A"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#FFFFFF">← Atrás</text>
+    <text x="126" y="60" text-anchor="middle" font-family="-apple-system" font-size="14"
+          font-weight="700" fill="#FFFFFF">Escanea el QR</text>
+    <rect x="20" y="90" width="212" height="212" fill="#1A1A2E"/>
+    <!-- Scanner corners -->
+    <path d="M 30,100 L 30,120 M 30,100 L 50,100" stroke="#FF7A45" stroke-width="3"/>
+    <path d="M 222,100 L 222,120 M 222,100 L 202,100" stroke="#FF7A45" stroke-width="3"/>
+    <path d="M 30,302 L 30,282 M 30,302 L 50,302" stroke="#FF7A45" stroke-width="3"/>
+    <path d="M 222,302 L 222,282 M 222,302 L 202,302" stroke="#FF7A45" stroke-width="3"/>
+    <!-- Scanning line -->
+    <line x1="35" y1="176" x2="217" y2="176" stroke="#FF7A45" stroke-width="2" opacity="0.7"/>
+    <text x="126" y="420" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="rgba(255,255,255,0.7)">Punto de carga / descarga</text>
+    
+  </g>
+</g>
+<text x="880" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">QR Scanner</text>
+<text x="50" y="3864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Inspection (Pre-Trip)</text>
+<line x1="50" y1="3874" x2="2050" y2="3874" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,3890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Pre-Trip Inspection)">
+    <defs><clipPath id="clip-Pre-Trip Inspection"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Inspección</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">pre-viaje</text>
+    <text x="22" y="92" font-family="-apple-system" font-size="9" fill="#64748B">8 de 12 puntos completados</text>
+    <rect x="22" y="100" width="208" height="4" rx="2" fill="#CBD5E1"/>
+    <rect x="22" y="100" width="138" height="4" rx="2" fill="#16A34A"/>
+    <g transform="translate(0, 120)">
+      <rect x="14" y="0" width="224" height="46" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Llantas delanteras</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Profundidad y presión</text>
+      <text x="230" y="28" text-anchor="end" font-size="14" fill="#16A34A">✓</text>
+    </g>
+    <g transform="translate(0, 172)">
+      <rect x="14" y="0" width="224" height="46" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Frenos</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Sistema completo</text>
+      <text x="230" y="28" text-anchor="end" font-size="14" fill="#16A34A">✓</text>
+    </g>
+    <g transform="translate(0, 224)">
+      <rect x="14" y="0" width="224" height="46" rx="10" fill="#FFFFFF" stroke="#FF7A45" stroke-width="2"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Luces</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#FF7A45">Toca para revisar →</text>
+    </g>
+    <g transform="translate(0, 276)">
+      <rect x="14" y="0" width="224" height="46" rx="10" fill="#FFFFFF"/>
+      <text x="22" y="18" font-family="-apple-system" font-size="11" font-weight="600" fill="#64748B">Aceite motor</text>
+      <text x="22" y="34" font-family="-apple-system" font-size="9" fill="#CBD5E1">Pendiente</text>
+      <circle cx="226" cy="23" r="6" fill="#CBD5E1"/>
+    </g>
+    
+  </g>
+</g>
+<text x="200" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Pre-Trip Inspection</text>
+<g transform="translate(400,3890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Checkpoint Detail)">
+    <defs><clipPath id="clip-Checkpoint Detail"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Inspección</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="9" font-weight="600" fill="#64748B" letter-spacing="1">PUNTO 3 / 12</text>
+    <text x="22" y="78" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Luces</text>
+    <text x="22" y="100" font-family="-apple-system" font-size="10" fill="#334155">Revisa todas las luces externas:</text>
+    <text x="22" y="116" font-family="-apple-system" font-size="10" fill="#334155">delanteras, traseras, direccionales.</text>
+    <rect x="14" y="138" width="224" height="100" rx="10" fill="#F1F5F9"/>
+    <text x="126" y="198" text-anchor="middle" font-size="32">📷</text>
+    <text x="126" y="220" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Toma una foto</text>
+    <text x="22" y="265" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">ESTADO</text>
+    <g transform="translate(14, 275)">
+      <rect x="0" y="0" width="80" height="36" rx="18" fill="rgba(22,163,74,0.15)" stroke="#16A34A" stroke-width="2"/>
+      <text x="40" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ OK</text>
+      <rect x="88" y="0" width="80" height="36" rx="18" fill="#FFFFFF" stroke="#CBD5E1"/>
+      <text x="128" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#64748B">⚠ Falla</text>
+    </g>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#0A1633"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Siguiente punto →</text>
+    
+  </g>
+</g>
+<text x="540" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Checkpoint Detail</text>
+<text x="50" y="4614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">POD & Signature</text>
+<line x1="50" y1="4624" x2="2050" y2="4624" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,4640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Signature POD)">
+    <defs><clipPath id="clip-Signature POD"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Acuse de entrega</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="9" fill="#64748B">G3-2026-00134</text>
+    <text x="22" y="105" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">RECIBE</text>
+    <rect x="14" y="115" width="224" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="22" y="138" font-family="-apple-system" font-size="11" fill="#0A1633">Juan Hernández</text>
+    <text x="22" y="170" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">FIRMA</text>
+    <rect x="14" y="180" width="224" height="120" rx="10" fill="#F8FAFC" stroke="#CBD5E1" stroke-dasharray="4 4"/>
+    <path d="M 30,250 Q 60,220 90,240 T 160,235 Q 190,255 220,230" stroke="#0A1633" stroke-width="2" fill="none"/>
+    <text x="126" y="310" text-anchor="middle" font-family="-apple-system" font-size="8" fill="#64748B">Firma con el dedo</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Confirmar entrega</text>
+    
+  </g>
+</g>
+<text x="200" y="5242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Signature POD</text>
+<text x="50" y="5364" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Incidents</text>
+<line x1="50" y1="5374" x2="2050" y2="5374" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,5390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Incident List)">
+    <defs><clipPath id="clip-Incident List"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Incidencias</text>
+    <g transform="translate(0, 80)">
+      <rect x="14" y="0" width="224" height="60" rx="10" fill="#FFFFFF" stroke-left="3" stroke="#DC2626"/>
+      <rect x="14" y="0" width="3" height="60" rx="1.5" fill="#DC2626"/>
+      <text x="24" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Falla mecánica</text>
+      <text x="24" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Humo del motor · MX-15 km 88</text>
+      <text x="24" y="50" font-family="-apple-system" font-size="9" fill="#DC2626">Hace 12 min · sin resolver</text>
+    </g>
+    <g transform="translate(0, 152)">
+      <rect x="14" y="0" width="224" height="60" rx="10" fill="#FFFFFF"/>
+      <rect x="14" y="0" width="3" height="60" rx="1.5" fill="#F59E0B"/>
+      <text x="24" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Demora en patio</text>
+      <text x="24" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Espera en descarga · Mty</text>
+      <text x="24" y="50" font-family="-apple-system" font-size="9" fill="#F59E0B">Ayer · en seguimiento</text>
+    </g>
+    <g transform="translate(0, 224)">
+      <rect x="14" y="0" width="224" height="60" rx="10" fill="#FFFFFF"/>
+      <rect x="14" y="0" width="3" height="60" rx="1.5" fill="#16A34A"/>
+      <text x="24" y="18" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Caseta cerrada</text>
+      <text x="24" y="34" font-family="-apple-system" font-size="9" fill="#64748B">Ruta alterna tomada</text>
+      <text x="24" y="50" font-family="-apple-system" font-size="9" fill="#16A34A">Resuelta · hace 3 días</text>
+    </g>
+    <circle cx="222" cy="450" r="22" fill="#FF7A45"/>
+    <text x="222" y="456" text-anchor="middle" font-family="-apple-system" font-size="20"
+          font-weight="700" fill="#FFFFFF">+</text>
+    
+  </g>
+</g>
+<text x="200" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident List</text>
+<g transform="translate(400,5390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Incident Create)">
+    <defs><clipPath id="clip-Incident Create"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Cancelar</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Reportar incidencia</text>
+    <text x="22" y="85" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">TIPO</text>
+    <g transform="translate(14, 95)">
+      <rect x="0" y="0" width="224" height="38" rx="8" fill="rgba(220,38,38,0.1)" stroke="#DC2626"/>
+      <text x="14" y="24" font-family="-apple-system" font-size="11" font-weight="700" fill="#DC2626">⚠ Falla mecánica</text>
+      <rect x="0" y="46" width="224" height="38" rx="8" fill="#F1F5F9"/>
+      <text x="14" y="70" font-family="-apple-system" font-size="11" fill="#334155">🚧 Demora en ruta</text>
+      <rect x="0" y="92" width="224" height="38" rx="8" fill="#F1F5F9"/>
+      <text x="14" y="116" font-family="-apple-system" font-size="11" fill="#334155">📦 Problema con la carga</text>
+    </g>
+    <text x="22" y="248" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">DESCRIPCIÓN</text>
+    <rect x="14" y="258" width="224" height="60" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="22" y="278" font-family="-apple-system" font-size="9" fill="#64748B">Humo blanco saliendo del motor,</text>
+    <text x="22" y="292" font-family="-apple-system" font-size="9" fill="#64748B">temperatura elevada...</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#DC2626"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Reportar ahora</text>
+    
+  </g>
+</g>
+<text x="540" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident Create</text>
+<g transform="translate(740,5390)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-SOS)">
+    <defs><clipPath id="clip-SOS"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#DC2626"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.85)">← Atrás</text>
+    <text x="126" y="80" text-anchor="middle" font-family="-apple-system" font-size="32"
+          font-weight="900" fill="#FFFFFF">SOS</text>
+    <circle cx="126" cy="230" r="80" fill="rgba(255,255,255,0.15)"/>
+    <circle cx="126" cy="230" r="60" fill="rgba(255,255,255,0.25)"/>
+    <circle cx="126" cy="230" r="40" fill="#FFFFFF"/>
+    <text x="126" y="236" text-anchor="middle" font-size="32">🆘</text>
+    <text x="126" y="330" text-anchor="middle" font-family="-apple-system" font-size="14"
+          font-weight="700" fill="#FFFFFF">Mantén presionado</text>
+    <text x="126" y="348" text-anchor="middle" font-family="-apple-system" font-size="11"
+          fill="rgba(255,255,255,0.85)">3 segundos para enviar SOS</text>
+    <text x="126" y="420" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="rgba(255,255,255,0.85)">Dispatch + Seguridad serán notificados</text>
+    <text x="126" y="436" text-anchor="middle" font-family="-apple-system" font-size="9"
+          fill="rgba(255,255,255,0.85)">con tu ubicación en vivo</text>
+    
+  </g>
+</g>
+<text x="880" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">SOS</text>
+<text x="50" y="6114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Chat</text>
+<line x1="50" y1="6124" x2="2050" y2="6124" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,6140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Chat List)">
+    <defs><clipPath id="clip-Chat List"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Mensajes</text>
+    <rect x="14" y="50" width="224" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="28" y="71" font-family="-apple-system" font-size="11" fill="#64748B">🔍 Buscar...</text>
+    <g transform="translate(0, 96)">
+      <rect x="14" y="0" width="224" height="58" rx="10" fill="#FFFFFF"/>
+      <circle cx="36" cy="29" r="18" fill="#1B2D5C"/>
+      <text x="36" y="34" text-anchor="middle" font-family="-apple-system" font-size="11"
+            font-weight="700" fill="#FFFFFF">DG</text>
+      <text x="62" y="22" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Dispatch</text>
+      <text x="62" y="40" font-family="-apple-system" font-size="9" fill="#64748B">¿Cómo va el viaje? Compárteme...</text>
+      <circle cx="222" cy="29" r="9" fill="#FF7A45"/>
+      <text x="222" y="33" text-anchor="middle" font-family="-apple-system" font-size="9"
+            font-weight="700" fill="#FFFFFF">2</text>
+    </g>
+    <g transform="translate(0, 164)">
+      <rect x="14" y="0" width="224" height="58" rx="10" fill="#FFFFFF"/>
+      <circle cx="36" cy="29" r="18" fill="#FF7A45"/>
+      <text x="36" y="34" text-anchor="middle" font-family="-apple-system" font-size="11"
+            font-weight="700" fill="#FFFFFF">MR</text>
+      <text x="62" y="22" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">María R. (admin)</text>
+      <text x="62" y="40" font-family="-apple-system" font-size="9" fill="#64748B">Tu pago fue liberado ✓</text>
+      <text x="230" y="22" text-anchor="end" font-family="-apple-system" font-size="8" fill="#64748B">ayer</text>
+    </g>
+    
+  </g>
+</g>
+<text x="200" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat List</text>
+<g transform="translate(400,6140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Chat Thread)">
+    <defs><clipPath id="clip-Chat Thread"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <rect x="0" y="0" width="252" height="60" fill="#FFFFFF"/>
+    <text x="22" y="22" font-family="-apple-system" font-size="11" fill="#64748B">←</text>
+    <circle cx="48" cy="30" r="16" fill="#1B2D5C"/>
+    <text x="48" y="35" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">DG</text>
+    <text x="72" y="28" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Dispatch</text>
+    <text x="72" y="44" font-family="-apple-system" font-size="9" fill="#16A34A">● en línea</text>
+    <line x1="0" y1="60" x2="252" y2="60" stroke="#F1F5F9"/>
+    <!-- Mensajes -->
+    <rect x="14" y="80" width="160" height="36" rx="14" fill="#FFFFFF"/>
+    <text x="22" y="98" font-family="-apple-system" font-size="10" fill="#0A1633">¿Cómo va el viaje?</text>
+    <text x="22" y="111" font-family="-apple-system" font-size="8" fill="#64748B">10:42</text>
+    <rect x="74" y="130" width="164" height="36" rx="14" fill="#0A1633"/>
+    <text x="82" y="148" font-family="-apple-system" font-size="10" fill="#FFFFFF">Voy en Querétaro,</text>
+    <text x="82" y="160" font-family="-apple-system" font-size="10" fill="#FFFFFF">sin problemas.</text>
+    <rect x="14" y="178" width="200" height="80" rx="14" fill="#FFFFFF"/>
+    <text x="22" y="196" font-family="-apple-system" font-size="10" fill="#0A1633">Ok. Cuando llegues a</text>
+    <text x="22" y="210" font-family="-apple-system" font-size="10" fill="#0A1633">Saltillo manda foto</text>
+    <text x="22" y="224" font-family="-apple-system" font-size="10" fill="#0A1633">del odómetro 📷</text>
+    <text x="22" y="244" font-family="-apple-system" font-size="8" fill="#64748B">10:43</text>
+    <!-- Input -->
+    <rect x="0" y="426" width="252" height="54" fill="#FFFFFF"/>
+    <rect x="14" y="436" width="194" height="32" rx="16" fill="#F1F5F9"/>
+    <text x="28" y="457" font-family="-apple-system" font-size="10" fill="#64748B">Escribe un mensaje...</text>
+    <circle cx="226" cy="452" r="14" fill="#FF7A45"/>
+    <text x="226" y="457" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#FFFFFF">↑</text>
+    
+  </g>
+</g>
+<text x="540" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat Thread</text>
+<text x="50" y="6864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Payments & Earnings</text>
+<line x1="50" y1="6874" x2="2050" y2="6874" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,6890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Earnings)">
+    <defs><clipPath id="clip-Earnings"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="60" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Ingresos</text>
+    <rect x="14" y="80" width="224" height="100" rx="14" fill="#0A1633"/>
+    <text x="28" y="104" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.6)" letter-spacing="1">MAYO 2026</text>
+    <text x="28" y="138" font-family="-apple-system" font-size="26" font-weight="800" fill="#FFFFFF">$58,400</text>
+    <text x="28" y="158" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.7)">+18% vs abril</text>
+    <text x="28" y="172" font-family="-apple-system" font-size="9" fill="#16A34A">9 viajes liberados</text>
+    <text x="22" y="210" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Por estado</text>
+    <g transform="translate(0, 224)">
+      <rect x="14" y="0" width="224" height="40" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="18" font-family="-apple-system" font-size="10" fill="#0A1633">Liberados</text>
+      <text x="228" y="18" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="700" fill="#16A34A">$58,400</text>
+      <text x="24" y="32" font-family="-apple-system" font-size="8" fill="#64748B">9 viajes</text>
+    </g>
+    <g transform="translate(0, 272)">
+      <rect x="14" y="0" width="224" height="40" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="18" font-family="-apple-system" font-size="10" fill="#0A1633">Pendientes</text>
+      <text x="228" y="18" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="700" fill="#F59E0B">$22,100</text>
+      <text x="24" y="32" font-family="-apple-system" font-size="8" fill="#64748B">2 viajes</text>
+    </g>
+    
+  </g>
+</g>
+<text x="200" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Earnings</text>
+<g transform="translate(400,6890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Payments History)">
+    <defs><clipPath id="clip-Payments History"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Pagos</text>
+    <g transform="translate(0, 80)">
+      <rect x="14" y="0" width="224" height="62" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="20" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$18,500</text>
+      <text x="24" y="38" font-family="-apple-system" font-size="9" fill="#64748B">G3-2026-00133 · GDL → Tampico</text>
+      <text x="24" y="54" font-family="-apple-system" font-size="9" fill="#16A34A">✓ Liberado · 17 may</text>
+    </g>
+    <g transform="translate(0, 154)">
+      <rect x="14" y="0" width="224" height="62" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="20" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$15,800</text>
+      <text x="24" y="38" font-family="-apple-system" font-size="9" fill="#64748B">G3-2026-00130 · CDMX → GDL</text>
+      <text x="24" y="54" font-family="-apple-system" font-size="9" fill="#16A34A">✓ Liberado · 14 may</text>
+    </g>
+    <g transform="translate(0, 228)">
+      <rect x="14" y="0" width="224" height="62" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="20" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$9,200</text>
+      <text x="24" y="38" font-family="-apple-system" font-size="9" fill="#64748B">G3-2026-00128 · Mty → Saltillo</text>
+      <text x="24" y="54" font-family="-apple-system" font-size="9" fill="#F59E0B">⌛ Esperando autorización</text>
+    </g>
+    
+  </g>
+</g>
+<text x="540" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payments History</text>
+<g transform="translate(740,6890)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Payment Detail)">
+    <defs><clipPath id="clip-Payment Detail"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1">G3-2026-00133</text>
+    <rect x="14" y="80" width="224" height="80" rx="12" fill="rgba(22,163,74,0.15)"/>
+    <text x="24" y="102" font-family="-apple-system" font-size="9" fill="#16A34A" letter-spacing="1">LIBERADO</text>
+    <text x="24" y="134" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">$18,500</text>
+    <text x="24" y="150" font-family="-apple-system" font-size="9" fill="#64748B">17 may · 14:23</text>
+    <line x1="22" y1="180" x2="230" y2="180" stroke="#F1F5F9"/>
+    <text x="22" y="200" font-family="-apple-system" font-size="9" fill="#64748B">Ruta</text>
+    <text x="230" y="200" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">GDL → Tampico</text>
+    <line x1="22" y1="218" x2="230" y2="218" stroke="#F1F5F9"/>
+    <text x="22" y="238" font-family="-apple-system" font-size="9" fill="#64748B">Distancia</text>
+    <text x="230" y="238" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">880 km</text>
+    <line x1="22" y1="256" x2="230" y2="256" stroke="#F1F5F9"/>
+    <text x="22" y="276" font-family="-apple-system" font-size="9" fill="#64748B">Autorizado por</text>
+    <text x="230" y="276" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">María R.</text>
+    <line x1="22" y1="294" x2="230" y2="294" stroke="#F1F5F9"/>
+    <text x="22" y="314" font-family="-apple-system" font-size="9" fill="#64748B">Referencia</text>
+    <text x="230" y="314" text-anchor="end" font-family="-apple-system" font-size="9" fill="#0A1633">PAY-2026-0093</text>
+    
+  </g>
+</g>
+<text x="880" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payment Detail</text>
+<text x="50" y="7614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Profile & Settings</text>
+<line x1="50" y1="7624" x2="2050" y2="7624" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,7640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Profile)">
+    <defs><clipPath id="clip-Profile"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <rect x="0" y="0" width="252" height="140" fill="#0A1633"/>
+    <circle cx="126" cy="74" r="32" fill="#FF7A45"/>
+    <text x="126" y="84" text-anchor="middle" font-family="-apple-system" font-size="20"
+          font-weight="700" fill="#FFFFFF">PP</text>
+    <text x="126" y="124" text-anchor="middle" font-family="-apple-system" font-size="14"
+          font-weight="700" fill="#FFFFFF">Pedro Pérez</text>
+    <rect x="14" y="160" width="224" height="48" rx="10" fill="#FFFFFF"/>
+    <text x="24" y="180" font-family="-apple-system" font-size="9" fill="#64748B">Licencia federal</text>
+    <text x="24" y="196" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">F-1234567</text>
+    <text x="228" y="196" text-anchor="end" font-family="-apple-system" font-size="9" fill="#16A34A">Vigente</text>
+    <rect x="14" y="220" width="224" height="48" rx="10" fill="#FFFFFF"/>
+    <text x="24" y="240" font-family="-apple-system" font-size="9" fill="#64748B">Score de seguridad</text>
+    <text x="24" y="256" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">8.4 / 10</text>
+    <text x="228" y="256" text-anchor="end" font-family="-apple-system" font-size="9" fill="#16A34A">Top 10%</text>
+    <rect x="14" y="280" width="224" height="48" rx="10" fill="#FFFFFF"/>
+    <text x="24" y="300" font-family="-apple-system" font-size="9" fill="#64748B">Viajes acumulados</text>
+    <text x="24" y="316" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">147 · 92,400 km</text>
+    
+  </g>
+</g>
+<text x="200" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Profile</text>
+<g transform="translate(400,7640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Settings)">
+    <defs><clipPath id="clip-Settings"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Ajustes</text>
+    <g transform="translate(0, 84)">
+      <rect x="14" y="0" width="224" height="44" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="28" font-family="-apple-system" font-size="11" fill="#0A1633">Notificaciones</text>
+      <text x="228" y="28" text-anchor="end" font-family="-apple-system" font-size="11" fill="#64748B">›</text>
+    </g>
+    <g transform="translate(0, 134)">
+      <rect x="14" y="0" width="224" height="44" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="28" font-family="-apple-system" font-size="11" fill="#0A1633">Idioma · Español MX</text>
+      <text x="228" y="28" text-anchor="end" font-family="-apple-system" font-size="11" fill="#64748B">›</text>
+    </g>
+    <g transform="translate(0, 184)">
+      <rect x="14" y="0" width="224" height="44" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="28" font-family="-apple-system" font-size="11" fill="#0A1633">Privacidad</text>
+      <text x="228" y="28" text-anchor="end" font-family="-apple-system" font-size="11" fill="#64748B">›</text>
+    </g>
+    <g transform="translate(0, 234)">
+      <rect x="14" y="0" width="224" height="44" rx="10" fill="#FFFFFF"/>
+      <text x="24" y="28" font-family="-apple-system" font-size="11" fill="#0A1633">Versión · 1.0.0</text>
+      <text x="228" y="28" text-anchor="end" font-family="-apple-system" font-size="9" fill="#64748B">Build 1024</text>
+    </g>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FFFFFF" stroke="#DC2626"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#DC2626">Cerrar sesión</text>
+    
+  </g>
+</g>
+<text x="540" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Settings</text>
+<g transform="translate(740,7640)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Plans)">
+    <defs><clipPath id="clip-Plans"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Tu plan</text>
+    <rect x="14" y="78" width="224" height="70" rx="12" fill="#0A1633"/>
+    <text x="24" y="98" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.6)" letter-spacing="1">PLAN ACTUAL</text>
+    <text x="24" y="120" font-family="-apple-system" font-size="16" font-weight="800" fill="#FFFFFF">Free</text>
+    <text x="24" y="138" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.7)">1 unidad · 20 viajes/mes</text>
+    <text x="22" y="178" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">Subir a Starter</text>
+    <text x="22" y="196" font-family="-apple-system" font-size="9" fill="#64748B">Desbloquea autorización de pagos</text>
+    <rect x="14" y="208" width="224" height="90" rx="12" fill="#FFFFFF" stroke="#FF7A45" stroke-width="2"/>
+    <text x="24" y="232" font-family="-apple-system" font-size="13" font-weight="800" fill="#0A1633">Starter</text>
+    <text x="24" y="252" font-family="-apple-system" font-size="20" font-weight="800" fill="#0A1633">$349 <tspan font-size="10" fill="#64748B">/mes</tspan></text>
+    <text x="24" y="270" font-family="-apple-system" font-size="9" fill="#64748B">Hasta 3 unidades</text>
+    <text x="24" y="284" font-family="-apple-system" font-size="9" fill="#64748B">OCR de evidencias · WhatsApp</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Subir a Starter</text>
+    
+  </g>
+</g>
+<text x="880" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Plans</text>
+</svg>
