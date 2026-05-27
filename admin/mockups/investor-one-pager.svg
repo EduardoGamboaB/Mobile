@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 2400" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1600" height="2400" fill="#FFFFFF"/>
+<rect width="1600" height="480" fill="#0A1633"/>
+<defs>
+  <radialGradient id="heroGlow" cx="0.85" cy="0.15" r="0.6">
+    <stop offset="0" stop-color="#FF7A45" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#FF7A45" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1600" height="480" fill="url(#heroGlow)"/>
+<g transform="translate(80,72)">
+  <text font-family="Arial Black" font-size="56" font-weight="900" font-style="italic"
+        fill="#FFFFFF" letter-spacing="-2.5">G3</text>
+  <text x="100" y="38" font-family="-apple-system" font-size="22" font-weight="700"
+        fill="#FFFFFF" letter-spacing="3">ADMIN</text>
+</g>
+<text x="80" y="220" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="5">PARA INVERSIONISTAS · 2026</text>
+<text x="80" y="290" font-family="-apple-system" font-size="64" font-weight="900" fill="#FFFFFF" letter-spacing="-2.5">El centro de mando que</text>
+<text x="80" y="356" font-family="-apple-system" font-size="64" font-weight="900" fill="#FFFFFF" letter-spacing="-2.5">opera nuestra flota.</text>
+<text x="80" y="412" font-family="-apple-system" font-size="22" fill="rgba(255,255,255,0.75)">8 módulos · panel web · multi-tenant · ya en producción dogfooded</text>
+<g transform="translate(1220,80)">
+  <text font-family="-apple-system" font-size="11" font-weight="700" fill="rgba(255,255,255,0.55)" letter-spacing="3">CONTROL EN UN VISTAZO</text>
+  <text y="56" font-family="-apple-system" font-size="48" font-weight="900" fill="#FFFFFF" letter-spacing="-2">38</text>
+  <text y="84" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.7)">tractos · 52 remolques · 46 operadores</text>
+  <text y="138" font-family="-apple-system" font-size="48" font-weight="900" fill="#FFFFFF" letter-spacing="-2">$8.41M</text>
+  <text y="166" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.7)">ingreso facturado MTD · MXN</text>
+  <text y="220" font-family="-apple-system" font-size="48" font-weight="900" fill="#FF7A45" letter-spacing="-2">147</text>
+  <text y="248" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.7)">viajes activos · en vivo</text>
+</g>
+<rect x="80" y="520" width="1440" height="100" rx="20" fill="#F4F6FB"/>
+<text x="120" y="564" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="3">QUÉ ES</text>
+<text x="120" y="600" font-family="-apple-system" font-size="22" fill="#0F172A">Panel web para owners, dispatchers y contadores. Construido para reemplazar <tspan font-weight="700">3+ herramientas</tspan> que las flotas hoy usan en paralelo.</text>
+<rect x="80" y="680" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+<rect x="80" y="680" width="700" height="6" rx="3" fill="#FF7A45"/>
+<text x="116" y="754" font-size="44">📊</text>
+<text x="180" y="734" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="3">DASHBOARD EJECUTIVO</text>
+<text x="180" y="766" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Lo que el dueño debe ver al abrir la laptop.</text>
+<line x1="116" y1="798" x2="744" y2="798" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="831" r="4" fill="#FF7A45"/>
+<text x="152" y="836" font-family="-apple-system" font-size="16" fill="#334155">Unidades en operación · viajes del mes</text>
+<circle cx="130" cy="863" r="4" fill="#FF7A45"/>
+<text x="152" y="868" font-family="-apple-system" font-size="16" fill="#334155">Ingreso facturado vs pendiente por cobrar</text>
+<circle cx="130" cy="895" r="4" fill="#FF7A45"/>
+<text x="152" y="900" font-family="-apple-system" font-size="16" fill="#334155">Pendiente por pagar a choferes (cashflow)</text>
+<circle cx="130" cy="927" r="4" fill="#FF7A45"/>
+<text x="152" y="932" font-family="-apple-system" font-size="16" fill="#334155">Alertas críticas con un click al detalle</text>
+<circle cx="130" cy="959" r="4" fill="#FF7A45"/>
+<text x="152" y="964" font-family="-apple-system" font-size="16" fill="#334155">Mapa de flotilla en vivo embebido</text>
+<rect x="820" y="680" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+<rect x="820" y="680" width="700" height="6" rx="3" fill="#1B2D5C"/>
+<text x="856" y="754" font-size="44">🛣️</text>
+<text x="920" y="734" font-family="-apple-system" font-size="14" font-weight="700" fill="#1B2D5C" letter-spacing="3">GESTIÓN DE VIAJES</text>
+<text x="920" y="766" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Captura, asignación, seguimiento y cierre.</text>
+<line x1="856" y1="798" x2="1484" y2="798" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="870" cy="831" r="4" fill="#1B2D5C"/>
+<text x="892" y="836" font-family="-apple-system" font-size="16" fill="#334155">Folio automático G3-AAAA-NNNNN</text>
+<circle cx="870" cy="863" r="4" fill="#1B2D5C"/>
+<text x="892" y="868" font-family="-apple-system" font-size="16" fill="#334155">Búsqueda por cliente, folio, origen o chofer</text>
+<circle cx="870" cy="895" r="4" fill="#1B2D5C"/>
+<text x="892" y="900" font-family="-apple-system" font-size="16" fill="#334155">Filtros: activos · programados · finalizados</text>
+<circle cx="870" cy="927" r="4" fill="#1B2D5C"/>
+<text x="892" y="932" font-family="-apple-system" font-size="16" fill="#334155">Asignación de tracto + remolque + operador</text>
+<circle cx="870" cy="959" r="4" fill="#1B2D5C"/>
+<text x="892" y="964" font-family="-apple-system" font-size="16" fill="#334155">Detalle completo con timeline de eventos</text>
+<rect x="80" y="1040" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+<rect x="80" y="1040" width="700" height="6" rx="3" fill="#FF7A45"/>
+<text x="116" y="1114" font-size="44">🚚</text>
+<text x="180" y="1094" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="3">FLOTA Y MANTENIMIENTO</text>
+<text x="180" y="1126" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Tractos y remolques con su ciclo completo.</text>
+<line x1="116" y1="1158" x2="744" y2="1158" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="1191" r="4" fill="#FF7A45"/>
+<text x="152" y="1196" font-family="-apple-system" font-size="16" fill="#334155">CRUD de tractos: total · activos · mantenimiento · patio</text>
+<circle cx="130" cy="1223" r="4" fill="#FF7A45"/>
+<text x="152" y="1228" font-family="-apple-system" font-size="16" fill="#334155">CRUD de remolques con tipo (caja, refrigerado, plataforma)</text>
+<circle cx="130" cy="1255" r="4" fill="#FF7A45"/>
+<text x="152" y="1260" font-family="-apple-system" font-size="16" fill="#334155">Detalle por unidad con historial</text>
+<circle cx="130" cy="1287" r="4" fill="#FF7A45"/>
+<text x="152" y="1292" font-family="-apple-system" font-size="16" fill="#334155">Documentos digitalizados por unidad</text>
+<circle cx="130" cy="1319" r="4" fill="#FF7A45"/>
+<text x="152" y="1324" font-family="-apple-system" font-size="16" fill="#334155">Alertas de mantenimiento preventivo</text>
+<rect x="820" y="1040" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+<rect x="820" y="1040" width="700" height="6" rx="3" fill="#16A34A"/>
+<text x="856" y="1114" font-size="44">👥</text>
+<text x="920" y="1094" font-family="-apple-system" font-size="14" font-weight="700" fill="#16A34A" letter-spacing="3">OPERADORES</text>
+<text x="920" y="1126" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Conductores como activos, no como costos.</text>
+<line x1="856" y1="1158" x2="1484" y2="1158" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="870" cy="1191" r="4" fill="#16A34A"/>
+<text x="892" y="1196" font-family="-apple-system" font-size="16" fill="#334155">Listado con estado activos · en ruta · disponibles</text>
+<circle cx="870" cy="1223" r="4" fill="#16A34A"/>
+<text x="892" y="1228" font-family="-apple-system" font-size="16" fill="#334155">Score promedio de seguridad por operador</text>
+<circle cx="870" cy="1255" r="4" fill="#16A34A"/>
+<text x="892" y="1260" font-family="-apple-system" font-size="16" fill="#334155">Documentos: licencia federal, examen médico</text>
+<circle cx="870" cy="1287" r="4" fill="#16A34A"/>
+<text x="892" y="1292" font-family="-apple-system" font-size="16" fill="#334155">Detalle individual con métricas acumuladas</text>
+<circle cx="870" cy="1319" r="4" fill="#16A34A"/>
+<text x="892" y="1324" font-family="-apple-system" font-size="16" fill="#334155">Asignación de viajes vinculada al perfil</text>
+<rect x="80" y="1400" width="1440" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
+<rect x="80" y="1400" width="1440" height="6" rx="3" fill="#DC2626"/>
+<text x="116" y="1474" font-size="44">📡</text>
+<text x="180" y="1454" font-family="-apple-system" font-size="14" font-weight="700" fill="#DC2626" letter-spacing="3">MONITOR EN VIVO 24/7</text>
+<text x="180" y="1486" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Sala de control para dispatch turnos.</text>
+<line x1="116" y1="1518" x2="1484" y2="1518" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="1552" r="4" fill="#DC2626"/>
+<text x="152" y="1556" font-family="-apple-system" font-size="17" fill="#334155">Alertas abiertas · críticas · unidades en ruta · % on-time</text>
+<circle cx="130" cy="1590" r="4" fill="#DC2626"/>
+<text x="152" y="1594" font-family="-apple-system" font-size="17" fill="#334155">Filtros rápidos: todas vs solo críticas</text>
+<circle cx="130" cy="1628" r="4" fill="#DC2626"/>
+<text x="152" y="1632" font-family="-apple-system" font-size="17" fill="#334155">Mapa con todas las unidades posicionadas</text>
+<circle cx="830" cy="1552" r="4" fill="#DC2626"/>
+<text x="852" y="1556" font-family="-apple-system" font-size="17" fill="#334155">Detección de desvíos automática</text>
+<circle cx="830" cy="1590" r="4" fill="#DC2626"/>
+<text x="852" y="1594" font-family="-apple-system" font-size="17" fill="#334155">Click → ver bitácora del operador en tiempo real</text>
+<rect x="80" y="1780" width="1440" height="240" rx="20" fill="#0A1633"/>
+<text x="120" y="1830" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="4">MODELO DE INGRESO</text>
+<text x="120" y="1872" font-family="-apple-system" font-size="34" font-weight="800" fill="#FFFFFF">Mismo plan que Drive · panel + app vienen juntos</text>
+<rect x="120" y="1910" width="259" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+<text x="136" y="1934" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" opacity="0.7">FREE</text>
+<text x="136" y="1960" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">$0 <tspan font-size="11" opacity="0.7">siempre</tspan></text>
+<text x="136" y="1980" font-family="-apple-system" font-size="10" fill="#FFFFFF" opacity="0.8">1 unidad · 1 usuario panel</text>
+<rect x="395" y="1910" width="259" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+<text x="411" y="1934" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" opacity="0.7">STARTER</text>
+<text x="411" y="1960" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">$349 <tspan font-size="11" opacity="0.7">/ mes</tspan></text>
+<text x="411" y="1980" font-family="-apple-system" font-size="10" fill="#FFFFFF" opacity="0.8">3 unidades · 2 usuarios · pagos</text>
+<rect x="670" y="1910" width="259" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+<text x="686" y="1934" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" opacity="0.7">PRO</text>
+<text x="686" y="1960" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">$899 <tspan font-size="11" opacity="0.7">/ mes</tspan></text>
+<text x="686" y="1980" font-family="-apple-system" font-size="10" fill="#FFFFFF" opacity="0.8">5 unidades · 5 usuarios · IA</text>
+<rect x="945" y="1910" width="259" height="80" rx="12" fill="#FF7A45"/>
+<text x="961" y="1934" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" opacity="0.7">BUSINESS</text>
+<text x="961" y="1960" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">$2,499 <tspan font-size="11" opacity="0.7">/ mes</tspan></text>
+<text x="961" y="1980" font-family="-apple-system" font-size="10" fill="#FFFFFF" opacity="0.8">30 unidades · 20 usuarios · API</text>
+<rect x="1220" y="1910" width="259" height="80" rx="12" fill="rgba(255,255,255,0.08)"/>
+<text x="1236" y="1934" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" opacity="0.7">ENTERPRISE</text>
+<text x="1236" y="1960" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">COT. <tspan font-size="11" opacity="0.7">a medida</tspan></text>
+<text x="1236" y="1980" font-family="-apple-system" font-size="10" fill="#FFFFFF" opacity="0.8">Ilimitado · roles · ERP custom</text>
+<text x="80" y="2090" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="4">REEMPLAZA EN UN SOLO LUGAR</text>
+<text x="80" y="2146" font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1.5">Excel</text>
+<text x="80" y="2174" font-family="-apple-system" font-size="15" fill="#64748B">control manual de viajes y unidades</text>
+<text x="440" y="2146" font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1.5">WhatsApp</text>
+<text x="440" y="2174" font-family="-apple-system" font-size="15" fill="#64748B">comunicación dispersa con operadores</text>
+<text x="800" y="2146" font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1.5">Papel</text>
+<text x="800" y="2174" font-family="-apple-system" font-size="15" fill="#64748B">cartas porte, bitácoras, recibos</text>
+<text x="1160" y="2146" font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1.5">GPS aislado</text>
+<text x="1160" y="2174" font-family="-apple-system" font-size="15" fill="#64748B">plataforma de tracking sin negocio</text>
+<line x1="80" y1="2280" x2="1520" y2="2280" stroke="#F1F5F9" stroke-width="1"/>
+<text x="80" y="2312" font-family="Arial Black" font-size="22" font-weight="900" font-style="italic" fill="#0A1633" letter-spacing="-1">G3</text>
+<text x="124" y="2310" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633" letter-spacing="3">LOGISTICS</text>
+<text x="80" y="2344" font-family="-apple-system" font-size="14" fill="#64748B">g3logistics.mx  ·  tecnologia@g3logistics.mx  ·  Hecho en México · 2026</text>
+<text x="1520" y="2312" text-anchor="end" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="3">PARA INVERSIONISTAS</text>
+<text x="1520" y="2344" text-anchor="end" font-family="-apple-system" font-size="14" fill="#64748B">Pitch deck completo · NDA disponible</text>
+</svg>
