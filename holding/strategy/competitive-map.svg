@@ -1,0 +1,272 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 2700" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1920" height="2700" fill="#FFFFFF"/>
+<rect width="1920" height="280" fill="#0A1633"/>
+<defs>
+  <radialGradient id="hg" cx="0.85" cy="0.15" r="0.6">
+    <stop offset="0" stop-color="#FF7A45" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#FF7A45" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1920" height="280" fill="url(#hg)"/>
+<g transform="translate(80,70)">
+  <text font-family="Arial Black" font-size="44" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-2">G3</text>
+  <text x="80" y="32" font-family="-apple-system" font-size="16" font-weight="700" fill="#FFFFFF" letter-spacing="3">LOGISTICS</text>
+</g>
+<text x="80" y="180" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="5">BENCHMARK COMPETITIVO · 2026</text>
+<text x="80" y="232" font-family="-apple-system" font-size="44" font-weight="900" fill="#FFFFFF" letter-spacing="-1.5">G3 compite en 7 capas · ningún rival compite en las 7.</text>
+<text x="80" y="360" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">LAS 7 CAPAS DE LA INDUSTRIA DE CARGA</text>
+<text x="80" y="398" font-family="-apple-system" font-size="26" font-weight="800" fill="#0A1633" letter-spacing="-0.5">En cada capa hay competencia · solo G3 cubre las 7</text>
+<rect x="80" y="450" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="500" r="28" fill="#0A1633"/>
+<text x="130" y="508" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">1</text>
+<text x="180" y="488" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">TMS / Fleet Management</text>
+<text x="180" y="512" font-family="-apple-system" font-size="14" fill="#64748B">Telemetría · ELD · safety</text>
+<text x="180" y="536" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">Samsara · Motive · Geotab · MiX</tspan></text>
+<rect x="1700" y="474" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="500" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="518" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="564" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="614" r="28" fill="#0A1633"/>
+<text x="130" y="622" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">2</text>
+<text x="180" y="602" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Marketplace de Fletes</text>
+<text x="180" y="626" font-family="-apple-system" font-size="14" fill="#64748B">Embarcador ↔ transportista</text>
+<text x="180" y="650" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">Uber Freight · Nuvocargo · Cargamos</tspan></text>
+<rect x="1700" y="588" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="614" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="632" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="678" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="728" r="28" fill="#0A1633"/>
+<text x="130" y="736" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">3</text>
+<text x="180" y="716" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Bitácora / Compliance MX</text>
+<text x="180" y="740" font-family="-apple-system" font-size="14" fill="#64748B">NOM-068 + NOM-087</text>
+<text x="180" y="764" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">Eclipse Total · iBitácora · CONTPAQi</tspan></text>
+<rect x="1700" y="702" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="728" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="746" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="792" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="842" r="28" fill="#0A1633"/>
+<text x="130" y="850" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">4</text>
+<text x="180" y="830" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Roadside On-demand</text>
+<text x="180" y="854" font-family="-apple-system" font-size="14" fill="#64748B">Grúa · llantera · mecánico</text>
+<text x="180" y="878" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">— sin líder claro en MX —</tspan></text>
+<rect x="1700" y="816" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="842" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="860" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="906" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="956" r="28" fill="#0A1633"/>
+<text x="130" y="964" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">5</text>
+<text x="180" y="944" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Talent / Operadores</text>
+<text x="180" y="968" font-family="-apple-system" font-size="14" fill="#64748B">Choferes ↔ flotas</text>
+<text x="180" y="992" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">OCC · Computrabajo · Indeed (genéricas)</tspan></text>
+<rect x="1700" y="930" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="956" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="974" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="1020" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="1070" r="28" fill="#0A1633"/>
+<text x="130" y="1078" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">6</text>
+<text x="180" y="1058" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Fintech</text>
+<text x="180" y="1082" font-family="-apple-system" font-size="14" fill="#64748B">Crédito · factoring · leasing</text>
+<text x="180" y="1106" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">TruckSmarter (US) · Floid · R2 · Findep</tspan></text>
+<rect x="1700" y="1044" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="1070" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="1088" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="1134" width="1760" height="100" rx="14" fill="#F4F6FB" stroke="#F1F5F9" stroke-width="1"/>
+<circle cx="130" cy="1184" r="28" fill="#0A1633"/>
+<text x="130" y="1192" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">7</text>
+<text x="180" y="1172" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633">Seguros</text>
+<text x="180" y="1196" font-family="-apple-system" font-size="14" fill="#64748B">Carga · tracto · operador</text>
+<text x="180" y="1220" font-family="-apple-system" font-size="13" fill="#334155">Rivales: <tspan fill="#0F172A" font-weight="600">Quálitas · GNP · HDI · Mapfre</tspan></text>
+<rect x="1700" y="1158" width="140" height="52" rx="10" fill="#FF7A45"/>
+<text x="1770" y="1184" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">G3 PRESENTE</text>
+<text x="1770" y="1202" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.85)">Fase 0-6 del roadmap</text>
+<rect x="80" y="1308" width="1760" height="700" rx="22" fill="#F8FAFC"/>
+<text x="120" y="1358" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">POSITIONING MAP</text>
+<text x="120" y="1398" font-family="-apple-system" font-size="28" font-weight="800" fill="#0A1633" letter-spacing="-0.5">G3 está solo en el cuadrante alto-derecha</text>
+<text x="120" y="1426" font-family="-apple-system" font-size="16" fill="#64748B">Alto compliance MX + ecosistema multi-lado = océano azul</text>
+<rect x="120" y="1468" width="1680" height="500" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2"/>
+<line x1="120" y1="1718" x2="1800" y2="1718" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="6 4"/>
+<line x1="960" y1="1468" x2="960" y2="1968" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="6 4"/>
+<text x="960" y="1456" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#334155" letter-spacing="3">↑ ALTO COMPLIANCE MX (NOM-068 + NOM-087)</text>
+<text x="960" y="1996" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#334155" letter-spacing="3">↓ BAJO COMPLIANCE MX</text>
+<text x="108" y="1718" text-anchor="end" font-family="-apple-system" font-size="13" font-weight="700" fill="#334155" letter-spacing="2">← SaaS único</text>
+<text x="1812" y="1718" text-anchor="start" font-family="-apple-system" font-size="13" font-weight="700" fill="#334155" letter-spacing="2">Ecosistema multi-lado →</text>
+<circle cx="624.0" cy="1618.0" r="9" fill="#334155"/>
+<text x="638.0" y="1623.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Eclipse Total</text>
+<text x="638.0" y="1640.0" font-family="-apple-system" font-size="11" fill="#64748B">ERP-style · pesado</text>
+<circle cx="456.0" cy="1778.0" r="9" fill="#334155"/>
+<text x="470.0" y="1783.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">iBitácora</text>
+<text x="470.0" y="1800.0" font-family="-apple-system" font-size="11" fill="#64748B">Solo bitácora</text>
+<circle cx="422.4" cy="1678.0" r="9" fill="#334155"/>
+<text x="436.4" y="1683.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">CONTPAQi</text>
+<text x="436.4" y="1700.0" font-family="-apple-system" font-size="11" fill="#64748B">Contable · módulo TM</text>
+<circle cx="1212.0" cy="1828.0" r="9" fill="#334155"/>
+<text x="1226.0" y="1833.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Nuvocargo</text>
+<text x="1226.0" y="1850.0" font-family="-apple-system" font-size="11" fill="#64748B">Cross-border MX-US</text>
+<circle cx="1329.6" cy="1858.0" r="9" fill="#334155"/>
+<text x="1343.6" y="1863.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Uber Freight</text>
+<text x="1343.6" y="1880.0" font-family="-apple-system" font-size="11" fill="#64748B">Global · poco compliance MX</text>
+<circle cx="1212.0" cy="1893.0" r="9" fill="#334155"/>
+<text x="1226.0" y="1898.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Samsara</text>
+<text x="1226.0" y="1915.0" font-family="-apple-system" font-size="11" fill="#64748B">US/global · NOM superficial</text>
+<circle cx="1161.6" cy="1878.0" r="9" fill="#334155"/>
+<text x="1175.6" y="1883.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Motive</text>
+<text x="1175.6" y="1900.0" font-family="-apple-system" font-size="11" fill="#64748B">US-focused</text>
+<circle cx="1044.0" cy="1918.0" r="9" fill="#CBD5E1"/>
+<text x="1058.0" y="1923.0" font-family="-apple-system" font-size="14" font-weight="700" fill="#0A1633">Convoy</text>
+<text x="1058.0" y="1940.0" font-family="-apple-system" font-size="11" fill="#64748B">✕ cerró 2023</text>
+<circle cx="1430.4" cy="1558.0" r="38" fill="#FF7A45" opacity="0.18"/>
+<circle cx="1430.4" cy="1558.0" r="22" fill="#FF7A45"/>
+<text x="1430.4" y="1564.0" text-anchor="middle" font-family="Arial Black" font-size="14" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-0.5">G3</text>
+<text x="1416.4" y="1512.0" text-anchor="end" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="2">OCÉANO AZUL</text>
+<text x="1780" y="1498" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="700" fill="#CBD5E1" letter-spacing="2">CUADRANTE GANADOR</text>
+<text x="80" y="2058" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">DIMENSIONES CRÍTICAS · G3 VS RIVALES</text>
+<text x="80" y="2096" font-family="-apple-system" font-size="26" font-weight="800" fill="#0A1633" letter-spacing="-0.5">14 dimensiones · G3 cubre las 14 · ningún rival cubre más de 7</text>
+<rect x="80" y="2138" width="1760" height="50" fill="#0A1633"/>
+<text x="100" y="2168" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF" letter-spacing="2">DIMENSIÓN</text>
+<text x="670" y="2168" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF" letter-spacing="1">Samsara</text>
+<text x="930" y="2168" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF" letter-spacing="1">Motive</text>
+<text x="1190" y="2168" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF" letter-spacing="1">Nuvocargo</text>
+<text x="1450" y="2168" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF" letter-spacing="1">Eclipse Total</text>
+<text x="1710" y="2168" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FF7A45" letter-spacing="1">G3</text>
+<rect x="80" y="2188" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2214" font-family="-apple-system" font-size="13" fill="#334155">NOM-068 nativo</text>
+<text x="670" y="2214" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2214" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2214" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1450" cy="2209" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1450" y="2214" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<circle cx="1710" cy="2209" r="10" fill="#16A34A"/>
+<text x="1710" y="2214" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2230" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2256" font-family="-apple-system" font-size="13" fill="#334155">NOM-087 nativo</text>
+<text x="670" y="2256" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2256" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2256" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1450" cy="2251" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1450" y="2256" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<circle cx="1710" cy="2251" r="10" fill="#16A34A"/>
+<text x="1710" y="2256" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2272" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2298" font-family="-apple-system" font-size="13" fill="#334155">App mobile operador</text>
+<circle cx="670" cy="2293" r="10" fill="#16A34A"/>
+<text x="670" y="2298" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="930" cy="2293" r="10" fill="#16A34A"/>
+<text x="930" y="2298" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<text x="1190" y="2298" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2298" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2293" r="10" fill="#16A34A"/>
+<text x="1710" y="2298" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2314" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2340" font-family="-apple-system" font-size="13" fill="#334155">Web admin</text>
+<circle cx="670" cy="2335" r="10" fill="#16A34A"/>
+<text x="670" y="2340" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="930" cy="2335" r="10" fill="#16A34A"/>
+<text x="930" y="2340" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1190" cy="2335" r="10" fill="#16A34A"/>
+<text x="1190" y="2340" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1450" cy="2335" r="10" fill="#16A34A"/>
+<text x="1450" y="2340" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1710" cy="2335" r="10" fill="#16A34A"/>
+<text x="1710" y="2340" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2356" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2382" font-family="-apple-system" font-size="13" fill="#334155">Telemetría IoT</text>
+<circle cx="670" cy="2377" r="10" fill="#16A34A"/>
+<text x="670" y="2382" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="930" cy="2377" r="10" fill="#16A34A"/>
+<text x="930" y="2382" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<text x="1190" y="2382" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2382" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2377" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2382" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2398" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2424" font-family="-apple-system" font-size="13" fill="#334155">Marketplace fletes</text>
+<text x="670" y="2424" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2424" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1190" cy="2419" r="10" fill="#16A34A"/>
+<text x="1190" y="2424" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<text x="1450" y="2424" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2419" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2424" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2440" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2466" font-family="-apple-system" font-size="13" fill="#334155">Roadside on-demand</text>
+<text x="670" y="2466" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2466" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2466" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2466" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2461" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2466" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2482" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2508" font-family="-apple-system" font-size="13" fill="#334155">Marketplace operadores</text>
+<text x="670" y="2508" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2508" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2508" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2508" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2503" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2508" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2524" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2550" font-family="-apple-system" font-size="13" fill="#334155">Fintech integrada</text>
+<text x="670" y="2550" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2550" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1190" cy="2545" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1190" y="2550" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<text x="1450" y="2550" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2545" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2550" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2566" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2592" font-family="-apple-system" font-size="13" fill="#334155">Seguros embebidos</text>
+<text x="670" y="2592" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2592" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2592" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2592" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2587" r="10" fill="none" stroke="#FF7A45" stroke-width="2"/>
+<text x="1710" y="2592" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<rect x="80" y="2608" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2634" font-family="-apple-system" font-size="13" fill="#334155">Plan gratuito</text>
+<text x="670" y="2634" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2634" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1190" y="2634" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="1450" y="2634" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1710" cy="2629" r="10" fill="#16A34A"/>
+<text x="1710" y="2634" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2650" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2676" font-family="-apple-system" font-size="13" fill="#334155">UX español MX</text>
+<text x="670" y="2676" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2676" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1190" cy="2671" r="10" fill="#16A34A"/>
+<text x="1190" y="2676" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1450" cy="2671" r="10" fill="#16A34A"/>
+<text x="1450" y="2676" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1710" cy="2671" r="10" fill="#16A34A"/>
+<text x="1710" y="2676" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2692" width="1760" height="42" fill="#FFFFFF"/>
+<text x="100" y="2718" font-family="-apple-system" font-size="13" fill="#334155">Facturación CFDI</text>
+<text x="670" y="2718" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="930" y="2718" text-anchor="middle" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<circle cx="1190" cy="2713" r="10" fill="#16A34A"/>
+<text x="1190" y="2718" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1450" cy="2713" r="10" fill="#16A34A"/>
+<text x="1450" y="2718" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<circle cx="1710" cy="2713" r="10" fill="#16A34A"/>
+<text x="1710" y="2718" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FFFFFF">✓</text>
+<rect x="80" y="2734" width="1760" height="42" fill="#F8FAFC"/>
+<text x="100" y="2760" font-family="-apple-system" font-size="13" fill="#334155">Pricing entry-level</text>
+<text x="670" y="2760" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="500" fill="#334155">$</text>
+<text x="930" y="2760" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="500" fill="#334155">$</text>
+<text x="1190" y="2760" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="500" fill="#334155">%</text>
+<text x="1450" y="2760" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="500" fill="#334155">$$</text>
+<text x="1710" y="2760" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45">$0</text>
+<g transform="translate(80,2800)">
+<circle cx="10" cy="0" r="8" fill="#16A34A"/><text x="10" y="4" text-anchor="middle" font-size="11" font-weight="800" fill="#FFFFFF">✓</text>
+<text x="26" y="4" font-family="-apple-system" font-size="12" fill="#334155">disponible hoy</text>
+<circle cx="180" cy="0" r="8" fill="none" stroke="#FF7A45" stroke-width="2"/><text x="180" y="4" text-anchor="middle" font-size="11" font-weight="800" fill="#FF7A45">F</text>
+<text x="196" y="4" font-family="-apple-system" font-size="12" fill="#334155">en roadmap G3 (Fase ?)</text>
+<text x="380" y="4" font-family="-apple-system" font-size="16" fill="#CBD5E1">—</text>
+<text x="394" y="4" font-family="-apple-system" font-size="12" fill="#334155">no ofrecido</text>
+</g>
+<line x1="80" y1="2590" x2="1840" y2="2590" stroke="#F1F5F9"/>
+<text x="80" y="2620" font-family="Arial Black" font-size="20" font-weight="900" font-style="italic" fill="#0A1633" letter-spacing="-1">G3</text>
+<text x="124" y="2619" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633" letter-spacing="3">LOGISTICS</text>
+<text x="80" y="2644" font-family="-apple-system" font-size="12" fill="#64748B">Análisis completo en holding/strategy/competitive-benchmark.md</text>
+<text x="1840" y="2619" text-anchor="end" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="3">CONFIDENCIAL · NDA</text>
+<text x="1840" y="2644" text-anchor="end" font-family="-apple-system" font-size="12" fill="#64748B">Datos públicos a 2026-Q2 · referencias en el documento</text>
+</svg>
