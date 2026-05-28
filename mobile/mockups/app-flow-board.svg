@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2100 8340" font-family="-apple-system, BlinkMacSystemFont, sans-serif">
-<rect width="2100" height="8340" fill="#F0F2F7"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2100 9090" font-family="-apple-system, BlinkMacSystemFont, sans-serif">
+<rect width="2100" height="9090" fill="#F0F2F7"/>
 <g transform="translate(50, 50)">
   <text font-family="-apple-system" font-size="40" font-weight="900" fill="#0A1633" letter-spacing="-1">G3 Drive · Mobile App</text>
-  <text y="34" font-family="-apple-system" font-size="14" fill="#64748B">31 pantallas · Flujo completo del operador en carretera</text>
+  <text y="34" font-family="-apple-system" font-size="14" fill="#64748B">35 pantallas · Cumple NOM-087-SCT-2-2017 nativamente</text>
 </g>
 <text x="50" y="164" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Onboarding & Auth</text>
 <line x1="50" y1="174" x2="2050" y2="174" stroke="#CBD5E1" stroke-width="1"/>
@@ -484,7 +484,7 @@
   </g>
 </g>
 <text x="1220" y="2992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Map Route</text>
-<text x="50" y="3114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Logbook & Evidence</text>
+<text x="50" y="3114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Bitácora NOM-087 (regulatorio)</text>
 <line x1="50" y1="3124" x2="2050" y2="3124" stroke="#CBD5E1" stroke-width="1"/>
 <g transform="translate(60,3140)">
   <rect width="280" height="580" rx="38" fill="#000"/>
@@ -493,38 +493,249 @@
   <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
   <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
   <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
-  <g transform="translate(14, 50)" clip-path="url(#clip-Logbook Create)">
-    <defs><clipPath id="clip-Logbook Create"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Bitácora del día · 24h)">
+    <defs><clipPath id="clip-Bitácora del día · 24h"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
 
     <rect width="252" height="480" fill="#FFFFFF"/>
-    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Cancelar</text>
-    <text x="22" y="56" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Registrar evento</text>
-    <text x="22" y="85" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">TIPO</text>
-    <g transform="translate(14, 95)">
-      <rect x="0" y="0" width="60" height="58" rx="10" fill="rgba(255,122,69,0.12)" stroke="#FF7A45" stroke-width="2"/>
-      <text x="30" y="22" text-anchor="middle" font-size="16">⛽</text>
-      <text x="30" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#0A1633">Diesel</text>
-      <rect x="68" y="0" width="60" height="58" rx="10" fill="#F1F5F9"/>
-      <text x="98" y="22" text-anchor="middle" font-size="16">🚧</text>
-      <text x="98" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" fill="#334155">Caseta</text>
-      <rect x="136" y="0" width="60" height="58" rx="10" fill="#F1F5F9"/>
-      <text x="166" y="22" text-anchor="middle" font-size="16">🍔</text>
-      <text x="166" y="42" text-anchor="middle" font-family="-apple-system" font-size="8" fill="#334155">Comida</text>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="56" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Bitácora · DÍA 1</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="9" fill="#64748B">MIE 28 MAY 2026</text>
+    <!-- 5 cat rows -->
+    <g transform="translate(14, 100)">
+      <text font-family="-apple-system" font-size="7" font-weight="700" fill="#334155" letter-spacing="1">CONDUCIENDO</text>
+      <rect y="6" width="224" height="14" rx="2" fill="#F1F5F9"/>
+      <rect x="20" y="6" width="65" height="14" rx="2" fill="#FF7A45"/>
     </g>
-    <text x="22" y="180" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">MONTO</text>
-    <rect x="22" y="190" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
-    <text x="32" y="213" font-family="-apple-system" font-size="13" font-weight="600" fill="#0A1633">$ 4,860.00</text>
-    <text x="22" y="250" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155">LITROS</text>
-    <rect x="22" y="260" width="208" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
-    <text x="32" y="283" font-family="-apple-system" font-size="12" fill="#0A1633">180 L</text>
-    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <g transform="translate(14, 128)">
+      <text font-family="-apple-system" font-size="7" font-weight="700" fill="#334155" letter-spacing="1">PAUSA</text>
+      <rect y="6" width="224" height="14" rx="2" fill="#F1F5F9"/>
+      <rect x="85" y="6" width="9" height="14" rx="2" fill="#16A34A"/>
+      <rect x="141" y="6" width="9" height="14" rx="2" fill="#16A34A"/>
+    </g>
+    <g transform="translate(14, 156)">
+      <text font-family="-apple-system" font-size="7" font-weight="700" fill="#334155" letter-spacing="1">AUXILIAR</text>
+      <rect y="6" width="224" height="14" rx="2" fill="#F1F5F9"/>
+      <rect x="94" y="6" width="18" height="14" rx="2" fill="#1B2D5C"/>
+      <rect x="150" y="6" width="9" height="14" rx="2" fill="#1B2D5C"/>
+    </g>
+    <g transform="translate(14, 184)">
+      <text font-family="-apple-system" font-size="7" font-weight="700" fill="#334155" letter-spacing="1">EXCEPCIÓN</text>
+      <rect y="6" width="224" height="14" rx="2" fill="#F1F5F9"/>
+    </g>
+    <g transform="translate(14, 212)">
+      <text font-family="-apple-system" font-size="7" font-weight="700" fill="#334155" letter-spacing="1">DESCANSO</text>
+      <rect y="6" width="224" height="14" rx="2" fill="#F1F5F9"/>
+      <rect x="0" y="6" width="56" height="14" rx="2" fill="#0A1633"/>
+    </g>
+    <!-- Hour ruler -->
+    <g transform="translate(14, 250)" font-family="JetBrains Mono, monospace" font-size="7" fill="#64748B">
+      <text x="0">0</text><text x="56">6</text><text x="112">12</text>
+      <text x="168">18</text><text x="220">24</text>
+    </g>
+    <!-- Resumen -->
+    <g transform="translate(14, 280)" font-family="-apple-system" font-size="9">
+      <text font-weight="700" fill="#334155" letter-spacing="1">RESUMEN</text>
+      <g transform="translate(0,16)">
+        <text fill="#334155">Conduciendo:</text>
+        <text x="220" text-anchor="end" font-weight="700" fill="#0A1633">7h 15min</text>
+      </g>
+      <g transform="translate(0,32)">
+        <text fill="#334155">Pausa:</text>
+        <text x="220" text-anchor="end" font-weight="700" fill="#0A1633">1h 30min</text>
+      </g>
+      <g transform="translate(0,48)">
+        <text fill="#334155">Auxiliares:</text>
+        <text x="220" text-anchor="end" font-weight="700" fill="#0A1633">2h 00min</text>
+      </g>
+      <g transform="translate(0,64)">
+        <text fill="#334155">Descanso:</text>
+        <text x="220" text-anchor="end" font-weight="700" fill="#0A1633">8h 00min</text>
+      </g>
+    </g>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="rgba(22,163,74,0.15)"/>
     <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
-          font-size="11" font-weight="700" fill="#FFFFFF">📷 Foto del recibo</text>
+          font-size="10" font-weight="700" fill="#16A34A">✓ Cumple NOM-087 al 100%</text>
     
   </g>
 </g>
-<text x="200" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Logbook Create</text>
+<text x="200" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Bitácora del día · 24h</text>
 <g transform="translate(400,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Registrar evento (NOM-087))">
+    <defs><clipPath id="clip-Registrar evento (NOM-087)"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Cancelar</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Registrar evento</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="9" fill="#64748B">NOM-087-SCT-2-2017</text>
+    <g transform="translate(0, 92)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">⛽ Carga de combustible</text>
+      <rect x="174" y="10" width="60" height="20" rx="4" fill="rgba(255,122,69,0.15)"/>
+      <text x="204" y="24" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#FF7A45">AUXILIAR</text>
+    </g>
+    <g transform="translate(0, 138)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">🚧 Caseta / peaje</text>
+      <text x="230" y="22" text-anchor="end" font-family="-apple-system" font-size="9" fill="#64748B">gasto</text>
+    </g>
+    <g transform="translate(0, 184)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF" stroke="#FF7A45" stroke-width="2"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">🍔 Comida</text>
+      <rect x="186" y="10" width="48" height="20" rx="4" fill="rgba(22,163,74,0.15)"/>
+      <text x="210" y="24" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#16A34A">PAUSA</text>
+    </g>
+    <g transform="translate(0, 230)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">📦 Inicio de carga</text>
+      <rect x="174" y="10" width="60" height="20" rx="4" fill="rgba(255,122,69,0.15)"/>
+      <text x="204" y="24" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#FF7A45">AUXILIAR</text>
+    </g>
+    <g transform="translate(0, 276)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">🛑 Retén / Inspección</text>
+      <rect x="174" y="10" width="60" height="20" rx="4" fill="rgba(255,122,69,0.15)"/>
+      <text x="204" y="24" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#FF7A45">AUXILIAR</text>
+    </g>
+    <g transform="translate(0, 322)">
+      <rect x="14" y="0" width="224" height="40" rx="8" fill="#FFFFFF"/>
+      <text x="22" y="22" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">💤 Iniciar descanso</text>
+      <rect x="166" y="10" width="68" height="20" rx="4" fill="rgba(27,45,92,0.12)"/>
+      <text x="200" y="24" text-anchor="middle" font-family="-apple-system" font-size="8" font-weight="700" fill="#1B2D5C">DESCANSO</text>
+    </g>
+    
+  </g>
+</g>
+<text x="540" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Registrar evento (NOM-087)</text>
+<g transform="translate(740,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Pausa obligatoria 5h)">
+    <defs><clipPath id="clip-Pausa obligatoria 5h"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FF7A45"/>
+    <text x="126" y="60" text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#FFFFFF">PAUSA OBLIGATORIA</text>
+    <text x="126" y="80" text-anchor="middle" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.85)">NOM-087-SCT-2-2017</text>
+    <text x="126" y="120" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.95)">Has conducido</text>
+    <text x="126" y="142" text-anchor="middle" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">5 horas continuas</text>
+    <!-- Big circular timer -->
+    <circle cx="126" cy="250" r="80" fill="rgba(255,255,255,0.18)"/>
+    <circle cx="126" cy="250" r="64" fill="#FFFFFF"/>
+    <text x="126" y="238" text-anchor="middle" font-family="-apple-system" font-size="28" font-weight="800" fill="#FF7A45">29:42</text>
+    <text x="126" y="262" text-anchor="middle" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="2">RESTANTE</text>
+    <text x="126" y="350" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.95)">Estaciona en lugar seguro</text>
+    <text x="126" y="366" text-anchor="middle" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.95)">y apaga motor.</text>
+    <!-- Bottom escape hatch -->
+    <rect x="22" y="422" width="208" height="36" rx="18" fill="#0A1633"/>
+    <text x="126" y="445" text-anchor="middle" font-family="-apple-system" font-size="10"
+          font-weight="700" fill="#FFFFFF">⚠ Reportar Caso de Excepción</text>
+    
+  </g>
+</g>
+<text x="880" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Pausa obligatoria 5h</text>
+<g transform="translate(1080,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Caso de excepción)">
+    <defs><clipPath id="clip-Caso de excepción"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#FFFFFF"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Caso de Excepción</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="9" fill="#64748B">NOM-087 sección 3.4</text>
+    <text x="22" y="98" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155" letter-spacing="1">TIPO</text>
+    <g transform="translate(14, 108)">
+      <rect x="0" y="0" width="106" height="40" rx="8" fill="rgba(220,38,38,0.12)" stroke="#DC2626" stroke-width="2"/>
+      <text x="53" y="24" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#DC2626">🚨 Accidente</text>
+      <rect x="118" y="0" width="106" height="40" rx="8" fill="#F1F5F9"/>
+      <text x="171" y="24" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#334155">▲ Avería</text>
+      <rect x="0" y="48" width="106" height="40" rx="8" fill="#F1F5F9"/>
+      <text x="53" y="72" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#334155">🚧 Bloqueo</text>
+      <rect x="118" y="48" width="106" height="40" rx="8" fill="#F1F5F9"/>
+      <text x="171" y="72" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#334155">🌪️ Clima</text>
+    </g>
+    <text x="22" y="222" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155" letter-spacing="1">DESCRIPCIÓN (obligatoria)</text>
+    <rect x="14" y="232" width="224" height="50" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="22" y="252" font-family="-apple-system" font-size="9" fill="#64748B">Accidente vehicular delante de mí,</text>
+    <text x="22" y="266" font-family="-apple-system" font-size="9" fill="#64748B">esperando que Policía libere paso.</text>
+    <text x="22" y="302" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155" letter-spacing="1">EVIDENCIA (mínimo 1 foto)</text>
+    <rect x="14" y="312" width="70" height="40" rx="8" fill="rgba(22,163,74,0.15)" stroke="#16A34A" stroke-width="1.5"/>
+    <text x="49" y="336" text-anchor="middle" font-family="-apple-system" font-size="14">✓📷</text>
+    <rect x="92" y="312" width="70" height="40" rx="8" fill="#F1F5F9" stroke="#CBD5E1" stroke-dasharray="3 3"/>
+    <text x="120" y="336" text-anchor="middle" font-size="14">📷</text>
+    <g transform="translate(14, 390)" font-family="-apple-system" font-size="9" fill="#64748B">
+      <text>📍 GPS: capturada ✓</text>
+      <text y="14">🕐 Hora: 11:23 sellada ✓</text>
+    </g>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#DC2626"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">Reportar ahora</text>
+    
+  </g>
+</g>
+<text x="1220" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Caso de excepción</text>
+<g transform="translate(1420,3140)">
+  <rect width="280" height="580" rx="38" fill="#000"/>
+  <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
+  <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
+  <path d="M 100,0 L 180,0 L 180,18 Q 180,32 166,32 L 114,32 Q 100,32 100,18 Z" fill="#000"/>
+  <text x="22" y="28" font-family="-apple-system, sans-serif" font-size="10" font-weight="600" fill="#000">9:41</text>
+  <text x="258" y="28" text-anchor="end" font-family="-apple-system" font-size="10" fill="#000">●●●  ▢▢▢</text>
+  <g transform="translate(14, 50)" clip-path="url(#clip-Exportar PDF oficial)">
+    <defs><clipPath id="clip-Exportar PDF oficial"><rect x="0" y="0" width="252" height="480" rx="8"/></clipPath></defs>
+
+    <rect width="252" height="480" fill="#F8FAFC"/>
+    <text x="22" y="30" font-family="-apple-system" font-size="11" fill="#64748B">← Atrás</text>
+    <text x="22" y="58" font-family="-apple-system" font-size="16" font-weight="800" fill="#0A1633">Exportar Bitácora</text>
+    <text x="22" y="74" font-family="-apple-system" font-size="9" fill="#64748B">Formato oficial SCT</text>
+    <text x="22" y="96" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155" letter-spacing="1">PERIODO</text>
+    <rect x="14" y="106" width="224" height="36" rx="8" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="22" y="129" font-family="-apple-system" font-size="11" fill="#0A1633">27 may - 28 may 2026 ▾</text>
+    <g transform="translate(14, 158)">
+      <rect width="224" height="92" rx="10" fill="#FFFFFF"/>
+      <text x="14" y="20" font-family="-apple-system" font-size="9" font-weight="600" fill="#64748B" letter-spacing="1">DATOS DEL VIAJE</text>
+      <text x="14" y="38" font-family="-apple-system" font-size="10" fill="#0A1633">Pedro Pérez · Lic. F-1234567</text>
+      <text x="14" y="54" font-family="-apple-system" font-size="9" fill="#334155">T-038 · ABC-12-34</text>
+      <text x="14" y="70" font-family="-apple-system" font-size="9" fill="#334155">CDMX → Monterrey</text>
+      <text x="14" y="84" font-family="-apple-system" font-size="8" fill="#64748B">G3-2026-00134</text>
+    </g>
+    <text x="22" y="280" font-family="-apple-system" font-size="9" font-weight="600" fill="#334155" letter-spacing="1">CUMPLIMIENTO NOM-087</text>
+    <g transform="translate(14, 290)" font-family="-apple-system" font-size="9">
+      <text y="14" fill="#16A34A">✓ Pausas obligatorias respetadas</text>
+      <text y="30" fill="#16A34A">✓ Tiempo máximo de conducción</text>
+      <text y="46" fill="#16A34A">✓ Casos de excepción documentados</text>
+      <text y="62" fill="#16A34A">✓ Firma digital del conductor</text>
+    </g>
+    <!-- PDF preview card -->
+    <rect x="14" y="372" width="224" height="80" rx="10" fill="#0A1633"/>
+    <text x="24" y="392" font-family="-apple-system" font-size="9" font-weight="700" fill="#FF7A45" letter-spacing="2">PDF · FORMATO OFICIAL</text>
+    <rect x="24" y="404" width="40" height="40" rx="4" fill="#FFFFFF"/>
+    <text x="44" y="430" text-anchor="middle" font-size="14" fill="#0A1633">📄</text>
+    <text x="78" y="420" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">Bitácora NOM-087</text>
+    <text x="78" y="438" font-family="-apple-system" font-size="9" fill="rgba(255,255,255,0.7)">2 páginas · QR verificable</text>
+    <rect x="14" y="430" width="224" height="32" rx="16" fill="#FF7A45"/>
+    <text x="126" y="450" text-anchor="middle" font-family="-apple-system"
+          font-size="11" font-weight="700" fill="#FFFFFF">📄 Generar PDF oficial</text>
+    
+  </g>
+</g>
+<text x="1560" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Exportar PDF oficial</text>
+<text x="50" y="3864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Evidence & Capture</text>
+<line x1="50" y1="3874" x2="2050" y2="3874" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,3890)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -555,8 +766,8 @@
     
   </g>
 </g>
-<text x="540" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Evidence Upload</text>
-<g transform="translate(740,3140)">
+<text x="200" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Evidence Upload</text>
+<g transform="translate(400,3890)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -583,10 +794,10 @@
     
   </g>
 </g>
-<text x="880" y="3742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">QR Scanner</text>
-<text x="50" y="3864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Inspection (Pre-Trip)</text>
-<line x1="50" y1="3874" x2="2050" y2="3874" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,3890)">
+<text x="540" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">QR Scanner</text>
+<text x="50" y="4614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Inspection (Pre-Trip)</text>
+<line x1="50" y1="4624" x2="2050" y2="4624" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,4640)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -629,8 +840,8 @@
     
   </g>
 </g>
-<text x="200" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Pre-Trip Inspection</text>
-<g transform="translate(400,3890)">
+<text x="200" y="5242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Pre-Trip Inspection</text>
+<g transform="translate(400,4640)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -662,10 +873,10 @@
     
   </g>
 </g>
-<text x="540" y="4492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Checkpoint Detail</text>
-<text x="50" y="4614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">POD & Signature</text>
-<line x1="50" y1="4624" x2="2050" y2="4624" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,4640)">
+<text x="540" y="5242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Checkpoint Detail</text>
+<text x="50" y="5364" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">POD & Signature</text>
+<line x1="50" y1="5374" x2="2050" y2="5374" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,5390)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -692,10 +903,10 @@
     
   </g>
 </g>
-<text x="200" y="5242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Signature POD</text>
-<text x="50" y="5364" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Incidents</text>
-<line x1="50" y1="5374" x2="2050" y2="5374" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,5390)">
+<text x="200" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Signature POD</text>
+<text x="50" y="6114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Incidents</text>
+<line x1="50" y1="6124" x2="2050" y2="6124" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,6140)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -735,8 +946,8 @@
     
   </g>
 </g>
-<text x="200" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident List</text>
-<g transform="translate(400,5390)">
+<text x="200" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident List</text>
+<g transform="translate(400,6140)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -768,8 +979,8 @@
     
   </g>
 </g>
-<text x="540" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident Create</text>
-<g transform="translate(740,5390)">
+<text x="540" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Incident Create</text>
+<g transform="translate(740,6140)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -798,10 +1009,10 @@
     
   </g>
 </g>
-<text x="880" y="5992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">SOS</text>
-<text x="50" y="6114" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Chat</text>
-<line x1="50" y1="6124" x2="2050" y2="6124" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,6140)">
+<text x="880" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">SOS</text>
+<text x="50" y="6864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Chat</text>
+<line x1="50" y1="6874" x2="2050" y2="6874" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,6890)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -838,8 +1049,8 @@
     
   </g>
 </g>
-<text x="200" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat List</text>
-<g transform="translate(400,6140)">
+<text x="200" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat List</text>
+<g transform="translate(400,6890)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -878,10 +1089,10 @@
     
   </g>
 </g>
-<text x="540" y="6742" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat Thread</text>
-<text x="50" y="6864" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Payments & Earnings</text>
-<line x1="50" y1="6874" x2="2050" y2="6874" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,6890)">
+<text x="540" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Chat Thread</text>
+<text x="50" y="7614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Payments & Earnings</text>
+<line x1="50" y1="7624" x2="2050" y2="7624" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,7640)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -915,8 +1126,8 @@
     
   </g>
 </g>
-<text x="200" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Earnings</text>
-<g transform="translate(400,6890)">
+<text x="200" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Earnings</text>
+<g transform="translate(400,7640)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -950,8 +1161,8 @@
     
   </g>
 </g>
-<text x="540" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payments History</text>
-<g transform="translate(740,6890)">
+<text x="540" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payments History</text>
+<g transform="translate(740,7640)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -983,10 +1194,10 @@
     
   </g>
 </g>
-<text x="880" y="7492" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payment Detail</text>
-<text x="50" y="7614" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Profile & Settings</text>
-<line x1="50" y1="7624" x2="2050" y2="7624" stroke="#CBD5E1" stroke-width="1"/>
-<g transform="translate(60,7640)">
+<text x="880" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Payment Detail</text>
+<text x="50" y="8364" font-family="-apple-system" font-size="20" font-weight="800" fill="#1B2D5C">Profile & Settings</text>
+<line x1="50" y1="8374" x2="2050" y2="8374" stroke="#CBD5E1" stroke-width="1"/>
+<g transform="translate(60,8390)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -1017,8 +1228,8 @@
     
   </g>
 </g>
-<text x="200" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Profile</text>
-<g transform="translate(400,7640)">
+<text x="200" y="8992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Profile</text>
+<g transform="translate(400,8390)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -1057,8 +1268,8 @@
     
   </g>
 </g>
-<text x="540" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Settings</text>
-<g transform="translate(740,7640)">
+<text x="540" y="8992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Settings</text>
+<g transform="translate(740,8390)">
   <rect width="280" height="580" rx="38" fill="#000"/>
   <rect x="6" y="6" width="268" height="568" rx="32" fill="#FFFFFF"/>
   <rect x="100" y="0" width="80" height="18" rx="0 0 14 14" fill="#000"/>
@@ -1088,5 +1299,5 @@
     
   </g>
 </g>
-<text x="880" y="8242" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Plans</text>
+<text x="880" y="8992" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" font-weight="600" fill="#334155">Plans</text>
 </svg>

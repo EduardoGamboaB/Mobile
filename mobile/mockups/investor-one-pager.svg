@@ -17,7 +17,7 @@
 <text x="80" y="220" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="5">PARA INVERSIONISTAS · 2026</text>
 <text x="80" y="290" font-family="-apple-system" font-size="64" font-weight="900" fill="#FFFFFF" letter-spacing="-2.5">La app móvil que opera</text>
 <text x="80" y="356" font-family="-apple-system" font-size="64" font-weight="900" fill="#FFFFFF" letter-spacing="-2.5">nuestra flota — y la tuya.</text>
-<text x="80" y="412" font-family="-apple-system" font-size="22" fill="rgba(255,255,255,0.75)">31 pantallas · 13 capacidades · 5 planes · operación 24/7</text>
+<text x="80" y="412" font-family="-apple-system" font-size="22" fill="rgba(255,255,255,0.75)">35 pantallas · cumple NOM-087-SCT-2-2017 · 5 planes · 24/7</text>
 <g transform="translate(1220,80)">
   <text font-family="-apple-system" font-size="11" font-weight="700" fill="rgba(255,255,255,0.55)" letter-spacing="3">TRACCIÓN DOGFOODING</text>
   <text y="56" font-family="-apple-system" font-size="48" font-weight="900" fill="#FFFFFF" letter-spacing="-2">+1,200</text>
@@ -32,20 +32,20 @@
 <text x="120" y="600" font-family="-apple-system" font-size="22" fill="#0F172A">Producto SaaS B2B nacido de operar carga terrestre real en México. <tspan font-weight="700">Dogfooded</tspan>, no ideado en pizarrón.</text>
 <rect x="80" y="680" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
 <rect x="80" y="680" width="700" height="6" rx="3" fill="#FF7A45"/>
-<text x="116" y="754" font-size="44">🗺️</text>
-<text x="180" y="734" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="3">OPERACIÓN INTELIGENTE</text>
-<text x="180" y="766" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">El operador en carretera ejecuta sin papeleo.</text>
+<text x="116" y="754" font-size="44">📋</text>
+<text x="180" y="734" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="3">CUMPLIMIENTO NOM-087 NATIVO</text>
+<text x="180" y="766" font-family="-apple-system" font-size="20" font-weight="500" fill="#334155">Bitácora regulatoria oficial, autocapturada.</text>
 <line x1="116" y1="798" x2="744" y2="798" stroke="#F1F5F9" stroke-width="1"/>
 <circle cx="130" cy="831" r="4" fill="#FF7A45"/>
-<text x="152" y="836" font-family="-apple-system" font-size="16" fill="#334155">Bitácora en un toque (combustible, casetas, comida)</text>
+<text x="152" y="836" font-family="-apple-system" font-size="16" fill="#334155">Captura las 5 categorías NOM-087 automáticamente</text>
 <circle cx="130" cy="863" r="4" fill="#FF7A45"/>
-<text x="152" y="868" font-family="-apple-system" font-size="16" fill="#334155">Cámara con OCR — extrae monto, litros y plaza</text>
+<text x="152" y="868" font-family="-apple-system" font-size="16" fill="#334155">Bloqueo de pausa 30 min cada 5h de conducción</text>
 <circle cx="130" cy="895" r="4" fill="#FF7A45"/>
-<text x="152" y="900" font-family="-apple-system" font-size="16" fill="#334155">Inspección pre-viaje de 12 puntos con foto</text>
+<text x="152" y="900" font-family="-apple-system" font-size="16" fill="#334155">Tope 14h de manejo en 24h enforced en app</text>
 <circle cx="130" cy="927" r="4" fill="#FF7A45"/>
-<text x="152" y="932" font-family="-apple-system" font-size="16" fill="#334155">Folio único G3-AAAA-NNNNN sincronizado</text>
+<text x="152" y="932" font-family="-apple-system" font-size="16" fill="#334155">Casos de excepción con foto y GPS sellados</text>
 <circle cx="130" cy="959" r="4" fill="#FF7A45"/>
-<text x="152" y="964" font-family="-apple-system" font-size="16" fill="#334155">Modo offline · sincroniza al recuperar señal</text>
+<text x="152" y="964" font-family="-apple-system" font-size="16" fill="#334155">PDF oficial firmado con QR para retenes SCT</text>
 <rect x="820" y="680" width="700" height="320" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
 <rect x="820" y="680" width="700" height="6" rx="3" fill="#1B2D5C"/>
 <text x="856" y="754" font-size="44">📍</text>

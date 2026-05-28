@@ -21,7 +21,7 @@
 3. [Tu pantalla principal · el dashboard](#3-tu-pantalla-principal--el-dashboard)
 4. [Un día completo con G3 Drive](#4-un-día-completo-con-g3-drive)
 5. [Inspección pre-viaje · 12 puntos](#5-inspección-pre-viaje--12-puntos)
-6. [Bitácora · cómo registrar gastos del viaje](#6-bitácora--cómo-registrar-gastos-del-viaje)
+6. [Bitácora NOM-087 · horas de servicio](#6-bitácora-nom-087--horas-de-servicio)
 7. [Evidencias con la cámara](#7-evidencias-con-la-cámara)
 8. [Durante el viaje · ubicación y ETA](#8-durante-el-viaje--ubicación-y-eta)
 9. [Llegada y entrega · firma POD](#9-llegada-y-entrega--firma-pod)
@@ -285,60 +285,212 @@ accidentes evitables.
 
 ---
 
-## 6. Bitácora · cómo registrar gastos del viaje
+## 6. Bitácora NOM-087 · horas de servicio
 
-La bitácora es el registro de **cada peso que sale durante el
-viaje**. Antes era libreta de papel; ahora son 10 segundos en la app.
+La bitácora es el **documento oficial** que la SCT y Policía Federal
+pueden inspeccionarte en retén. Su formato lo manda la
+**NOM-087-SCT-2-2017** (Norma Oficial Mexicana de tiempos de
+conducción y pausas). Antes era libreta de papel; G3 Drive la lleva
+sola y al final genera el PDF oficial que firmas y entregas.
 
-### Cómo registrar un evento
+> **Tu trabajo principal**: ninguno. La app captura todo automático.
+> Tu trabajo solo aparece en momentos puntuales: declarar qué estás
+> haciendo cuando no estás manejando, y registrar casos especiales.
 
-1. En el dashboard toca el botón naranja **+ Registrar evento**
-2. Selecciona el **tipo**:
+### Las 5 categorías de la bitácora
+
+Cada hora del día cae en **una de estas 5**:
+
+| Categoría | Cuándo aplica |
+|---|---|
+| **CONDUCIENDO** | Estás manejando · la app lo detecta sola por GPS |
+| **PAUSA** | Estás detenido sin actividad declarada (≤30 min) |
+| **ACTIVIDADES AUXILIARES** | Cargando, descargando, llenando diesel, en retén, trámites |
+| **CASOS DE EXCEPCIÓN** | Algo extraordinario: accidente, avería, bloqueo, clima |
+| **DESCANSO** | Tu descanso oficial (ideal 8h continuas entre turnos) |
+
+### Pantalla de bitácora del día
+
+Desde el dashboard toca **Bitácora del día**:
 
 ```
-┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐
-│   ⛽    │ │   🚧   │ │   🍔   │ │   📝   │
-│ Diesel │ │ Caseta │ │ Comida │ │  Nota  │
-└────────┘ └────────┘ └────────┘ └────────┘
+┌─────────────────────────────────────┐
+│ ← Bitácora · DÍA 1                  │
+│ MIE 28 MAY 2026                     │
+├─────────────────────────────────────┤
+│ CONDUCIENDO     06:00 ━━━━━━━━━ 14h│
+│ PAUSA                              .│
+│ AUX                          .  .  .│
+│ EXCEPCIÓN                           │
+│ DESCANSO   ━━━━━                    │
+│        0   6   12   18   24         │
+├─────────────────────────────────────┤
+│ Conduciendo:        7h 15min        │
+│ Pausa:              1h 30min        │
+│ Auxiliares:         2h 00min        │
+│ Descanso:           8h 00min        │
+│ Excepciones:        0h 00min        │
+├─────────────────────────────────────┤
+│ ✓ Cumple NOM-087 al 100%            │
+└─────────────────────────────────────┘
 ```
 
-3. Escribe el **monto** (la app pone el signo de pesos sola)
-4. Para ⛽ Diesel también escribes **litros**
-5. **Foto del recibo** (la app abre la cámara directamente)
-6. Toca **Guardar**
+Las barras horizontales muestran **24 horas** de tu día. Cada
+categoría tiene su renglón.
 
-### Lo que pasa después
+### Registrar evento (la versión NOM-087)
 
-- **Si tienes señal**: se sube al instante y desaparece de
-  "Pendientes"
-- **Sin señal**: queda guardado localmente, se sincroniza solo
-  cuando vuelve la red (ver [§13](#13-cuando-no-hay-señal--modo-offline))
+Toca el botón naranja **+ Registrar evento**. Ahora hay más
+opciones, cada una se clasifica automáticamente:
 
-### OCR del recibo (planes Starter+)
+| Evento | Categoría NOM-087 | Cuándo lo usas |
+|---|---|---|
+| ⛽ Carga de combustible | AUXILIAR | Cargaste diesel — registras monto y litros |
+| 🚧 Caseta / peaje | (sigue conduciendo) | Solo es gasto, no cambia tu estado |
+| 🍔 Comida | PAUSA | Te paraste a comer — cuenta hacia tu pausa obligatoria |
+| 📦 Inicio de carga | AUXILIAR | Empezaste a cargar la mercancía |
+| ✓ Fin de carga | (vuelves a conducir) | Terminaste de cargar |
+| 📤 Inicio de descarga | AUXILIAR | Empezaste a descargar |
+| ✓ Fin de descarga | (vuelves a conducir) | Terminaste de descargar |
+| 🛑 Retén / Inspección | AUXILIAR | G.N. / F.G.R. / SEDENA te detuvo |
+| 💤 Iniciar descanso | DESCANSO | Vas a descansar formalmente (mín 30 min, ideal 8h) |
+| ▲ Avería del vehículo | EXCEPCIÓN | El tracto se descompuso (ver §6.4) |
 
-Si tu empresa tiene plan Starter o superior, **al tomar la foto del
-recibo de diesel**:
+### 6.1 · Las reglas que la app hace cumplir
 
-- La IA lee el recibo y **autocompleta** monto, litros y plaza
-- Tú **verificas** que estén bien (lo más probable es que sí)
-- Confirmas con **Guardar**
+La NOM-087 dice exactamente cuántas horas puedes manejar y cuándo
+debes pausar. No las recuerdas tú — **te las recuerda la app**.
 
-Esto ahorra 30 segundos por carga. En un viaje con 2 cargas, son
-60 segundos al día — que se traduce en menos distracciones en
-gasolinera.
+#### Pausa de 30 min cada 5 horas
 
-### Notas libres
+Si llevas **5 horas continuas conduciendo**, debes pausar 30 min.
+Esto no se puede acumular: una pausa de 15 min ahora + otra de 15
+min después **no cuenta**.
 
-Para cosas que no caben en las categorías predefinidas:
+La app te avisa:
 
-- Tope no marcado
-- Bloqueo de carretera
-- Detención por inspección
-- Encuentro con alguien
-- Lo que sea relevante para el viaje
+| Tiempo | Aviso |
+|---|---|
+| 4h 30min | 🟡 "30 min más y debes hacer pausa por NOM-087" |
+| 4h 50min | 🟠 "Pausa obligatoria en 10 min" |
+| 5h 00min | 🔴 **Pantalla bloqueante** — no puedes seguir conduciendo |
 
-Las notas las puede ver el dispatch — sirven como **memoria del
-viaje** para auditorías y mejora de rutas.
+#### Máximo 14 horas en 24 horas
+
+No puedes manejar más de **14 horas en un día**. Es ley.
+
+| Tiempo | Aviso |
+|---|---|
+| 12h | 🟡 "Quedan 2 horas — empieza a buscar lugar de descanso" |
+| 13h | 🟠 "Queda 1 hora — encuentra patio o gasolinera segura" |
+| 14h | 🔴 **Bloqueo total** — debes iniciar descanso de 8h continuas |
+
+#### 8 horas de descanso continuas
+
+Antes de un nuevo turno que requiera 14h de conducción, debes
+descansar **8 horas continuas** (no fraccionadas).
+
+La app verifica esto al asignarte un viaje nuevo. Si no cumples,
+**avisa al dispatcher antes de salir**.
+
+### 6.2 · Pantalla de pausa obligatoria
+
+Cuando llegas a 5h continuas, esta pantalla **bloquea todo**:
+
+```
+┌─────────────────────────────────────┐
+│            ⏸️  PAUSA                 │
+│         OBLIGATORIA                 │
+│                                     │
+│   Has conducido 5h continuas.       │
+│   Por NOM-087 debes pausar 30 min.  │
+│                                     │
+│         ┌───────────┐               │
+│         │   30:00   │               │ ← contador en vivo
+│         └───────────┘               │
+│                                     │
+│   ┌─────────────────────────────┐   │
+│   │ ⚠ Reportar Caso de Excepción│   │
+│   └─────────────────────────────┘   │
+└─────────────────────────────────────┘
+```
+
+**Qué hacer**:
+- Estaciona en lugar seguro
+- Apaga motor y descansa 30 min completos
+- La app vibra cada 5 min para confirmar que no te dormiste
+- Cuando termine el contador, regresa al dashboard normal
+
+**Si tienes una emergencia real** (vas escapando de algo, te
+persiguen, falla mecánica grave), toca **Reportar Caso de Excepción**
+— ahí explicas qué pasa.
+
+### 6.3 · Casos de Excepción
+
+La norma reconoce que **a veces no puedes cumplir** las reglas
+porque hay algo extraordinario. Los **Casos de Excepción** son:
+
+- 🚨 **Percance vial** (accidente — el tuyo o uno que presencias)
+- ▲ **Avería del vehículo** (descompostura grave)
+- 🚧 **Bloqueo carretero** (manifestación, accidente cerrando la vía)
+- 🌪️ **Eventos climatológicos** (huracán, granizada, tormenta de
+  arena, niebla extrema)
+- ✏️ **Otros** — siempre con descripción escrita
+
+Para registrar uno:
+
+1. Desde la bitácora toca **+ Caso de Excepción**
+2. Selecciona el **tipo**
+3. **Describe** lo que pasa (mínimo 1 línea, sé claro)
+4. **Foto obligatoria** — la app no te deja avanzar sin foto
+   (la NOM-087 exige "evidencia documental")
+5. La hora y ubicación se sellan automáticamente
+6. Toca **Reportar ahora**
+
+El dispatcher y el admin reciben la alerta inmediato.
+
+> **No abuses de los casos de excepción**. Si los usas para evitar
+> la pausa de 30 min sin razón real, la SCT lo nota en auditoría.
+> Solo cuando hay emergencia real.
+
+### 6.4 · Exportar la bitácora (PDF oficial)
+
+Al cierre del viaje, generas el **PDF oficial NOM-087**:
+
+1. Desde la bitácora toca **Exportar**
+2. Confirma el periodo (1 o 2 días)
+3. La app muestra una **vista previa** del PDF
+4. Toca **Generar PDF oficial**
+5. **Firma con el dedo** en el espacio del conductor
+6. El PDF se guarda y se envía al admin
+
+El PDF que genera la app es **idéntico al formato oficial** que
+manda la NOM-087. Tiene:
+
+- Datos del permisionario, del vehículo y tuyos
+- Grid 24h × 5 categorías para 1 o 2 días
+- Eventos puntuales con sus símbolos oficiales
+- Casos de Excepción totalizados con su evidencia
+- Tu firma digital + firma del responsable
+- **QR code** que el inspector puede escanear para verificar
+  autenticidad contra el sistema
+
+**En retén te lo van a pedir**: tienes el PDF en la app (Bitácora →
+Historial → toca el día → Compartir). Lo enseñas desde el celular o
+lo imprimes si tienes oportunidad.
+
+### 6.5 · Gastos que no son NOM-087
+
+Los gastos puros (casetas, comida, propinas, refacciones pequeñas)
+**siguen ahí** dentro del módulo Bitácora — sirven para el
+seguimiento del costo del viaje y para que el admin libere tu pago.
+Pero **no afectan tu estado regulatorio**.
+
+### Lo que pasa cuando no hay señal
+
+La bitácora sigue funcionando offline. La app guarda todo
+localmente y sincroniza cuando vuelva la red. Ver
+[§13 · Modo offline](#13-cuando-no-hay-señal--modo-offline).
 
 ---
 
