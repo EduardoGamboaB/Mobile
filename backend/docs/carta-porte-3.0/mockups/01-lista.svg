@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 836" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1280" height="36" fill="#E5E7EB"/>
+<circle cx="14" cy="18" r="6" fill="#FF5F57"/>
+<circle cx="30" cy="18" r="6" fill="#FEBC2E"/>
+<circle cx="46" cy="18" r="6" fill="#28C840"/>
+<rect x="80" y="8" width="1120" height="20" rx="10" fill="#FFFFFF"/>
+<text x="640" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">admin.g3logistics.mx/invoicing/carta-porte</text>
+<g transform="translate(0, 36)">
+<rect width="240" height="800" fill="#0A1633"/>
+<g transform="translate(28, 28)">
+  <text font-family="Arial Black" font-size="22" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-1">G3</text>
+  <text x="42" y="-2" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF" letter-spacing="2.5">ADMIN</text>
+</g>
+<text x="32" y="113" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">▦</text>
+<text x="56" y="113" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Dashboard</text>
+<text x="32" y="157" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🛣</text>
+<text x="56" y="157" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Viajes</text>
+<rect x="16" y="180" width="208" height="36" rx="8" fill="rgba(255,122,69,0.15)"/>
+<rect x="16" y="180" width="3" height="36" fill="#FF7A45"/>
+<text x="32" y="201" font-family="-apple-system" font-size="14" fill="#FFFFFF">📄</text>
+<text x="56" y="201" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF">Cartas Porte</text>
+<text x="32" y="245" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🚚</text>
+<text x="56" y="245" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Flota</text>
+<text x="32" y="289" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">👥</text>
+<text x="56" y="289" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Operadores</text>
+<text x="32" y="333" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">📡</text>
+<text x="56" y="333" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Monitor</text>
+<text x="32" y="377" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">💳</text>
+<text x="56" y="377" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Planes</text>
+<text x="32" y="421" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">⚙</text>
+<text x="56" y="421" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Ajustes</text>
+<rect x="16" y="728" width="208" height="56" rx="10" fill="rgba(255,255,255,0.04)"/>
+<circle cx="40" cy="756" r="14" fill="#FF7A45"/>
+<text x="40" y="760" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">PP</text>
+<text x="64" y="753" font-family="-apple-system" font-size="12" font-weight="600" fill="#FFFFFF">Pedro Pérez</text>
+<text x="64" y="768" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.55)">Transportes Acme</text>
+<rect x="240" y="0" width="1040" height="64" fill="#FFFFFF"/>
+<line x1="240" y1="64" x2="1280" y2="64" stroke="#F1F5F9"/>
+<text x="272" y="36" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Cartas Porte</text>
+<text x="272" y="56" font-family="-apple-system" font-size="11" fill="#64748B">247 emitidas este mes · 98.4% aceptadas por SAT</text>
+<rect x="1000" y="18" width="200" height="32" rx="16" fill="#F8FAFC"/>
+<text x="1015" y="38" font-family="-apple-system" font-size="11" fill="#64748B">🔍 Buscar...</text>
+<circle cx="1230" cy="34" r="14" fill="#F8FAFC"/>
+<text x="1230" y="38" text-anchor="middle" font-size="12" fill="#334155">🔔</text>
+<circle cx="1236" cy="28" r="5" fill="#FF7A45"/>
+<text x="1236" y="31" text-anchor="middle" font-family="-apple-system" font-size="7" font-weight="700" fill="#FFFFFF">3</text>
+<rect x="272" y="96" width="226" height="98" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<rect x="272" y="96" width="3" height="98" fill="#16A34A"/>
+<text x="290" y="118" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.5">TIMBRADAS ESTE MES</text>
+<text x="290" y="156" font-family="-apple-system" font-size="28" font-weight="900" fill="#0A1633" letter-spacing="-0.5">247</text>
+<text x="290" y="178" font-family="-apple-system" font-size="11" fill="#16A34A">+38 vs mes anterior</text>
+<rect x="514" y="96" width="226" height="98" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<rect x="514" y="96" width="3" height="98" fill="#16A34A"/>
+<text x="532" y="118" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.5">ACEPTACIÓN SAT 1ER INTENTO</text>
+<text x="532" y="156" font-family="-apple-system" font-size="28" font-weight="900" fill="#0A1633" letter-spacing="-0.5">98.4%</text>
+<text x="532" y="178" font-family="-apple-system" font-size="11" fill="#16A34A">meta ≥ 98%</text>
+<rect x="756" y="96" width="226" height="98" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<rect x="756" y="96" width="3" height="98" fill="#F59E0B"/>
+<text x="774" y="118" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.5">PENDIENTES (BORRADORES)</text>
+<text x="774" y="156" font-family="-apple-system" font-size="28" font-weight="900" fill="#0A1633" letter-spacing="-0.5">6</text>
+<text x="774" y="178" font-family="-apple-system" font-size="11" fill="#F59E0B">cierra el viaje y se emite</text>
+<rect x="998" y="96" width="226" height="98" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<rect x="998" y="96" width="3" height="98" fill="#FF7A45"/>
+<text x="1016" y="118" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.5">RECHAZADAS (NUESTRA GARANTÍA)</text>
+<text x="1016" y="156" font-family="-apple-system" font-size="28" font-weight="900" fill="#0A1633" letter-spacing="-0.5">2</text>
+<text x="1016" y="178" font-family="-apple-system" font-size="11" fill="#FF7A45">$14 MXN reembolsados</text>
+<rect x="272" y="218" width="90" height="32" rx="16" fill="#0A1633"/>
+<text x="317" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#FFFFFF">Todas <tspan opacity="0.6">247</tspan></text>
+<rect x="370" y="218" width="122" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+<text x="431" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#334155">Timbradas <tspan opacity="0.6">239</tspan></text>
+<rect x="500" y="218" width="130" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+<text x="565" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#334155">Borradores <tspan opacity="0.6">6</tspan></text>
+<rect x="638" y="218" width="130" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+<text x="703" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#334155">Rechazadas <tspan opacity="0.6">2</tspan></text>
+<rect x="776" y="218" width="130" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+<text x="841" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#334155">Canceladas <tspan opacity="0.6">0</tspan></text>
+<rect x="1062" y="218" width="190" height="32" rx="16" fill="#FF7A45"/>
+<text x="1157" y="238" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">+ Nueva carta porte</text>
+<rect x="272" y="268" width="976" height="36" fill="#F4F6FB"/>
+<text x="286" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">SERIE/FOLIO</text>
+<text x="426" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">FECHA</text>
+<text x="526" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">CLIENTE</text>
+<text x="736" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">ORIGEN → DESTINO</text>
+<text x="986" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">MONTO</text>
+<text x="1076" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">ESTADO</text>
+<text x="1186" y="290" font-family="-apple-system" font-size="10" font-weight="700" fill="#334155" letter-spacing="1.5">SAT UUID</text>
+<text x="286" y="326" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00247</text>
+<text x="286" y="340" font-family="-apple-system" font-size="9" fill="#64748B">A1B2C3D4...</text>
+<text x="426" y="331" font-family="-apple-system" font-size="11" fill="#334155">Hoy 14:32</text>
+<text x="526" y="331" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Bimbo SA de CV</text>
+<text x="736" y="331" font-family="-apple-system" font-size="11" fill="#334155">CDMX → Monterrey</text>
+<text x="986" y="331" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$21,460</text>
+<rect x="1072" y="314" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="329" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+<rect x="272" y="348" width="976" height="44" fill="#F8FAFC"/>
+<text x="286" y="370" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00246</text>
+<text x="286" y="384" font-family="-apple-system" font-size="9" fill="#64748B">7E8F9A0B...</text>
+<text x="426" y="375" font-family="-apple-system" font-size="11" fill="#334155">Hoy 11:08</text>
+<text x="526" y="375" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Sigma Alimentos</text>
+<text x="736" y="375" font-family="-apple-system" font-size="11" fill="#334155">GDL → Tampico</text>
+<text x="986" y="375" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$25,520</text>
+<rect x="1072" y="358" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="373" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+<text x="286" y="414" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00245</text>
+<text x="286" y="428" font-family="-apple-system" font-size="9" fill="#64748B">4D5E6F7A...</text>
+<text x="426" y="419" font-family="-apple-system" font-size="11" fill="#334155">Ayer 18:45</text>
+<text x="526" y="419" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Lala SA de CV</text>
+<text x="736" y="419" font-family="-apple-system" font-size="11" fill="#334155">Mty → Saltillo</text>
+<text x="986" y="419" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$10,672</text>
+<rect x="1072" y="402" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="417" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+<rect x="272" y="436" width="976" height="44" fill="#F8FAFC"/>
+<text x="286" y="458" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-DRAFT-013</text>
+<text x="286" y="472" font-family="-apple-system" font-size="9" fill="#64748B">—</text>
+<text x="426" y="463" font-family="-apple-system" font-size="11" fill="#334155">Ayer 15:30</text>
+<text x="526" y="463" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Cydsa Industrial</text>
+<text x="736" y="463" font-family="-apple-system" font-size="11" fill="#334155">QRO → Puebla</text>
+<text x="986" y="463" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$7,424</text>
+<rect x="1072" y="446" width="100" height="22" rx="11" fill="#FEF3C7"/>
+<text x="1122" y="461" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#F59E0B">○ Borrador</text>
+<text x="286" y="502" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00244</text>
+<text x="286" y="516" font-family="-apple-system" font-size="9" fill="#64748B">Reintentar</text>
+<text x="426" y="507" font-family="-apple-system" font-size="11" fill="#334155">Ayer 12:18</text>
+<text x="526" y="507" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Coca-Cola FEMSA</text>
+<text x="736" y="507" font-family="-apple-system" font-size="11" fill="#334155">CDMX → León</text>
+<text x="986" y="507" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$18,560</text>
+<rect x="1072" y="490" width="100" height="22" rx="11" fill="#FEE2E2"/>
+<text x="1122" y="505" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#DC2626">⚠ Rechazada</text>
+<rect x="272" y="524" width="976" height="44" fill="#F8FAFC"/>
+<text x="286" y="546" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00243</text>
+<text x="286" y="560" font-family="-apple-system" font-size="9" fill="#64748B">3C4D5E6F...</text>
+<text x="426" y="551" font-family="-apple-system" font-size="11" fill="#334155">26 may</text>
+<text x="526" y="551" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Bimbo SA de CV</text>
+<text x="736" y="551" font-family="-apple-system" font-size="11" fill="#334155">CDMX → Querétaro</text>
+<text x="986" y="551" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$8,816</text>
+<rect x="1072" y="534" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="549" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+<text x="286" y="590" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00242</text>
+<text x="286" y="604" font-family="-apple-system" font-size="9" fill="#64748B">9F0A1B2C...</text>
+<text x="426" y="595" font-family="-apple-system" font-size="11" fill="#334155">26 may</text>
+<text x="526" y="595" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Walmart México</text>
+<text x="736" y="595" font-family="-apple-system" font-size="11" fill="#334155">GDL → Tijuana</text>
+<text x="986" y="595" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$54,520</text>
+<rect x="1072" y="578" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="593" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+<rect x="272" y="612" width="976" height="44" fill="#F8FAFC"/>
+<text x="286" y="634" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" fill="#0A1633">CP-00241</text>
+<text x="286" y="648" font-family="-apple-system" font-size="9" fill="#64748B">5A6B7C8D...</text>
+<text x="426" y="639" font-family="-apple-system" font-size="11" fill="#334155">26 may</text>
+<text x="526" y="639" font-family="-apple-system" font-size="11" font-weight="500" fill="#0A1633">Femsa Logística</text>
+<text x="736" y="639" font-family="-apple-system" font-size="11" fill="#334155">Mty → Reynosa</text>
+<text x="986" y="639" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">$15,544</text>
+<rect x="1072" y="622" width="100" height="22" rx="11" fill="#DCFCE7"/>
+<text x="1122" y="637" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#16A34A">✓ Timbrada</text>
+</g>
+</svg>

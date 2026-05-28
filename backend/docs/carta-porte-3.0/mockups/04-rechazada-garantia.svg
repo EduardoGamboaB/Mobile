@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 836" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1280" height="36" fill="#E5E7EB"/>
+<circle cx="14" cy="18" r="6" fill="#FF5F57"/>
+<circle cx="30" cy="18" r="6" fill="#FEBC2E"/>
+<circle cx="46" cy="18" r="6" fill="#28C840"/>
+<rect x="80" y="8" width="1120" height="20" rx="10" fill="#FFFFFF"/>
+<text x="640" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">admin.g3logistics.mx/invoicing/carta-porte</text>
+<g transform="translate(0, 36)">
+<rect width="240" height="800" fill="#0A1633"/>
+<g transform="translate(28, 28)">
+  <text font-family="Arial Black" font-size="22" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-1">G3</text>
+  <text x="42" y="-2" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF" letter-spacing="2.5">ADMIN</text>
+</g>
+<text x="32" y="113" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">▦</text>
+<text x="56" y="113" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Dashboard</text>
+<text x="32" y="157" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🛣</text>
+<text x="56" y="157" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Viajes</text>
+<rect x="16" y="180" width="208" height="36" rx="8" fill="rgba(255,122,69,0.15)"/>
+<rect x="16" y="180" width="3" height="36" fill="#FF7A45"/>
+<text x="32" y="201" font-family="-apple-system" font-size="14" fill="#FFFFFF">📄</text>
+<text x="56" y="201" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF">Cartas Porte</text>
+<text x="32" y="245" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🚚</text>
+<text x="56" y="245" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Flota</text>
+<text x="32" y="289" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">👥</text>
+<text x="56" y="289" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Operadores</text>
+<text x="32" y="333" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">📡</text>
+<text x="56" y="333" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Monitor</text>
+<text x="32" y="377" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">💳</text>
+<text x="56" y="377" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Planes</text>
+<text x="32" y="421" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">⚙</text>
+<text x="56" y="421" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Ajustes</text>
+<rect x="16" y="728" width="208" height="56" rx="10" fill="rgba(255,255,255,0.04)"/>
+<circle cx="40" cy="756" r="14" fill="#FF7A45"/>
+<text x="40" y="760" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">PP</text>
+<text x="64" y="753" font-family="-apple-system" font-size="12" font-weight="600" fill="#FFFFFF">Pedro Pérez</text>
+<text x="64" y="768" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.55)">Transportes Acme</text>
+<rect x="240" y="0" width="1040" height="64" fill="#FFFFFF"/>
+<line x1="240" y1="64" x2="1280" y2="64" stroke="#F1F5F9"/>
+<text x="272" y="26" font-family="-apple-system" font-size="11" fill="#64748B">Cartas Porte / CP-00244</text>
+<text x="272" y="42" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">CP · 00244 · Rechazada por SAT</text>
+<text x="272" y="56" font-family="-apple-system" font-size="11" fill="#64748B">Garantía aplicada · timbre reembolsado · nueva carta porte generada</text>
+<rect x="1000" y="18" width="200" height="32" rx="16" fill="#F8FAFC"/>
+<text x="1015" y="38" font-family="-apple-system" font-size="11" fill="#64748B">🔍 Buscar...</text>
+<circle cx="1230" cy="34" r="14" fill="#F8FAFC"/>
+<text x="1230" y="38" text-anchor="middle" font-size="12" fill="#334155">🔔</text>
+<circle cx="1236" cy="28" r="5" fill="#FF7A45"/>
+<text x="1236" y="31" text-anchor="middle" font-family="-apple-system" font-size="7" font-weight="700" fill="#FFFFFF">3</text>
+<rect x="272" y="96" width="976" height="80" rx="12" fill="#FFF1E8"/>
+<rect x="272" y="96" width="4" height="80" fill="#FF7A45"/>
+<circle cx="310" cy="136" r="18" fill="#FF7A45"/>
+<text x="310" y="142" text-anchor="middle" font-size="18" fill="#FFFFFF" font-weight="700">⚠</text>
+<text x="344" y="120" font-family="-apple-system" font-size="14" font-weight="800" fill="#0A1633">SAT rechazó por error nuestro · garantía aplicada</text>
+<text x="344" y="140" font-family="-apple-system" font-size="12" fill="#334155">Reembolsamos el timbre ($7 MXN) y generamos nueva carta porte automáticamente. <tspan font-weight="700">No te cobramos.</tspan></text>
+<text x="344" y="158" font-family="-apple-system" font-size="11" fill="#64748B">Nueva carta porte: <tspan font-family="JetBrains Mono, monospace" font-weight="700" fill="#0A1633">CP-00249</tspan> timbrada exitosamente · UUID 9E8F7A6B-...</text>
+<rect x="272" y="196" width="976" height="240" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<text x="292" y="224" font-family="-apple-system" font-size="13" font-weight="800" fill="#0A1633">Detalle técnico del rechazo</text>
+<line x1="292" y1="236" x2="1228" y2="236" stroke="#F1F5F9"/>
+<text x="292" y="256" font-family="-apple-system" font-size="11" fill="#64748B">Código SAT</text>
+<text x="746" y="256" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">CP500</text>
+<text x="292" y="288" font-family="-apple-system" font-size="11" fill="#64748B">Mensaje SAT</text>
+<text x="746" y="288" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Error interno del PAC al sellar</text>
+<text x="292" y="320" font-family="-apple-system" font-size="11" fill="#64748B">Clasificación</text>
+<text x="746" y="320" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Nuestro error (no del cliente)</text>
+<text x="292" y="352" font-family="-apple-system" font-size="11" fill="#64748B">PAC primary</text>
+<text x="746" y="352" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Diverza · 12.4s · timeout</text>
+<text x="292" y="384" font-family="-apple-system" font-size="11" fill="#64748B">PAC fallback</text>
+<text x="746" y="384" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Facturama · 7.1s · OK</text>
+<text x="776" y="256" font-family="-apple-system" font-size="11" fill="#64748B">Timestamp rechazo</text>
+<text x="1230" y="256" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">28 may 14:18:33</text>
+<text x="776" y="288" font-family="-apple-system" font-size="11" fill="#64748B">Tiempo total reintentos</text>
+<text x="1230" y="288" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">19.5 segundos</text>
+<text x="776" y="320" font-family="-apple-system" font-size="11" fill="#64748B">Reembolso aplicado</text>
+<text x="1230" y="320" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">$7.00 MXN</text>
+<text x="776" y="352" font-family="-apple-system" font-size="11" fill="#64748B">Nueva carta porte</text>
+<text x="1230" y="352" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">CP-00249 timbrada 14:18:52</text>
+<text x="776" y="384" font-family="-apple-system" font-size="11" fill="#64748B">Estado de la garantía</text>
+<text x="1230" y="384" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Aplicada automáticamente</text>
+<rect x="272" y="456" width="976" height="120" rx="12" fill="#0A1633"/>
+<text x="296" y="484" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="2.5">GARANTÍA G3 · CARTA PORTE 3.0</text>
+<text x="296" y="514" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Si SAT rechaza por error nuestro, te reembolsamos el timbre.</text>
+<text x="296" y="540" font-family="-apple-system" font-size="12" fill="rgba(255,255,255,0.7)">Lo detectamos solos. Lo arreglamos solos. No tienes que llamar ni reclamar.</text>
+<rect x="1080" y="494" width="160" height="44" rx="22" fill="#FF7A45"/>
+<text x="1160" y="521" text-anchor="middle" font-family="-apple-system" font-size="12" font-weight="700" fill="#FFFFFF">Ver CP-00249 →</text>
+</g>
+</svg>

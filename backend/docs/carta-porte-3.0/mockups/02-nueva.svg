@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 836" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1280" height="36" fill="#E5E7EB"/>
+<circle cx="14" cy="18" r="6" fill="#FF5F57"/>
+<circle cx="30" cy="18" r="6" fill="#FEBC2E"/>
+<circle cx="46" cy="18" r="6" fill="#28C840"/>
+<rect x="80" y="8" width="1120" height="20" rx="10" fill="#FFFFFF"/>
+<text x="640" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">admin.g3logistics.mx/invoicing/carta-porte</text>
+<g transform="translate(0, 36)">
+<rect width="240" height="800" fill="#0A1633"/>
+<g transform="translate(28, 28)">
+  <text font-family="Arial Black" font-size="22" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-1">G3</text>
+  <text x="42" y="-2" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF" letter-spacing="2.5">ADMIN</text>
+</g>
+<text x="32" y="113" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">▦</text>
+<text x="56" y="113" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Dashboard</text>
+<text x="32" y="157" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🛣</text>
+<text x="56" y="157" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Viajes</text>
+<rect x="16" y="180" width="208" height="36" rx="8" fill="rgba(255,122,69,0.15)"/>
+<rect x="16" y="180" width="3" height="36" fill="#FF7A45"/>
+<text x="32" y="201" font-family="-apple-system" font-size="14" fill="#FFFFFF">📄</text>
+<text x="56" y="201" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF">Cartas Porte</text>
+<text x="32" y="245" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🚚</text>
+<text x="56" y="245" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Flota</text>
+<text x="32" y="289" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">👥</text>
+<text x="56" y="289" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Operadores</text>
+<text x="32" y="333" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">📡</text>
+<text x="56" y="333" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Monitor</text>
+<text x="32" y="377" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">💳</text>
+<text x="56" y="377" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Planes</text>
+<text x="32" y="421" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">⚙</text>
+<text x="56" y="421" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Ajustes</text>
+<rect x="16" y="728" width="208" height="56" rx="10" fill="rgba(255,255,255,0.04)"/>
+<circle cx="40" cy="756" r="14" fill="#FF7A45"/>
+<text x="40" y="760" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">PP</text>
+<text x="64" y="753" font-family="-apple-system" font-size="12" font-weight="600" fill="#FFFFFF">Pedro Pérez</text>
+<text x="64" y="768" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.55)">Transportes Acme</text>
+<rect x="240" y="0" width="1040" height="64" fill="#FFFFFF"/>
+<line x1="240" y1="64" x2="1280" y2="64" stroke="#F1F5F9"/>
+<text x="272" y="26" font-family="-apple-system" font-size="11" fill="#64748B">Cartas Porte / Nueva</text>
+<text x="272" y="42" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">Nueva carta porte · G3-2026-00134</text>
+<text x="272" y="56" font-family="-apple-system" font-size="11" fill="#64748B">Auto-llenada desde viaje cerrado (CDMX → Monterrey)</text>
+<rect x="1000" y="18" width="200" height="32" rx="16" fill="#F8FAFC"/>
+<text x="1015" y="38" font-family="-apple-system" font-size="11" fill="#64748B">🔍 Buscar...</text>
+<circle cx="1230" cy="34" r="14" fill="#F8FAFC"/>
+<text x="1230" y="38" text-anchor="middle" font-size="12" fill="#334155">🔔</text>
+<circle cx="1236" cy="28" r="5" fill="#FF7A45"/>
+<text x="1236" y="31" text-anchor="middle" font-family="-apple-system" font-size="7" font-weight="700" fill="#FFFFFF">3</text>
+<rect x="272" y="96" width="976" height="44" rx="10" fill="#DCFCE7"/>
+<rect x="272" y="96" width="3" height="44" fill="#16A34A"/>
+<text x="290" y="114" font-family="-apple-system" font-size="12" font-weight="700" fill="#16A34A">✓ Auto-llenado al 87%</text>
+<text x="290" y="130" font-family="-apple-system" font-size="11" fill="#334155">10 campos pre-llenados desde el viaje · solo confirma cliente, monto y mercancía</text>
+<rect x="272" y="156" width="476" height="424" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<text x="292" y="184" font-family="-apple-system" font-size="13" font-weight="800" fill="#0A1633">Datos generales</text>
+<line x1="292" y1="196" x2="728" y2="196" stroke="#F1F5F9"/>
+<text x="292" y="216" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">TIPO CFDI</text>
+<text x="292" y="236" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">Ingreso (yo cobro)</text>
+<circle cx="718" cy="228" r="8" fill="#16A34A"/>
+<text x="718" y="232" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">✓</text>
+<text x="292" y="264" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">SERIE / FOLIO</text>
+<text x="292" y="284" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">CP · 00248</text>
+<circle cx="718" cy="276" r="8" fill="#16A34A"/>
+<text x="718" y="280" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">✓</text>
+<text x="292" y="312" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">CLIENTE (RFC)</text>
+<text x="292" y="332" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">GBS210101XYZ · Grupo Bimbo SA de CV</text>
+<rect x="702" y="314" width="20" height="18" rx="9" fill="#FEF3C7"/>
+<text x="712" y="328" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#F59E0B">!</text>
+<text x="292" y="360" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">USO CFDI</text>
+<text x="292" y="380" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">G03 · Gastos en general</text>
+<circle cx="718" cy="372" r="8" fill="#16A34A"/>
+<text x="718" y="376" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">✓</text>
+<text x="292" y="408" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">MONTO FLETE</text>
+<text x="292" y="428" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">$ 18,500.00 + 16% IVA</text>
+<rect x="702" y="410" width="20" height="18" rx="9" fill="#FEF3C7"/>
+<text x="712" y="424" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#F59E0B">!</text>
+<text x="292" y="456" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">FORMA DE PAGO</text>
+<text x="292" y="476" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">03 · Transferencia electrónica</text>
+<circle cx="718" cy="468" r="8" fill="#16A34A"/>
+<text x="718" y="472" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">✓</text>
+<text x="292" y="504" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">MÉTODO</text>
+<text x="292" y="524" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">PUE · Pago en una exhibición</text>
+<circle cx="718" cy="516" r="8" fill="#16A34A"/>
+<text x="718" y="520" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">✓</text>
+<rect x="772" y="156" width="476" height="424" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<text x="792" y="184" font-family="-apple-system" font-size="13" font-weight="800" fill="#0A1633">Ruta · Mercancía · Vehículo · Operador</text>
+<line x1="792" y1="196" x2="1228" y2="196" stroke="#F1F5F9"/>
+<circle cx="802" cy="224" r="7" fill="#FF7A45"/>
+<line x1="802" y1="234" x2="802" y2="266" stroke="#CBD5E1" stroke-dasharray="3 3"/>
+<rect x="797" y="266" width="10" height="10" fill="#0A1633"/>
+<text x="822" y="221" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">ORIGEN</text>
+<text x="822" y="238" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">CDMX · CP 02300</text>
+<text x="822" y="266" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">DESTINO · 720 km</text>
+<text x="822" y="283" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">Monterrey, NL · CP 64000</text>
+<line x1="792" y1="308" x2="1228" y2="308" stroke="#F1F5F9"/>
+<text x="792" y="324" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">MERCANCÍA</text>
+<text x="792" y="342" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">50212200 · Pan industrial empacado</text>
+<text x="792" y="358" font-family="-apple-system" font-size="11" fill="#334155">1,000 cajas · 12,000 kg · $850,000 valor</text>
+<text x="1218" y="336" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#FF7A45">+ otra mercancía</text>
+<line x1="792" y1="374" x2="1228" y2="374" stroke="#F1F5F9"/>
+<text x="792" y="390" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">VEHÍCULO</text>
+<text x="792" y="408" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">T-038 · AB-12-34 · Kenworth T680 2022</text>
+<text x="792" y="424" font-family="-apple-system" font-size="11" fill="#334155">Permiso SCT TPAF01-CF-12345/2024 · Quálitas póliza vigente</text>
+<text x="792" y="440" font-family="-apple-system" font-size="11" fill="#334155">Remolque R-052 · CTR004 caja seca 53' · TR-99-88</text>
+<line x1="792" y1="458" x2="1228" y2="458" stroke="#F1F5F9"/>
+<text x="792" y="474" font-family="-apple-system" font-size="9" font-weight="700" fill="#64748B" letter-spacing="1.2">OPERADOR</text>
+<text x="792" y="492" font-family="-apple-system" font-size="12" font-weight="600" fill="#0A1633">Pedro Pérez Hernández · Lic F1234567 vigente</text>
+<rect x="272" y="600" width="976" height="64" rx="12" fill="#F4F6FB"/>
+<text x="292" y="624" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.2">VALIDACIÓN PRE-SAT</text>
+<text x="292" y="644" font-family="-apple-system" font-size="12" fill="#16A34A">✓ Todos los campos válidos · listo para timbrar con Diverza</text>
+<rect x="928" y="616" width="140" height="32" rx="16" fill="#FFFFFF" stroke="#CBD5E1"/>
+<text x="998" y="636" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="600" fill="#334155">Vista previa XML</text>
+<rect x="1080" y="616" width="172" height="32" rx="16" fill="#FF7A45"/>
+<text x="1166" y="636" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">Timbrar con SAT →</text>
+</g>
+</svg>

@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 836" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1280" height="36" fill="#E5E7EB"/>
+<circle cx="14" cy="18" r="6" fill="#FF5F57"/>
+<circle cx="30" cy="18" r="6" fill="#FEBC2E"/>
+<circle cx="46" cy="18" r="6" fill="#28C840"/>
+<rect x="80" y="8" width="1120" height="20" rx="10" fill="#FFFFFF"/>
+<text x="640" y="22" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">admin.g3logistics.mx/invoicing/carta-porte</text>
+<g transform="translate(0, 36)">
+<rect width="240" height="800" fill="#0A1633"/>
+<g transform="translate(28, 28)">
+  <text font-family="Arial Black" font-size="22" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-1">G3</text>
+  <text x="42" y="-2" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF" letter-spacing="2.5">ADMIN</text>
+</g>
+<text x="32" y="113" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">▦</text>
+<text x="56" y="113" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Dashboard</text>
+<text x="32" y="157" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🛣</text>
+<text x="56" y="157" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Viajes</text>
+<rect x="16" y="180" width="208" height="36" rx="8" fill="rgba(255,122,69,0.15)"/>
+<rect x="16" y="180" width="3" height="36" fill="#FF7A45"/>
+<text x="32" y="201" font-family="-apple-system" font-size="14" fill="#FFFFFF">📄</text>
+<text x="56" y="201" font-family="-apple-system" font-size="13" font-weight="700" fill="#FFFFFF">Cartas Porte</text>
+<text x="32" y="245" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">🚚</text>
+<text x="56" y="245" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Flota</text>
+<text x="32" y="289" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">👥</text>
+<text x="56" y="289" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Operadores</text>
+<text x="32" y="333" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">📡</text>
+<text x="56" y="333" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Monitor</text>
+<text x="32" y="377" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">💳</text>
+<text x="56" y="377" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Planes</text>
+<text x="32" y="421" font-family="-apple-system" font-size="14" fill="rgba(255,255,255,0.55)">⚙</text>
+<text x="56" y="421" font-family="-apple-system" font-size="13" font-weight="500" fill="rgba(255,255,255,0.55)">Ajustes</text>
+<rect x="16" y="728" width="208" height="56" rx="10" fill="rgba(255,255,255,0.04)"/>
+<circle cx="40" cy="756" r="14" fill="#FF7A45"/>
+<text x="40" y="760" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#FFFFFF">PP</text>
+<text x="64" y="753" font-family="-apple-system" font-size="12" font-weight="600" fill="#FFFFFF">Pedro Pérez</text>
+<text x="64" y="768" font-family="-apple-system" font-size="10" fill="rgba(255,255,255,0.55)">Transportes Acme</text>
+<rect x="240" y="0" width="1040" height="64" fill="#FFFFFF"/>
+<line x1="240" y1="64" x2="1280" y2="64" stroke="#F1F5F9"/>
+<text x="272" y="26" font-family="-apple-system" font-size="11" fill="#64748B">Cartas Porte / CP-00248</text>
+<text x="272" y="42" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">CP · 00248 · Timbrada por SAT</text>
+<text x="272" y="56" font-family="-apple-system" font-size="11" fill="#64748B">UUID A1B2C3D4-E5F6-7890-ABCD-EF1234567890 · 28 may 2026 14:32</text>
+<rect x="1000" y="18" width="200" height="32" rx="16" fill="#F8FAFC"/>
+<text x="1015" y="38" font-family="-apple-system" font-size="11" fill="#64748B">🔍 Buscar...</text>
+<circle cx="1230" cy="34" r="14" fill="#F8FAFC"/>
+<text x="1230" y="38" text-anchor="middle" font-size="12" fill="#334155">🔔</text>
+<circle cx="1236" cy="28" r="5" fill="#FF7A45"/>
+<text x="1236" y="31" text-anchor="middle" font-family="-apple-system" font-size="7" font-weight="700" fill="#FFFFFF">3</text>
+<rect x="272" y="96" width="976" height="60" rx="12" fill="#DCFCE7"/>
+<rect x="272" y="96" width="4" height="60" fill="#16A34A"/>
+<circle cx="310" cy="126" r="14" fill="#16A34A"/>
+<text x="310" y="131" text-anchor="middle" font-size="14" fill="#FFFFFF" font-weight="700">✓</text>
+<text x="336" y="120" font-family="-apple-system" font-size="14" font-weight="800" fill="#16A34A">Timbrada al primer intento por SAT</text>
+<text x="336" y="140" font-family="-apple-system" font-size="11" fill="#334155">PAC Diverza · 8.3 segundos · enviada por correo a contacto@bimbo.com.mx</text>
+<rect x="272" y="176" width="520" height="600" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<rect x="284" y="188" width="496" height="32" rx="6" fill="#F8FAFC"/>
+<text x="296" y="208" font-family="-apple-system" font-size="11" font-weight="700" fill="#334155">📄 carta-porte-CP-00248.pdf</text>
+<text x="762" y="208" text-anchor="end" font-family="-apple-system" font-size="11" fill="#64748B">2 pp · 142 KB</text>
+<rect x="296" y="236" width="472" height="516" fill="#FFFFFF" stroke="#CBD5E1"/>
+<rect x="296" y="236" width="472" height="40" fill="#0A1633"/>
+<text x="312" y="254" font-family="Arial Black" font-size="12" font-style="italic" fill="#FFFFFF">G3 LOGISTICS</text>
+<text x="312" y="268" font-family="-apple-system" font-size="8" fill="rgba(255,255,255,0.7)" letter-spacing="1">CFDI v4.0 + COMPLEMENTO CARTA PORTE 3.0</text>
+<text x="752" y="260" text-anchor="end" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">CP-00248</text>
+<text x="312" y="296" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">EMISOR</text>
+<text x="312" y="310" font-family="JetBrains Mono, monospace" font-size="9" fill="#0A1633">GLO260101AB1 · G3 LOGISTICS SA DE CV</text>
+<text x="312" y="332" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">RECEPTOR</text>
+<text x="312" y="346" font-family="JetBrains Mono, monospace" font-size="9" fill="#0A1633">GBS210101XYZ · GRUPO BIMBO SA DE CV</text>
+<text x="312" y="368" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">FOLIO FISCAL UUID</text>
+<text x="312" y="382" font-family="JetBrains Mono, monospace" font-size="9" fill="#0A1633">A1B2C3D4-E5F6-7890-ABCD-EF1234567890</text>
+<text x="312" y="404" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">FECHA TIMBRADO</text>
+<text x="312" y="418" font-family="JetBrains Mono, monospace" font-size="9" fill="#0A1633">2026-05-28T14:32:18</text>
+<rect x="312" y="440" width="440" height="24" fill="#F4F6FB"/>
+<text x="320" y="455" font-family="-apple-system" font-size="8" font-weight="700" fill="#0A1633" letter-spacing="1">MERCANCÍA · 12,000 KG</text>
+<text x="320" y="470" font-family="-apple-system" font-size="9" fill="#334155">50212200 · Pan industrial empacado · 1,000 cajas</text>
+<circle cx="324" cy="502" r="5" fill="#FF7A45"/>
+<line x1="324" y1="507" x2="324" y2="524" stroke="#CBD5E1"/>
+<rect x="320" y="524" width="8" height="8" fill="#0A1633"/>
+<text x="340" y="506" font-family="-apple-system" font-size="9" fill="#0A1633">CDMX, CP 02300</text>
+<text x="340" y="530" font-family="-apple-system" font-size="9" fill="#0A1633">Monterrey, NL, CP 64000 · 720 km</text>
+<text x="312" y="552" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">VEHÍCULO</text>
+<text x="312" y="566" font-family="-apple-system" font-size="9" fill="#0A1633">Kenworth T680 · placas AB-12-34 · Perm SCT TPAF01-CF-12345/2024</text>
+<text x="312" y="584" font-family="-apple-system" font-size="8" font-weight="700" fill="#64748B" letter-spacing="1.2">OPERADOR</text>
+<text x="312" y="598" font-family="-apple-system" font-size="9" fill="#0A1633">Pedro Pérez Hernández · Licencia federal F1234567</text>
+<line x1="312" y1="672" x2="752" y2="672" stroke="#CBD5E1"/>
+<text x="312" y="690" font-family="-apple-system" font-size="7" font-weight="700" fill="#64748B" letter-spacing="1">SELLO DIGITAL SAT</text>
+<text x="312" y="702" font-family="JetBrains Mono, monospace" font-size="6" fill="#334155">MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAA...</text>
+<text x="312" y="714" font-family="JetBrains Mono, monospace" font-size="6" fill="#334155">oIBAQDLT3VfmCAYTV5gOhGq9N7TpQ8nM3X5kKZ8WfPxQ4Yj9...</text>
+<rect x="696" y="684" width="56" height="56" fill="#FFFFFF" stroke="#0A1633"/>
+<rect x="700" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="706" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="712" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="718" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="724" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="736" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="742" y="688" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="694" width="5" height="5" fill="#0A1633"/>
+<rect x="712" y="694" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="694" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="700" width="5" height="5" fill="#0A1633"/>
+<rect x="706" y="700" width="5" height="5" fill="#0A1633"/>
+<rect x="724" y="700" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="700" width="5" height="5" fill="#0A1633"/>
+<rect x="742" y="700" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="706" width="5" height="5" fill="#0A1633"/>
+<rect x="718" y="706" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="706" width="5" height="5" fill="#0A1633"/>
+<rect x="736" y="706" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="712" width="5" height="5" fill="#0A1633"/>
+<rect x="712" y="712" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="712" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="706" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="712" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="718" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="724" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="736" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="742" y="718" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="724" width="5" height="5" fill="#0A1633"/>
+<rect x="718" y="724" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="724" width="5" height="5" fill="#0A1633"/>
+<rect x="736" y="724" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="730" width="5" height="5" fill="#0A1633"/>
+<rect x="712" y="730" width="5" height="5" fill="#0A1633"/>
+<rect x="730" y="730" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="688" width="15" height="15" fill="#0A1633"/>
+<rect x="703" y="691" width="9" height="9" fill="#FFFFFF"/>
+<rect x="705" y="693" width="5" height="5" fill="#0A1633"/>
+<rect x="733" y="688" width="15" height="15" fill="#0A1633"/>
+<rect x="736" y="691" width="9" height="9" fill="#FFFFFF"/>
+<rect x="738" y="693" width="5" height="5" fill="#0A1633"/>
+<rect x="700" y="721" width="15" height="15" fill="#0A1633"/>
+<rect x="703" y="724" width="9" height="9" fill="#FFFFFF"/>
+<rect x="705" y="726" width="5" height="5" fill="#0A1633"/>
+<rect x="816" y="176" width="432" height="600" rx="12" fill="#FFFFFF" stroke="#F1F5F9"/>
+<text x="836" y="200" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.5">DATOS DEL TIMBRE FISCAL</text>
+<text x="836" y="224" font-family="-apple-system" font-size="11" fill="#64748B">UUID SAT</text>
+<text x="1228" y="224" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">A1B2C3D4...EF1234567890</text>
+<line x1="836" y1="234" x2="1228" y2="234" stroke="#F1F5F9"/>
+<text x="836" y="252" font-family="-apple-system" font-size="11" fill="#64748B">Fecha timbrado</text>
+<text x="1228" y="252" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">2026-05-28 14:32:18</text>
+<line x1="836" y1="262" x2="1228" y2="262" stroke="#F1F5F9"/>
+<text x="836" y="280" font-family="-apple-system" font-size="11" fill="#64748B">PAC</text>
+<text x="1228" y="280" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">Diverza · 8.3 segundos</text>
+<line x1="836" y1="290" x2="1228" y2="290" stroke="#F1F5F9"/>
+<text x="836" y="308" font-family="-apple-system" font-size="11" fill="#64748B">No. certificado SAT</text>
+<text x="1228" y="308" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">00001000000500000001</text>
+<line x1="836" y1="318" x2="1228" y2="318" stroke="#F1F5F9"/>
+<text x="836" y="336" font-family="-apple-system" font-size="11" fill="#64748B">Total facturado</text>
+<text x="1228" y="336" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="600" fill="#0A1633">$21,460.00 MXN</text>
+<line x1="836" y1="346" x2="1228" y2="346" stroke="#F1F5F9"/>
+<text x="836" y="384" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.5">QR DE VERIFICACIÓN PÚBLICA</text>
+<text x="836" y="412" font-family="-apple-system" font-size="10" fill="#334155">El inspector SAT lo escanea y verifica autenticidad en línea</text>
+<rect x="962" y="424" width="140" height="140" fill="#FFFFFF" stroke="#0A1633" stroke-width="2"/>
+<rect x="970" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="1005" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="1075" y="432" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="439" width="6" height="6" fill="#0A1633"/>
+<rect x="1019" y="439" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="439" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="1033" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="446" width="6" height="6" fill="#0A1633"/>
+<rect x="977" y="453" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="453" width="6" height="6" fill="#0A1633"/>
+<rect x="1047" y="453" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="991" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="1061" y="460" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="467" width="6" height="6" fill="#0A1633"/>
+<rect x="1005" y="467" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="467" width="6" height="6" fill="#0A1633"/>
+<rect x="1075" y="467" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="1019" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="474" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="481" width="6" height="6" fill="#0A1633"/>
+<rect x="1033" y="481" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="481" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="977" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="1047" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="488" width="6" height="6" fill="#0A1633"/>
+<rect x="991" y="495" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="495" width="6" height="6" fill="#0A1633"/>
+<rect x="1061" y="495" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="1005" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="1075" y="502" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="509" width="6" height="6" fill="#0A1633"/>
+<rect x="1019" y="509" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="509" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="998" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="1033" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="1054" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="516" width="6" height="6" fill="#0A1633"/>
+<rect x="977" y="523" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="523" width="6" height="6" fill="#0A1633"/>
+<rect x="1047" y="523" width="6" height="6" fill="#0A1633"/>
+<rect x="984" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="991" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="1012" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="1026" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="1061" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="1068" y="530" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="537" width="6" height="6" fill="#0A1633"/>
+<rect x="1005" y="537" width="6" height="6" fill="#0A1633"/>
+<rect x="1040" y="537" width="6" height="6" fill="#0A1633"/>
+<rect x="1075" y="537" width="6" height="6" fill="#0A1633"/>
+<rect x="970" y="432" width="36" height="36" fill="#FFFFFF"/>
+<rect x="970" y="432" width="36" height="36" fill="none" stroke="#0A1633" stroke-width="3"/>
+<rect x="980" y="442" width="16" height="16" fill="#0A1633"/>
+<rect x="1058" y="432" width="36" height="36" fill="#FFFFFF"/>
+<rect x="1058" y="432" width="36" height="36" fill="none" stroke="#0A1633" stroke-width="3"/>
+<rect x="1068" y="442" width="16" height="16" fill="#0A1633"/>
+<rect x="970" y="520" width="36" height="36" fill="#FFFFFF"/>
+<rect x="970" y="520" width="36" height="36" fill="none" stroke="#0A1633" stroke-width="3"/>
+<rect x="980" y="530" width="16" height="16" fill="#0A1633"/>
+<text x="1032" y="580" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">verify.g3logistics.mx/cp/A1B2C3D4</text>
+<text x="836" y="608" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.5">ACCIONES</text>
+<rect x="836" y="636" width="392" height="36" rx="8" fill="#FFFFFF" stroke="#0A1633"/>
+<text x="1032" y="659" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">📄 Descargar PDF</text>
+<rect x="836" y="684" width="392" height="36" rx="8" fill="#FFFFFF" stroke="#0A1633"/>
+<text x="1032" y="707" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">💾 Descargar XML</text>
+<rect x="836" y="732" width="392" height="36" rx="8" fill="#FFFFFF" stroke="#0A1633"/>
+<text x="1032" y="755" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#0A1633">✉ Reenviar al cliente</text>
+<rect x="836" y="780" width="392" height="36" rx="8" fill="#FEE2E2" stroke="#DC2626"/>
+<text x="1032" y="803" text-anchor="middle" font-family="-apple-system" font-size="11" font-weight="700" fill="#DC2626">⚠ Cancelar carta porte</text>
+</g>
+</svg>
