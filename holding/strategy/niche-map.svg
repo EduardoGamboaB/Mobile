@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 2400" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="1920" height="2400" fill="#FFFFFF"/>
+<rect width="1920" height="260" fill="#0A1633"/>
+<defs>
+  <radialGradient id="hg" cx="0.85" cy="0.15" r="0.6">
+    <stop offset="0" stop-color="#FF7A45" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#FF7A45" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1920" height="260" fill="url(#hg)"/>
+<g transform="translate(80,70)">
+  <text font-family="Arial Black" font-size="44" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-2">G3</text>
+  <text x="80" y="32" font-family="-apple-system" font-size="16" font-weight="700" fill="#FFFFFF" letter-spacing="3">LOGISTICS</text>
+</g>
+<text x="80" y="170" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="5">ESTRATEGIA DE NICHO · 2026</text>
+<text x="80" y="222" font-family="-apple-system" font-size="42" font-weight="900" fill="#FFFFFF" letter-spacing="-1.5">7 nichos analizados · 3 recomendados como punta de lanza.</text>
+<text x="80" y="340" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">MATRIZ ATRACTIVO × ESFUERZO</text>
+<text x="80" y="378" font-family="-apple-system" font-size="26" font-weight="800" fill="#0A1633" letter-spacing="-0.5">¿Qué nicho atacar primero? · Los del cuadrante superior izquierdo</text>
+<rect x="200" y="440" width="1640" height="850" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+<line x1="200" y1="865" x2="1840" y2="865" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="6 4"/>
+<line x1="1020" y1="440" x2="1020" y2="1290" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="200" y="440" width="820" height="425" fill="#FF7A45" opacity="0.06"/>
+<text x="220" y="470" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="2">★ QUICK WINS</text>
+<text x="1820" y="470" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="2">APUESTAS GRANDES</text>
+<text x="220" y="1278" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="2">PROYECTOS PILOTO</text>
+<text x="1820" y="1278" text-anchor="end" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="2">EVITAR</text>
+<text x="1020" y="415" text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#334155" letter-spacing="3">↑ ATRACTIVO ALTO (tamaño · dolor · regulación)</text>
+<text x="1020" y="1328" text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#334155" letter-spacing="3">↓ ATRACTIVO BAJO</text>
+<g transform="translate(170,865) rotate(-90)">
+<text text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#334155" letter-spacing="2">← BAJO ESFUERZO     ALTO ESFUERZO →</text>
+</g>
+<circle cx="528.0" cy="567.5" r="48" fill="#FF7A45" opacity="0.15"/>
+<circle cx="528.0" cy="567.5" r="36" fill="#FF7A45"/>
+<text x="528.0" y="575.5" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">7</text>
+<text x="528.0" y="625.5" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Carta porte 3.0</text>
+<text x="528.0" y="641.5" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 27/30</text>
+<circle cx="692.0" cy="627.0" r="48" fill="#FF7A45" opacity="0.15"/>
+<circle cx="692.0" cy="627.0" r="36" fill="#FF7A45"/>
+<text x="692.0" y="635.0" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">5</text>
+<text x="692.0" y="685.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Cooperativas H-C</text>
+<text x="692.0" y="701.0" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 25/30</text>
+<circle cx="938.0" cy="652.5" r="48" fill="#FF7A45" opacity="0.15"/>
+<circle cx="938.0" cy="652.5" r="36" fill="#FF7A45"/>
+<text x="938.0" y="660.5" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">1</text>
+<text x="938.0" y="710.5" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Cadena de frío</text>
+<text x="938.0" y="726.5" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 25/30</text>
+<circle cx="1380.8" cy="695.0" r="28" fill="#1B2D5C"/>
+<text x="1380.8" y="703.0" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">2</text>
+<text x="1380.8" y="745.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Materiales peligrosos</text>
+<text x="1380.8" y="761.0" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 25/30</text>
+<circle cx="1594.0" cy="593.0" r="28" fill="#1B2D5C"/>
+<text x="1594.0" y="601.0" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">3</text>
+<text x="1594.0" y="643.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Cross-border T-MEC</text>
+<text x="1594.0" y="659.0" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 26/30</text>
+<circle cx="1348.0" cy="822.5" r="28" fill="#1B2D5C"/>
+<text x="1348.0" y="830.5" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">4</text>
+<text x="1348.0" y="872.5" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Auto-carrier (OEM)</text>
+<text x="1348.0" y="888.5" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 23/30</text>
+<circle cx="1102.0" cy="1035.0" r="28" fill="#1B2D5C"/>
+<text x="1102.0" y="1043.0" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">6</text>
+<text x="1102.0" y="1085.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633">Mujeres operadoras</text>
+<text x="1102.0" y="1101.0" text-anchor="middle" font-family="-apple-system" font-size="10" fill="#64748B">Score 19/30</text>
+<text x="610" y="622" text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="3">⭐ LOS 3 RECOMENDADOS</text>
+<text x="80" y="1390" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">PLAN DE EJECUCIÓN · 24 MESES</text>
+<text x="80" y="1428" font-family="-apple-system" font-size="26" font-weight="800" fill="#0A1633" letter-spacing="-0.5">10,000 unidades · $4-6M MXN/mes antes que llegue Fase 3 del growth plan</text>
+<rect x="80" y="1490" width="566" height="660" rx="20" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<rect x="80" y="1490" width="566" height="80" rx="20" fill="#FF7A45"/>
+<rect x="80" y="1540" width="566" height="30" fill="#FF7A45"/>
+<text x="110" y="1548" font-family="-apple-system" font-size="48" font-weight="900" fill="rgba(255,255,255,0.4)">7</text>
+<text x="616" y="1528" text-anchor="end" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">Carta porte 3.0</text>
+<text x="616" y="1552" text-anchor="end" font-family="-apple-system" font-size="12" font-weight="700" fill="rgba(255,255,255,0.85)" letter-spacing="2">Q3 2026 · YA</text>
+<text x="104" y="1600" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">El dolor más urgente y universal. Gancho p</text>
+<text x="104" y="1622" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">erfecto para cliente nuevo.</text>
+<text x="104" y="1666" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">PLAN DE EJECUCIÓN</text>
+<circle cx="112" cy="1683" r="4" fill="#FF7A45"/>
+<text x="122" y="1688" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Mes 1 ·</text>
+<text x="122" y="1704" font-family="-apple-system" font-size="12" fill="#334155">Módulo carta porte 3.0 + contrato PAC SAT</text>
+<circle cx="112" cy="1729" r="4" fill="#FF7A45"/>
+<text x="122" y="1734" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Mes 2 ·</text>
+<text x="122" y="1750" font-family="-apple-system" font-size="12" fill="#334155">Beta con 20 clientes existentes</text>
+<circle cx="112" cy="1775" r="4" fill="#FF7A45"/>
+<text x="122" y="1780" font-family="-apple-system" font-size="12" fill="#334155">Mes 3 · Release: "Tu carta porte garantizada · si SAT rechaza, reembolsamos"</text>
+<text x="104" y="1826" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">MÉTRICA DE ÉXITO</text>
+<text x="104" y="1846" font-family="-apple-system" font-size="12" fill="#334155">500 clientes nuevos en 6 meses</text>
+<text x="104" y="1864" font-family="-apple-system" font-size="12" fill="#334155">95% aceptadas SAT al primer intento</text>
+<rect x="676" y="1490" width="566" height="660" rx="20" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<rect x="676" y="1490" width="566" height="80" rx="20" fill="#FF7A45"/>
+<rect x="676" y="1540" width="566" height="30" fill="#FF7A45"/>
+<text x="706" y="1548" font-family="-apple-system" font-size="48" font-weight="900" fill="rgba(255,255,255,0.4)">5</text>
+<text x="1212" y="1528" text-anchor="end" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">Cooperativas</text>
+<text x="1212" y="1552" text-anchor="end" font-family="-apple-system" font-size="12" font-weight="700" fill="rgba(255,255,255,0.85)" letter-spacing="2">Q4 2026</text>
+<text x="700" y="1600" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">Acceso a 10-50K operadores con un solo dea</text>
+<text x="700" y="1622" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">l. Audiencia natural de G3.</text>
+<text x="700" y="1666" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">PLAN DE EJECUCIÓN</text>
+<circle cx="708" cy="1683" r="4" fill="#FF7A45"/>
+<text x="718" y="1688" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Mes 1-2 ·</text>
+<text x="718" y="1704" font-family="-apple-system" font-size="12" fill="#334155">Identificar 10 cooperativas (CANACAR, AMTI)</text>
+<circle cx="708" cy="1729" r="4" fill="#FF7A45"/>
+<text x="718" y="1734" font-family="-apple-system" font-size="12" fill="#334155">Mes 3-4 · Firmar 2-3 partnerships piloto · sub-marca</text>
+<circle cx="708" cy="1759" r="4" fill="#FF7A45"/>
+<text x="718" y="1764" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Mes 5-6 ·</text>
+<text x="718" y="1780" font-family="-apple-system" font-size="12" fill="#334155">Onboarding masivo + evento en patio</text>
+<text x="700" y="1826" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">MÉTRICA DE ÉXITO</text>
+<text x="700" y="1846" font-family="-apple-system" font-size="12" fill="#334155">3 cooperativas firmadas</text>
+<text x="700" y="1864" font-family="-apple-system" font-size="12" fill="#334155">5,000 operadores activos</text>
+<text x="700" y="1882" font-family="-apple-system" font-size="12" fill="#334155">15% conversión Free→Starter</text>
+<rect x="1272" y="1490" width="566" height="660" rx="20" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<rect x="1272" y="1490" width="566" height="80" rx="20" fill="#FF7A45"/>
+<rect x="1272" y="1540" width="566" height="30" fill="#FF7A45"/>
+<text x="1302" y="1548" font-family="-apple-system" font-size="48" font-weight="900" fill="rgba(255,255,255,0.4)">1</text>
+<text x="1808" y="1528" text-anchor="end" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">Cadena de frío</text>
+<text x="1808" y="1552" text-anchor="end" font-family="-apple-system" font-size="12" font-weight="700" fill="rgba(255,255,255,0.85)" letter-spacing="2">Q1 2027</text>
+<text x="1296" y="1600" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">Sweet spot: alto valor, alto pago, regulac</text>
+<text x="1296" y="1622" font-family="-apple-system" font-size="14" font-weight="600" fill="#0A1633">ión específica, sin líder claro.</text>
+<text x="1296" y="1666" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">PLAN DE EJECUCIÓN</text>
+<circle cx="1304" cy="1683" r="4" fill="#FF7A45"/>
+<text x="1314" y="1688" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Q4 2026 ·</text>
+<text x="1314" y="1704" font-family="-apple-system" font-size="12" fill="#334155">Selección sensores (Carrier, Thermo King)</text>
+<circle cx="1304" cy="1729" r="4" fill="#FF7A45"/>
+<text x="1314" y="1734" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Q1 2027 ·</text>
+<text x="1314" y="1750" font-family="-apple-system" font-size="12" fill="#334155">Add-on "Cold Chain" en G3 Admin</text>
+<circle cx="1304" cy="1775" r="4" fill="#FF7A45"/>
+<text x="1314" y="1780" font-family="-apple-system" font-size="12" font-weight="700" fill="#0F172A">Q2 2027 ·</text>
+<text x="1314" y="1796" font-family="-apple-system" font-size="12" fill="#334155">3 clientes ancla (Lala, Sigma, Frialsa)</text>
+<text x="1296" y="1842" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="3">MÉTRICA DE ÉXITO</text>
+<text x="1296" y="1862" font-family="-apple-system" font-size="12" fill="#334155">5 clientes activos</text>
+<text x="1296" y="1880" font-family="-apple-system" font-size="12" fill="#334155">$500K MXN/mes revenue</text>
+<text x="1296" y="1898" font-family="-apple-system" font-size="12" fill="#334155">0 incidentes cadena rota</text>
+<rect x="80" y="2220" width="1760" height="160" rx="22" fill="#0A1633"/>
+<text x="120" y="2270" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">PRINCIPIO ESTRATÉGICO</text>
+<text x="120" y="2316" font-family="-apple-system" font-size="28" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">El comprador no compra una visión.</text>
+<text x="120" y="2350" font-family="-apple-system" font-size="20" fill="rgba(255,255,255,0.75)">Compra una solución específica a SU dolor de hoy. Los 3 nichos son los puntos de entrada.</text>
+<line x1="80" y1="2290" x2="1840" y2="2290" stroke="#F1F5F9"/>
+<text x="80" y="2320" font-family="Arial Black" font-size="20" font-weight="900" font-style="italic" fill="#0A1633" letter-spacing="-1">G3</text>
+<text x="124" y="2319" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633" letter-spacing="3">LOGISTICS</text>
+<text x="80" y="2344" font-family="-apple-system" font-size="12" fill="#64748B">Análisis completo en holding/strategy/niche-opportunities.md</text>
+<text x="1840" y="2319" text-anchor="end" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="3">CONFIDENCIAL · NDA</text>
+<text x="1840" y="2344" text-anchor="end" font-family="-apple-system" font-size="12" fill="#64748B">Estrategia complementaria al growth plan · 2026</text>
+</svg>
