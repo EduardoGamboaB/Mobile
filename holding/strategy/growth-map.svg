@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2800" font-family="-apple-system, BlinkMacSystemFont, Inter, sans-serif">
+<rect width="2000" height="2800" fill="#FFFFFF"/>
+<rect width="2000" height="280" fill="#0A1633"/>
+<defs>
+  <radialGradient id="hg" cx="0.85" cy="0.15" r="0.6">
+    <stop offset="0" stop-color="#FF7A45" stop-opacity="0.18"/>
+    <stop offset="1" stop-color="#FF7A45" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="2000" height="280" fill="url(#hg)"/>
+<g transform="translate(80,72)">
+  <text font-family="Arial Black" font-size="44" font-weight="900" font-style="italic" fill="#FFFFFF" letter-spacing="-2">G3</text>
+  <text x="80" y="32" font-family="-apple-system" font-size="16" font-weight="700" fill="#FFFFFF" letter-spacing="3">LOGISTICS</text>
+</g>
+<text x="80" y="180" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="5">PLAN DE CRECIMIENTO · 2026–2029</text>
+<text x="80" y="232" font-family="-apple-system" font-size="42" font-weight="900" fill="#FFFFFF" letter-spacing="-1.5">De plataforma operativa a ecosistema multi-lado.</text>
+<rect x="80" y="360" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#64748B" stroke-width="3"/>
+<circle cx="120" cy="400" r="22" fill="#64748B"/>
+<text x="120" y="407" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">0</text>
+<text x="154" y="394" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q2 2026</text>
+<rect x="154" y="404" width="60" height="18" rx="9" fill="#16A34A"/>
+<text x="184" y="417" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">AHORA</text>
+<text x="104" y="458" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Plataforma core</text>
+<text x="104" y="482" font-family="-apple-system" font-size="13" fill="#334155">Drive + Admin</text>
+<text x="104" y="518" font-family="-apple-system" font-size="11" font-weight="700" fill="#64748B" letter-spacing="1.5">G3 DRIVE · ADMIN</text>
+<text x="104" y="556" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="493" y="556" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$500K/mes</text>
+<rect x="547" y="360" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#3B82F6" stroke-width="3"/>
+<circle cx="587" cy="400" r="22" fill="#3B82F6"/>
+<text x="587" y="407" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">1</text>
+<text x="621" y="394" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q3-Q4 26</text>
+<text x="571" y="458" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">IoT + Telemetría</text>
+<text x="571" y="482" font-family="-apple-system" font-size="13" fill="#334155">Sensores en tractos y trailers</text>
+<text x="571" y="518" font-family="-apple-system" font-size="11" font-weight="700" fill="#3B82F6" letter-spacing="1.5">G3 FLEET</text>
+<text x="571" y="556" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="960" y="556" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$1.5M/mes</text>
+<rect x="1014" y="360" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<circle cx="1054" cy="400" r="22" fill="#FF7A45"/>
+<text x="1054" y="407" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">2</text>
+<text x="1088" y="394" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q1-Q2 27</text>
+<text x="1038" y="458" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Roadside on-demand</text>
+<text x="1038" y="482" font-family="-apple-system" font-size="13" fill="#334155">Grúa · Llantera · Mecánico</text>
+<text x="1038" y="518" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="1.5">G3 MARKET</text>
+<text x="1038" y="556" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="1427" y="556" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$3M/mes</text>
+<rect x="1477" y="356" width="445" height="228" rx="22" fill="#FF7A45" opacity="0.15"/>
+<rect x="1481" y="360" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<circle cx="1521" cy="400" r="22" fill="#FF7A45"/>
+<text x="1521" y="407" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">3</text>
+<text x="1555" y="394" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q3-Q4 27</text>
+<rect x="1555" y="404" width="80" height="18" rx="9" fill="#FF7A45"/>
+<text x="1595" y="417" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="700" fill="#FFFFFF">EL CORE</text>
+<text x="1505" y="458" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Marketplace Fletes</text>
+<text x="1505" y="482" font-family="-apple-system" font-size="13" fill="#334155">Embarcadores ↔ transportistas</text>
+<text x="1505" y="518" font-family="-apple-system" font-size="11" font-weight="700" fill="#FF7A45" letter-spacing="1.5">G3 FREIGHT</text>
+<text x="1505" y="556" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="1894" y="556" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$7M/mes</text>
+<line x1="517" y1="470" x2="547" y2="470" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="539,465 547,470 539,475" fill="#64748B"/>
+<line x1="984" y1="470" x2="1014" y2="470" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="1006,465 1014,470 1006,475" fill="#64748B"/>
+<line x1="1451" y1="470" x2="1481" y2="470" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="1473,465 1481,470 1473,475" fill="#64748B"/>
+<rect x="80" y="630" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#A855F7" stroke-width="3"/>
+<circle cx="120" cy="670" r="22" fill="#A855F7"/>
+<text x="120" y="677" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">4</text>
+<text x="154" y="664" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q1-Q2 28</text>
+<text x="104" y="728" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Talent / Operadores</text>
+<text x="104" y="752" font-family="-apple-system" font-size="13" fill="#334155">Choferes ↔ flotas</text>
+<text x="104" y="788" font-family="-apple-system" font-size="11" font-weight="700" fill="#A855F7" letter-spacing="1.5">G3 TALENT</text>
+<text x="104" y="826" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="493" y="826" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$10M/mes</text>
+<rect x="547" y="630" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#A855F7" stroke-width="3"/>
+<circle cx="587" cy="670" r="22" fill="#A855F7"/>
+<text x="587" y="677" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">5</text>
+<text x="621" y="664" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q3-Q4 28</text>
+<text x="571" y="728" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Renta de Activos</text>
+<text x="571" y="752" font-family="-apple-system" font-size="13" fill="#334155">Tractos + remolques</text>
+<text x="571" y="788" font-family="-apple-system" font-size="11" font-weight="700" fill="#A855F7" letter-spacing="1.5">G3 MARKET (EXT)</text>
+<text x="571" y="826" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="960" y="826" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$12M/mes</text>
+<rect x="1014" y="630" width="437" height="220" rx="18" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+<circle cx="1054" cy="670" r="22" fill="#16A34A"/>
+<text x="1054" y="677" text-anchor="middle" font-family="-apple-system" font-size="20" font-weight="900" fill="#FFFFFF">6</text>
+<text x="1088" y="664" font-family="-apple-system" font-size="10" font-weight="700" fill="#64748B" letter-spacing="2">Q1-Q2 29</text>
+<text x="1038" y="728" font-family="-apple-system" font-size="22" font-weight="800" fill="#0A1633" letter-spacing="-0.5">Finance + Seguros</text>
+<text x="1038" y="752" font-family="-apple-system" font-size="13" fill="#334155">Crédito · pólizas · factoring</text>
+<text x="1038" y="788" font-family="-apple-system" font-size="11" font-weight="700" fill="#16A34A" letter-spacing="1.5">G3 FINANCE · G3 SECURE</text>
+<text x="1038" y="826" font-family="-apple-system" font-size="11" fill="#64748B">Revenue al cierre:</text>
+<text x="1427" y="826" text-anchor="end" font-family="-apple-system" font-size="18" font-weight="800" fill="#0A1633">$18M/mes</text>
+<rect x="1481" y="630" width="437" height="220" rx="18" fill="#0A1633"/>
+<text x="1505" y="674" font-family="-apple-system" font-size="12" font-weight="700" fill="#FF7A45" letter-spacing="3">CIERRE Q2 2029</text>
+<text x="1505" y="728" font-family="-apple-system" font-size="42" font-weight="900" fill="#FFFFFF" letter-spacing="-1.5">$18M</text>
+<text x="1505" y="756" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">MXN al mes</text>
+<text x="1505" y="800" font-family="-apple-system" font-size="22" font-weight="800" fill="#FFFFFF">~$220M MXN</text>
+<text x="1505" y="826" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">de ARR a los 36 meses</text>
+<line x1="517" y1="740" x2="547" y2="740" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="539,735 547,740 539,745" fill="#64748B"/>
+<line x1="984" y1="740" x2="1014" y2="740" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"/>
+<polygon points="1006,735 1014,740 1006,745" fill="#64748B"/>
+<rect x="80" y="950" width="1840" height="800" rx="22" fill="#F4F6FB"/>
+<text x="1000" y="996" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">CÓMO SE CONECTA TODO</text>
+<text x="1000" y="1040" text-anchor="middle" font-family="-apple-system" font-size="28" font-weight="900" fill="#0A1633" letter-spacing="-1">Plataforma core en el centro. 6 verticales que se nutren entre sí.</text>
+<circle cx="1000" cy="1430" r="120" fill="#0A1633"/>
+<text x="1000" y="1410" text-anchor="middle" font-family="-apple-system" font-size="14" font-weight="700" fill="#FF7A45" letter-spacing="2">PLATAFORMA</text>
+<text x="1000" y="1438" text-anchor="middle" font-family="-apple-system" font-size="22" font-weight="900" fill="#FFFFFF">G3 DRIVE</text>
+<text x="1000" y="1462" text-anchor="middle" font-family="-apple-system" font-size="22" font-weight="900" fill="#FFFFFF">G3 ADMIN</text>
+<text x="1000" y="1488" text-anchor="middle" font-family="-apple-system" font-size="11" fill="rgba(255,255,255,0.7)">Fase 0 · operando</text>
+<line x1="1000.0" y1="1310.0" x2="1000.0" y2="1220.0" stroke="#3B82F6" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="1000.0" cy="1150.0" r="70" fill="#FFFFFF" stroke="#3B82F6" stroke-width="3"/>
+<text x="1000.0" y="1138.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#3B82F6" letter-spacing="1">G3 Fleet</text>
+<text x="1000.0" y="1156.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">IoT + telemetría</text>
+<text x="1000.0" y="1174.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Sensores · cámaras IA fatiga</text>
+<line x1="1103.9230484541326" y1="1370.0" x2="1181.865334794732" y2="1325.0" stroke="#FF7A45" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="1242.4871130596428" cy="1290.0" r="70" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<text x="1242.4871130596428" y="1278.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FF7A45" letter-spacing="1">G3 Market</text>
+<text x="1242.4871130596428" y="1296.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Roadside on-demand</text>
+<text x="1242.4871130596428" y="1314.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Grúa · llantera · mecánico</text>
+<line x1="1103.9230484541326" y1="1490.0" x2="1181.865334794732" y2="1535.0" stroke="#FF7A45" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="1242.4871130596428" cy="1570.0" r="70" fill="#FFFFFF" stroke="#FF7A45" stroke-width="3"/>
+<text x="1242.4871130596428" y="1558.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#FF7A45" letter-spacing="1">G3 Freight</text>
+<text x="1242.4871130596428" y="1576.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Marketplace fletes</text>
+<text x="1242.4871130596428" y="1594.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Carta porte 3.0 auto</text>
+<line x1="1000.0" y1="1550.0" x2="1000.0" y2="1640.0" stroke="#A855F7" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="1000.0" cy="1710.0" r="70" fill="#FFFFFF" stroke="#A855F7" stroke-width="3"/>
+<text x="1000.0" y="1698.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#A855F7" letter-spacing="1">G3 Talent</text>
+<text x="1000.0" y="1716.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Operadores ↔ flotas</text>
+<text x="1000.0" y="1734.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Verificación SCT integrada</text>
+<line x1="896.0769515458674" y1="1490.0" x2="818.1346652052679" y2="1535.0" stroke="#A855F7" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="757.5128869403571" cy="1570.0" r="70" fill="#FFFFFF" stroke="#A855F7" stroke-width="3"/>
+<text x="757.5128869403571" y="1558.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#A855F7" letter-spacing="1">G3 Market+</text>
+<text x="757.5128869403571" y="1576.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Renta tractos/remolques</text>
+<text x="757.5128869403571" y="1594.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Garantía + GPS forzoso</text>
+<line x1="896.0769515458674" y1="1370.0" x2="818.134665205268" y2="1325.0" stroke="#16A34A" stroke-width="2" opacity="0.5" stroke-dasharray="6 4"/>
+<circle cx="757.5128869403572" cy="1290.0" r="70" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+<text x="757.5128869403572" y="1278.0" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="800" fill="#16A34A" letter-spacing="1">Finance+Secure</text>
+<text x="757.5128869403572" y="1296.0" text-anchor="middle" font-family="-apple-system" font-size="10" font-weight="600" fill="#0A1633">Crédito + seguros</text>
+<text x="757.5128869403572" y="1314.0" text-anchor="middle" font-family="-apple-system" font-size="9" fill="#64748B">Marketplace fintech</text>
+<rect x="80" y="1800" width="1840" height="480" rx="22" fill="#0A1633"/>
+<text x="1000" y="1846" text-anchor="middle" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">FLYWHEEL DE DATOS</text>
+<text x="1000" y="1890" text-anchor="middle" font-family="-apple-system" font-size="26" font-weight="800" fill="#FFFFFF" letter-spacing="-0.5">Cada producto genera data que mejora todos los demás.</text>
+<rect x="110" y="1960" width="437" height="240" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)"/>
+<text x="140" y="2010" font-size="32">📱</text>
+<text x="140" y="2060" font-family="-apple-system" font-size="12" font-weight="700" fill="#FF7A45" letter-spacing="2">OPERACIÓN</text>
+<text x="140" y="2092" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Drive + Admin</text>
+<text x="140" y="2130" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">Bitácora · viajes · evidencias</text>
+<text x="563" y="2086" text-anchor="middle" font-family="-apple-system" font-size="20" fill="#FF7A45">→</text>
+<rect x="577" y="1960" width="437" height="240" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)"/>
+<text x="607" y="2010" font-size="32">📊</text>
+<text x="607" y="2060" font-family="-apple-system" font-size="12" font-weight="700" fill="#FF7A45" letter-spacing="2">TELEMETRÍA</text>
+<text x="607" y="2092" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Fleet · sensores</text>
+<text x="607" y="2130" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">Conducta · combustible · fatiga</text>
+<text x="1030" y="2086" text-anchor="middle" font-family="-apple-system" font-size="20" fill="#FF7A45">→</text>
+<rect x="1044" y="1960" width="437" height="240" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)"/>
+<text x="1074" y="2010" font-size="32">🤝</text>
+<text x="1074" y="2060" font-family="-apple-system" font-size="12" font-weight="700" fill="#FF7A45" letter-spacing="2">MARKETPLACE</text>
+<text x="1074" y="2092" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Market · Freight · Talent</text>
+<text x="1074" y="2130" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">Transacciones · reputación</text>
+<text x="1497" y="2086" text-anchor="middle" font-family="-apple-system" font-size="20" fill="#FF7A45">→</text>
+<rect x="1511" y="1960" width="437" height="240" rx="14" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.15)"/>
+<text x="1541" y="2010" font-size="32">💰</text>
+<text x="1541" y="2060" font-family="-apple-system" font-size="12" font-weight="700" fill="#FF7A45" letter-spacing="2">FINANCE</text>
+<text x="1541" y="2092" font-family="-apple-system" font-size="18" font-weight="800" fill="#FFFFFF">Finance · Secure</text>
+<text x="1541" y="2130" font-family="-apple-system" font-size="13" fill="rgba(255,255,255,0.75)">Scoring crediticio · primas</text>
+<line x1="80" y1="2690" x2="1920" y2="2690" stroke="#F1F5F9"/>
+<text x="80" y="2720" font-family="Arial Black" font-size="20" font-weight="900" font-style="italic" fill="#0A1633" letter-spacing="-1">G3</text>
+<text x="124" y="2719" font-family="-apple-system" font-size="13" font-weight="700" fill="#0A1633" letter-spacing="3">LOGISTICS</text>
+<text x="80" y="2744" font-family="-apple-system" font-size="13" fill="#64748B">Plan completo en holding/strategy/growth-plan.md · g3logistics.mx</text>
+<text x="1920" y="2719" text-anchor="end" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="3">CONFIDENCIAL · NDA</text>
+<text x="1920" y="2744" text-anchor="end" font-family="-apple-system" font-size="13" fill="#64748B">Versión 1.0 · Mayo 2026 · Distribución restringida</text>
+</svg>
