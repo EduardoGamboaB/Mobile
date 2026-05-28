@@ -20,7 +20,7 @@
 2. [Primer ingreso a la app](#2-primer-ingreso-a-la-app)
 3. [Tu pantalla principal · el dashboard](#3-tu-pantalla-principal--el-dashboard)
 4. [Un día completo con G3 Drive](#4-un-día-completo-con-g3-drive)
-5. [Inspección pre-viaje · 12 puntos](#5-inspección-pre-viaje--12-puntos)
+5. [Inspección pre-viaje NOM-068 · 12 puntos](#5-inspección-pre-viaje--nom-068--12-puntos)
 6. [Bitácora NOM-087 · horas de servicio](#6-bitácora-nom-087--horas-de-servicio)
 7. [Evidencias con la cámara](#7-evidencias-con-la-cámara)
 8. [Durante el viaje · ubicación y ETA](#8-durante-el-viaje--ubicación-y-eta)
@@ -214,13 +214,24 @@ El resto del tiempo estás manejando.
 
 ---
 
-## 5. Inspección pre-viaje · 12 puntos
+## 5. Inspección pre-viaje · NOM-068 · 12 puntos
 
 **Cuándo se hace**: antes de salir del patio, siempre.
 
-**Por qué importa**: si pasa algo en carretera y no había
-inspección, no estás protegido. Y si la unidad falla por algo que
-debió revisarse antes, la responsabilidad es nuestra colectivamente.
+**Por qué importa**: no es opcional, es **obligatoria por ley
+federal**. La **NOM-068-SCT-2-2014** exige que cada vehículo de
+autotransporte federal verifique condiciones físico-mecánicas
+antes de operar.
+
+Cuando te detiene un retén de SCT o Guardia Nacional, junto con
+la bitácora NOM-087, te piden evidencia de la inspección del día.
+Si no la traes, multa. Si la unidad falla en carretera por algo
+que debió revisarse antes, la responsabilidad es tuya y de la
+empresa.
+
+> Las dos NOMs que SCT te pide en retén son **NOM-087** (la
+> bitácora de horas) y **NOM-068** (la revisión del camión).
+> G3 Drive las hace las dos sola.
 
 ### Paso a paso
 
@@ -253,22 +264,31 @@ debió revisarse antes, la responsabilidad es nuestra colectivamente.
 └─────────────────────────────┘
 ```
 
-### Los 12 puntos
+### Los 12 puntos (alineados a NOM-068)
 
-| # | Punto | Qué revisar |
-|---|---|---|
-| 1 | Llantas delanteras | Profundidad mín 4 mm, presión, golpes |
-| 2 | Llantas traseras | Mismo + revisar pares |
-| 3 | Luces | Cuartos, altas, bajas, frenos, direccionales |
-| 4 | Frenos | Aire, pedal, manguera, fugas |
-| 5 | Aceite y niveles | Motor, dirección, refrigerante |
-| 6 | Combustible | Cuánto cargas, lectura inicial del odómetro |
-| 7 | Cabina | Cinturones, vidrios, espejos, asiento |
-| 8 | Carga | Estiba, lonas, sellos (si caja seca) |
-| 9 | Documentos unidad | Tarjeta de circulación, póliza vigente |
-| 10 | Documentos operador | Licencia, examen médico vigentes |
-| 11 | Extintor y botiquín | Carga, sellos, vigencia |
-| 12 | Aspecto exterior | Daños previos, fotos para evidencia |
+Cada punto referencia la sección de la NOM-068-SCT-2-2014 que lo
+exige. Si te preguntan en retén qué estás revisando, esta es la
+respuesta:
+
+| # | Punto | Qué revisar | NOM-068 |
+|---|---|---|---|
+| 1 | Llantas delanteras | Profundidad mín 4 mm, presión, golpes | §5.1 |
+| 2 | Llantas traseras | Mismo + revisar pares | §5.1 |
+| 3 | Luces | Cuartos, altas, bajas, frenos, direccionales | §5.4 |
+| 4 | Frenos | Aire, pedal, manguera, fugas | §5.2 |
+| 5 | Aceite y niveles | Motor, dirección, refrigerante | §5.5 |
+| 6 | Combustible | Cuánto cargas, lectura inicial del odómetro | §5.5 |
+| 7 | Cabina | Cinturones, vidrios, espejos, asiento | §5.3 |
+| 8 | Carga | Estiba, lonas, sellos (si caja seca) | NOM-012 |
+| 9 | Documentos unidad | Tarjeta de circulación, póliza vigente | Reglamento |
+| 10 | Documentos operador | Licencia, examen médico vigentes | NOM-087 + Ley |
+| 11 | Extintor y botiquín | Carga, sellos, vigencia | §5.6 |
+| 12 | Aspecto exterior | Daños previos, fotos para evidencia | §5.3 |
+
+> El PDF de cierre de inspección sale con sello "Cumple
+> NOM-068-SCT-2-2014 § 5" y QR verificable. Lo guarda la app y
+> también lo anexa a la bitácora NOM-087 del viaje, así que
+> con un solo documento cumples las dos NOMs.
 
 ### Si encuentras una falla
 
@@ -1058,6 +1078,8 @@ Cuando el problema es de la app:
 | **Sincronizar** | Subir los datos guardados localmente al servidor |
 | **Modo offline** | Cuando la app funciona sin internet |
 | **Checkpoint** | Cada uno de los 12 puntos de inspección pre-viaje |
+| **NOM-068** | Norma SCT que exige inspección físico-mecánica del vehículo antes de cada viaje (lo que hace el checklist de 12 puntos) |
+| **NOM-087** | Norma SCT de tiempos de conducción y pausas (lo que hace la bitácora del operador) |
 
 ---
 
@@ -1066,5 +1088,6 @@ Cuando el problema es de la app:
 | Versión | Fecha | Cambios |
 |---|---|---|
 | 1.0 | 2026-05-19 | Manual inicial — 17 secciones |
+| 1.1 | 2026-05-28 | Sección 5 (Inspección) ahora referencia NOM-068-SCT-2-2014 con secciones por punto. Sección 6 (Bitácora) reescrita para NOM-087. Glosario amplía con ambas NOMs. |
 
 **G3 Logistics** · g3logistics.mx · soporte@g3logistics.mx

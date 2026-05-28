@@ -464,6 +464,12 @@ datos, no la captura legal mínima.
 
 - **NOM-087-SCT-2-2017** texto oficial en DOF: ver el PDF
   `BITACORA_FINAL_SISTEMA.pdf` adjunto a este repositorio
+- **NOM-068-SCT-2-2014** — condiciones físico-mecánicas y de
+  seguridad del vehículo (inspección pre-viaje). Ver
+  [`nom-068-compliance.md`](./nom-068-compliance.md). Las 2 NOMs
+  se generan juntas en G3 Drive — el operador exporta un solo
+  PDF para retenes.
+- **NOM-012-SCT-2-2017** — peso y dimensiones
 - **LFEA** (Ley de Firma Electrónica Avanzada) — para validar
   firma digital del conductor
 - **Anexo 20 del CFF** (CFDI) — para vincular con la carta porte

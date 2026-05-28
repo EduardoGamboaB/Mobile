@@ -18,10 +18,10 @@
 <rect x="630" y="220" width="510" height="8" rx="4" fill="#16A34A"/>
 <circle cx="690" cy="300" r="32" fill="#16A34A"/>
 <text x="690" y="312" text-anchor="middle" font-size="32" font-weight="900" fill="#FFFFFF">✓</text>
-<text x="744" y="282" font-family="-apple-system" font-size="13" font-weight="700" fill="#16A34A" letter-spacing="2">INSPECCIÓN PRE-VIAJE</text>
+<text x="744" y="282" font-family="-apple-system" font-size="13" font-weight="700" fill="#16A34A" letter-spacing="2">INSPECCIÓN NOM-068</text>
 <text x="744" y="310" font-family="-apple-system" font-size="16" font-weight="600" fill="#0F172A">12 puntos · foto + OK/Falla</text>
-<text x="660" y="375" font-family="-apple-system" font-size="14" fill="#334155">No salgas del patio sin completar</text>
-<text x="660" y="397" font-family="-apple-system" font-size="14" fill="#334155">los 12 puntos.</text>
+<text x="660" y="375" font-family="-apple-system" font-size="14" fill="#334155">Obligatoria por SCT. No sales del</text>
+<text x="660" y="397" font-family="-apple-system" font-size="14" fill="#334155">patio sin los 12 puntos.</text>
 <rect x="60" y="490" width="510" height="240" rx="20" fill="#FFFFFF" stroke="#F1F5F9" stroke-width="2"/>
 <rect x="60" y="490" width="510" height="8" rx="4" fill="#1B2D5C"/>
 <circle cx="120" cy="570" r="32" fill="#1B2D5C"/>
@@ -73,7 +73,7 @@
 <text x="120" y="1136" font-family="-apple-system" font-size="16" fill="#334155">Admin libera tu pago · notificación 📲</text>
 <rect x="60" y="1214" width="1080" height="180" rx="20" fill="#0A1633"/>
 <text x="90" y="1258" font-family="-apple-system" font-size="13" font-weight="700" fill="#FF7A45" letter-spacing="4">5 REGLAS DE ORO</text>
-<text x="90" y="1302" font-family="-apple-system" font-size="14" fill="#FFFFFF"><tspan fill="#FF7A45" font-weight="700">1.</tspan>  Sin inspección, no sales del patio</text>
+<text x="90" y="1302" font-family="-apple-system" font-size="14" fill="#FFFFFF"><tspan fill="#FF7A45" font-weight="700">1.</tspan>  Sin inspección NOM-068 no sales del patio</text>
 <text x="90" y="1324" font-family="-apple-system" font-size="14" fill="#FFFFFF"><tspan fill="#FF7A45" font-weight="700">2.</tspan>  Registra cada gasto en el momento, no después</text>
 <text x="90" y="1346" font-family="-apple-system" font-size="14" fill="#FFFFFF"><tspan fill="#FF7A45" font-weight="700">3.</tspan>  Foto al sello del cliente · siempre</text>
 <text x="90" y="1368" font-family="-apple-system" font-size="14" fill="#FFFFFF"><tspan fill="#FF7A45" font-weight="700">4.</tspan>  SOS solo emergencia · chat para todo lo demás</text>
