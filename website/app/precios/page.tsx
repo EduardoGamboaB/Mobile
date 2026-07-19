@@ -74,10 +74,12 @@ export default function PricingPage() {
           </div>
 
           <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-            <table style={{
-              width: '100%', borderCollapse: 'collapse',
-              fontSize: '0.92rem',
-            }}>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+              <table style={{
+                width: '100%', minWidth: 640,
+                borderCollapse: 'collapse',
+                fontSize: '0.92rem',
+              }}>
               <thead>
                 <tr style={{ background: 'var(--navy-50)' }}>
                   {['Capacidad', 'Free', 'Starter', 'Pro', 'Business', 'Enterprise'].map((h, i) => (
@@ -122,7 +124,11 @@ export default function PricingPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
+          <p style={{ textAlign: 'center', marginTop: 14, color: 'var(--ink-500)', fontSize: '0.82rem' }}>
+            Desliza la tabla horizontalmente en dispositivos móviles.
+          </p>
         </div>
       </section>
 
