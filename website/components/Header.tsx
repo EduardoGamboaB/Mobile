@@ -2,12 +2,10 @@ import Link from 'next/link';
 import { Brand } from './Brand';
 
 const LINKS: { href: string; label: string }[] = [
-  { href: '/servicios/',        label: 'Servicios de carga' },
-  { href: '/productos/admin/',  label: 'G3 Admin' },
-  { href: '/productos/drive/',  label: 'G3 Drive' },
-  { href: '/precios/',          label: 'Precios' },
-  { href: '/nosotros/',         label: 'Nosotros' },
-  { href: '/contacto/',         label: 'Contacto' },
+  { href: '/servicios/', label: 'Servicios' },
+  { href: '/servicios/#cobertura', label: 'Cobertura' },
+  { href: '/nosotros/', label: 'Nosotros' },
+  { href: '/contacto/', label: 'Contacto' },
 ];
 
 export function Header() {

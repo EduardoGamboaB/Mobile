@@ -9,9 +9,8 @@ export function Footer() {
           <div>
             <Brand />
             <p style={{ marginTop: 14, fontSize: '0.92rem', color: 'rgba(255,255,255,0.65)' }}>
-              Empresa mexicana de transporte de carga terrestre. Operamos flota
-              propia y desarrollamos la tecnología que la hace eficiente —
-              ahora disponible para otros transportistas.
+              Empresa mexicana de transporte terrestre de carga. Flota
+              propia, cobertura en 32 estados y torre de control 24/7.
             </p>
           </div>
 
@@ -20,16 +19,7 @@ export function Footer() {
             <ul>
               <li><Link href="/servicios/">Transporte de carga</Link></li>
               <li><Link href="/servicios/#cobertura">Rutas y cobertura</Link></li>
-              <li><Link href="/contacto/?intent=fletes">Cotizar viaje</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4>Productos</h4>
-            <ul>
-              <li><Link href="/productos/admin/">G3 Admin</Link></li>
-              <li><Link href="/productos/drive/">G3 Drive</Link></li>
-              <li><Link href="/precios/">Precios</Link></li>
+              <li><Link href="/contacto/">Cotizar viaje</Link></li>
             </ul>
           </div>
 
@@ -38,15 +28,22 @@ export function Footer() {
             <ul>
               <li><Link href="/nosotros/">Nosotros</Link></li>
               <li><Link href="/contacto/">Contacto</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4>Contacto</h4>
+            <ul>
               <li><a href="mailto:fletes@g3logistics.mx">fletes@g3logistics.mx</a></li>
-              <li><a href="mailto:tecnologia@g3logistics.mx">tecnologia@g3logistics.mx</a></li>
+              <li><a href="mailto:empresas@g3logistics.mx">empresas@g3logistics.mx</a></li>
+              <li><a href="mailto:soporte@g3logistics.mx">soporte@g3logistics.mx</a></li>
             </ul>
           </div>
         </div>
 
         <div className="footer__bottom">
           <span>© {new Date().getFullYear()} G3 Logistics — Hecho en México</span>
-          <span>Datos hospedados en GCP us-central1</span>
+          <span>Concesión SICT vigente · Datos en GCP us-central1</span>
         </div>
       </div>
     </footer>

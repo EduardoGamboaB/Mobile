@@ -16,23 +16,27 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'G3 Logistics — Transportistas en México con tecnología propia',
+    default: 'G3 Logistics — Transporte de carga en México',
     template: '%s | G3 Logistics',
   },
   description:
-    'Operamos transporte de carga en México y construimos la tecnología que lo hace posible. Mueve tu carga con nosotros o lleva G3 Admin y G3 Drive a tu propia flota.',
+    'Empresa mexicana de transporte terrestre de carga. Flota propia, cobertura en 32 estados, trazabilidad en vivo y cumplimiento NOM. Cotiza tu viaje en menos de 4 horas hábiles.',
   keywords: [
     'transporte de carga México',
     'transportistas México',
     'autotransporte',
     'logística México',
     'fletes terrestres',
-    'gestión de flota',
-    'TMS México',
+    'flota propia',
+    'carga refrigerada México',
+    'carga seca México',
+    'sobredimensionada México',
+    'cotizar flete',
     'G3 Logistics',
-    'app conductores',
-    'mapa en vivo',
-    'OCR carta porte',
+    'trazabilidad de carga',
+    'NOM-068 SICT',
+    'NOM-087 SICT',
+    'Carta Porte 3.0',
   ],
   authors: [{ name: 'G3 Logistics', url: SITE_URL }],
   creator: 'G3 Logistics',
@@ -41,17 +45,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'G3 Logistics',
-    title: 'G3 Logistics — Transportistas en México con tecnología propia',
+    title: 'G3 Logistics — Transporte de carga en México',
     description:
-      'Movemos tu carga y construimos los productos (G3 Admin + G3 Drive) que lo hacen posible.',
+      'Flota propia, 32 estados, torre de control 24/7 y trazabilidad en vivo. Cotiza tu viaje en menos de 4 horas.',
     locale: 'es_MX',
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'G3 Logistics',
+    title: 'G3 Logistics — Transporte de carga en México',
     description:
-      'Transportistas en México que construyen su propia tecnología. Mueve tu carga o lleva nuestros productos a tu flota.',
+      'Empresa mexicana de transporte terrestre. Flota propia y trazabilidad en vivo.',
   },
   robots: {
     index: true,
@@ -63,13 +67,22 @@ export const metadata: Metadata = {
 
 const ORG_JSON_LD = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
+  '@type': 'MovingCompany',
+  '@id': `${SITE_URL}#organization`,
   name: 'G3 Logistics',
+  legalName: 'G3 Logistics',
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
   description:
-    'Empresa mexicana de transporte de carga terrestre que opera flota propia y desarrolla la tecnología (G3 Admin y G3 Drive) usada para gestionarla.',
-  address: { '@type': 'PostalAddress', addressCountry: 'MX' },
+    'Empresa mexicana de transporte terrestre de carga con flota propia, cobertura nacional y torre de control 24/7.',
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'MX',
+    addressRegion: 'CDMX',
+    addressLocality: 'Miguel Hidalgo',
+  },
+  areaServed: { '@type': 'Country', name: 'México' },
+  foundingDate: '2018',
   contactPoint: [
     {
       '@type': 'ContactPoint',
@@ -81,7 +94,7 @@ const ORG_JSON_LD = {
     {
       '@type': 'ContactPoint',
       contactType: 'sales',
-      email: 'tecnologia@g3logistics.mx',
+      email: 'empresas@g3logistics.mx',
       areaServed: 'MX',
       availableLanguage: ['Spanish'],
     },
@@ -98,8 +111,8 @@ const ORG_JSON_LD = {
 const SERVICE_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  serviceType: 'Transporte de carga terrestre',
-  provider: { '@type': 'Organization', name: 'G3 Logistics' },
+  serviceType: 'Transporte terrestre de carga',
+  provider: { '@id': `${SITE_URL}#organization` },
   areaServed: { '@type': 'Country', name: 'México' },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
@@ -108,23 +121,8 @@ const SERVICE_JSON_LD = {
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga seca' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga refrigerada' } },
       { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga sobredimensionada' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Dedicado / Spot' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Servicio dedicado y spot' } },
     ],
-  },
-};
-
-const SOFTWARE_JSON_LD = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'G3 Admin + G3 Drive',
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Web, iOS, Android',
-  offers: {
-    '@type': 'AggregateOffer',
-    priceCurrency: 'MXN',
-    lowPrice: '0',
-    highPrice: '2499',
-    offerCount: '5',
   },
 };
 
@@ -140,10 +138,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(SOFTWARE_JSON_LD) }}
         />
       </head>
       <body>
