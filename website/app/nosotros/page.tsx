@@ -48,11 +48,12 @@ export default function NosotrosPage() {
               cada integración. Así que construimos el nuestro.
             </p>
             <p>
-              Hoy operamos <strong>+1,200 viajes al mes</strong> en 32
-              estados, con <strong>38 tractos</strong> y{' '}
-              <strong>52 remolques</strong> propios, atendiendo desde
-              corporativos automotrices hasta operaciones farma con cadena
-              de frío auditable.
+              Hoy operamos con <strong>flota propia</strong> en las rutas
+              troncales del país, con torre de control 24/7 y
+              trazabilidad en vivo en cada viaje. Atendemos desde
+              corporativos automotrices hasta operaciones farma con
+              cadena de frío auditable — <strong>cotización formal en
+              menos de 4 horas hábiles</strong>.
             </p>
           </div>
 

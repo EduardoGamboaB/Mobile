@@ -29,8 +29,8 @@ export default function HomePage() {
 
             <div className="hero__stats">
               <div>
-                <div className="hero__stat-num">+1,200</div>
-                <div className="hero__stat-label">Viajes / mes</div>
+                <div className="hero__stat-num">&lt; 4 hrs</div>
+                <div className="hero__stat-label">Cotización formal</div>
               </div>
               <div>
                 <div className="hero__stat-num">32</div>

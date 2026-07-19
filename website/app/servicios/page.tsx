@@ -159,11 +159,11 @@ export default function ServiciosPage() {
             <h3>Datos operativos</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 12 }}>
               {[
-                ['Viajes completados',        '+1,200 / mes'],
+                ['Tiempo medio de cotización','< 4 hrs hábiles'],
                 ['Entregas a tiempo',         '99.4%'],
-                ['Tiempo medio de cotización','< 4 hrs'],
                 ['Incidencias críticas',      '< 0.3%'],
                 ['Trazabilidad en vivo',      '100% de los viajes'],
+                ['Torre de control',          '24/7 · 365 días'],
               ].map(([k, v]) => (
                 <div key={k} style={{
                   display: 'flex', justifyContent: 'space-between',
