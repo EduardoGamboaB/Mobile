@@ -44,10 +44,10 @@ export default function ContactoPage() {
         <div className="container" style={{ textAlign: 'center' }}>
           <span className="eyebrow">Contacto</span>
           <h1>Cotiza tu viaje.</h1>
-          <p className="lead" style={{ margin: '0 auto', maxWidth: 620 }}>
-            Cuéntanos origen, destino, tipo de carga y fecha objetivo.
-            Te respondemos con cotización formal en menos de 4 horas
-            hábiles — por correo o por WhatsApp.
+          <p className="lead" style={{ margin: '0 auto', maxWidth: 640 }}>
+            Cuéntanos qué producto agri necesitas mover, origen, destino
+            y fecha objetivo. Te respondemos con cotización formal en
+            menos de 4 horas hábiles — por correo o por WhatsApp.
           </p>
         </div>
       </section>
@@ -125,25 +125,36 @@ export default function ContactoPage() {
 
               <div className="form-row">
                 <label>
-                  Tipo de carga
-                  <select name="tipo_carga" defaultValue="Carga seca">
-                    <option>Carga seca</option>
-                    <option>Refrigerada</option>
-                    <option>Sobredimensionada</option>
-                    <option>Dedicado / Spot</option>
-                    <option>Otro</option>
+                  Producto a mover
+                  <select name="producto" defaultValue="Grano (maíz, sorgo, trigo, soya…)">
+                    <option>Grano (maíz, sorgo, trigo, soya…)</option>
+                    <option>Fertilizante a granel</option>
+                    <option>Fertilizante ensacado</option>
+                    <option>Semilla certificada</option>
+                    <option>Agroquímico / biológico</option>
+                    <option>Otro producto agroindustrial</option>
                   </select>
                 </label>
+                <label>
+                  Modalidad
+                  <select name="modalidad" defaultValue="Jaula granelera">
+                    <option>Jaula granelera</option>
+                    <option>Thermo</option>
+                    <option>Aún no lo sé — recomiéndenme</option>
+                  </select>
+                </label>
+              </div>
+
+              <div className="form-row">
                 <label>
                   Fecha objetivo
                   <input type="date" name="fecha" />
                 </label>
+                <label>
+                  Toneladas aproximadas
+                  <input type="text" name="peso" placeholder="Ej. 28 t · 1 unidad completa" />
+                </label>
               </div>
-
-              <label>
-                Peso o volumen aproximado
-                <input type="text" name="peso" placeholder="Ej. 12 tarimas · 8 toneladas" />
-              </label>
 
               <label>
                 Notas

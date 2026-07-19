@@ -9,16 +9,18 @@ export function Footer() {
           <div>
             <Brand />
             <p style={{ marginTop: 14, fontSize: '0.92rem', color: 'rgba(255,255,255,0.65)' }}>
-              Empresa mexicana de transporte terrestre de carga. Flota
-              propia, cobertura en 32 estados y torre de control 24/7.
+              Empresa mexicana especialista en transporte agroindustrial.
+              Jaula granelera y thermo para granos, fertilizantes y carga
+              del sector agro.
             </p>
           </div>
 
           <div>
             <h4>Servicios</h4>
             <ul>
-              <li><Link href="/servicios/">Transporte de carga</Link></li>
-              <li><Link href="/servicios/#cobertura">Rutas y cobertura</Link></li>
+              <li><Link href="/servicios/">Jaula granelera</Link></li>
+              <li><Link href="/servicios/">Thermo</Link></li>
+              <li><Link href="/servicios/#cobertura">Cobertura agrícola</Link></li>
               <li><Link href="/contacto/">Cotizar viaje</Link></li>
             </ul>
           </div>

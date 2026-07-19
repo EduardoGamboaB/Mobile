@@ -16,27 +16,28 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'G3 Logistics — Transporte de carga en México',
+    default: 'G3 Logistics — Transporte agroindustrial en México',
     template: '%s | G3 Logistics',
   },
   description:
-    'Empresa mexicana de transporte terrestre de carga. Flota propia, cobertura en 32 estados, trazabilidad en vivo y cumplimiento NOM. Cotiza tu viaje en menos de 4 horas hábiles.',
+    'Especialistas en transporte de granos, fertilizantes y carga agroindustrial. Flota propia de jaula granelera y thermo, con cumplimiento NOM SICT y trazabilidad viaje por viaje.',
   keywords: [
-    'transporte de carga México',
-    'transportistas México',
-    'autotransporte',
-    'logística México',
-    'fletes terrestres',
-    'flota propia',
-    'carga refrigerada México',
-    'carga seca México',
-    'sobredimensionada México',
-    'cotizar flete',
+    'transporte agroindustrial México',
+    'jaula granelera',
+    'transporte de granos',
+    'transporte de fertilizantes',
+    'jaula thermo',
+    'transporte agrícola',
+    'flete de grano',
+    'transporte de urea',
+    'transporte de semilla certificada',
+    'transportista agro México',
+    'cotizar flete agro',
     'G3 Logistics',
-    'trazabilidad de carga',
     'NOM-068 SICT',
     'NOM-087 SICT',
     'Carta Porte 3.0',
+    'trazabilidad de carga agro',
   ],
   authors: [{ name: 'G3 Logistics', url: SITE_URL }],
   creator: 'G3 Logistics',
@@ -45,17 +46,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'G3 Logistics',
-    title: 'G3 Logistics — Transporte de carga en México',
+    title: 'G3 Logistics — Transporte agroindustrial en México',
     description:
-      'Flota propia, 32 estados, torre de control 24/7 y trazabilidad en vivo. Cotiza tu viaje en menos de 4 horas.',
+      'Especialistas en jaula granelera y thermo. Granos, fertilizantes y carga agroindustrial. Cotización en menos de 4 horas.',
     locale: 'es_MX',
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'G3 Logistics — Transporte de carga en México',
+    title: 'G3 Logistics — Transporte agroindustrial en México',
     description:
-      'Empresa mexicana de transporte terrestre. Flota propia y trazabilidad en vivo.',
+      'Jaula granelera + thermo. Especialistas del sector agro con torre de control 24/7.',
   },
   robots: {
     index: true,
@@ -74,7 +75,7 @@ const ORG_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
   description:
-    'Empresa mexicana de transporte terrestre de carga con flota propia, cobertura nacional y torre de control 24/7.',
+    'Empresa mexicana especializada en transporte agroindustrial: jaula granelera y thermo para granos, fertilizantes y carga del sector agro.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'MX',
@@ -111,17 +112,16 @@ const ORG_JSON_LD = {
 const SERVICE_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  serviceType: 'Transporte terrestre de carga',
+  serviceType: 'Transporte agroindustrial · granos y fertilizantes',
   provider: { '@id': `${SITE_URL}#organization` },
   areaServed: { '@type': 'Country', name: 'México' },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Servicios de transporte',
+    name: 'Modalidades de transporte',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga seca' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga refrigerada' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Carga sobredimensionada' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Servicio dedicado y spot' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Jaula granelera · grano a granel' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Thermo · carga con temperatura controlada' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Plataforma · próximamente 2026' } },
     ],
   },
 };
