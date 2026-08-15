@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "G3 Logistics",
+    "name": "G3 Drive",
     "slug": "g3-logistics-mobile",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -9,10 +9,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0E3A4C"
+      "backgroundColor": "#0A1633"
     },
     "scheme": "g3logistics",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.g3logistics.driver",
@@ -26,7 +28,7 @@
       "package": "com.g3logistics.driver",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0E3A4C"
+        "backgroundColor": "#0A1633"
       },
       "permissions": [
         "CAMERA",
@@ -34,10 +36,12 @@
         "ACCESS_COARSE_LOCATION",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "versionCode": 1
     },
     "web": {
-      "bundler": "metro"
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-secure-store",
