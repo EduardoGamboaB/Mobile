@@ -8,6 +8,7 @@ import { useCartStore } from '@/stores/cartStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useScanStore } from '@/stores/scanStore';
 import { useSyncStore } from '@/stores/syncStore';
+import { useLayout } from '@/hooks/useLayout';
 import { formatMoney, formatQty } from '@/utils/money';
 import { Button, SearchBar, EmptyState, Badge } from '@/components/ui';
 import { colors, spacing, radius, typography } from '@/theme';
@@ -25,6 +26,7 @@ const PosScreen: React.FC = () => {
   const businessName = useSettingsStore((s) => s.settings.name);
   const online = useSyncStore((s) => s.online);
   const pendingSync = useSyncStore((s) => s.pendingCount);
+  const { isWide } = useLayout();
 
   useEffect(() => {
     let cancelled = false;
@@ -72,51 +74,56 @@ const PosScreen: React.FC = () => {
     navigation.navigate('Scanner');
   }, [addToCart, navigation]);
 
-  return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <View style={styles.header}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.headerTitle}>{businessName}</Text>
-          <Text style={styles.headerSubtitle}>Punto de venta</Text>
+  const header = (
+    <View style={styles.header}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.headerTitle}>{businessName}</Text>
+        <Text style={styles.headerSubtitle}>Punto de venta</Text>
+      </View>
+      <Badge
+        text={online ? (pendingSync > 0 ? `${pendingSync} por sincronizar` : 'En línea') : 'Sin conexión'}
+        tone={online ? (pendingSync > 0 ? 'warning' : 'success') : 'danger'}
+      />
+    </View>
+  );
+
+  const searchBlock = (
+    <View style={{ paddingHorizontal: spacing.md }}>
+      <SearchBar
+        value={search}
+        onChangeText={setSearch}
+        placeholder="Buscar producto o código…"
+        onScanPress={openScanner}
+      />
+      {results.length > 0 && (
+        <View style={styles.results}>
+          {results.map((p) => (
+            <Pressable
+              key={p.id}
+              style={styles.resultRow}
+              onPress={() => {
+                addToCart(p);
+                // En pantallas anchas la búsqueda queda fija a la izquierda;
+                // conservarla agiliza agregar varias piezas seguidas.
+                if (!isWide) setSearch('');
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Text style={typography.body}>{p.name}</Text>
+                <Text style={typography.caption}>
+                  Stock: {formatQty(p.stock)} {p.unit}
+                </Text>
+              </View>
+              <Text style={[typography.body, { fontWeight: '700' }]}>{formatMoney(p.price, symbol)}</Text>
+            </Pressable>
+          ))}
         </View>
-        <Badge
-          text={online ? (pendingSync > 0 ? `${pendingSync} por sincronizar` : 'En línea') : 'Sin conexión'}
-          tone={online ? (pendingSync > 0 ? 'warning' : 'success') : 'danger'}
-        />
-      </View>
+      )}
+    </View>
+  );
 
-      <View style={{ paddingHorizontal: spacing.md }}>
-        <SearchBar
-          value={search}
-          onChangeText={setSearch}
-          placeholder="Buscar producto o código…"
-          onScanPress={openScanner}
-        />
-        {results.length > 0 && (
-          <View style={styles.results}>
-            {results.map((p) => (
-              <Pressable
-                key={p.id}
-                style={styles.resultRow}
-                onPress={() => {
-                  addToCart(p);
-                  setSearch('');
-                }}
-              >
-                <View style={{ flex: 1 }}>
-                  <Text style={typography.body}>{p.name}</Text>
-                  <Text style={typography.caption}>
-                    Stock: {formatQty(p.stock)} {p.unit}
-                  </Text>
-                </View>
-                <Text style={[typography.body, { fontWeight: '700' }]}>{formatMoney(p.price, symbol)}</Text>
-              </Pressable>
-            ))}
-          </View>
-        )}
-      </View>
-
-      <FlatList
+  const cartList = (
+    <FlatList
         style={{ flex: 1 }}
         contentContainerStyle={{ padding: spacing.md }}
         data={cart.lines}
@@ -149,39 +156,71 @@ const PosScreen: React.FC = () => {
           </View>
         )}
       />
+  );
 
-      <View style={styles.footer}>
-        <View style={{ flex: 1 }}>
-          <Text style={typography.caption}>
-            {cart.totals.itemCount} artículo{cart.totals.itemCount === 1 ? '' : 's'}
-          </Text>
-          <Text style={styles.total}>{formatMoney(cart.totals.total, symbol)}</Text>
-        </View>
-        {cart.lines.length > 0 && (
-          <Button
-            title="Vaciar"
-            variant="ghost"
-            onPress={() =>
-              Alert.alert('Vaciar carrito', '¿Eliminar todos los artículos?', [
-                { text: 'Cancelar', style: 'cancel' },
-                { text: 'Vaciar', style: 'destructive', onPress: () => cart.clear() },
-              ])
-            }
-            style={{ marginRight: spacing.sm }}
-          />
-        )}
-        <Button
-          title="Cobrar"
-          onPress={() => navigation.navigate('Checkout')}
-          disabled={cart.lines.length === 0}
-        />
+  const footer = (
+    <View style={styles.footer}>
+      <View style={{ flex: 1 }}>
+        <Text style={typography.caption}>
+          {cart.totals.itemCount} artículo{cart.totals.itemCount === 1 ? '' : 's'}
+        </Text>
+        <Text style={styles.total}>{formatMoney(cart.totals.total, symbol)}</Text>
       </View>
+      {cart.lines.length > 0 && (
+        <Button
+          title="Vaciar"
+          variant="ghost"
+          onPress={() =>
+            Alert.alert('Vaciar carrito', '¿Eliminar todos los artículos?', [
+              { text: 'Cancelar', style: 'cancel' },
+              { text: 'Vaciar', style: 'destructive', onPress: () => cart.clear() },
+            ])
+          }
+          style={{ marginRight: spacing.sm }}
+        />
+      )}
+      <Button
+        title="Cobrar"
+        onPress={() => navigation.navigate('Checkout')}
+        disabled={cart.lines.length === 0}
+      />
+    </View>
+  );
+
+  // Tabletas en horizontal: catálogo a la izquierda, carrito a la derecha.
+  if (isWide) {
+    return (
+      <SafeAreaView style={styles.container} edges={['top']}>
+        {header}
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={styles.leftPane}>{searchBlock}</View>
+          <View style={{ flex: 1 }}>
+            {cartList}
+            {footer}
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  return (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      {header}
+      {searchBlock}
+      {cartList}
+      {footer}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
+  leftPane: {
+    flex: 1.1,
+    borderRightWidth: 1,
+    borderRightColor: colors.border,
+    paddingTop: spacing.sm,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',

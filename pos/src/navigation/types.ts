@@ -7,6 +7,8 @@ export type RootStackParamList = {
   ProductKardex: { productId: string; productName: string };
   Suppliers: undefined;
   SupplierForm: { supplierId?: string } | undefined;
+  Customers: undefined;
+  CustomerForm: { customerId?: string } | undefined;
   Purchases: undefined;
   PurchaseForm: undefined;
   PurchaseDetail: { purchaseId: string };

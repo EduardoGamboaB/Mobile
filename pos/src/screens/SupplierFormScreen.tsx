@@ -3,6 +3,7 @@ import { Alert, ScrollView, StyleSheet } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { getSupplier, saveSupplier, deactivateSupplier } from '@/db/suppliers';
 import { syncNow } from '@/services/sync';
+import { useLayout } from '@/hooks/useLayout';
 import { Button, Field } from '@/components/ui';
 import { colors, spacing } from '@/theme';
 import type { RootStackParamList } from '@/navigation/types';
@@ -13,6 +14,7 @@ const SupplierFormScreen: React.FC = () => {
   const navigation = useNavigation();
   const route = useRoute<Route>();
   const supplierId = route.params?.supplierId;
+  const { formStyle } = useLayout();
 
   const [name, setName] = useState('');
   const [contactName, setContactName] = useState('');
@@ -78,7 +80,7 @@ const SupplierFormScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+    <ScrollView style={styles.container} contentContainerStyle={[{ padding: spacing.md }, formStyle]}>
       <Field label="Nombre / Razón social *" value={name} onChangeText={setName} />
       <Field label="Contacto" value={contactName} onChangeText={setContactName} />
       <Field label="Teléfono" value={phone} onChangeText={setPhone} keyboardType="phone-pad" />

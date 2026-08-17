@@ -18,6 +18,8 @@ import InventoryScreen from '@/screens/InventoryScreen';
 import ProductKardexScreen from '@/screens/ProductKardexScreen';
 import SuppliersScreen from '@/screens/SuppliersScreen';
 import SupplierFormScreen from '@/screens/SupplierFormScreen';
+import CustomersScreen from '@/screens/CustomersScreen';
+import CustomerFormScreen from '@/screens/CustomerFormScreen';
 import PurchasesScreen from '@/screens/PurchasesScreen';
 import PurchaseFormScreen from '@/screens/PurchaseFormScreen';
 import PurchaseDetailScreen from '@/screens/PurchaseDetailScreen';
@@ -114,6 +116,8 @@ export const AppNavigator = () => (
       <Stack.Screen name="ProductKardex" component={ProductKardexScreen} options={{ title: 'Kardex' }} />
       <Stack.Screen name="Suppliers" component={SuppliersScreen} options={{ title: 'Proveedores' }} />
       <Stack.Screen name="SupplierForm" component={SupplierFormScreen} options={{ title: 'Proveedor' }} />
+      <Stack.Screen name="Customers" component={CustomersScreen} options={{ title: 'Clientes' }} />
+      <Stack.Screen name="CustomerForm" component={CustomerFormScreen} options={{ title: 'Cliente' }} />
       <Stack.Screen name="Purchases" component={PurchasesScreen} options={{ title: 'Compras' }} />
       <Stack.Screen name="PurchaseForm" component={PurchaseFormScreen} options={{ title: 'Nueva compra' }} />
       <Stack.Screen name="PurchaseDetail" component={PurchaseDetailScreen} options={{ title: 'Compra' }} />

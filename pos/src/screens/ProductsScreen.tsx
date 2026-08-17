@@ -6,6 +6,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { listProducts, findByBarcode } from '@/db/products';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useScanStore } from '@/stores/scanStore';
+import { useLayout } from '@/hooks/useLayout';
 import { formatMoney, formatQty } from '@/utils/money';
 import { Badge, Button, EmptyState, SearchBar } from '@/components/ui';
 import { colors, radius, spacing, typography } from '@/theme';
@@ -25,6 +26,7 @@ const ProductsScreen: React.FC = () => {
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[]>([]);
   const symbol = useSettingsStore((s) => s.settings.currencySymbol);
+  const { columns } = useLayout();
 
   const refresh = useCallback(() => {
     void listProducts(search.trim(), true).then(setProducts);
@@ -63,6 +65,9 @@ const ProductsScreen: React.FC = () => {
         />
       </View>
       <FlatList
+        key={columns}
+        numColumns={columns}
+        columnWrapperStyle={columns > 1 ? { gap: spacing.sm } : undefined}
         data={products}
         keyExtractor={(p) => p.id}
         contentContainerStyle={{ padding: spacing.md, paddingTop: 0 }}
@@ -76,7 +81,7 @@ const ProductsScreen: React.FC = () => {
         }
         renderItem={({ item }) => (
           <Pressable
-            style={styles.row}
+            style={[styles.row, columns > 1 && { flex: 1 }]}
             onPress={() => navigation.navigate('ProductForm', { productId: item.id })}
           >
             <View style={{ flex: 1 }}>

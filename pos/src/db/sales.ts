@@ -11,6 +11,7 @@ export interface CreateSaleInput {
   discount: number; // centavos
   paymentMethod: PaymentMethod;
   amountPaid: number; // centavos
+  customerId?: string | null;
   customerName?: string;
 }
 
@@ -24,6 +25,7 @@ export const createSale = async (input: CreateSaleInput): Promise<Sale> => {
     folio,
     date: now,
     status: 'completed',
+    customerId: input.customerId ?? null,
     customerName: input.customerName ?? '',
     subtotal: totals.subtotal,
     tax: totals.tax,
@@ -37,12 +39,12 @@ export const createSale = async (input: CreateSaleInput): Promise<Sale> => {
   };
 
   await db.runAsync(
-    `INSERT INTO sales (id, folio, date, status, customerName, subtotal, tax, discount, total, paymentMethod, amountPaid, change, invoiceId, updatedAt)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO sales (id, folio, date, status, customerId, customerName, subtotal, tax, discount, total, paymentMethod, amountPaid, change, invoiceId, updatedAt)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
-      sale.id, sale.folio, sale.date, sale.status, sale.customerName, sale.subtotal,
-      sale.tax, sale.discount, sale.total, sale.paymentMethod, sale.amountPaid,
-      sale.change, sale.invoiceId, sale.updatedAt,
+      sale.id, sale.folio, sale.date, sale.status, sale.customerId, sale.customerName,
+      sale.subtotal, sale.tax, sale.discount, sale.total, sale.paymentMethod,
+      sale.amountPaid, sale.change, sale.invoiceId, sale.updatedAt,
     ],
   );
 

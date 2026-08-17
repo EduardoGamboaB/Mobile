@@ -53,6 +53,22 @@ CREATE TABLE IF NOT EXISTS suppliers (
   updatedAt TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS customers (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL DEFAULT '',
+  email TEXT NOT NULL DEFAULT '',
+  taxId TEXT NOT NULL DEFAULT '',
+  taxRegime TEXT NOT NULL DEFAULT '',
+  zip TEXT NOT NULL DEFAULT '',
+  cfdiUse TEXT NOT NULL DEFAULT '',
+  address TEXT NOT NULL DEFAULT '',
+  notes TEXT NOT NULL DEFAULT '',
+  active INTEGER NOT NULL DEFAULT 1,
+  updatedAt TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_customers_name ON customers(name);
+
 CREATE TABLE IF NOT EXISTS purchases (
   id TEXT PRIMARY KEY,
   folio INTEGER NOT NULL,
@@ -84,6 +100,7 @@ CREATE TABLE IF NOT EXISTS sales (
   folio INTEGER NOT NULL,
   date TEXT NOT NULL,
   status TEXT NOT NULL DEFAULT 'completed',
+  customerId TEXT,
   customerName TEXT NOT NULL DEFAULT '',
   subtotal INTEGER NOT NULL DEFAULT 0,
   tax INTEGER NOT NULL DEFAULT 0,
@@ -164,8 +181,22 @@ CREATE TABLE IF NOT EXISTS outbox (
 );
 `;
 
+/**
+ * Migraciones aditivas para bases creadas con esquemas anteriores.
+ * Cada ALTER falla de forma inofensiva si la columna ya existe.
+ */
+const MIGRATIONS = ["ALTER TABLE sales ADD COLUMN customerId TEXT"];
+
 export const initDatabase = async (): Promise<void> => {
-  await getDb().execAsync(SCHEMA);
+  const db = getDb();
+  await db.execAsync(SCHEMA);
+  for (const migration of MIGRATIONS) {
+    try {
+      await db.execAsync(migration);
+    } catch {
+      // columna ya existente
+    }
+  }
 };
 
 /** Folio consecutivo por tipo de documento (sales, purchases, invoices). */

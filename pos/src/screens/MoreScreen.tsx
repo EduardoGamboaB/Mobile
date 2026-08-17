@@ -28,6 +28,7 @@ const MoreScreen: React.FC = () => {
   const items: MenuItem[] = [
     { icon: '🧾', title: 'Ventas', subtitle: 'Historial, reimpresión y cancelaciones', screen: 'Sales' },
     { icon: '📊', title: 'Inventario', subtitle: 'Existencias, valuación y ajustes', screen: 'Inventory' },
+    { icon: '👤', title: 'Clientes', subtitle: 'Directorio y datos de facturación', screen: 'Customers' },
     { icon: '🚚', title: 'Proveedores', subtitle: 'Directorio de proveedores', screen: 'Suppliers' },
     { icon: '📥', title: 'Compras', subtitle: 'Recepción de mercancía', screen: 'Purchases' },
     { icon: '🧮', title: 'Facturas', subtitle: 'Facturación y PDF', screen: 'Invoices' },

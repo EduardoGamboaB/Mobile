@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useCartStore } from '@/stores/cartStore';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useLayout } from '@/hooks/useLayout';
+import { listCustomers } from '@/db/customers';
 import { createSale, listSaleItems } from '@/db/sales';
 import { printSaleTicket } from '@/services/printing/printer';
 import { syncNow } from '@/services/sync';
@@ -11,7 +13,7 @@ import { formatMoney, toCents } from '@/utils/money';
 import { computeTotals } from '@/utils/totals';
 import { Button, Card, Field } from '@/components/ui';
 import { colors, radius, spacing, typography } from '@/theme';
-import type { PaymentMethod } from '@/models/types';
+import type { Customer, PaymentMethod } from '@/models/types';
 import type { RootStackParamList } from '@/navigation/types';
 
 type Nav = NativeStackNavigationProp<RootStackParamList>;
@@ -28,12 +30,31 @@ const CheckoutScreen: React.FC = () => {
   const cart = useCartStore();
   const settings = useSettingsStore((s) => s.settings);
   const symbol = settings.currencySymbol;
+  const { formStyle } = useLayout();
 
   const [method, setMethod] = useState<PaymentMethod>('cash');
   const [paidText, setPaidText] = useState('');
   const [discountText, setDiscountText] = useState('');
+  const [customerId, setCustomerId] = useState<string | null>(null);
   const [customerName, setCustomerName] = useState('');
+  const [suggestions, setSuggestions] = useState<Customer[]>([]);
   const [saving, setSaving] = useState(false);
+
+  const onCustomerText = (text: string) => {
+    setCustomerName(text);
+    setCustomerId(null); // texto libre hasta elegir una sugerencia
+    if (text.trim().length >= 2) {
+      void listCustomers(text.trim()).then((rows) => setSuggestions(rows.slice(0, 5)));
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const pickCustomer = (customer: Customer) => {
+    setCustomerId(customer.id);
+    setCustomerName(customer.name);
+    setSuggestions([]);
+  };
 
   const discount = toCents(discountText || '0');
   const totals = useMemo(() => computeTotals(cart.lines, discount), [cart.lines, discount]);
@@ -51,6 +72,7 @@ const CheckoutScreen: React.FC = () => {
         discount,
         paymentMethod: method,
         amountPaid: paid,
+        customerId,
         customerName: customerName.trim(),
       });
       cart.clear();
@@ -79,7 +101,7 @@ const CheckoutScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+    <ScrollView style={styles.container} contentContainerStyle={[{ padding: spacing.md }, formStyle]}>
       <Card>
         <View style={styles.totalRow}>
           <Text style={typography.subtitle}>Total a cobrar</Text>
@@ -155,9 +177,26 @@ const CheckoutScreen: React.FC = () => {
         <Field
           label="Cliente (opcional)"
           value={customerName}
-          onChangeText={setCustomerName}
+          onChangeText={onCustomerText}
           placeholder="Público general"
         />
+        {suggestions.length > 0 && (
+          <Card style={{ marginTop: -spacing.sm, marginBottom: spacing.md }}>
+            {suggestions.map((c) => (
+              <Pressable key={c.id} style={styles.suggestionRow} onPress={() => pickCustomer(c)}>
+                <Text style={typography.body}>{c.name}</Text>
+                <Text style={typography.caption}>
+                  {[c.phone, c.taxId].filter(Boolean).join(' · ') || 'Sin datos'}
+                </Text>
+              </Pressable>
+            ))}
+          </Card>
+        )}
+        {customerId && (
+          <Text style={[typography.caption, { color: colors.success, marginTop: -spacing.sm, marginBottom: spacing.sm }]}>
+            ✓ Cliente registrado: la factura tomará sus datos fiscales automáticamente.
+          </Text>
+        )}
       </View>
 
       <Button
@@ -194,6 +233,11 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     backgroundColor: colors.accentSoft,
     borderRadius: radius.sm,
+  },
+  suggestionRow: {
+    paddingVertical: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
   },
 });
 

@@ -2,25 +2,36 @@
   "expo": {
     "name": "POS Móvil",
     "slug": "g3-pos-mobile",
-    "version": "0.1.0",
-    "orientation": "portrait",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "g3pos",
     "assetBundlePatterns": ["**/*"],
     "splash": {
+      "image": "./assets/splash.png",
       "backgroundColor": "#0F172A",
-      "resizeMode": "contain"
+      "resizeMode": "cover"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.g3.posmobile",
+      "buildNumber": "1",
+      "requireFullScreen": false,
       "infoPlist": {
         "NSCameraUsageDescription": "La cámara se usa para escanear códigos de barras de los productos.",
-        "NSBluetoothAlwaysUsageDescription": "Bluetooth se usa para conectar con la impresora térmica de tickets."
+        "NSBluetoothAlwaysUsageDescription": "Bluetooth se usa para conectar con la impresora térmica de tickets.",
+        "NSPhotoLibraryUsageDescription": "La galería se usa para elegir el logo del negocio.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "package": "com.g3.posmobile",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F172A"
+      },
       "permissions": [
         "CAMERA",
         "BLUETOOTH",
@@ -30,11 +41,20 @@
         "POST_NOTIFICATIONS"
       ]
     },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
     "plugins": [
       [
         "expo-camera",
         {
           "cameraPermission": "La cámara se usa para escanear códigos de barras de los productos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "La galería se usa para elegir el logo del negocio."
         }
       ],
       "expo-sqlite"

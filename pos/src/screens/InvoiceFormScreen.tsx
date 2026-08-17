@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import { getSale, listSaleItems } from '@/db/sales';
+import { getCustomer } from '@/db/customers';
 import { createInvoice } from '@/db/invoices';
+import { useLayout } from '@/hooks/useLayout';
 import { shareInvoicePdf } from '@/services/invoicing';
 import { syncNow } from '@/services/sync';
 import { useSettingsStore } from '@/stores/settingsStore';
@@ -27,10 +29,24 @@ const InvoiceFormScreen: React.FC = () => {
   const [cfdiUse, setCfdiUse] = useState('G03');
   const [saving, setSaving] = useState(false);
 
+  const { formStyle } = useLayout();
+
   useEffect(() => {
-    void getSale(route.params.saleId).then((s) => {
+    void getSale(route.params.saleId).then(async (s) => {
       setSale(s);
-      if (s?.customerName) setCustomerName(s.customerName);
+      if (!s) return;
+      if (s.customerName) setCustomerName(s.customerName);
+      // Si la venta tiene cliente registrado, prellenar sus datos fiscales.
+      if (s.customerId) {
+        const customer = await getCustomer(s.customerId);
+        if (customer) {
+          if (customer.name) setCustomerName(customer.name);
+          if (customer.taxId) setCustomerTaxId(customer.taxId);
+          if (customer.taxRegime) setCustomerTaxRegime(customer.taxRegime);
+          if (customer.zip) setCustomerZip(customer.zip);
+          if (customer.cfdiUse) setCfdiUse(customer.cfdiUse);
+        }
+      }
     });
   }, [route.params.saleId]);
 
@@ -75,7 +91,7 @@ const InvoiceFormScreen: React.FC = () => {
   if (!sale) return <ScrollView style={styles.container} />;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+    <ScrollView style={styles.container} contentContainerStyle={[{ padding: spacing.md }, formStyle]}>
       <Card>
         <Text style={typography.subtitle}>Venta #{sale.folio}</Text>
         <Text style={[typography.body, { marginTop: 4 }]}>

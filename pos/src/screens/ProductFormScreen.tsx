@@ -8,6 +8,7 @@ import { checkLowStock } from '@/services/alerts';
 import { syncNow } from '@/services/sync';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useScanStore } from '@/stores/scanStore';
+import { useLayout } from '@/hooks/useLayout';
 import { fromCents, toCents, toQty, formatQty } from '@/utils/money';
 import { Button, Field } from '@/components/ui';
 import { colors, radius, spacing } from '@/theme';
@@ -21,6 +22,7 @@ const ProductFormScreen: React.FC = () => {
   const route = useRoute<Route>();
   const productId = route.params?.productId;
   const defaultTaxRate = useSettingsStore((s) => s.settings.taxRate);
+  const { formStyle } = useLayout();
 
   const [name, setName] = useState('');
   const [sku, setSku] = useState('');
@@ -118,7 +120,7 @@ const ProductFormScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+    <ScrollView style={styles.container} contentContainerStyle={[{ padding: spacing.md }, formStyle]}>
       <Field label="Nombre *" value={name} onChangeText={setName} placeholder="Ej. Refresco 600 ml" />
       <Field
         label="Código de barras"

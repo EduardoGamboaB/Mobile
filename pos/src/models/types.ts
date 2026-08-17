@@ -84,6 +84,23 @@ export interface Supplier {
   updatedAt: string;
 }
 
+// ── Clientes ─────────────────────────────────────────────────────────────────
+
+export interface Customer {
+  id: ID;
+  name: string;
+  phone: string;
+  email: string;
+  taxId: string; // RFC / NIT / CUIT
+  taxRegime: string;
+  zip: string;
+  cfdiUse: string;
+  address: string;
+  notes: string;
+  active: number;
+  updatedAt: string;
+}
+
 // ── Compras ──────────────────────────────────────────────────────────────────
 
 export type PurchaseStatus = 'draft' | 'received' | 'cancelled';
@@ -122,6 +139,7 @@ export interface Sale {
   folio: number;
   date: string;
   status: SaleStatus;
+  customerId: ID | null;
   customerName: string;
   subtotal: number;
   tax: number;

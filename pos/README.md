@@ -12,6 +12,7 @@ local SQLite y sincroniza automáticamente con un backend cuando hay conexión.
 | **Punto de venta** | Carrito, búsqueda, escáner de códigos con la cámara, descuentos, efectivo/tarjeta/transferencia, cálculo de cambio |
 | **Productos** | Catálogo con SKU, código de barras, categoría, unidad, precio, costo, tasa de impuesto y stock mínimo |
 | **Inventario** | Existencias en tiempo real, valuación a costo y a venta, kardex por producto, ajustes de entrada/salida |
+| **Clientes** | Directorio con datos fiscales (RFC, régimen, C.P., uso CFDI), historial de compras; se asignan en el cobro y prellenan la factura |
 | **Proveedores** | Directorio con datos fiscales y de contacto |
 | **Compras** | Recepción de mercancía por proveedor: sube stock y actualiza el costo automáticamente |
 | **Facturación** | Emisión de facturas con datos fiscales del receptor, folios por serie, PDF listo para compartir |
@@ -43,6 +44,33 @@ src/
 └── screens/                 17 pantallas
 ```
 
+### Diseño adaptativo (mobile first)
+
+`src/hooks/useLayout.ts` define los breakpoints por ancho de ventana
+(soporta split-screen): **< 600** teléfono (1 columna), **≥ 600** tableta
+(listas a 2 columnas, formularios centrados a 640 px), **≥ 900** pantalla
+ancha (POS a dos paneles: catálogo | carrito, y listas a 3 columnas).
+`orientation: "default"` permite vertical en teléfonos y horizontal en
+tabletas. Sin librerías de UI pesadas: componentes propios ligeros para
+rendir bien en gama media y baja.
+
+### Publicación en tiendas
+
+- `app.json`: bundle IDs (`com.g3.posmobile`), versión + `versionCode` /
+  `buildNumber`, íconos (`assets/icon.png`, adaptive icon Android), splash,
+  textos de permisos (cámara, Bluetooth, galería) e
+  `ITSAppUsesNonExemptEncryption`.
+- `eas.json`: perfiles `development` (dev client), `preview` (APK interno) y
+  `production` (AAB con auto-incremento) + `eas submit`.
+- Los íconos incluidos son placeholders generados; reemplázalos por el
+  branding final antes de publicar.
+
+```bash
+npx eas build --profile production --platform all
+npx eas submit --platform android   # Play Store
+npx eas submit --platform ios       # App Store
+```
+
 ### Offline / Online
 
 Todo se escribe primero en SQLite; cada cambio queda en la tabla `outbox`.
@@ -50,6 +78,10 @@ Con `Configuración → Sincronización` apuntando a tu backend, el motor envía
 los cambios pendientes al recuperar conexión (`POST {syncUrl}/{entity}` con
 `Authorization: Bearer {apiKey}`). Sin backend configurado la app opera en
 modo solo offline sin errores.
+
+El backend de referencia que implementa este contrato vive en
+[`../pos-backend`](../pos-backend/README.md) (Express + TypeScript, con
+pruebas y Dockerfile).
 
 ### Decisiones de diseño
 

@@ -3,6 +3,7 @@ import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'rea
 import * as ImagePicker from 'expo-image-picker';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { syncNow } from '@/services/sync';
+import { useLayout } from '@/hooks/useLayout';
 import { Button, Card, Field, SectionHeader } from '@/components/ui';
 import { colors, radius, spacing, typography } from '@/theme';
 import type { BusinessSettings } from '@/models/types';
@@ -14,6 +15,7 @@ import type { BusinessSettings } from '@/models/types';
  */
 const SettingsScreen: React.FC = () => {
   const { settings, update } = useSettingsStore();
+  const { formStyle } = useLayout();
   const [draft, setDraft] = useState<BusinessSettings>({ ...settings });
   const [saving, setSaving] = useState(false);
 
@@ -48,7 +50,7 @@ const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={{ padding: spacing.md }}>
+    <ScrollView style={styles.container} contentContainerStyle={[{ padding: spacing.md }, formStyle]}>
       <SectionHeader title="Identidad del negocio" />
       <Card>
         <View style={styles.logoRow}>
