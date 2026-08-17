@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "POS Móvil",
+    "slug": "g3-pos-mobile",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "g3pos",
+    "assetBundlePatterns": ["**/*"],
+    "splash": {
+      "backgroundColor": "#0F172A",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.g3.posmobile",
+      "infoPlist": {
+        "NSCameraUsageDescription": "La cámara se usa para escanear códigos de barras de los productos.",
+        "NSBluetoothAlwaysUsageDescription": "Bluetooth se usa para conectar con la impresora térmica de tickets."
+      }
+    },
+    "android": {
+      "package": "com.g3.posmobile",
+      "permissions": [
+        "CAMERA",
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "BLUETOOTH_CONNECT",
+        "BLUETOOTH_SCAN",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "La cámara se usa para escanear códigos de barras de los productos."
+        }
+      ],
+      "expo-sqlite"
+    ]
+  }
+}
