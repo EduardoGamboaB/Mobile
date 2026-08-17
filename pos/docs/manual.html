@@ -1,0 +1,855 @@
+<title>Manual POS Móvil</title>
+<style>
+  :root {
+    --paper: #F8FAFC; --card: #FFFFFF; --ink: #0F172A; --ink-2: #475569; --ink-3: #94A3B8;
+    --line: #E2E8F0; --accent: #2563EB; --accent-soft: #DBEAFE;
+    --ok: #16A34A; --ok-soft: #DCFCE7; --warn: #D97706; --warn-soft: #FEF3C7;
+    --bad: #DC2626; --bad-soft: #FEE2E2; --tip: #EFF6FF;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0B1220; --card: #101A2E; --ink: #E6EDF7; --ink-2: #9FB0C7; --ink-3: #64748B;
+      --line: #1E293B; --accent: #60A5FA; --accent-soft: #16233D;
+      --ok: #4ADE80; --ok-soft: #0E2A1A; --warn: #FBBF24; --warn-soft: #2E2308;
+      --bad: #F87171; --bad-soft: #2E1212; --tip: #101E38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0B1220; --card: #101A2E; --ink: #E6EDF7; --ink-2: #9FB0C7; --ink-3: #64748B;
+    --line: #1E293B; --accent: #60A5FA; --accent-soft: #16233D;
+    --ok: #4ADE80; --ok-soft: #0E2A1A; --warn: #FBBF24; --warn-soft: #2E2308;
+    --bad: #F87171; --bad-soft: #2E1212; --tip: #101E38;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper); color: var(--ink); margin: 0;
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { display: flex; max-width: 1200px; margin: 0 auto; gap: 40px; padding: 0 20px; }
+  main { flex: 1; min-width: 0; max-width: 760px; padding-bottom: 96px; }
+
+  /* ── TOC ── */
+  nav.toc {
+    width: 230px; flex-shrink: 0; position: sticky; top: 0; align-self: flex-start;
+    max-height: 100vh; overflow-y: auto; padding: 32px 0; font-size: 13.5px;
+  }
+  nav.toc .toc-title { font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 11px; color: var(--ink-3); margin-bottom: 10px; }
+  nav.toc a { display: block; color: var(--ink-2); text-decoration: none; padding: 4px 10px; border-left: 2px solid var(--line); }
+  nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); border-left-color: var(--accent); outline: none; }
+  nav.toc a.mod { font-weight: 600; color: var(--ink); }
+  @media (max-width: 900px) { nav.toc { display: none; } }
+
+  /* ── Encabezado ── */
+  header.hero { padding: 56px 0 8px; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
+  .lede { color: var(--ink-2); font-size: 17px; max-width: 58ch; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .meta-chip { font-size: 12.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); color: var(--ink-2); }
+
+  h2 { font-size: 25px; font-weight: 800; letter-spacing: -.015em; margin: 64px 0 6px; padding-top: 16px; border-top: 1px solid var(--line); text-wrap: balance; }
+  h2 .mod-emoji { margin-right: 8px; }
+  h3 { font-size: 17px; font-weight: 700; margin: 28px 0 8px; }
+  p { margin: 10px 0; max-width: 68ch; }
+  .muted { color: var(--ink-2); }
+  code { font: 13px/1.5 ui-monospace, "SF Mono", Menlo, Consolas, monospace; background: var(--card); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; }
+  .route { font-size: 13px; color: var(--ink-3); font-weight: 600; }
+  .route b { color: var(--ink-2); }
+
+  ol.steps { counter-reset: s; list-style: none; padding: 0; margin: 12px 0; max-width: 68ch; }
+  ol.steps li { counter-increment: s; position: relative; padding: 0 0 12px 42px; }
+  ol.steps li::before {
+    content: counter(s); position: absolute; left: 0; top: 1px; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--accent-soft); color: var(--accent);
+    font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center;
+  }
+  ul.plain { padding-left: 20px; margin: 8px 0; max-width: 66ch; }
+  ul.plain li { margin: 5px 0; }
+
+  .tipbox { background: var(--tip); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 10px; padding: 12px 16px; margin: 16px 0; font-size: 14.5px; max-width: 68ch; }
+  .tipbox b { color: var(--accent); }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 10px; padding: 12px 16px; margin: 16px 0; font-size: 14.5px; max-width: 68ch; }
+  .warnbox b { color: var(--warn); }
+
+  table.spec { border-collapse: collapse; width: 100%; font-size: 14px; margin: 14px 0; }
+  table.spec th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); padding: 6px 10px; border-bottom: 2px solid var(--line); }
+  table.spec td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.spec td:first-child { white-space: nowrap; font-weight: 600; }
+  .tablewrap { overflow-x: auto; }
+
+  /* ── Maquetas de pantalla ── */
+  .shots { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; margin: 22px 0; }
+  .shot { flex: 0 0 auto; }
+  .shot figcaption { font-size: 12.5px; color: var(--ink-3); text-align: center; margin-top: 10px; font-weight: 600; }
+  figure { margin: 0; }
+  .legend { flex: 1 1 260px; min-width: 240px; font-size: 14px; }
+  .legend div { display: flex; gap: 10px; margin-bottom: 10px; align-items: baseline; }
+  .ln { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 11.5px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; position: relative; top: 3px; }
+
+  /* El teléfono siempre muestra la interfaz clara real de la app */
+  .phone {
+    width: 292px; background: #0F172A; border-radius: 30px; padding: 9px;
+    box-shadow: 0 12px 32px rgba(2, 6, 23, .28);
+  }
+  .screen { background: #F8FAFC; border-radius: 22px; overflow: hidden; color: #0F172A; font-size: 12px; line-height: 1.45; }
+  .screen * { color: #0F172A; }
+  .s-pad { padding: 10px 12px; }
+  .cap { color: #64748B !important; font-size: 10.5px; }
+  .money { font-weight: 800; }
+  .num { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #2563EB; color: #fff !important; font-size: 10.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px #fff; }
+  .rel { position: relative; }
+
+  .s-appbar { background: #0F172A; color: #fff; padding: 12px 14px; font-weight: 700; font-size: 13px; }
+  .s-appbar *, .s-appbar { color: #fff !important; }
+  .s-head { display: flex; align-items: center; gap: 8px; padding: 12px 12px 8px; }
+  .s-head .t { font-weight: 800; font-size: 16px; }
+  .s-search { display: flex; gap: 6px; padding: 0 12px 8px; }
+  .s-input { flex: 1; background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 7px 9px; color: #94A3B8 !important; font-size: 11.5px; }
+  .s-input.filled { color: #0F172A !important; }
+  .s-scanbtn { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 5px 9px; font-size: 13px; }
+  .s-card { background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; padding: 9px 10px; margin: 0 12px 7px; }
+  .s-row { display: flex; align-items: center; gap: 7px; }
+  .s-row .grow { flex: 1; min-width: 0; }
+  .s-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+  .bg-ok { background: #DCFCE7; } .bg-ok, .s-badge.bg-ok { color: #16A34A !important; }
+  .bg-warn { background: #FEF3C7; } .s-badge.bg-warn { color: #D97706 !important; }
+  .bg-bad { background: #FEE2E2; } .s-badge.bg-bad { color: #DC2626 !important; }
+  .bg-neutral { background: #E2E8F0; } .s-badge.bg-neutral { color: #64748B !important; }
+  .s-btn { background: #2563EB; border-radius: 10px; padding: 9px 14px; text-align: center; font-weight: 700; font-size: 12px; }
+  .s-btn, .s-btn * { color: #fff !important; }
+  .s-btn.ghost { background: transparent; border: 1px solid #2563EB; }
+  .s-btn.ghost, .s-btn.ghost * { color: #2563EB !important; }
+  .s-btn.danger { background: #DC2626; }
+  .s-btn.dark { background: #1E293B; }
+  .s-qty { display: inline-flex; align-items: center; gap: 5px; }
+  .s-qty i { font-style: normal; width: 20px; height: 20px; border-radius: 6px; background: #DBEAFE; color: #2563EB !important; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+  .s-footer { background: #fff; border-top: 1px solid #E2E8F0; padding: 10px 12px; display: flex; align-items: center; gap: 8px; }
+  .s-tabs { background: #fff; border-top: 1px solid #E2E8F0; display: flex; padding: 6px 0 8px; }
+  .s-tabs div { flex: 1; text-align: center; font-size: 9px; color: #94A3B8 !important; }
+  .s-tabs div.on { color: #2563EB !important; font-weight: 700; }
+  .s-tabs .ic { font-size: 15px; display: block; }
+  .s-field { margin: 0 12px 8px; }
+  .s-field .lab { font-size: 9.5px; font-weight: 700; color: #64748B !important; margin-bottom: 2px; }
+  .s-field .box { background: #fff; border: 1px solid #E2E8F0; border-radius: 8px; padding: 7px 9px; font-size: 11.5px; }
+  .s-field .box.empty { color: #94A3B8 !important; }
+  .s-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 8px; }
+  .s-chip { border: 1px solid #E2E8F0; background: #fff; border-radius: 999px; padding: 4px 10px; font-size: 10px; color: #64748B !important; }
+  .s-chip.on { border-color: #2563EB; background: #DBEAFE; color: #2563EB !important; font-weight: 700; }
+  .s-chip.solid { background: #2563EB; border-color: #2563EB; color: #fff !important; font-weight: 700; }
+  .s-stats { display: flex; gap: 7px; padding: 0 12px 7px; }
+  .s-stat { flex: 1; background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; padding: 8px 9px; }
+  .s-stat .v { font-weight: 800; font-size: 13px; }
+  .s-sec { font-weight: 700; font-size: 12px; padding: 8px 12px 4px; }
+  .s-divider { border-top: 1px dashed #CBD5E1; margin: 6px 0; }
+  .s-method { flex: 1; background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center; padding: 7px 2px; font-size: 9px; color: #64748B !important; }
+  .s-method .ic { font-size: 14px; display: block; }
+  .s-method.on { border-color: #2563EB; background: #DBEAFE; color: #2563EB !important; font-weight: 700; }
+
+  /* ticket */
+  .ticket { width: 236px; background: #fff; color: #111 !important; font: 10.5px/1.5 ui-monospace, Menlo, Consolas, monospace; padding: 14px 14px 18px; border: 1px solid var(--line); border-radius: 4px 4px 0 0; box-shadow: 0 8px 22px rgba(2,6,23,.15); -webkit-clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), 96% 100%, 92% calc(100% - 6px), 88% 100%, 84% calc(100% - 6px), 80% 100%, 76% calc(100% - 6px), 72% 100%, 68% calc(100% - 6px), 64% 100%, 60% calc(100% - 6px), 56% 100%, 52% calc(100% - 6px), 48% 100%, 44% calc(100% - 6px), 40% 100%, 36% calc(100% - 6px), 32% 100%, 28% calc(100% - 6px), 24% 100%, 20% calc(100% - 6px), 16% 100%, 12% calc(100% - 6px), 8% 100%, 4% calc(100% - 6px), 0 100%); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), 96% 100%, 92% calc(100% - 6px), 88% 100%, 84% calc(100% - 6px), 80% 100%, 76% calc(100% - 6px), 72% 100%, 68% calc(100% - 6px), 64% 100%, 60% calc(100% - 6px), 56% 100%, 52% calc(100% - 6px), 48% 100%, 44% calc(100% - 6px), 40% 100%, 36% calc(100% - 6px), 32% 100%, 28% calc(100% - 6px), 24% 100%, 20% calc(100% - 6px), 16% 100%, 12% calc(100% - 6px), 8% 100%, 4% calc(100% - 6px), 0 100%); }
+  .ticket * { color: #111 !important; }
+  .ticket .c { text-align: center; }
+  .ticket .b { font-weight: 700; }
+  .ticket .lg { font-size: 13px; font-weight: 700; }
+  .ticket hr { border: 0; border-top: 1px dashed #999; margin: 6px 0; }
+  .ticket .r { display: flex; justify-content: space-between; }
+
+  /* tableta */
+  .tablet { width: 100%; max-width: 620px; background: #0F172A; border-radius: 22px; padding: 9px; box-shadow: 0 12px 32px rgba(2,6,23,.28); }
+  .tablet .screen { border-radius: 15px; }
+  .tp { display: flex; }
+  .tp .left { flex: 1.1; border-right: 1px solid #E2E8F0; padding-top: 4px; }
+  .tp .right { flex: 1; display: flex; flex-direction: column; }
+
+  @media (max-width: 640px) { .shots { gap: 18px; } .phone { width: 272px; } }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+  html { scroll-behavior: smooth; }
+  a { color: var(--accent); }
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <div class="toc-title">Manual</div>
+  <a href="#inicio">Antes de empezar</a>
+  <a href="#navegacion">Navegación general</a>
+  <div class="toc-title" style="margin-top:14px">Módulos</div>
+  <a class="mod" href="#vender">🛒 Vender (POS)</a>
+  <a href="#cobrar">Cobrar</a>
+  <a href="#escaner">Escáner de códigos</a>
+  <a class="mod" href="#productos">📦 Productos</a>
+  <a class="mod" href="#inventario">📊 Inventario y kardex</a>
+  <a class="mod" href="#clientes">👤 Clientes</a>
+  <a class="mod" href="#proveedores">🚚 Proveedores</a>
+  <a class="mod" href="#compras">📥 Compras</a>
+  <a class="mod" href="#ventas">🧾 Ventas</a>
+  <a class="mod" href="#facturas">🧮 Facturas</a>
+  <a class="mod" href="#reportes">📈 Reportes</a>
+  <a class="mod" href="#notificaciones">🔔 Notificaciones</a>
+  <a class="mod" href="#configuracion">⚙️ Configuración</a>
+  <div class="toc-title" style="margin-top:14px">Operación</div>
+  <a href="#ticket">Impresión de tickets</a>
+  <a href="#offline">Modo offline / online</a>
+  <a href="#faq">Solución de problemas</a>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="kicker">Manual de usuario · v1.0</div>
+  <h1>POS Móvil</h1>
+  <p class="lede">Punto de venta genérico para cualquier tipo de negocio: vende, controla inventario,
+  registra compras y proveedores, factura e imprime tickets — con o sin internet, desde un
+  celular o una tableta.</p>
+  <div class="meta-row">
+    <span class="meta-chip">📱 Android e iOS</span>
+    <span class="meta-chip">📴 Funciona sin conexión</span>
+    <span class="meta-chip">🖨️ Impresora térmica 58/80&nbsp;mm</span>
+    <span class="meta-chip">📷 Escáner con la cámara</span>
+  </div>
+</header>
+
+<!-- ═══════════════ INICIO ═══════════════ -->
+<h2 id="inicio">Antes de empezar</h2>
+<p>La primera vez que abras la app, dedica cinco minutos a dejarla lista para tu negocio.
+El orden recomendado es:</p>
+<ol class="steps">
+  <li><b>Configura tu negocio.</b> Ve a <span class="route"><b>Más → Configuración</b></span> y captura nombre, logo, dirección y datos de facturación. Todo lo que escribas aquí aparecerá en tus tickets y facturas.</li>
+  <li><b>Da de alta tus productos.</b> En la pestaña <span class="route"><b>Productos</b></span>, crea cada artículo con su precio y sus existencias iniciales. Si tienen código de barras, escanéalo con la cámara para no teclearlo.</li>
+  <li><b>Define stock mínimo.</b> En cada producto, el campo <i>Stock mínimo</i> activa las alertas automáticas de resurtido.</li>
+  <li><b>Concede permisos.</b> La app pedirá acceso a la <b>cámara</b> (escanear códigos) y a las <b>notificaciones</b> (alertas de stock) la primera vez que los use. Acéptalos para aprovechar todo.</li>
+  <li><b>Empieza a vender</b> desde la pestaña <span class="route"><b>Vender</b></span>. 🎉</li>
+</ol>
+<div class="tipbox"><b>La app funciona 100&nbsp;% sin internet.</b> No necesitas configurar nada más para operar. La sincronización con un servidor central (sección <a href="#offline">Modo offline / online</a>) es opcional.</div>
+
+<!-- ═══════════════ NAVEGACIÓN ═══════════════ -->
+<h2 id="navegacion">Navegación general</h2>
+<p>La app se organiza en <b>cuatro pestañas</b> fijas en la parte inferior. Las funciones que no
+usas a cada rato viven en la pestaña <b>Más</b>.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-head"><div class="grow"><div class="t">Más opciones</div></div></div>
+      <div class="s-card s-row rel"><span class="num" style="right:-6px; top:-6px">1</span>
+        <div class="grow"><b style="font-size:12px">Sincronización</b><div class="cap">Todo sincronizado · Última: 10:32</div></div>
+        <span class="s-badge bg-ok">En línea</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">🧾</span><div class="grow"><b style="font-size:12px">Ventas</b><div class="cap">Historial, reimpresión y cancelaciones</div></div><span class="cap">›</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">📊</span><div class="grow"><b style="font-size:12px">Inventario</b><div class="cap">Existencias, valuación y ajustes</div></div><span class="cap">›</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">👤</span><div class="grow"><b style="font-size:12px">Clientes</b><div class="cap">Directorio y datos de facturación</div></div><span class="cap">›</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">🚚</span><div class="grow"><b style="font-size:12px">Proveedores</b><div class="cap">Directorio de proveedores</div></div><span class="cap">›</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">📥</span><div class="grow"><b style="font-size:12px">Compras</b><div class="cap">Recepción de mercancía</div></div><span class="cap">›</span></div>
+      <div class="s-card s-row rel"><span class="num" style="right:-6px; top:-6px">2</span><span style="font-size:16px">🔔</span><div class="grow"><b style="font-size:12px">Notificaciones</b><div class="cap">Alertas de stock y avisos</div></div><span class="s-badge bg-bad">3</span></div>
+      <div class="s-card s-row"><span style="font-size:16px">⚙️</span><div class="grow"><b style="font-size:12px">Configuración</b><div class="cap">Negocio, branding, impresora y sync</div></div><span class="cap">›</span></div>
+      <div class="s-tabs rel"><span class="num" style="left:8px; top:-9px">3</span>
+        <div><span class="ic">🛒</span>Vender</div><div><span class="ic">📦</span>Productos</div>
+        <div><span class="ic">📊</span>Reportes</div><div class="on"><span class="ic">☰</span>Más</div></div>
+    </div></div>
+    <figcaption>Pestaña «Más»: el resto de los módulos</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Estado de la <b>sincronización</b>: en línea / sin conexión y cambios pendientes de enviar. Tócalo para sincronizar al momento.</span></div>
+    <div><span class="ln">2</span><span>Contador rojo de <b>notificaciones sin leer</b>; también aparece sobre el ícono ☰ de la barra.</span></div>
+    <div><span class="ln">3</span><span>Barra de pestañas: <b>Vender</b> (caja), <b>Productos</b> (catálogo), <b>Reportes</b> y <b>Más</b>.</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ VENDER ═══════════════ -->
+<h2 id="vender"><span class="mod-emoji">🛒</span>Vender (punto de venta)</h2>
+<p>Es la pantalla principal de la caja: arma el carrito buscando o escaneando productos y cobra en
+dos toques. Es la primera pestaña y la que verás al abrir la app.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-head rel"><span class="num" style="right:2px; top:6px">2</span>
+        <div class="grow"><div class="t">Abarrotes Doña Mary</div><div class="cap">Punto de venta</div></div>
+        <span class="s-badge bg-ok">En línea</span></div>
+      <div class="s-search rel"><span class="num" style="left:-4px; top:-6px">1</span>
+        <div class="s-input">Buscar producto o código…</div><div class="s-scanbtn">📷</div></div>
+      <div class="s-card s-row rel"><span class="num" style="right:-6px; top:-6px">3</span>
+        <div class="grow"><b>Refresco cola 600 ml</b><div class="cap">$19.00 c/u</div></div>
+        <span class="s-qty"><i>−</i><b>2</b><i>+</i></span><span class="money">$38.00</span></div>
+      <div class="s-card s-row">
+        <div class="grow"><b>Sabritas original 45 g</b><div class="cap">$17.50 c/u</div></div>
+        <span class="s-qty"><i>−</i><b>1</b><i>+</i></span><span class="money">$17.50</span></div>
+      <div class="s-card s-row">
+        <div class="grow"><b>Jitomate (kg)</b><div class="cap">$34.90 c/u</div></div>
+        <span class="s-qty"><i>−</i><b>1.5</b><i>+</i></span><span class="money">$52.35</span></div>
+      <div style="height:64px"></div>
+      <div class="s-footer rel"><span class="num" style="left:8px; top:-9px">4</span>
+        <div class="grow"><div class="cap">3 artículos</div><div class="money" style="font-size:17px">$107.85</div></div>
+        <div class="s-btn ghost">Vaciar</div><div class="s-btn rel"><span class="num" style="right:-8px; top:-9px">5</span>Cobrar</div></div>
+      <div class="s-tabs"><div class="on"><span class="ic">🛒</span>Vender</div><div><span class="ic">📦</span>Productos</div><div><span class="ic">📊</span>Reportes</div><div><span class="ic">☰</span>Más</div></div>
+    </div></div>
+    <figcaption>Vender, con tres artículos en el carrito</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span><b>Búsqueda</b> por nombre, SKU, código de barras o categoría, y botón 📷 para <b>escanear con la cámara</b>.</span></div>
+    <div><span class="ln">2</span><span>Nombre de tu negocio y estado de conexión (verde en línea, rojo sin conexión, ámbar con cambios por sincronizar).</span></div>
+    <div><span class="ln">3</span><span>Renglón del carrito: botones <b>− / +</b> para la cantidad y el importe de la línea. Admite cantidades con decimales (granel).</span></div>
+    <div><span class="ln">4</span><span>Total en vivo y <b>Vaciar</b> (pide confirmación).</span></div>
+    <div><span class="ln">5</span><span><b>Cobrar</b> abre la pantalla de pago.</span></div>
+  </div>
+</div>
+
+<h3>Para vender</h3>
+<ol class="steps">
+  <li>Escribe las primeras letras del producto <i>o</i> toca 📷 y apunta al código de barras.</li>
+  <li>Toca el producto en los resultados: se agrega al carrito con cantidad 1.</li>
+  <li>Ajusta cantidades con − / +. Para quitar un artículo, baja su cantidad hasta cero.</li>
+  <li>Toca <b>Cobrar</b>.</li>
+</ol>
+<div class="tipbox"><b>Si un producto no tiene existencias</b>, la app te avisa y te deja decidir si lo vendes de todos modos (el stock quedará en negativo y se registrará en el kardex).</div>
+
+<h3>En tableta horizontal: modo caja registradora</h3>
+<p>En pantallas anchas (≥ 900&nbsp;px) la misma pestaña se divide en dos paneles: catálogo y búsqueda
+a la izquierda, carrito y total a la derecha. La búsqueda no se limpia al agregar, para capturar
+varios artículos seguidos.</p>
+<div class="shots"><figure class="shot" style="flex:1 1 100%">
+  <div class="tablet"><div class="screen">
+    <div class="s-head"><div class="grow"><div class="t">Abarrotes Doña Mary</div><div class="cap">Punto de venta</div></div><span class="s-badge bg-ok">En línea</span></div>
+    <div class="tp">
+      <div class="left">
+        <div class="s-search"><div class="s-input filled">refre</div><div class="s-scanbtn">📷</div></div>
+        <div class="s-card s-row"><div class="grow"><b>Refresco cola 600 ml</b><div class="cap">Stock: 24 pza</div></div><span class="money">$19.00</span></div>
+        <div class="s-card s-row"><div class="grow"><b>Refresco naranja 600 ml</b><div class="cap">Stock: 11 pza</div></div><span class="money">$19.00</span></div>
+        <div class="s-card s-row"><div class="grow"><b>Refresco 2 L</b><div class="cap">Stock: 8 pza</div></div><span class="money">$38.00</span></div>
+      </div>
+      <div class="right">
+        <div style="flex:1">
+          <div class="s-card s-row" style="margin-top:10px"><div class="grow"><b>Refresco cola 600 ml</b><div class="cap">$19.00 c/u</div></div><span class="s-qty"><i>−</i><b>2</b><i>+</i></span><span class="money">$38.00</span></div>
+          <div class="s-card s-row"><div class="grow"><b>Sabritas original 45 g</b><div class="cap">$17.50 c/u</div></div><span class="s-qty"><i>−</i><b>1</b><i>+</i></span><span class="money">$17.50</span></div>
+        </div>
+        <div class="s-footer"><div class="grow"><div class="cap">2 artículos</div><div class="money" style="font-size:15px">$55.50</div></div><div class="s-btn">Cobrar</div></div>
+      </div>
+    </div>
+    <div class="s-tabs"><div class="on"><span class="ic">🛒</span>Vender</div><div><span class="ic">📦</span>Productos</div><div><span class="ic">📊</span>Reportes</div><div><span class="ic">☰</span>Más</div></div>
+  </div></div>
+  <figcaption>La misma pantalla en tableta: catálogo | carrito</figcaption>
+</figure></div>
+
+<!-- ═══════════════ COBRAR ═══════════════ -->
+<h2 id="cobrar">Cobrar</h2>
+<p>Resumen del total, método de pago, cambio, descuento y cliente — todo en una sola pantalla.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Cobrar</div>
+      <div style="height:8px"></div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">1</span>
+        <div class="s-row"><b style="font-size:13px" class="grow">Total a cobrar</b><span class="money" style="font-size:18px">$107.85</span></div>
+        <div class="cap">Subtotal $92.97 &nbsp; Impuestos $14.88</div></div>
+      <div class="s-sec rel">Método de pago<span class="num" style="margin-left:8px; display:inline-flex; position:static">2</span></div>
+      <div class="s-row" style="padding:0 12px 8px; gap:6px">
+        <div class="s-method on"><span class="ic">💵</span>Efectivo</div>
+        <div class="s-method"><span class="ic">💳</span>Tarjeta</div>
+        <div class="s-method"><span class="ic">🏦</span>Transferencia</div>
+        <div class="s-method"><span class="ic">🧾</span>Otro</div></div>
+      <div class="s-field rel"><span class="num" style="right:-4px; top:-2px">3</span><div class="lab">RECIBIDO ($)</div><div class="box">200.00</div></div>
+      <div class="s-chips"><span class="s-chip on">$107.85</span><span class="s-chip">$200.00</span><span class="s-chip">$500.00</span></div>
+      <div class="s-card rel" style="background:#DCFCE7; border-color:#16A34A"><span class="num" style="right:-6px; top:-6px">4</span>
+        <b style="color:#16A34A !important; font-size:13px">Cambio: $92.15</b></div>
+      <div class="s-field"><div class="lab">DESCUENTO ($, OPCIONAL)</div><div class="box empty">0.00</div></div>
+      <div class="s-field rel"><span class="num" style="right:-4px; top:-2px">5</span><div class="lab">CLIENTE (OPCIONAL)</div><div class="box">Mar</div></div>
+      <div class="s-card" style="margin-top:-2px"><b>María Torres</b><div class="cap">55 1234 5678 · TOMA850101XX0</div><div class="s-divider"></div><b>Mario Vega</b><div class="cap">Sin datos</div></div>
+      <div class="s-btn" style="margin:6px 12px 14px">Cobrar $107.85</div>
+    </div></div>
+    <figcaption>Cobro en efectivo con cliente asignado</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Total con desglose de subtotal, impuestos y descuento.</span></div>
+    <div><span class="ln">2</span><span>Método de pago: <b>Efectivo, Tarjeta, Transferencia u Otro</b>. Solo efectivo pide monto recibido.</span></div>
+    <div><span class="ln">3</span><span>Monto recibido con <b>atajos de billetes</b> (el primero es el importe exacto). La app calcula el cambio.</span></div>
+    <div><span class="ln">4</span><span><b>Cambio a devolver</b>, resaltado en verde.</span></div>
+    <div><span class="ln">5</span><span>Cliente: escribe 2+ letras y elige de tus <a href="#clientes">clientes registrados</a> (sus datos fiscales prellenarán la factura), o deja texto libre / vacío para «Público general».</span></div>
+  </div>
+</div>
+
+<p>Al confirmar, la app registra la venta con su <b>folio consecutivo</b>, descuenta el inventario
+y te ofrece <b>imprimir el ticket</b> de inmediato. El botón se desactiva si el monto recibido no
+alcanza el total.</p>
+
+<!-- ═══════════════ ESCÁNER ═══════════════ -->
+<h2 id="escaner">Escáner de códigos</h2>
+<p>El botón 📷 (presente en Vender, Productos y Compras) abre la cámara. Centra el código dentro
+del marco; al detectarlo, la app vibra la lectura y regresa sola a la pantalla anterior con el
+producto identificado.</p>
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen" style="background:#000">
+      <div class="s-appbar">‹&nbsp;&nbsp;Escanear código</div>
+      <div style="height:300px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px">
+        <div style="width:190px; height:110px; border:3px solid #fff; border-radius:14px"></div>
+        <div style="color:#fff !important; font-size:11px">Apunta la cámara al código de barras</div>
+        <div style="color:#4ADE80 !important; font-weight:700; font-size:12px">7501055300891</div>
+      </div>
+    </div></div>
+    <figcaption>Lectura de un EAN-13</figcaption>
+  </figure>
+  <div class="legend">
+    <p style="margin-top:0">Lee <b>EAN-13, EAN-8, UPC-A, UPC-E, Code 128, Code 39, Code 93, ITF-14 y QR</b>.</p>
+    <p>Según dónde lo abras, el resultado cambia:</p>
+    <div><span class="ln" style="background:var(--ink-3)">🛒</span><span>En <b>Vender</b>: agrega el producto al carrito. Si el código no existe, ofrece crearlo.</span></div>
+    <div><span class="ln" style="background:var(--ink-3)">📦</span><span>En <b>Productos</b>: abre la ficha del producto, o captura el código en el formulario.</span></div>
+    <div><span class="ln" style="background:var(--ink-3)">📥</span><span>En <b>Compras</b>: agrega la partida recibida.</span></div>
+  </div>
+</div>
+<div class="warnbox"><b>¿Cámara negra o sin permiso?</b> La primera vez la app pide acceso a la cámara. Si lo negaste, actívalo en los ajustes del sistema: <i>Ajustes → Apps → POS Móvil → Permisos → Cámara</i>.</div>
+
+<!-- ═══════════════ PRODUCTOS ═══════════════ -->
+<h2 id="productos"><span class="mod-emoji">📦</span>Productos</h2>
+<p>Tu catálogo completo. Cada producto guarda precio, costo, impuesto, unidad y niveles de stock.
+El color de la insignia de existencias te dice su salud de un vistazo: <span class="s-badge bg-ok">verde</span> normal,
+<span class="s-badge bg-warn">ámbar</span> en mínimo, <span class="s-badge bg-bad">rojo</span> agotado.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-head"><div class="grow"><div class="t">Productos</div></div><div class="s-btn rel" style="padding:6px 10px"><span class="num" style="right:-8px; top:-9px">1</span>+ Nuevo</div></div>
+      <div class="s-search"><div class="s-input">Nombre, SKU, código o categoría…</div><div class="s-scanbtn">📷</div></div>
+      <div class="s-card s-row rel"><span class="num" style="right:-6px; top:-6px">2</span>
+        <div class="grow"><b>Refresco cola 600 ml</b><div class="cap">Bebidas · 7501055300891</div>
+        <span class="s-badge bg-ok">Stock: 24 pza</span></div><span class="money">$19.00</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Jitomate (kg)</b><div class="cap">Frutas y verduras · JIT-01</div>
+        <span class="s-badge bg-warn">Stock: 2.5 kg</span></div><span class="money">$34.90</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Detergente 1 kg</b><div class="cap">Limpieza · 7509999912345</div>
+        <span class="s-badge bg-bad">Stock: 0 pza</span></div><span class="money">$42.00</span></div>
+      <div class="s-tabs"><div><span class="ic">🛒</span>Vender</div><div class="on"><span class="ic">📦</span>Productos</div><div><span class="ic">📊</span>Reportes</div><div><span class="ic">☰</span>Más</div></div>
+    </div></div>
+    <figcaption>Catálogo con estados de stock</figcaption>
+  </figure>
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Producto</div>
+      <div style="height:8px"></div>
+      <div class="s-field"><div class="lab">NOMBRE *</div><div class="box">Refresco cola 600 ml</div></div>
+      <div class="s-field rel"><span class="num" style="right:-4px; top:-2px">3</span><div class="lab">CÓDIGO DE BARRAS</div>
+        <div class="s-row" style="gap:6px"><div class="box grow">7501055300891</div><div class="s-scanbtn">📷</div></div></div>
+      <div class="s-field"><div class="lab">CATEGORÍA</div><div class="box">Bebidas</div></div>
+      <div class="s-row" style="padding:0 12px; gap:8px">
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">PRECIO DE VENTA</div><div class="box">19.00</div></div>
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">COSTO</div><div class="box">13.50</div></div></div>
+      <div class="s-row" style="padding:0 12px; gap:8px">
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">IMPUESTO (%)</div><div class="box">16</div></div>
+        <div class="s-field grow rel" style="margin:0 0 8px"><span class="num" style="right:-4px; top:-2px">4</span><div class="lab">EXISTENCIAS</div><div class="box">24</div></div></div>
+      <div class="s-field rel"><span class="num" style="right:-4px; top:-2px">5</span><div class="lab">STOCK MÍNIMO (ALERTA)</div><div class="box">6</div></div>
+      <div class="s-btn" style="margin:4px 12px 6px">Guardar</div>
+      <div class="s-btn dark" style="margin:0 12px 6px">Ver kardex</div>
+      <div class="s-btn danger" style="margin:0 12px 14px">Eliminar</div>
+    </div></div>
+    <figcaption>Ficha de producto</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span><b>+ Nuevo</b> crea un producto; también puedes escanear un código desconocido y crearlo desde ahí.</span></div>
+    <div><span class="ln">2</span><span>Toca cualquier renglón para <b>editar</b> el producto.</span></div>
+    <div><span class="ln">3</span><span>Escanea el código de barras directo al formulario con 📷.</span></div>
+    <div><span class="ln">4</span><span>El precio de venta es <b>con impuesto incluido</b>. Las existencias aceptan decimales para granel (kg, lt).</span></div>
+    <div><span class="ln">5</span><span>Al llegar a este nivel se dispara la <a href="#notificaciones">alerta de resurtido</a>. Déjalo en 0 para no alertar.</span></div>
+  </div>
+</div>
+
+<div class="tipbox"><b>Cambiar existencias a mano genera un ajuste.</b> Si editas el campo Existencias, la app registra la diferencia como movimiento de «Ajuste manual» en el kardex — nunca se pierde el historial. <b>Eliminar</b> un producto solo lo desactiva: sus ventas y movimientos históricos se conservan.</div>
+
+<!-- ═══════════════ INVENTARIO ═══════════════ -->
+<h2 id="inventario"><span class="mod-emoji">📊</span>Inventario y kardex</h2>
+<p><span class="route"><b>Más → Inventario</b></span>. Panorama del almacén: cuánto tienes, cuánto
+vale y qué necesita resurtido. Toca un producto para ver su <b>kardex</b> (historial completo de
+movimientos) y hacer ajustes.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Inventario</div>
+      <div style="height:8px"></div>
+      <div class="s-stats rel"><span class="num" style="left:4px; top:-8px">1</span>
+        <div class="s-stat"><div class="cap">Productos</div><div class="v">128</div></div>
+        <div class="s-stat"><div class="cap">Valor a costo</div><div class="v">$48,210.00</div></div></div>
+      <div class="s-stats">
+        <div class="s-stat"><div class="cap">Valor a venta</div><div class="v" style="color:#16A34A !important">$69,904.50</div></div>
+        <div class="s-stat"><div class="cap">Bajos / agotados</div><div class="v" style="color:#D97706 !important">4 / 1</div></div></div>
+      <div class="s-search"><div class="s-input">Buscar en inventario…</div></div>
+      <div class="s-chips rel"><span class="num" style="left:-4px; top:-6px">2</span>
+        <span class="s-chip on">Todos</span><span class="s-chip">Stock bajo</span><span class="s-chip">Agotados</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Jitomate (kg)</b><div class="cap">Mínimo: 5 kg · Costo $24.00</div></div><span class="s-badge bg-warn">2.5 kg</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Detergente 1 kg</b><div class="cap">Mínimo: 3 pza · Costo $31.00</div></div><span class="s-badge bg-bad">0 pza</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Refresco cola 600 ml</b><div class="cap">Mínimo: 6 pza · Costo $13.50</div></div><span class="s-badge bg-ok">24 pza</span></div>
+    </div></div>
+    <figcaption>Resumen y filtros del inventario</figcaption>
+  </figure>
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Kardex</div>
+      <div class="s-pad"><b style="font-size:15px">Jitomate (kg)</b></div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">3</span>
+        <b style="font-size:12px">Ajustar existencias</b>
+        <div class="s-field" style="margin:6px 0 6px"><div class="lab">CANTIDAD</div><div class="box">1.5</div></div>
+        <div class="s-field" style="margin:0 0 8px"><div class="lab">MOTIVO</div><div class="box">Merma</div></div>
+        <div class="s-row" style="gap:6px"><div class="s-btn grow" style="padding:7px">+ Entrada</div><div class="s-btn danger grow" style="padding:7px">− Salida</div></div></div>
+      <div class="s-sec rel">Movimientos<span class="num" style="margin-left:8px; display:inline-flex; position:static">4</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Venta · Venta #148</b><div class="cap">16/08/2026 18:22</div></div>
+        <div style="text-align:right"><b style="color:#DC2626 !important">−1.5</b><div class="cap">Saldo: 2.5</div></div></div>
+      <div class="s-card s-row"><div class="grow"><b>Compra · Compra #37</b><div class="cap">15/08/2026 09:10</div></div>
+        <div style="text-align:right"><b style="color:#16A34A !important">+10</b><div class="cap">Saldo: 4</div></div></div>
+      <div class="s-card s-row"><div class="grow"><b>Ajuste · Merma</b><div class="cap">14/08/2026 20:01</div></div>
+        <div style="text-align:right"><b style="color:#DC2626 !important">−0.5</b><div class="cap">Saldo: −6</div></div></div>
+    </div></div>
+    <figcaption>Kardex con ajuste de existencias</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Valuación en vivo: <b>a costo</b> (lo invertido) y <b>a venta</b> (si vendieras todo hoy); la diferencia es tu utilidad potencial.</span></div>
+    <div><span class="ln">2</span><span>Filtros rápidos: <b>Stock bajo</b> (en o bajo el mínimo) y <b>Agotados</b>.</span></div>
+    <div><span class="ln">3</span><span>Ajustes con motivo: <b>+ Entrada</b> (encontraste piezas, devolución) o <b>− Salida</b> (merma, robo, caducidad).</span></div>
+    <div><span class="ln">4</span><span>Cada movimiento indica tipo, referencia (folio de venta/compra o motivo), cantidad con signo y <b>saldo resultante</b>.</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CLIENTES ═══════════════ -->
+<h2 id="clientes"><span class="mod-emoji">👤</span>Clientes</h2>
+<p><span class="route"><b>Más → Clientes</b></span>. Directorio de clientes con datos de contacto,
+datos fiscales e historial de compras. Registrar a un cliente rinde en dos lugares: en el
+<a href="#cobrar">cobro</a> (autocompletado) y en la <a href="#facturas">factura</a> (datos fiscales
+prellenados).</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Cliente</div>
+      <div style="height:8px"></div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">1</span>
+        <b style="font-size:12px">Historial</b><div class="cap">12 compras · $4,318.50 · Última: 14/08/2026</div></div>
+      <div class="s-field"><div class="lab">NOMBRE *</div><div class="box">María Torres</div></div>
+      <div class="s-field"><div class="lab">TELÉFONO</div><div class="box">55 1234 5678</div></div>
+      <div class="s-field"><div class="lab">CORREO</div><div class="box">maria@correo.com</div></div>
+      <div class="s-sec rel">Datos de facturación<span class="num" style="margin-left:8px; display:inline-flex; position:static">2</span></div>
+      <div class="s-field"><div class="lab">RFC / ID FISCAL</div><div class="box">TOMA850101XX0</div></div>
+      <div class="s-field"><div class="lab">RÉGIMEN FISCAL</div><div class="box">612 Personas Físicas</div></div>
+      <div class="s-row" style="padding:0 12px; gap:8px">
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">CÓDIGO POSTAL</div><div class="box">06700</div></div>
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">USO DE CFDI</div><div class="box">G03</div></div></div>
+      <div class="s-btn" style="margin:4px 12px 6px">Guardar</div>
+      <div class="s-btn danger" style="margin:0 12px 14px">Eliminar</div>
+    </div></div>
+    <figcaption>Ficha de cliente con historial</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span><b>Historial automático</b>: número de compras, total acumulado y última visita. Se llena solo al asignar el cliente en el cobro.</span></div>
+    <div><span class="ln">2</span><span>Los <b>datos fiscales</b> capturados aquí se copian solos a la factura de cualquier venta de este cliente — captúralos una vez y factura en segundos.</span></div>
+    <p style="margin-top:14px">La lista de clientes (<span class="route"><b>Más → Clientes</b></span>) tiene búsqueda por nombre, teléfono, correo o RFC, y el botón <b>+ Nuevo</b>. En tabletas se muestra a dos columnas.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ PROVEEDORES ═══════════════ -->
+<h2 id="proveedores"><span class="mod-emoji">🚚</span>Proveedores</h2>
+<p><span class="route"><b>Más → Proveedores</b></span>. Directorio de quienes te surten: nombre o
+razón social, contacto, teléfono, correo, RFC, dirección y notas. Su función principal es
+<b>vincularse a las compras</b>, para que los reportes te digan cuánto le has comprado a cada uno.</p>
+<ol class="steps">
+  <li>Toca <b>+ Nuevo</b>, captura al menos el nombre y <b>Guarda</b>.</li>
+  <li>Al registrar una <a href="#compras">compra</a>, elígelo en la lista de proveedores.</li>
+  <li>Consulta <span class="route"><b>Reportes → Compras → Por proveedor</b></span> para ver el acumulado.</li>
+</ol>
+
+<!-- ═══════════════ COMPRAS ═══════════════ -->
+<h2 id="compras"><span class="mod-emoji">📥</span>Compras</h2>
+<p><span class="route"><b>Más → Compras</b></span>. Registra la mercancía que recibes. Al confirmar
+una compra, la app <b>sube el stock</b> de cada producto y <b>actualiza su costo</b> — el inventario
+se alimenta solo, sin capturas dobles.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Nueva compra</div>
+      <div class="s-sec rel">Proveedor<span class="num" style="margin-left:8px; display:inline-flex; position:static">1</span></div>
+      <div class="s-chips"><span class="s-chip">Sin proveedor</span><span class="s-chip on">Distribuidora El Sol</span><span class="s-chip">Coca-Cola FEMSA</span></div>
+      <div class="s-sec">Productos</div>
+      <div class="s-search"><div class="s-input">Buscar producto…</div><div class="s-scanbtn">📷</div></div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">2</span>
+        <b style="font-size:12px">Jitomate (kg)</b>
+        <div class="s-row" style="gap:8px; margin-top:6px">
+          <div class="s-field grow" style="margin:0"><div class="lab">CANTIDAD (KG)</div><div class="box">10</div></div>
+          <div class="s-field grow" style="margin:0"><div class="lab">COSTO UNITARIO ($)</div><div class="box">24.00</div></div></div>
+        <div class="s-row" style="gap:6px; margin-top:8px"><div class="s-btn grow" style="padding:7px">Agregar</div><div class="s-btn ghost grow" style="padding:7px">Cancelar</div></div></div>
+      <div class="s-sec">Partidas</div>
+      <div class="s-card s-row"><div class="grow"><b>Refresco cola 600 ml</b><div class="cap">24 pza × $13.50</div></div><span class="money">$324.00</span><span style="color:#DC2626 !important; font-weight:700">✕</span></div>
+      <div class="s-footer rel"><span class="num" style="left:8px; top:-9px">3</span>
+        <div class="grow"><div class="cap">Total de la compra</div><div class="money" style="font-size:15px">$564.00</div></div>
+        <div class="s-btn">Recibir compra</div></div>
+    </div></div>
+    <figcaption>Recepción de mercancía</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Elige el <b>proveedor</b> (o «Sin proveedor» para compras informales).</span></div>
+    <div><span class="ln">2</span><span>Busca o escanea cada producto y captura <b>cantidad recibida</b> y <b>costo unitario</b>. El costo se propone del último registrado.</span></div>
+    <div><span class="ln">3</span><span><b>Recibir compra</b> confirma todo: asigna folio, suma el stock, actualiza costos y registra los movimientos en el kardex.</span></div>
+    <p style="margin-top:14px">El historial muestra cada compra con folio, proveedor, fecha, total y estatus <span class="s-badge bg-ok">Recibida</span>. Toca una para ver su detalle con partidas y desglose de impuestos.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ VENTAS ═══════════════ -->
+<h2 id="ventas"><span class="mod-emoji">🧾</span>Ventas</h2>
+<p><span class="route"><b>Más → Ventas</b></span>. Historial completo de tickets. Cada venta indica
+folio, cliente, fecha, total y estatus: <span class="s-badge bg-ok">Facturada</span> o
+<span class="s-badge bg-bad">Cancelada</span> cuando aplica.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Venta</div>
+      <div style="height:8px"></div>
+      <div class="s-card">
+        <div class="s-row"><b style="font-size:14px" class="grow">Venta #148</b><span class="s-badge bg-ok">Completada</span></div>
+        <div class="cap">16/08/2026 18:22</div>
+        <div style="font-size:11px; margin-top:4px">Cliente: María Torres<br>Pago: Efectivo · Cambio $92.15</div></div>
+      <div class="s-sec">Artículos</div>
+      <div class="s-card s-row"><div class="grow"><b>Refresco cola 600 ml</b><div class="cap">2 × $19.00</div></div><span class="money">$38.00</span></div>
+      <div class="s-card s-row"><div class="grow"><b>Jitomate (kg)</b><div class="cap">1.5 × $34.90</div></div><span class="money">$52.35</span></div>
+      <div class="s-card">
+        <div class="s-row"><span class="grow">Subtotal</span><span>$77.89</span></div>
+        <div class="s-row"><span class="grow">Impuestos</span><span>$12.46</span></div>
+        <div class="s-row"><b class="grow">Total</b><span class="money">$90.35</span></div></div>
+      <div class="s-btn rel" style="margin:8px 12px 6px"><span class="num" style="right:-8px; top:-9px">1</span>Reimprimir ticket</div>
+      <div class="s-btn dark rel" style="margin:0 12px 6px"><span class="num" style="right:-8px; top:-9px">2</span>Facturar</div>
+      <div class="s-btn danger rel" style="margin:0 12px 14px"><span class="num" style="right:-8px; top:-9px">3</span>Cancelar venta</div>
+    </div></div>
+    <figcaption>Detalle de una venta</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span><b>Reimprimir</b>: vuelve a mandar el ticket a la impresora térmica (o genera el PDF).</span></div>
+    <div><span class="ln">2</span><span><b>Facturar</b>: abre el formulario de factura de esta venta (desaparece si ya está facturada).</span></div>
+    <div><span class="ln">3</span><span><b>Cancelar venta</b>: pide confirmación y <b>devuelve las existencias</b> al inventario con su movimiento de kardex.</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════ FACTURAS ═══════════════ -->
+<h2 id="facturas"><span class="mod-emoji">🧮</span>Facturas</h2>
+<p><span class="route"><b>Más → Facturas</b></span> lista todas las facturas emitidas; se crean
+desde el detalle de una venta con el botón <b>Facturar</b>.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Facturar venta</div>
+      <div style="height:8px"></div>
+      <div class="s-card"><b style="font-size:12px">Venta #148</b><div class="cap">Total a facturar: $90.35</div></div>
+      <div class="s-sec rel">Datos fiscales del cliente<span class="num" style="margin-left:8px; display:inline-flex; position:static">1</span></div>
+      <div class="s-field"><div class="lab">RAZÓN SOCIAL *</div><div class="box">María Torres</div></div>
+      <div class="s-field"><div class="lab">RFC / ID FISCAL *</div><div class="box">TOMA850101XX0</div></div>
+      <div class="s-field"><div class="lab">RÉGIMEN FISCAL</div><div class="box">612 Personas Físicas</div></div>
+      <div class="s-row" style="padding:0 12px; gap:8px">
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">CÓDIGO POSTAL</div><div class="box">06700</div></div>
+        <div class="s-field grow" style="margin:0 0 8px"><div class="lab">USO DE CFDI</div><div class="box">G03</div></div></div>
+      <div class="s-btn rel" style="margin:6px 12px 14px"><span class="num" style="right:-8px; top:-9px">2</span>Emitir factura</div>
+    </div></div>
+    <figcaption>Emisión con datos prellenados del cliente</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Si la venta tiene un <a href="#clientes">cliente registrado</a>, sus datos fiscales <b>llegan prellenados</b>; solo revisas y emites. Razón social y RFC son obligatorios.</span></div>
+    <div><span class="ln">2</span><span>Al emitir se asigna <b>serie y folio</b> consecutivos (la serie se define en Configuración) y puedes <b>compartir el PDF</b> al momento: WhatsApp, correo, guardar…</span></div>
+    <p style="margin-top:14px">Desde la lista de facturas puedes <b>volver a compartir el PDF</b> o <b>cancelar</b> una factura. El PDF incluye tu logo, tus datos de emisor, los del receptor, conceptos y desglose de impuestos.</p>
+  </div>
+</div>
+<div class="warnbox"><b>Sobre el timbrado (CFDI México):</b> la app genera la factura con folio interno y su representación en PDF. El timbrado ante el SAT vía PAC se realiza en el servidor central cuando la sincronización está conectada a un backend con PAC integrado — consulta a tu implementador.</div>
+
+<!-- ═══════════════ REPORTES ═══════════════ -->
+<h2 id="reportes"><span class="mod-emoji">📈</span>Reportes</h2>
+<p>Tercera pestaña de la barra. Tres reportes con periodos de <b>Hoy</b>, <b>7 días</b> y
+<b>30 días</b> (el inventario siempre es la foto actual).</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-head"><div class="grow"><div class="t">Reportes</div></div></div>
+      <div class="s-chips rel" style="padding-bottom:4px"><span class="num" style="left:-4px; top:-6px">1</span>
+        <span class="s-chip on" style="flex:1; text-align:center">Ventas</span>
+        <span class="s-chip" style="flex:1; text-align:center">Compras</span>
+        <span class="s-chip" style="flex:1; text-align:center">Inventario</span></div>
+      <div class="s-chips rel"><span class="num" style="left:-4px; top:-6px">2</span>
+        <span class="s-chip solid">Hoy</span><span class="s-chip">7 días</span><span class="s-chip">30 días</span></div>
+      <div class="s-stats">
+        <div class="s-stat"><div class="cap">Ventas</div><div class="v">23</div></div>
+        <div class="s-stat"><div class="cap">Total vendido</div><div class="v" style="color:#16A34A !important">$4,812.50</div></div></div>
+      <div class="s-stats">
+        <div class="s-stat"><div class="cap">Ticket promedio</div><div class="v">$209.24</div></div>
+        <div class="s-stat"><div class="cap">Impuestos</div><div class="v">$663.79</div></div></div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">3</span>
+        <b style="font-size:12px">Por método de pago</b>
+        <div class="s-row" style="margin-top:4px"><span class="grow">Efectivo (18)</span><b>$3,610.00</b></div>
+        <div class="s-row"><span class="grow">Tarjeta (4)</span><b>$980.50</b></div>
+        <div class="s-row"><span class="grow">Transferencia (1)</span><b>$222.00</b></div></div>
+      <div class="s-card"><b style="font-size:12px">Productos más vendidos</b>
+        <div class="s-row" style="margin-top:4px"><span class="grow">Refresco cola 600 ml (31)</span><b>$589.00</b></div>
+        <div class="s-row"><span class="grow">Tortillas (kg) (18)</span><b>$414.00</b></div></div>
+      <div class="s-tabs"><div><span class="ic">🛒</span>Vender</div><div><span class="ic">📦</span>Productos</div><div class="on"><span class="ic">📊</span>Reportes</div><div><span class="ic">☰</span>Más</div></div>
+    </div></div>
+    <figcaption>Reporte de ventas del día</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Cambia entre los tres reportes con las pestañas superiores.</span></div>
+    <div><span class="ln">2</span><span>Periodo del reporte (no aplica a Inventario).</span></div>
+    <div><span class="ln">3</span><span>Desgloses del periodo. Cada reporte incluye:</span></div>
+    <div class="tablewrap"><table class="spec">
+      <tr><th>Reporte</th><th>Qué muestra</th></tr>
+      <tr><td>Ventas</td><td>Número de ventas, total, ticket promedio, impuestos; por método de pago, productos más vendidos y ventas por día.</td></tr>
+      <tr><td>Compras</td><td>Número y total de compras; acumulado por proveedor y productos más comprados.</td></tr>
+      <tr><td>Inventario</td><td>Productos activos, valuación a costo y a venta, utilidad potencial y la lista de alertas de stock.</td></tr>
+    </table></div>
+  </div>
+</div>
+
+<!-- ═══════════════ NOTIFICACIONES ═══════════════ -->
+<h2 id="notificaciones"><span class="mod-emoji">🔔</span>Notificaciones</h2>
+<p><span class="route"><b>Más → Notificaciones</b></span>. Centro de alertas del negocio. Además de
+la lista interna, la app manda una <b>notificación al teléfono</b> en el momento en que ocurre la
+alerta (si concediste el permiso).</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Notificaciones</div>
+      <div style="height:8px"></div>
+      <div class="s-btn dark rel" style="margin:0 12px 8px"><span class="num" style="right:-8px; top:-9px">1</span>Marcar todas como leídas (3)</div>
+      <div class="s-card s-row rel" style="border-color:#2563EB"><span class="num" style="right:-6px; top:-6px">2</span>
+        <span style="font-size:16px">⚠️</span>
+        <div class="grow"><b>Stock mínimo alcanzado</b><div class="cap">"Jitomate (kg)" tiene 2.5 kg (mínimo: 5).</div><div class="cap">16/08/2026 18:22</div></div>
+        <span style="width:8px; height:8px; border-radius:4px; background:#2563EB"></span></div>
+      <div class="s-card s-row" style="border-color:#2563EB"><span style="font-size:16px">🚫</span>
+        <div class="grow"><b>Producto agotado</b><div class="cap">"Detergente 1 kg" se quedó sin existencias.</div><div class="cap">16/08/2026 17:05</div></div>
+        <span style="width:8px; height:8px; border-radius:4px; background:#2563EB"></span></div>
+      <div class="s-card s-row"><span style="font-size:16px">ℹ️</span>
+        <div class="grow"><span style="font-weight:400">Copia de seguridad completada</span><div class="cap">15/08/2026 22:00</div></div></div>
+    </div></div>
+    <figcaption>Centro de notificaciones</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span>Marca todo como leído de un toque; el contador del tab ☰ se limpia.</span></div>
+    <div><span class="ln">2</span><span>Las no leídas se distinguen con borde azul, negritas y punto. Toca una para marcarla leída.</span></div>
+    <p style="margin-top:14px">Tipos de alerta:</p>
+    <div><span class="ln" style="background:var(--warn)">⚠️</span><span><b>Stock mínimo</b> — un producto llegó a su nivel de resurtido.</span></div>
+    <div><span class="ln" style="background:var(--bad)">🚫</span><span><b>Agotado</b> — un producto se quedó en cero.</span></div>
+    <div><span class="ln" style="background:var(--ink-3)">ℹ️</span><span><b>Sistema / sincronización</b> — avisos generales.</span></div>
+    <p>Cada producto genera <b>una sola alerta</b> mientras no la leas — sin duplicados en cada venta.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ CONFIGURACIÓN ═══════════════ -->
+<h2 id="configuracion"><span class="mod-emoji">⚙️</span>Configuración</h2>
+<p><span class="route"><b>Más → Configuración</b></span>. Aquí la app se adapta a <i>tu</i> negocio:
+todo el branding, los impuestos y la operación se definen en cinco secciones. Los cambios aplican
+de inmediato al guardar.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="phone"><div class="screen">
+      <div class="s-appbar">‹&nbsp;&nbsp;Configuración</div>
+      <div class="s-sec">Identidad del negocio</div>
+      <div class="s-card">
+        <div class="s-row rel"><span class="num" style="right:-6px; top:-6px">1</span>
+          <div style="width:40px; height:40px; border:1px solid #E2E8F0; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:18px">🏪</div>
+          <div class="grow"><b style="font-size:11px">Logo del negocio</b><div class="cap">Aparece en tickets y facturas.</div></div></div>
+        <div class="s-field" style="margin:8px 0 6px"><div class="lab">NOMBRE COMERCIAL</div><div class="box">Abarrotes Doña Mary</div></div>
+        <div class="s-field" style="margin:0"><div class="lab">DIRECCIÓN</div><div class="box">Av. Juárez 123, Centro</div></div></div>
+      <div class="s-sec">Datos de facturación</div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">2</span>
+        <div class="s-row" style="gap:8px">
+          <div class="s-field grow" style="margin:0"><div class="lab">RFC / ID FISCAL</div><div class="box">GOMA800101XX0</div></div>
+          <div class="s-field grow" style="margin:0"><div class="lab">SERIE FACTURAS</div><div class="box">A</div></div></div>
+        <div class="s-row" style="gap:8px; margin-top:6px">
+          <div class="s-field grow" style="margin:0"><div class="lab">IMPUESTO (%)</div><div class="box">16</div></div>
+          <div class="s-field grow" style="margin:0"><div class="lab">MONEDA</div><div class="box">MXN · $</div></div></div></div>
+      <div class="s-sec">Impresora térmica (Bluetooth)</div>
+      <div class="s-card rel"><span class="num" style="right:-6px; top:-6px">3</span>
+        <div class="s-field" style="margin:0 0 6px"><div class="lab">DIRECCIÓN MAC</div><div class="box">00:11:22:33:44:55</div></div>
+        <div class="s-row" style="gap:6px"><span class="s-chip on" style="flex:1; text-align:center">58 mm</span><span class="s-chip" style="flex:1; text-align:center">80 mm</span></div></div>
+      <div class="s-sec">Sincronización (offline / online)</div>
+      <div class="s-card rel" style="margin-bottom:10px"><span class="num" style="right:-6px; top:-6px">4</span>
+        <div class="s-field" style="margin:0 0 6px"><div class="lab">URL DEL BACKEND</div><div class="box empty">https://api.minegocio.com</div></div>
+        <div class="s-field" style="margin:0"><div class="lab">API KEY</div><div class="box empty">••••••••</div></div></div>
+      <div class="s-btn" style="margin:0 12px 14px">Guardar configuración</div>
+    </div></div>
+    <figcaption>Configuración del negocio</figcaption>
+  </figure>
+  <div class="legend">
+    <div><span class="ln">1</span><span><b>Identidad y branding</b>: logo (toca el recuadro para elegirlo de la galería), nombre comercial, razón social, dirección, teléfono y correo. El logo sale en tickets y facturas PDF.</span></div>
+    <div><span class="ln">2</span><span><b>Facturación y moneda</b>: RFC, régimen, serie de facturas, tasa de impuesto por defecto para productos nuevos, y moneda con su símbolo — por eso el POS sirve en cualquier país.</span></div>
+    <div><span class="ln">3</span><span><b>Impresora térmica</b>: dirección MAC Bluetooth y ancho de papel (58 u 80&nbsp;mm). Ver <a href="#ticket">Impresión de tickets</a>.</span></div>
+    <div><span class="ln">4</span><span><b>Sincronización</b>: URL y API key del servidor central. Vacío = modo 100&nbsp;% offline. Ver <a href="#offline">Modo offline / online</a>.</span></div>
+    <p style="margin-top:14px">También configurables: <b>encabezado y pie del ticket</b> (por ejemplo «Sucursal Centro» y «¡Gracias por su compra!»).</p>
+  </div>
+</div>
+
+<!-- ═══════════════ TICKET ═══════════════ -->
+<h2 id="ticket">Impresión de tickets</h2>
+<p>El ticket se construye con tu branding: logo, nombre, RFC, dirección, teléfono, encabezado y pie
+personalizados, y un código de barras con el folio.</p>
+
+<div class="shots">
+  <figure class="shot">
+    <div class="ticket">
+      <div class="c lg">ABARROTES DOÑA MARY</div>
+      <div class="c">RFC: GOMA800101XX0</div>
+      <div class="c">Av. Juárez 123, Centro</div>
+      <div class="c">Tel: 55 5555 5555</div>
+      <hr>
+      <div class="r"><span>Ticket #148</span><span>16/08/2026 18:22</span></div>
+      <div>Cliente: María Torres</div>
+      <hr>
+      <div>Refresco cola 600 ml</div>
+      <div class="r"><span>&nbsp;&nbsp;2 x $19.00</span><span>$38.00</span></div>
+      <div>Jitomate (kg)</div>
+      <div class="r"><span>&nbsp;&nbsp;1.5 x $34.90</span><span>$52.35</span></div>
+      <hr>
+      <div class="r"><span>Subtotal</span><span>$77.89</span></div>
+      <div class="r"><span>Impuestos</span><span>$12.46</span></div>
+      <div class="r b"><span>TOTAL</span><span>$90.35</span></div>
+      <hr>
+      <div class="r"><span>Efectivo</span><span>$200.00</span></div>
+      <div class="r"><span>Cambio</span><span>$109.65</span></div>
+      <div class="c" style="margin-top:8px">¡Gracias por su compra!</div>
+      <div class="c" style="margin-top:6px; letter-spacing:2px">▌│▌║▌│║▌│▌║│▌</div>
+      <div class="c" style="font-size:9px">T00000148</div>
+    </div>
+    <figcaption>Ticket de 58 mm como sale de la térmica</figcaption>
+  </figure>
+  <div class="legend">
+    <h3 style="margin-top:0">Dos formas de imprimir</h3>
+    <div><span class="ln" style="background:var(--accent)">A</span><span><b>Impresora térmica Bluetooth (ESC/POS)</b>. Empareja la impresora en los ajustes Bluetooth del sistema, captura su dirección MAC y el ancho de papel en <span class="route"><b>Configuración → Impresora</b></span>, y cada cobro imprime directo. Compatible con la mayoría de las térmicas genéricas de 58/80&nbsp;mm (Xprinter, Goojprt, Bixolon, Epson TM…).</span></div>
+    <div><span class="ln" style="background:var(--ink-3)">B</span><span><b>PDF con el diálogo del sistema</b>. Sin impresora configurada (o si falla la conexión), la app genera el ticket como PDF y abre el menú de compartir: imprime con AirPrint o la app de tu impresora, mándalo por WhatsApp o guárdalo.</span></div>
+    <p>El ticket se imprime al terminar el cobro (botón <b>Imprimir ticket</b>) y en cualquier momento desde <span class="route"><b>Más → Ventas → (venta) → Reimprimir</b></span>.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ OFFLINE ═══════════════ -->
+<h2 id="offline">Modo offline / online</h2>
+<p>La app está diseñada <b>offline primero</b>: todo se guarda al instante en el dispositivo, así
+que puedes vender aunque se caiga el internet — no cambia nada en tu operación.</p>
+<ol class="steps">
+  <li><b>Cada venta, compra o cambio se guarda localmente</b> y entra a una cola de envío.</li>
+  <li><b>Al recuperar conexión</b>, la cola se envía sola al servidor central (si configuraste uno en <span class="route"><b>Configuración → Sincronización</b></span>).</li>
+  <li><b>Puedes forzar el envío</b> tocando la tarjeta «Sincronización» en la pestaña Más.</li>
+</ol>
+<div class="tablewrap"><table class="spec">
+  <tr><th>Indicador (pantalla Vender / Más)</th><th>Significado</th></tr>
+  <tr><td><span class="s-badge bg-ok">En línea</span></td><td>Con conexión y sin pendientes: todo sincronizado.</td></tr>
+  <tr><td><span class="s-badge bg-warn">5 por sincronizar</span></td><td>Hay cambios en cola; se enviarán solos al reconectar.</td></tr>
+  <tr><td><span class="s-badge bg-bad">Sin conexión</span></td><td>Trabajando offline. Todo sigue funcionando con normalidad.</td></tr>
+</table></div>
+<div class="tipbox"><b>Sin servidor configurado</b> la app opera en modo «solo offline» permanente: es totalmente válido para un negocio de una sola caja. El servidor central agrega respaldo en la nube y reportes multi-dispositivo.</div>
+
+<!-- ═══════════════ FAQ ═══════════════ -->
+<h2 id="faq">Solución de problemas</h2>
+<div class="tablewrap"><table class="spec">
+  <tr><th>Situación</th><th>Qué hacer</th></tr>
+  <tr><td>El escáner no abre</td><td>Concede el permiso de cámara: Ajustes del sistema → Apps → POS Móvil → Permisos → Cámara.</td></tr>
+  <tr><td>No imprime por Bluetooth</td><td>Verifica que la impresora esté emparejada en el sistema, encendida y con papel; revisa la dirección MAC en Configuración. Mientras tanto el ticket sale como PDF.</td></tr>
+  <tr><td>No llegan alertas al teléfono</td><td>Activa las notificaciones de la app en los ajustes del sistema. Las alertas siempre quedan también en Más → Notificaciones.</td></tr>
+  <tr><td>Cobré de más / me equivoqué</td><td>Más → Ventas → abre la venta → <b>Cancelar venta</b>. El stock regresa al inventario y la venta queda marcada como cancelada (no se borra).</td></tr>
+  <tr><td>Un producto marca stock negativo</td><td>Vendiste sin existencias registradas. Registra la compra pendiente o corrige con un ajuste de entrada en su kardex.</td></tr>
+  <tr><td>«N por sincronizar» no baja</td><td>Revisa la URL y la API key en Configuración → Sincronización y que el servidor esté disponible; toca la tarjeta Sincronización para reintentar.</td></tr>
+  <tr><td>Quiero cambiar moneda o impuesto</td><td>Configuración → Datos de facturación. La tasa por defecto aplica a productos nuevos; cada producto puede tener la suya.</td></tr>
+</table></div>
+
+<p class="muted" style="margin-top:48px; font-size:13px">Manual de usuario · POS Móvil v1.0 · Las pantallas mostradas son representaciones fieles de la interfaz; los datos son de ejemplo.</p>
+</main>
+</div>
