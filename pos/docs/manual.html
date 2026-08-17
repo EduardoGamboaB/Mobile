@@ -167,6 +167,31 @@
   @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
   html { scroll-behavior: smooth; }
   a { color: var(--accent); }
+
+  /* ── Impresión / PDF ── */
+  @page { margin: 12mm 14mm; }
+  @media print {
+    :root {
+      --paper: #FFFFFF; --card: #FFFFFF; --ink: #0F172A; --ink-2: #475569; --ink-3: #94A3B8;
+      --line: #E2E8F0; --accent: #2563EB; --accent-soft: #DBEAFE;
+      --ok: #16A34A; --ok-soft: #DCFCE7; --warn: #D97706; --warn-soft: #FEF3C7;
+      --bad: #DC2626; --bad-soft: #FEE2E2; --tip: #EFF6FF;
+    }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: #fff; font-size: 13px; }
+    nav.toc { display: none; }
+    .wrap { display: block; max-width: none; padding: 0; }
+    main { max-width: none; padding-bottom: 0; }
+    header.hero { padding-top: 8px; }
+    h2 { margin-top: 34px; break-after: avoid; page-break-after: avoid; }
+    h3 { break-after: avoid; page-break-after: avoid; }
+    figure, .shot, .legend, .tipbox, .warnbox, .s-card, tr, .ticket { break-inside: avoid; page-break-inside: avoid; }
+    .phone { box-shadow: none; }
+    .tablet { box-shadow: none; }
+    .ticket { box-shadow: none; }
+    a { text-decoration: none; }
+    .shots { gap: 20px; }
+  }
 </style>
 
 <div class="wrap">
