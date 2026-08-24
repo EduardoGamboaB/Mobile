@@ -357,7 +357,8 @@ const makeStyles = (c: ColorPalette) => StyleSheet.create({
     paddingVertical: 2,
     borderRadius: 6,
   },
-  metaPillText: { fontSize: 10, color: c.muted, fontWeight: '600' },
+  // 11px mínimo: legible en cabina con sol (hallazgo de usabilidad)
+  metaPillText: { fontSize: 11, color: c.muted, fontWeight: '600' },
   pendingDot: {
     width: 36,
     height: 36,

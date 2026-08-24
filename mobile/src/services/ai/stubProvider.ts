@@ -70,6 +70,32 @@ export const stubAI: AIService = {
   },
 
   async extractEvidence(input: ExtractEvidenceInput) {
+    // Tickets de gasto: la IA extrae montos para prellenar la bitácora.
+    if (input.hintType === 'diesel_ticket' || input.photoUri?.includes('diesel')) {
+      return delay<ExtractEvidenceResult>({
+        detectedType: 'diesel_ticket',
+        fields: {
+          amount: 4860,
+          liters: 180,
+          counterpartyName: 'Pemex 5203 · km 187',
+          issuedAt: new Date().toISOString(),
+          rawText: 'PEMEX 5203 · MAGNA-DIESEL · 180.00 L · $4,860.00',
+        },
+        confidence: 0.82,
+      });
+    }
+    if (input.hintType === 'toll_ticket' || input.photoUri?.includes('caseta')) {
+      return delay<ExtractEvidenceResult>({
+        detectedType: 'toll_ticket',
+        fields: {
+          amount: 285,
+          counterpartyName: 'CAPUFE · Atlacomulco',
+          issuedAt: new Date().toISOString(),
+          rawText: 'CAPUFE · PLAZA ATLACOMULCO · EJE 5 · $285.00',
+        },
+        confidence: 0.8,
+      });
+    }
     return delay<ExtractEvidenceResult>({
       detectedType: input.hintType ?? 'bill_of_lading',
       fields: {

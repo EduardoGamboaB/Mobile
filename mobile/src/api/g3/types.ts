@@ -90,12 +90,14 @@ export interface TripDTO {
   id: string;
   companyId: string;
   folio: string;
+  /** `delivered` = precierre (entrega con cliente, retorno en vacío); `closed` = cierre en matriz. */
   status:
     | 'draft'
     | 'assigned'
     | 'in_transit'
     | 'arrived'
     | 'delivered'
+    | 'closed'
     | 'paid'
     | 'canceled';
   driverId: string | null;
@@ -105,7 +107,10 @@ export interface TripDTO {
   destination: string;
   scheduledAt: string | null;
   startedAt: string | null;
+  /** Precierre: entrega con el cliente final. */
   completedAt: string | null;
+  /** Cierre total: la unidad llegó a matriz. */
+  closedAt: string | null;
   paymentReleasedAt: string | null;
   freightAmount: number | null;
 }

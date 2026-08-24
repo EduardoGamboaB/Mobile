@@ -32,3 +32,4 @@ android/app/build/
 
 # Misc
 *.orig.*
+mobile/dist-web/

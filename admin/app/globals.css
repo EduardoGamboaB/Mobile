@@ -352,6 +352,46 @@ input, textarea { font: inherit; color: inherit; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+/* Responsive (hallazgos de usabilidad):
+   - los grids colapsan en pantallas chicas (el !important vence a los
+     gridTemplateColumns inline de algunas páginas);
+   - las tablas obtienen scroll horizontal propio para no desbordar
+     el layout completo. */
+@media (max-width: 1100px) {
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+@media (max-width: 760px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+
+  /* En teléfono la sidebar se vuelve barra superior scrolleable:
+     el panel es tablet/desktop-first, pero no debe romperse en móvil. */
+  .app { grid-template-columns: 1fr; }
+  .sidebar {
+    position: static;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    padding: 8px 10px;
+    white-space: nowrap;
+  }
+  .sidebar .section-label, .sidebar .footer { display: none; }
+  .sidebar .brand { margin: 0 10px 0 0; }
+  .row, .row-between { flex-wrap: wrap; }
+}
+
+/* Accesibilidad: indicador de foco visible al navegar con teclado.
+   El !important vence los `outline: 0` puntuales de inputs estilizados. */
+:focus-visible,
+input:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--blue) !important;
+  outline-offset: 2px;
+}
 .row { display: flex; align-items: center; gap: 12px; }
 .row-between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .spacer { flex: 1; }

@@ -156,6 +156,7 @@ export const fixtures = {
       scheduledAt: '2026-05-19T08:00:00Z',
       startedAt: null,
       completedAt: null,
+      closedAt: null,
       paymentReleasedAt: null,
       freightAmount: 18500,
       ...over,

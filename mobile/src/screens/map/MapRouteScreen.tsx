@@ -149,7 +149,9 @@ export function MapRouteScreen() {
 }
 
 const makeStyles = (c: ColorPalette) => StyleSheet.create({
-  mapWrap: { position: 'absolute', top: 0, left: 0 },
+  // overflow hidden: el SVG puede exceder el viewport por 1-2 px de
+  // scrollbar/redondeo en web — el wrapper lo recorta (sin scroll lateral).
+  mapWrap: { position: 'absolute', top: 0, left: 0, maxWidth: '100%', overflow: 'hidden' },
   label: { position: 'absolute' },
   labelText: { fontSize: 11, fontWeight: '600', color: c.navy },
   headerOverlay: {
