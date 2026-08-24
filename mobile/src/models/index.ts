@@ -47,6 +47,8 @@ export interface Trip {
   status: TripStatusValue;
   notes: string | null;
   started_at: string | null;
+  /** Precierre: entrega con el cliente final, retorno en vacío a matriz. */
+  pre_closed_at?: string | null;
   finished_at: string | null;
   created_at: string;
   updated_at: string;
@@ -66,6 +68,8 @@ export interface LogbookEntry {
   fuel: FuelLevelValue | null;
   expense_amount: number | null;
   expense_concept: string | null;
+  /** true si el gasto trae foto de ticket (analizada por IA). */
+  expense_has_receipt?: boolean;
   comments: string | null;
   created_at: string;
 }

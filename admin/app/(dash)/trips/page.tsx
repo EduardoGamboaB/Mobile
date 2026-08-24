@@ -14,7 +14,8 @@ function statusLabel(s: string) {
     loading: 'CARGANDO',
     in_transit: 'EN TRÁNSITO',
     unloading: 'DESCARGANDO',
-    finished: 'FINALIZADO',
+    pre_closed: 'PRECERRADO',
+    finished: 'CERRADO',
     cancelled: 'CANCELADO',
   };
   return m[s] ?? s.toUpperCase();
@@ -25,7 +26,7 @@ export default function TripsPage() {
   const [search, setSearch] = useState('');
 
   const filtered = trips.filter((t) => {
-    if (filter === 'active' && !['loading', 'in_transit', 'unloading'].includes(t.status)) return false;
+    if (filter === 'active' && !['loading', 'in_transit', 'unloading', 'pre_closed'].includes(t.status)) return false;
     if (filter === 'scheduled' && t.status !== 'scheduled') return false;
     if (filter === 'finished' && t.status !== 'finished') return false;
     if (filter === 'cancelled' && t.status !== 'cancelled') return false;
@@ -69,7 +70,7 @@ export default function TripsPage() {
           </div>
           <div className="row" style={{ gap: 6 }}>
             <FilterChip label="Todos"        active={filter === 'all'}       onClick={() => setFilter('all')} count={trips.length} />
-            <FilterChip label="Activos"      active={filter === 'active'}    onClick={() => setFilter('active')} count={trips.filter(t => ['loading', 'in_transit', 'unloading'].includes(t.status)).length} />
+            <FilterChip label="Activos"      active={filter === 'active'}    onClick={() => setFilter('active')} count={trips.filter(t => ['loading', 'in_transit', 'unloading', 'pre_closed'].includes(t.status)).length} />
             <FilterChip label="Programados"  active={filter === 'scheduled'} onClick={() => setFilter('scheduled')} count={trips.filter(t => t.status === 'scheduled').length} />
             <FilterChip label="Finalizados"  active={filter === 'finished'}  onClick={() => setFilter('finished')} count={trips.filter(t => t.status === 'finished').length} />
           </div>

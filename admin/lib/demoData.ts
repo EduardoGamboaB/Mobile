@@ -5,8 +5,13 @@
  *   drivers · trips · tractors · trailers · documents · alerts · incidents
  */
 
+/**
+ * `pre_closed` = precierre: el chofer entregó con el cliente final pero la
+ * unidad viaja en vacío de regreso a matriz. El viaje se considera completo
+ * hasta `finished` (cierre en matriz).
+ */
 export type TripStatus =
-  | 'scheduled' | 'loading' | 'in_transit' | 'unloading' | 'finished' | 'cancelled';
+  | 'scheduled' | 'loading' | 'in_transit' | 'unloading' | 'pre_closed' | 'finished' | 'cancelled';
 
 export interface Driver {
   id: string;
@@ -77,6 +82,8 @@ export interface Trip {
   status: TripStatus;
   loadDate: string;
   etaUnload: string;
+  /** Precierre: entrega con el cliente final (retorno en vacío a matriz). */
+  preClosedAt?: string | null;
   finishedAt: string | null;
   tons: number;
   pricePerTon: number;

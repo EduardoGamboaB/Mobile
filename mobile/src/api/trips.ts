@@ -3,7 +3,15 @@ import { isDemo, demoStore } from '@/demo';
 import type { Trip } from '@/models';
 import type { TripStatusValue } from '@/constants/enums';
 
-const ACTIVE_STATUSES: TripStatusValue[] = ['scheduled', 'loading', 'in_transit', 'unloading'];
+const ACTIVE_STATUSES: TripStatusValue[] = [
+  'scheduled',
+  'loading',
+  'in_transit',
+  'unloading',
+  // precerrado: entregado al cliente pero aún en retorno a matriz —
+  // el viaje sigue activo hasta el cierre total.
+  'pre_closed',
+];
 
 export async function listMyActiveTrips(driverId: string): Promise<Trip[]> {
   if (isDemo) return demoStore.listActive();

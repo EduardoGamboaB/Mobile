@@ -18,8 +18,15 @@ import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { DynamicIcon } from '@/components/common/DynamicIcon';
 import { MapPinIcon, CameraIcon, SparklesIcon } from '@/components/icons';
 import { useCreateLogbookEntry } from '@/hooks/useLogbook';
+import { useExpensePolicy } from '@/hooks/useExpensePolicy';
 import { useAuthStore } from '@/stores/auth';
 import { getCurrentCoords } from '@/services/location';
+import { takePhoto, type CapturedImage } from '@/services/camera';
+import { uploadEvidence } from '@/api/evidences';
+import { validateExpense } from '@/api/expensePolicy';
+import { offlineQueue } from '@/services/offlineQueue';
+import { useNetworkStore } from '@/stores/network';
+import { isDemo } from '@/demo';
 import { ai } from '@/services/ai';
 import {
   LogbookEvent,
@@ -27,8 +34,10 @@ import {
   LogbookEventIcon,
   FuelLevel,
   FuelLevelLabel,
+  EvidenceType,
   type LogbookEventValue,
   type FuelLevelValue,
+  type EvidenceTypeValue,
 } from '@/constants/enums';
 import { useColors, radius, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
@@ -52,6 +61,51 @@ export function LogbookCreateScreen() {
   const [comments, setComments] = useState('');
   const [gpsLoading, setGpsLoading] = useState(false);
   const [aiHint, setAiHint] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<CapturedImage | null>(null);
+  const [receiptHint, setReceiptHint] = useState<string | null>(null);
+  const { policy } = useExpensePolicy();
+  const online = useNetworkStore((s) => s.online);
+  const effectiveOnline = isDemo || online;
+
+  /** Tipo de evidencia según el evento (para que la IA sepa qué buscar). */
+  const receiptEvidenceType = (): EvidenceTypeValue => {
+    if (type === LogbookEvent.Diesel) return EvidenceType.DieselTicket;
+    if (type === LogbookEvent.Toll) return EvidenceType.TollTicket;
+    return EvidenceType.Other;
+  };
+
+  // Foto del ticket → IA extrae monto/concepto y prellena el gasto.
+  const onCaptureReceipt = async () => {
+    const img = await takePhoto();
+    if (!img) return;
+    setReceipt(img);
+    const r = await ai.extractEvidence({
+      photoUri: img.uri,
+      hintType: receiptEvidenceType(),
+    });
+    if (r.confidence > 0.5) {
+      const parts: string[] = [];
+      if (r.fields.amount != null) {
+        setExpense(String(r.fields.amount));
+        parts.push(`$${r.fields.amount.toFixed(2)}`);
+      }
+      if (r.fields.liters != null) parts.push(`${r.fields.liters} L`);
+      if (!concept) {
+        const suggested =
+          type === LogbookEvent.Diesel ? 'diesel'
+          : type === LogbookEvent.Toll ? 'caseta'
+          : r.fields.counterpartyName ?? '';
+        if (suggested) setConcept(suggested);
+      }
+      setReceiptHint(
+        parts.length
+          ? `Ticket leído por IA: ${parts.join(' · ')} — revisa y ajusta si hace falta.`
+          : 'Ticket capturado — no se pudieron leer montos, captura el gasto manualmente.',
+      );
+    } else {
+      setReceiptHint('Ticket capturado. La IA no pudo leerlo; captura el gasto manualmente.');
+    }
+  };
 
   // G3 AI-First: al cambiar comentarios, sugerir tipo de evento.
   const onCommentsChange = async (txt: string) => {
@@ -85,6 +139,21 @@ export function LogbookCreateScreen() {
     if (!driverId) return;
     const odo = odometer ? parseInt(odometer, 10) : null;
     const exp = expense ? parseFloat(expense) : null;
+    const expenseAmount = Number.isNaN(exp as number) ? null : exp;
+
+    // Regla de gastos configurada desde G3 Admin: los gastos sin ticket
+    // solo pasan si la política de la compañía lo permite.
+    if (expenseAmount != null && expenseAmount > 0) {
+      const rejection = validateExpense(policy, expenseAmount, !!receipt);
+      if (rejection) {
+        Alert.alert('Gasto sin comprobante', rejection, [
+          { text: 'Tomar foto del ticket', onPress: onCaptureReceipt },
+          { text: 'Cancelar', style: 'cancel' },
+        ]);
+        return;
+      }
+    }
+
     try {
       const result = await mutate.mutateAsync({
         driver_id: driverId,
@@ -95,15 +164,37 @@ export function LogbookCreateScreen() {
         lng: coords?.lng ?? null,
         odometer_km: Number.isNaN(odo as number) ? null : odo,
         fuel,
-        expense_amount: Number.isNaN(exp as number) ? null : exp,
+        expense_amount: expenseAmount,
         expense_concept: concept || null,
+        expense_has_receipt: !!receipt,
         comments: comments || null,
       });
+
+      // Sube la foto del ticket como evidencia ligada a la entrada.
+      if (receipt) {
+        const evidencePayload = {
+          driverId,
+          tripId: route.params.tripId,
+          logbookId: result.queued ? null : (result.entry as { id?: string }).id ?? null,
+          type: receiptEvidenceType(),
+          localUri: receipt.uri,
+          mimeType: 'image/jpeg',
+          coords,
+        };
+        if (!effectiveOnline) {
+          await offlineQueue.enqueue('evidence', evidencePayload);
+        } else {
+          await uploadEvidence(evidencePayload);
+        }
+      }
+
       Alert.alert(
         result.queued ? 'Guardado offline' : 'Registrado',
         result.queued
           ? 'Sin conexión: se sincronizará automáticamente.'
-          : 'Evento agregado a la bitácora.',
+          : receipt
+            ? 'Evento y ticket agregados a la bitácora.'
+            : 'Evento agregado a la bitácora.',
       );
       nav.goBack();
     } catch (e) {
@@ -213,13 +304,32 @@ export function LogbookCreateScreen() {
           placeholder="Describe brevemente..."
         />
 
+        {receiptHint ? (
+          <Banner
+            tone="info"
+            icon={<SparklesIcon size={18} color={bannerIconColor('info')} />}
+          >
+            {receiptHint}
+          </Banner>
+        ) : null}
+
+        {policy.require_receipt || !policy.allow_manual_expense ? (
+          <Text style={[typography.caption, { color: c.muted, marginBottom: spacing.sm }]}>
+            Tu administrador requiere foto del ticket para registrar gastos.
+          </Text>
+        ) : policy.manual_max_amount != null ? (
+          <Text style={[typography.caption, { color: c.muted, marginBottom: spacing.sm }]}>
+            Gastos sin ticket hasta ${policy.manual_max_amount.toFixed(2)} — arriba de eso, foto obligatoria.
+          </Text>
+        ) : null}
+
         <Button
-          title="Agregar foto"
+          title={receipt ? 'Ticket capturado · volver a tomar' : 'Foto del ticket (IA)'}
           variant="outline"
           size="md"
-          leftIcon={<CameraIcon size={18} color={c.navy} />}
+          leftIcon={<CameraIcon size={18} color={receipt ? c.blue : c.navy} />}
           style={{ marginBottom: spacing.md + 2 }}
-          onPress={() => Alert.alert('Próximamente', 'Foto en la siguiente tanda.')}
+          onPress={onCaptureReceipt}
         />
         <Button title="Guardar evento" onPress={onSubmit} loading={mutate.isPending} />
       </ScrollView>

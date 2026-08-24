@@ -41,7 +41,7 @@ describe('TripsService.create', () => {
         id: `t_${i}`, companyId: 'cmp_1', folio: `G3-2026-0000${i}`, status: 'delivered',
         driverId: null, tractorId: null, trailerId: null,
         origin: 'A', destination: 'B', scheduledAt: null,
-        startedAt: null, completedAt: null, paymentReleasedAt: null, freightAmount: null,
+        startedAt: null, completedAt: null, closedAt: null, paymentReleasedAt: null, freightAmount: null,
       });
     }
     await expect(svc.create(ctx('free'), { origin: 'A', destination: 'B' })).rejects.toBeInstanceOf(
@@ -73,6 +73,39 @@ describe('TripsService.setStatus (state machine)', () => {
     await svc.setStatus(ctx('starter'), t.id, 'arrived');
     const d = await svc.setStatus(ctx('starter'), t.id, 'delivered');
     expect(d.completedAt).toBeTruthy();
+  });
+
+  test('precierre: delivered (entrega) → closed (matriz) setea closedAt', async () => {
+    const { svc } = build();
+    const t = await svc.create(ctx('starter'), { origin: 'A', destination: 'B' });
+    await svc.setStatus(ctx('starter'), t.id, 'in_transit');
+    await svc.setStatus(ctx('starter'), t.id, 'arrived');
+    const pre = await svc.setStatus(ctx('starter'), t.id, 'delivered');
+    expect(pre.completedAt).toBeTruthy();
+    expect(pre.closedAt).toBeNull();
+    const closed = await svc.setStatus(ctx('starter'), t.id, 'closed');
+    expect(closed.closedAt).toBeTruthy();
+  });
+
+  test('closed no permite regresar a delivered', async () => {
+    const { svc } = build();
+    const t = await svc.create(ctx('starter'), { origin: 'A', destination: 'B' });
+    await svc.setStatus(ctx('starter'), t.id, 'in_transit');
+    await svc.setStatus(ctx('starter'), t.id, 'arrived');
+    await svc.setStatus(ctx('starter'), t.id, 'delivered');
+    await svc.setStatus(ctx('starter'), t.id, 'closed');
+    await expect(svc.setStatus(ctx('starter'), t.id, 'delivered')).rejects.toThrow(/transici/i);
+  });
+
+  test('releasePayment funciona también desde closed', async () => {
+    const { svc } = build();
+    const t = await svc.create(ctx('starter'), { origin: 'A', destination: 'B', freightAmount: 9000 });
+    await svc.setStatus(ctx('starter'), t.id, 'in_transit');
+    await svc.setStatus(ctx('starter'), t.id, 'arrived');
+    await svc.setStatus(ctx('starter'), t.id, 'delivered');
+    await svc.setStatus(ctx('starter'), t.id, 'closed');
+    const paid = await svc.releasePayment(ctx('starter'), t.id);
+    expect(paid.status).toBe('paid');
   });
 });
 

@@ -18,7 +18,8 @@ import {
 } from '@/components/icons';
 import { useTrip, useAdvanceTripStatus } from '@/hooks/useTrips';
 import { useLogbook } from '@/hooks/useLogbook';
-import { nextStatus, TripStatusLabel } from '@/constants/enums';
+import { nextStatus, TripStatusLabel, TripAdvanceCta } from '@/constants/enums';
+import { Banner, bannerIconColor } from '@/components/common/Banner';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
 import type { AppNav, AppStackParamList } from '@/navigation/types';
@@ -43,9 +44,16 @@ export function TripDetailScreen() {
 
   const next = nextStatus[trip.status];
 
+  const confirmCopy: Partial<Record<string, string>> = {
+    pre_closed:
+      'Se registrará la entrega con el cliente. El viaje queda PRECERRADO mientras regresas en vacío a matriz — ciérralo al llegar.',
+    finished:
+      '¿Confirmas que llegaste a matriz? Esto cierra el viaje por completo.',
+  };
+
   const onAdvance = () => {
     if (!next) return;
-    Alert.alert('Confirmar', `¿Marcar el viaje como ${TripStatusLabel[next]}?`, [
+    Alert.alert('Confirmar', confirmCopy[next] ?? `¿Marcar el viaje como ${TripStatusLabel[next]}?`, [
       { text: 'Cancelar', style: 'cancel' },
       {
         text: 'Sí',
@@ -71,9 +79,25 @@ export function TripDetailScreen() {
         </View>
 
         <View style={styles.chipsRow}>
-          <Chip label={TripStatusLabel[trip.status]} variant="blue" />
+          <Chip
+            label={TripStatusLabel[trip.status]}
+            variant={trip.status === 'pre_closed' ? 'navy' : 'blue'}
+          />
           {trip.tons ? <Chip label={`${trip.tons} ton`} variant="gray" /> : null}
         </View>
+
+        {trip.status === 'pre_closed' ? (
+          <Banner
+            tone="info"
+            icon={<FlagIcon size={18} color={bannerIconColor('info')} />}
+          >
+            Entrega realizada
+            {trip.pre_closed_at
+              ? ` el ${new Date(trip.pre_closed_at).toLocaleString('es-MX')}`
+              : ''}
+            . Vas en vacío a matriz — cierra el viaje al llegar.
+          </Banner>
+        ) : null}
 
         <Card>
           <Text style={[typography.eyebrow, { color: c.muted }]}>Ruta</Text>
@@ -132,7 +156,7 @@ export function TripDetailScreen() {
 
         {next ? (
           <Button
-            title={`Marcar ${TripStatusLabel[next].toLowerCase()}`}
+            title={TripAdvanceCta[next] ?? `Marcar ${TripStatusLabel[next].toLowerCase()}`}
             variant="accent"
             rightIcon={<ArrowRightIcon size={18} color="#fff" />}
             onPress={onAdvance}

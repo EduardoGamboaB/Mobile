@@ -3,6 +3,8 @@ export const TripStatus = {
   Loading: 'loading',
   InTransit: 'in_transit',
   Unloading: 'unloading',
+  /** Entrega realizada con el cliente final; la unidad regresa en vacío a matriz. */
+  PreClosed: 'pre_closed',
   Finished: 'finished',
   Cancelled: 'cancelled',
 } as const;
@@ -13,7 +15,8 @@ export const TripStatusLabel: Record<TripStatusValue, string> = {
   loading:    'Cargando',
   in_transit: 'En tránsito',
   unloading:  'Descargando',
-  finished:   'Finalizado',
+  pre_closed: 'Precerrado',
+  finished:   'Cerrado',
   cancelled:  'Cancelado',
 };
 
@@ -21,9 +24,20 @@ export const nextStatus: Record<TripStatusValue, TripStatusValue | null> = {
   scheduled:  'loading',
   loading:    'in_transit',
   in_transit: 'unloading',
-  unloading:  'finished',
+  unloading:  'pre_closed',
+  pre_closed: 'finished',
   finished:   null,
   cancelled:  null,
+};
+
+/**
+ * Texto del botón de avance por estado destino. El precierre y el cierre
+ * llevan CTA explícito porque son el corazón del flujo entrega → retorno
+ * en vacío → matriz.
+ */
+export const TripAdvanceCta: Partial<Record<TripStatusValue, string>> = {
+  pre_closed: 'Precerrar viaje · entrega realizada',
+  finished:   'Cerrar viaje · llegué a matriz',
 };
 
 export const LogbookEvent = {

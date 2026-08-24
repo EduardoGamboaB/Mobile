@@ -69,9 +69,11 @@ export default function TripDetailClient({ id }: { id: string }) {
               <div style={{ flex: 1 }}>
                 <strong>{trip.destination}</strong>
                 <div className="caption">
-                  {trip.finishedAt
-                    ? `Entregado · ${new Date(trip.finishedAt).toLocaleString('es-MX')}`
-                    : `ETA · ${new Date(trip.etaUnload).toLocaleString('es-MX')}`}
+                  {trip.status === 'pre_closed' && trip.preClosedAt
+                    ? `Precerrado · entregó ${new Date(trip.preClosedAt).toLocaleString('es-MX')} · en retorno a matriz`
+                    : trip.finishedAt
+                      ? `Entregado · ${new Date(trip.finishedAt).toLocaleString('es-MX')}`
+                      : `ETA · ${new Date(trip.etaUnload).toLocaleString('es-MX')}`}
                 </div>
               </div>
             </div>
@@ -97,7 +99,17 @@ export default function TripDetailClient({ id }: { id: string }) {
             <TimelineRow icon={<MapPinI  size={14} color="var(--blue)" />} title="Caseta Atlacomulco" meta="ayer 22:14 · $285 · km 142,510" />
             <TimelineRow icon={<MapPinI  size={14} color="var(--blue)" />} title="Diesel Pemex km 187" meta="hoy 02:48 · 180 L · $2,450" />
             {trip.status === 'finished' ? (
-              <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Entrega confirmada" meta={`Cliente firmó · ${trip.finishedAt ? new Date(trip.finishedAt).toLocaleDateString('es-MX') : ''}`} last />
+              <>
+                {trip.preClosedAt ? (
+                  <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Precierre · entrega con cliente" meta={`${new Date(trip.preClosedAt).toLocaleString('es-MX')} · retorno en vacío`} />
+                ) : null}
+                <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Viaje cerrado en matriz" meta={`${trip.finishedAt ? new Date(trip.finishedAt).toLocaleString('es-MX') : ''}`} last />
+              </>
+            ) : trip.status === 'pre_closed' ? (
+              <>
+                <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Precierre · entrega con cliente" meta={`${trip.preClosedAt ? new Date(trip.preClosedAt).toLocaleString('es-MX') : ''} · cliente recibió`} />
+                <TimelineRow icon={<MapPinI size={14} color="var(--muted)" />} title="Retorno en vacío a matriz" meta="El viaje cierra cuando la unidad llegue a matriz" last />
+              </>
             ) : (
               <TimelineRow icon={<MapPinI size={14} color="var(--muted)" />} title="En camino al destino" meta={`ETA ${new Date(trip.etaUnload).toLocaleString('es-MX')}`} last />
             )}

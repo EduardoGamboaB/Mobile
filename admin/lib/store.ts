@@ -9,6 +9,27 @@ import { G3ApiError, type SubscriptionDTO } from './api/types';
 const TIER_KEY = 'g3admin.tier.v1';
 const NIGHT_KEY = 'g3admin.night.v1';
 const AUTH_KEY = 'g3admin.auth.v1';
+const EXPENSE_POLICY_KEY = 'g3admin.expensePolicy.v1';
+
+/**
+ * Regla de gastos de la compañía. Gobierna lo que el chofer puede capturar
+ * en G3 Drive: gastos manuales sin foto de ticket solo si la regla lo
+ * permite (y hasta el tope configurado).
+ */
+export interface ExpensePolicy {
+  /** Permite gastos capturados a mano sin comprobante. */
+  allowManualExpense: boolean;
+  /** Tope por gasto manual sin comprobante; null = sin tope. */
+  manualMaxAmount: number | null;
+  /** Si true, todo gasto exige foto de ticket (anula lo anterior). */
+  requireReceipt: boolean;
+}
+
+export const DEFAULT_EXPENSE_POLICY: ExpensePolicy = {
+  allowManualExpense: true,
+  manualMaxAmount: 300,
+  requireReceipt: false,
+};
 
 function readLS(k: string): string | null {
   if (typeof window === 'undefined') return null;
@@ -38,6 +59,10 @@ interface AppState {
   /* theme */
   night: boolean;
   setNight: (v: boolean) => void;
+
+  /* regla de gastos (aplica a G3 Drive) */
+  expensePolicy: ExpensePolicy;
+  setExpensePolicy: (p: Partial<ExpensePolicy>) => void;
 
   hydrate: () => void;
 }
@@ -87,14 +112,29 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ night: v });
   },
 
+  expensePolicy: DEFAULT_EXPENSE_POLICY,
+  setExpensePolicy: (p) => {
+    const merged = { ...get().expensePolicy, ...p };
+    writeLS(EXPENSE_POLICY_KEY, JSON.stringify(merged));
+    set({ expensePolicy: merged });
+  },
+
   hydrate: () => {
     const t = readLS(TIER_KEY) as TierValue | null;
     const n = readLS(NIGHT_KEY);
     const a = readLS(AUTH_KEY);
+    let policy = DEFAULT_EXPENSE_POLICY;
+    try {
+      const raw = readLS(EXPENSE_POLICY_KEY);
+      if (raw) policy = { ...DEFAULT_EXPENSE_POLICY, ...JSON.parse(raw) };
+    } catch {
+      /* política corrupta en LS: usar default */
+    }
     set({
       tier: t && t in FEATURES_BY_TIER ? t : Tier.Pro,
       night: n === '1',
       authed: a === '1',
+      expensePolicy: policy,
     });
     if (isLive && a === '1') {
       // best-effort: si hay tokens, refrescamos la sub

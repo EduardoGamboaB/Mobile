@@ -47,13 +47,14 @@ function delay<T>(value: T, ms = 120): Promise<T> {
   return new Promise((res) => setTimeout(() => res(value), ms));
 }
 
-const ACTIVE: TripStatusValue[] = ['scheduled', 'loading', 'in_transit', 'unloading'];
+const ACTIVE: TripStatusValue[] = ['scheduled', 'loading', 'in_transit', 'unloading', 'pre_closed'];
 
 const NEXT: Record<TripStatusValue, TripStatusValue | null> = {
   scheduled: 'loading',
   loading: 'in_transit',
   in_transit: 'unloading',
-  unloading: 'finished',
+  unloading: 'pre_closed',
+  pre_closed: 'finished',
   finished: null,
   cancelled: null,
 };
@@ -82,6 +83,7 @@ export const demoStore = {
       ...trip,
       status: next,
       started_at: trip.started_at ?? (next === 'loading' ? new Date().toISOString() : null),
+      pre_closed_at: next === 'pre_closed' ? new Date().toISOString() : trip.pre_closed_at ?? null,
       finished_at: next === 'finished' ? new Date().toISOString() : trip.finished_at,
       updated_at: new Date().toISOString(),
     };

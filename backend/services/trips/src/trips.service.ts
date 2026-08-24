@@ -27,13 +27,19 @@ export interface CreateTripInput {
   freightAmount?: number;
 }
 
-/** Máquina de estados: desde → permitidos */
+/**
+ * Máquina de estados: desde → permitidos.
+ * `delivered` = precierre (entrega con cliente, retorno en vacío).
+ * `closed`    = cierre total (unidad de vuelta en matriz).
+ * El pago puede liberarse desde `delivered` o `closed`.
+ */
 const TRANSITIONS: Record<TripStatus, TripStatus[]> = {
   draft: ['assigned', 'canceled'],
   assigned: ['in_transit', 'canceled'],
   in_transit: ['arrived', 'canceled'],
   arrived: ['delivered'],
-  delivered: ['paid'],
+  delivered: ['closed', 'paid'],
+  closed: ['paid'],
   paid: [],
   canceled: [],
 };
@@ -82,6 +88,7 @@ export class TripsService {
       scheduledAt: input.scheduledAt ?? null,
       startedAt: null,
       completedAt: null,
+      closedAt: null,
       paymentReleasedAt: null,
       freightAmount: input.freightAmount ?? null,
     };
@@ -104,6 +111,7 @@ export class TripsService {
     const patch: Partial<TripDto> = { status: next };
     if (next === 'in_transit') patch.startedAt = new Date().toISOString();
     if (next === 'delivered') patch.completedAt = new Date().toISOString();
+    if (next === 'closed') patch.closedAt = new Date().toISOString();
 
     const updated = (await this.repo.update(ctx.companyId, id, patch))!;
     await this.bus.publish({
@@ -123,7 +131,7 @@ export class TripsService {
       });
     }
     const trip = await this.get(ctx, id);
-    if (trip.status !== 'delivered') {
+    if (trip.status !== 'delivered' && trip.status !== 'closed') {
       throw new Error('El viaje debe estar entregado antes de liberar el pago');
     }
     const updated = (await this.repo.update(ctx.companyId, id, {

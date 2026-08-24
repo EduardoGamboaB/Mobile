@@ -12,6 +12,8 @@ export default function SettingsPage() {
   const night = useAppStore((s) => s.night);
   const setNight = useAppStore((s) => s.setNight);
   const tier = useAppStore((s) => s.tier);
+  const expensePolicy = useAppStore((s) => s.expensePolicy);
+  const setExpensePolicy = useAppStore((s) => s.setExpensePolicy);
   const [push, setPush] = useState(true);
   const [digest, setDigest] = useState(true);
 
@@ -89,6 +91,71 @@ export default function SettingsPage() {
             onChange={setDigest}
             last
           />
+        </div>
+      </div>
+
+      {/* Regla de gastos — gobierna lo que el chofer puede capturar en G3 Drive */}
+      <div className="card" style={{ marginBottom: 24 }}>
+        <div className="row-between" style={{ marginBottom: 4 }}>
+          <div className="eyebrow">Reglas de gastos · G3 Drive</div>
+          <span className="chip blue">APLICA A CHOFERES</span>
+        </div>
+        <div className="small" style={{ marginBottom: 12 }}>
+          Todo gasto con foto de ticket se lee con IA. Aquí decides qué pasa
+          con los gastos <strong>sin comprobante</strong>.
+        </div>
+        <ToggleRow
+          icon={<ShieldI size={18} color="var(--blue)" />}
+          title="Exigir ticket en todos los gastos"
+          hint="Si está activo, el chofer no puede registrar ningún gasto sin foto."
+          value={expensePolicy.requireReceipt}
+          onChange={(v) => setExpensePolicy({ requireReceipt: v })}
+        />
+        <ToggleRow
+          icon={<LockI size={18} color="var(--blue)" />}
+          title="Permitir gastos manuales sin ticket"
+          hint="El chofer captura monto y concepto a mano (sujeto al tope de abajo)."
+          value={expensePolicy.allowManualExpense}
+          onChange={(v) => setExpensePolicy({ allowManualExpense: v })}
+        />
+        <div className="row" style={{ padding: '12px 0', gap: 12 }}>
+          <span className="icon-tile sm blue"><BellI size={18} color="var(--blue)" /></span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 600 }}>Tope por gasto sin ticket (MXN)</div>
+            <div className="caption">Vacío = sin tope. Arriba del tope, la app exige foto.</div>
+          </div>
+          <input
+            type="number"
+            min={0}
+            step={50}
+            placeholder="Sin tope"
+            value={expensePolicy.manualMaxAmount ?? ''}
+            disabled={expensePolicy.requireReceipt || !expensePolicy.allowManualExpense}
+            onChange={(e) => {
+              const v = e.target.value;
+              setExpensePolicy({ manualMaxAmount: v === '' ? null : Math.max(0, Number(v)) });
+            }}
+            style={{
+              width: 120,
+              padding: '8px 10px',
+              borderRadius: 10,
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              fontWeight: 700,
+              textAlign: 'right',
+            }}
+          />
+        </div>
+        <div className="caption" style={{ color: 'var(--muted)' }}>
+          Regla vigente:{' '}
+          {expensePolicy.requireReceipt
+            ? 'todo gasto exige foto de ticket.'
+            : !expensePolicy.allowManualExpense
+              ? 'no se permiten gastos sin comprobante.'
+              : expensePolicy.manualMaxAmount != null
+                ? `sin ticket hasta $${expensePolicy.manualMaxAmount.toLocaleString('es-MX')} MXN; arriba, foto obligatoria.`
+                : 'gastos sin ticket permitidos sin tope.'}
         </div>
       </div>
 

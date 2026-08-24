@@ -16,6 +16,8 @@ export interface NewLogbookEntry {
   fuel?: FuelLevelValue | null;
   expense_amount?: number | null;
   expense_concept?: string | null;
+  /** true si el gasto trae foto de ticket (analizada por IA). */
+  expense_has_receipt?: boolean;
   comments?: string | null;
 }
 
@@ -46,6 +48,7 @@ export async function createLogbookEntry(entry: NewLogbookEntry): Promise<Logboo
       fuel: entry.fuel ?? null,
       expense_amount: entry.expense_amount ?? null,
       expense_concept: entry.expense_concept ?? null,
+      expense_has_receipt: entry.expense_has_receipt ?? false,
       comments: entry.comments ?? null,
       created_at: new Date().toISOString(),
     });
