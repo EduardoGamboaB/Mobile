@@ -51,7 +51,13 @@ keytool -genkeypair -v -keystore g3-release.keystore -alias g3drive \
    `app.json` (o usa variables EAS: `eas secret:create`).
 2. **Paquete**: `com.g3logistics.driver` (ya configurado).
 3. **Permisos** declarados: cámara, ubicación fina/gruesa, almacenamiento —
-   alineados con las features (OCR, bitácora GPS, evidencias).
+   alineados con las features (OCR, bitácora GPS, evidencias) y
+   notificaciones (plugin `expo-notifications`).
+4. **Push (centro de incidentes)**: `npx eas-cli init` deja el projectId en
+   `extra.eas.projectId` de `app.json`; la app lo usa para obtener el Expo
+   push token. En Android, sube las credenciales FCM a EAS
+   (`npx eas-cli credentials`). Sin permiso, sin projectId o en emulador el
+   login sigue normal y simplemente no se registra el token.
 
 ## Instalación en la flota (12 unidades)
 

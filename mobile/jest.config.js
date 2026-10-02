@@ -4,7 +4,7 @@
  * Las pruebas de la capa `api/g3` corren en jsdom + fetch mockeado: no
  * dependen de RN nativo. Las pruebas de stores/integración usan el mismo
  * entorno porque las dependencias nativas (AsyncStorage, expo-constants)
- * están mockeadas en `jest.setup.js`.
+ * están mockeadas en `__mocks__/` (AsyncStorage, expo-constants, expo-notifications).
  */
 module.exports = {
   projects: [
@@ -19,6 +19,7 @@ module.exports = {
       moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^expo-constants$': '<rootDir>/__mocks__/expo-constants.ts',
+        '^expo-notifications$': '<rootDir>/__mocks__/expo-notifications.ts',
         '^@react-native-async-storage/async-storage$':
           '<rootDir>/__mocks__/async-storage.ts',
       },
@@ -35,6 +36,7 @@ module.exports = {
       moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^expo-constants$': '<rootDir>/__mocks__/expo-constants.ts',
+        '^expo-notifications$': '<rootDir>/__mocks__/expo-notifications.ts',
         '^@react-native-async-storage/async-storage$':
           '<rootDir>/__mocks__/async-storage.ts',
       },

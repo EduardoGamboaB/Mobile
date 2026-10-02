@@ -10,4 +10,5 @@ export { trailersApi } from './trailers';
 export { tripsApi, expensePolicyApi } from './trips';
 export { incidentsApi } from './incidents';
 export { alertsApi } from './alerts';
+export { notificationsApi } from './notifications';
 export { aiHttp } from './ai';
