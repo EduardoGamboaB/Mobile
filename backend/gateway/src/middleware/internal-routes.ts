@@ -6,8 +6,13 @@
  *
  * - /api/trips/internal/*         viaje activo por vehículo (fleet → trips)
  * - /api/integrations/internal/*  configuración CON secretos en claro
+ * - /api/subscriptions/apply-tier, /start-trial  cambian el plan de cualquier compañía
  */
-const INTERNAL_ONLY = [/^\/api\/trips\/internal(\/|$)/i, /^\/api\/integrations\/internal(\/|$)/i];
+const INTERNAL_ONLY = [
+  /^\/api\/trips\/internal(\/|$)/i,
+  /^\/api\/integrations\/internal(\/|$)/i,
+  /^\/api\/subscriptions\/(apply-tier|start-trial)(\/|$)/i,
+];
 
 export function isInternalOnlyPath(path: string): boolean {
   return candidates(path).some((p) => INTERNAL_ONLY.some((r) => r.test(p)));

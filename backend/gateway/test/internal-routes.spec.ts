@@ -17,3 +17,19 @@ describe('internal-routes: rutas servicio→servicio que el gateway no expone', 
     },
   );
 });
+
+describe('internal-routes: cambio de plan de billing', () => {
+  test.each([
+    '/api/subscriptions/apply-tier',
+    '/api/subscriptions/start-trial',
+    '/api/Subscriptions/Apply-Tier',
+    '/api/subscriptions/x/../apply-tier',
+    '/api/subscriptions/%61pply-tier',
+  ])('%s se bloquea (escalada de plan)', (p) => {
+    expect(isInternalOnlyPath(p)).toBe(true);
+  });
+
+  test.each(['/api/subscriptions/me', '/api/subscriptions/checkout', '/api/subscriptions/cancel'])('%s pasa', (p) => {
+    expect(isInternalOnlyPath(p)).toBe(false);
+  });
+});

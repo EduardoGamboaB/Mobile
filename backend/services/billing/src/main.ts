@@ -11,9 +11,10 @@ import {
   registerHealthRoutes,
   runMigrations,
   serviceFetchFromEnv,
+  createRedisFromEnv,
   type ReadinessCheck,
 } from '@g3/platform';
-import { IntegrationsClient } from '@g3/integrations';
+import { IntegrationsClient, invalidationChannel, subscribeToIntegrationChanges } from '@g3/integrations';
 import { BillingController } from './billing.controller';
 import { BillingService } from './billing.service';
 import { InMemorySubscriptionRepo, InMemoryWebhookEventRepo } from './repos/in-memory.subscription.repo';
@@ -34,6 +35,19 @@ class BillingAppModule {
   }
 }
 
+/**
+ * Conexión Redis dedicada en modo suscriptor: invalida la caché (60 s) del
+ * IntegrationsClient en cuanto alguien cambia una configuración.
+ */
+function watchIntegrationChanges(client: IntegrationsClient, warn: (m: string, f?: Record<string, unknown>) => void) {
+  const subscriber = createRedisFromEnv();
+  if (!subscriber) return;
+  subscriber.on('error', (e: Error) => warn('redis (suscriptor de integraciones)', { error: e.message }));
+  subscribeToIntegrationChanges(subscriber, client, { channel: invalidationChannel(), onError: (m) => warn(m) }).catch(
+    (e: unknown) => warn('sin invalidación de integraciones (la caché expira en 60 s)', { error: (e as Error).message }),
+  );
+}
+
 async function bootstrap() {
   const log = createLogger(SERVICE);
   // En producción la base es obligatoria (DATABASE_URL o, en docker-compose, DB_HOST).
@@ -50,19 +64,19 @@ async function bootstrap() {
     log.warn('persistencia: memoria (solo dev; los datos se pierden al reiniciar)');
   }
 
+  const integrations = new IntegrationsClient({
+    baseUrl: process.env.INTEGRATIONS_URL,
+    internalToken: process.env.INTERNAL_TOKEN,
+    // x-internal-token y, con SERVICE_AUTH=gcp, ID token de Cloud Run.
+    fetch: serviceFetchFromEnv(),
+    onError: (m) => log.warn(m),
+  });
+  watchIntegrationChanges(integrations, log.warn);
+
   const svc = new BillingService(
     pool ? new PgSubscriptionRepo(pool) : new InMemorySubscriptionRepo(),
     // Stripe desde integrations (plataforma) → STRIPE_* → Fake si no hay nada.
-    new IntegrationBillingProvider(
-      new IntegrationsClient({
-        baseUrl: process.env.INTEGRATIONS_URL,
-        internalToken: process.env.INTERNAL_TOKEN,
-        // x-internal-token y, con SERVICE_AUTH=gcp, ID token de Cloud Run.
-        fetch: serviceFetchFromEnv(),
-        onError: (m) => log.warn(m),
-      }),
-      new FakeStripeProvider(),
-    ),
+    new IntegrationBillingProvider(integrations, new FakeStripeProvider()),
     new RecordingEventBus(),
     pool ? new PgWebhookEventRepo(pool) : new InMemoryWebhookEventRepo(),
   );

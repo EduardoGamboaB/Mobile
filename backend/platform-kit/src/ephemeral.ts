@@ -159,7 +159,10 @@ export function createRedisFromEnv(env: NodeJS.ProcessEnv = process.env, extra: 
   if (!url) return null;
   return new Redis(url, {
     maxRetriesPerRequest: 2,
-    enableOfflineQueue: false,
+    // Con cola: los comandos emitidos mientras conecta (arranque, reconexión)
+    // esperan en vez de fallar con "Stream isn't writeable"; si Redis sigue
+    // caído, fallan tras `maxRetriesPerRequest` reintentos de conexión.
+    enableOfflineQueue: true,
     connectTimeout: 5_000,
     lazyConnect: false,
     ...extra,

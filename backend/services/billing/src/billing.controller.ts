@@ -1,7 +1,19 @@
-import { Body, Controller, Get, HttpCode, Inject, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, Post, Req, UnauthorizedException } from '@nestjs/common';
 import type { Request } from 'express';
 import type { TierValue } from '@g3/contracts';
+import { safeEqual } from '@g3/platform';
 import { BillingService } from './billing.service';
+
+/**
+ * `apply-tier` y `start-trial` cambian el plan de CUALQUIER compañía: solo
+ * servicio→servicio. Exigen `x-internal-token` (= INTERNAL_TOKEN) y además el
+ * gateway responde 404 a esas rutas desde fuera.
+ */
+export function assertInternal(req: Pick<Request, 'header'>, expected = process.env.INTERNAL_TOKEN): void {
+  if (!safeEqual(req.header('x-internal-token'), expected)) {
+    throw new UnauthorizedException('Token interno inválido');
+  }
+}
 
 function companyId(req: Request): string {
   const id = req.header('x-company-id');
@@ -43,6 +55,7 @@ export class BillingController {
   @Post('apply-tier')
   @HttpCode(200)
   async applyTier(
+    @Req() req: Request,
     @Body()
     body: {
       companyId: string;
@@ -53,6 +66,7 @@ export class BillingController {
       eventType?: string;
     },
   ) {
+    assertInternal(req);
     const meta = { stripeSubscriptionId: body.stripeSubscriptionId, currentPeriodEnd: body.currentPeriodEnd };
     if (body.eventId) {
       const r = await this.svc.applyStripeEvent({
@@ -70,7 +84,8 @@ export class BillingController {
   // endpoint interno llamado desde auth-service tras registerCompany
   @Post('start-trial')
   @HttpCode(200)
-  startTrial(@Body() body: { companyId: string }) {
+  startTrial(@Req() req: Request, @Body() body: { companyId: string }) {
+    assertInternal(req);
     return this.svc.startTrial(body.companyId);
   }
 }

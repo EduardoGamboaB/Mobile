@@ -31,7 +31,7 @@ import { AUDIT_INGEST_TOKEN, AUTH_CONTAINER } from './tokens';
 import { RecordingEventBus, type EventBus } from './event.bus';
 import { PubSubEventBus } from './pubsub.bus';
 import { FetchOidcDiscovery, FetchTokenExchanger, JwksSignatureVerifier } from './sso/oidc';
-import { IntegrationsClient, SecretResolver } from '@g3/integrations';
+import { IntegrationsClient, SecretResolver, invalidationChannel, subscribeToIntegrationChanges } from '@g3/integrations';
 import { ProviderEmailSender, ProviderSmsSender } from './passwordless/provider-senders';
 import { PgAuditRepo } from './audit/pg.audit.repo';
 import { PgCompanyRepo, PgUserRepo } from './repos/pg.user.repo';
@@ -82,6 +82,19 @@ async function ephemeralStore(): Promise<EphemeralStore> {
   return new RedisEphemeralStore(redis, `g3:${env('G3_ENV', 'dev')}:${SERVICE}`);
 }
 
+/**
+ * Conexión Redis dedicada en modo suscriptor: invalida la caché (60 s) del
+ * IntegrationsClient en cuanto alguien cambia una configuración.
+ */
+function watchIntegrationChanges(client: IntegrationsClient, warn: (m: string, f?: Record<string, unknown>) => void) {
+  const subscriber = createRedisFromEnv();
+  if (!subscriber) return;
+  subscriber.on('error', (e: Error) => warn('redis (suscriptor de integraciones)', { error: e.message }));
+  subscribeToIntegrationChanges(subscriber, client, { channel: invalidationChannel(), onError: (m) => warn(m) }).catch(
+    (e: unknown) => warn('sin invalidación de integraciones (la caché expira en 60 s)', { error: (e as Error).message }),
+  );
+}
+
 function buildContainer(repos: Partial<AuthRepos>, ephemeral: EphemeralStore): AuthContainer {
   const secretResolver = new SecretResolver();
   // Sin INTEGRATIONS_URL/INTERNAL_TOKEN solo usa variables de entorno (o modo registro).
@@ -92,6 +105,7 @@ function buildContainer(repos: Partial<AuthRepos>, ephemeral: EphemeralStore): A
     fetch: serviceFetchFromEnv(),
     onError: (m) => log.warn(m),
   });
+  watchIntegrationChanges(integrations, log.warn);
   const bus: EventBus = env('GCP_PROJECT_ID') !== '' ? new PubSubEventBus() : new RecordingEventBus();
   return buildAuthContainer({
     repos,
