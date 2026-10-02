@@ -22,7 +22,15 @@ const SERVICE_URLS: ServiceUrls = {
 const JWT_SECRET = env('JWT_ACCESS_SECRET', 'a'.repeat(32));
 
 /** Rutas que NO requieren JWT (públicas). */
-const PUBLIC_PATHS = [/^\/api\/auth\/(login|register-company|refresh)$/, /^\/api\/webhooks\/stripe$/, /^\/health$/];
+const PUBLIC_PATHS = [
+  /^\/api\/auth\/(login|register-company|refresh)$/,
+  /^\/api\/webhooks\/stripe$/,
+  /^\/health$/,
+  // MFA paso 2 / enrolamiento forzado: autenticados por mfaToken, no por JWT
+  /^\/api\/auth\/mfa\/(verify|challenge\/enroll|challenge\/confirm)$/,
+  // SSO OIDC: descubrir, iniciar y callback ocurren antes de tener JWT
+  /^\/api\/auth\/sso\/(discover|start|callback)$/,
+];
 
 function isPublic(path: string): boolean {
   return PUBLIC_PATHS.some((r) => r.test(path));
@@ -31,6 +39,11 @@ function isPublic(path: string): boolean {
 async function proxy(upstream: string, req: Request, res: Response, ctx?: { companyId: string; tier: string; userId: string; role: string }) {
   const url = `${upstream}${req.originalUrl}`;
   const headers: Record<string, string> = { 'content-type': req.header('content-type') ?? 'application/json' };
+  // Bitácora de auditoría: IP real del cliente (req.ip respeta `trust proxy`,
+  // así un X-Forwarded-For falsificado por el cliente no la sobrescribe).
+  if (req.ip) headers['x-client-ip'] = req.ip;
+  const ua = req.header('user-agent');
+  if (ua) headers['user-agent'] = ua;
   if (ctx) {
     headers['x-company-id'] = ctx.companyId;
     headers['x-tier'] = ctx.tier;
@@ -56,6 +69,8 @@ class GatewayModule {}
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule, { cors: true, bodyParser: true });
   const http = app.getHttpAdapter().getInstance() as import('express').Express;
+  // Saltos de proxy confiables delante del gateway (LB de GCP = 2 en prod).
+  http.set('trust proxy', Number(env('TRUST_PROXY_HOPS', '1')));
 
   http.get('/health', (_req, res) => res.json({ ok: true, services: Object.keys(SERVICE_URLS) }));
 

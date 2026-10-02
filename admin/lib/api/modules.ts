@@ -19,6 +19,7 @@ import type {
   AIDriverInsightsResult,
 } from './types';
 import type { TierValue } from '../tiers';
+import { isMfaChallenge, mfaLoginApi, MfaRequiredError } from './security';
 
 // =============== AUTH ===============
 export interface LoginInput {
@@ -36,9 +37,13 @@ export interface RegisterCompanyInput {
 }
 
 export const authApi = {
+  /**
+   * Login de un solo paso. Si la cuenta tiene MFA lanza `MfaRequiredError`
+   * (con el reto); para el flujo completo usa `mfaLoginApi` (lib/api/security).
+   */
   async login(input: LoginInput): Promise<AuthSession> {
-    const res = await api.post<AuthSession>('/auth/login', input, { anonymous: true });
-    tokenStore.save({ accessToken: res.accessToken, refreshToken: res.refreshToken });
+    const res = await mfaLoginApi.login(input);
+    if (isMfaChallenge(res)) throw new MfaRequiredError(res);
     return res;
   },
   async registerCompany(input: RegisterCompanyInput): Promise<AuthSession> {

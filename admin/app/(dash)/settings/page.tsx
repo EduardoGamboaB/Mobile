@@ -7,6 +7,7 @@ import { company } from '@/lib/demoData';
 import {
   MoonI, SparklesI, BellI, MailI, LockI, ShieldI, ChevronRI,
 } from '@/components/Icons';
+import { SecurityCard } from '@/components/SecurityCard';
 
 export default function SettingsPage() {
   const night = useAppStore((s) => s.night);
@@ -159,8 +160,11 @@ export default function SettingsPage() {
         </div>
       </div>
 
+      {/* Seguridad: MFA, códigos de recuperación, MFA por rol, SSO y bitácora */}
+      <SecurityCard />
+
       <div className="card">
-        <div className="eyebrow" style={{ marginBottom: 12 }}>Seguridad</div>
+        <div className="eyebrow" style={{ marginBottom: 12 }}>Cuenta</div>
         <ActionRow icon={<LockI size={18} color="var(--blue)" />} title="Cambiar contraseña" />
         <ActionRow icon={<ShieldI size={18} color="var(--blue)" />} title="Sesiones activas (1)" last />
       </div>

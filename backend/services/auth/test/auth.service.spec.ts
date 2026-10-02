@@ -4,6 +4,7 @@ import { InMemoryCompanyRepo } from '../src/repos/in-memory.company.repo';
 import { BcryptPasswordHasher } from '../src/password.hasher';
 import { JwtTokenIssuer } from '../src/token.issuer';
 import { RecordingEventBus } from '../src/event.bus';
+import { expectSession } from './helpers/container';
 
 function build() {
   const users = new InMemoryUserRepo();
@@ -80,10 +81,13 @@ describe('AuthService.login', () => {
       password: 'super-secret-password-min-12chars',
     });
 
-    const session = await service.login({
-      email: 'login@acme.mx',
-      password: 'super-secret-password-min-12chars',
-    });
+    // sin dependencias de seguridad inyectadas no hay reto MFA
+    const session = expectSession(
+      await service.login({
+        email: 'login@acme.mx',
+        password: 'super-secret-password-min-12chars',
+      }),
+    );
 
     expect(session.user.email).toBe('login@acme.mx');
     expect(session.user.tier).toBe('free');

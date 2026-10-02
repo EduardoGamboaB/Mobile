@@ -54,6 +54,7 @@ export const TrendUpI    = (p: P) => <Base {...p}><polyline points="23 6 13.5 15
 export const MapPinI     = (p: P) => <Base {...p}><path d="M20 10c0 7-8 13-8 13s-8-6-8-13a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></Base>;
 export const ShieldI     = (p: P) => <Base {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></Base>;
 export const ShieldCheckI= (p: P) => <Base {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></Base>;
+export const KeyI        = (p: P) => <Base {...p}><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></Base>;
 export const CreditCardI = (p: P) => <Base {...p}><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></Base>;
 export const ZapI        = (p: P) => <Base {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Base>;
 export const ArrowRightI = (p: P) => <Base {...p}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></Base>;

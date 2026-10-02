@@ -195,6 +195,11 @@ contratista externo ejecuta un **mini-pentest**:
 6. Race conditions en flujos críticos
 7. Logic bugs (descuentos > 100%, cantidades negativas, etc.)
 
+### Pre-beta (externo)
+
+El primer pentest externo (caja gris, ASVS L2 + MASVS) y sus criterios de
+salida están en [`08-pentest-scope.md`](./08-pentest-scope.md).
+
 ### Trimestral (toda la plataforma)
 
 Cada quarter, pentest completo:

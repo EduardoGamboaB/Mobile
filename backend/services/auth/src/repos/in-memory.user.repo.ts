@@ -19,6 +19,7 @@ export interface UserRepo {
   findByCompanyId(companyId: string): Promise<UserRecord[]>;
   create(rec: UserRecord): Promise<UserRecord>;
   updateTierForCompany(companyId: string, tier: TierValue): Promise<void>;
+  updateRole(id: string, role: UserRole): Promise<UserRecord | null>;
 }
 
 export class InMemoryUserRepo implements UserRepo {
@@ -48,5 +49,11 @@ export class InMemoryUserRepo implements UserRepo {
     for (const u of this.byId.values()) {
       if (u.companyId === companyId) u.tier = tier;
     }
+  }
+  async updateRole(id: string, role: UserRole): Promise<UserRecord | null> {
+    const u = this.byId.get(id);
+    if (!u) return null;
+    u.role = role;
+    return { ...u };
   }
 }

@@ -1,6 +1,7 @@
 import type { TierValue } from '../tiers';
 
 export * from './auth';
+export * from './security';
 
 export interface CompanyDto {
   id: string;
