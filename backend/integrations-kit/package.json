@@ -1,0 +1,23 @@
+{
+  "name": "@g3/integrations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adaptadores de proveedores externos (SMS, correo, push, WhatsApp), prueba de conexión, resolución de secretos y cliente del servicio integrations.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "typecheck": "tsc -p tsconfig.check.json"
+  },
+  "dependencies": {
+    "@g3/contracts": "*"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.4.5"
+  }
+}
