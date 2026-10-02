@@ -7,6 +7,7 @@
 # Uso:
 #   PROJECT_ID=g3-prod BUCKET=g3-admin-prod \
 #   API_BASE_URL=https://g3-gateway-xxx.run.app \
+#   BACKEND_BUCKET=g3-admin-backend \
 #   ./deploy/deploy.sh
 #
 # Requisitos previos (una sola vez):
@@ -52,10 +53,14 @@ npm run typecheck
 npm test -- --silent --passWithNoTests
 
 # ---------------------------------------------------------------------------
-# 2. BUILD estático con NEXT_PUBLIC_API_BASE_URL apuntando al gateway real
+# 2. BUILD estático con NEXT_PUBLIC_G3_API_URL apuntando al gateway real
+#    (lib/api/config.ts lee NEXT_PUBLIC_G3_API_URL; sin ella el panel queda
+#    en modo demo. La CSP de security-headers.js permite connect-src a ese
+#    origen.)
 # ---------------------------------------------------------------------------
-log "Compilando con NEXT_PUBLIC_API_BASE_URL=${API_BASE_URL}…"
-export NEXT_PUBLIC_API_BASE_URL="$API_BASE_URL"
+log "Compilando con NEXT_PUBLIC_G3_API_URL=${API_BASE_URL}…"
+export NEXT_PUBLIC_G3_API_URL="$API_BASE_URL"
+unset NEXT_PUBLIC_DEMO
 rm -rf .next out
 npm run build
 
@@ -77,6 +82,25 @@ gsutil -m -h "Cache-Control:public, max-age=0, must-revalidate" \
 # Específicamente index.html
 [[ -f out/index.html ]] && gsutil -h "Cache-Control:public, max-age=0, must-revalidate" \
   cp out/index.html "gs://${BUCKET}/index.html" >/dev/null
+
+# ---------------------------------------------------------------------------
+# 3b. HEADERS DE SEGURIDAD en el backend bucket del Load Balancer
+#     (CSP, X-Frame-Options, HSTS…; misma fuente que next dev:
+#     security-headers.js). Requiere BACKEND_BUCKET (p.ej. g3-admin-backend).
+# ---------------------------------------------------------------------------
+BACKEND_BUCKET="${BACKEND_BUCKET:-}"
+if [[ -n "$BACKEND_BUCKET" ]]; then
+  log "Aplicando headers de seguridad a ${BACKEND_BUCKET}…"
+  HEADER_ARGS=()
+  while IFS= read -r h; do HEADER_ARGS+=("--custom-response-header=$h"); done < <(
+    NODE_ENV=production NEXT_PUBLIC_G3_API_URL="$API_BASE_URL" node -e '
+      const { securityHeaders } = require("./security-headers");
+      for (const h of securityHeaders({ dev: false })) console.log(`${h.key}: ${h.value}`);'
+  )
+  gcloud compute backend-buckets update "$BACKEND_BUCKET" "${HEADER_ARGS[@]}" --quiet
+else
+  log "BACKEND_BUCKET no definido: sin headers de seguridad en el LB (la CSP sigue como <meta>)."
+fi
 
 # ---------------------------------------------------------------------------
 # 4. INVALIDAR Cloud CDN si configuraste un URL map
