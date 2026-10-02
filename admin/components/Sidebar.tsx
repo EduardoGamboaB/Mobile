@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   HomeI, TruckI, UsersI, DollarI, ChartI, SparklesI,
-  SettingsI, LockI, ShieldI, PackageI, BellI, AlertI, TrendUpI,
+  SettingsI, LockI, ShieldI, PackageI, BellI, AlertI, TrendUpI, ZapI,
 } from './Icons';
 import { useFeature } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
@@ -61,6 +61,7 @@ export function Sidebar() {
       <div className="section-label" style={{ marginTop: 18 }}>Cuenta</div>
       <NavRow item={{ href: '/plans',    label: 'Mi plan', icon: SparklesI }} active={pathname.startsWith('/plans')} />
       <NavRow item={{ href: '/settings', label: 'Ajustes', icon: SettingsI }} active={pathname.startsWith('/settings')} />
+      <NavRow item={{ href: '/integrations', label: 'Integraciones', icon: ZapI }} active={pathname.startsWith('/integrations')} />
       <NavRow item={{ href: '/audit',    label: 'Bitácora', icon: ShieldI }} active={pathname.startsWith('/audit')} />
 
       <div className="footer">© G3 Logistics 2026</div>
