@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "workspaces": [
     "contracts",
+    "platform-kit",
     "integrations-kit",
     "gateway",
     "services/*"
@@ -17,7 +18,8 @@
     "test:services": "for s in auth billing fleet drivers trips alerts ai invoicing integrations; do echo \"\\n=== $s ===\" && npm test --workspace services/$s || exit 1; done",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev": "docker compose -f infra/docker/docker-compose.yml up --build",
-    "fmt": "prettier --write 'contracts/**/*.ts' 'gateway/**/*.ts' 'services/**/*.ts'"
+    "fmt": "prettier --write 'contracts/**/*.ts' 'gateway/**/*.ts' 'services/**/*.ts'",
+    "test:platform-kit": "npm test --workspace platform-kit"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

@@ -15,16 +15,19 @@ COPY contracts/src ./contracts/src
 # billing, invoicing e integrations. Se copia siempre (es pequeño).
 COPY integrations-kit/package.json integrations-kit/tsconfig.json ./integrations-kit/
 COPY integrations-kit/src ./integrations-kit/src
+# Kit de plataforma (@g3/platform): Postgres, Redis, salud, apagado ordenado.
+COPY platform-kit/package.json platform-kit/tsconfig.json ./platform-kit/
+COPY platform-kit/src ./platform-kit/src
 
 # Dependencias del workspace específico
 COPY ${SERVICE}/package.json ${SERVICE}/tsconfig.json ./${SERVICE}/
 
 # Instalar todas las deps de ese workspace + contracts
-RUN npm install --workspace ${SERVICE} --workspace contracts --workspace integrations-kit --ignore-scripts --no-audit --no-fund
+RUN npm install --workspace ${SERVICE} --workspace contracts --workspace platform-kit --workspace integrations-kit --ignore-scripts --no-audit --no-fund
 
 # Copiar el código y compilar
 COPY ${SERVICE}/src ./${SERVICE}/src
-RUN npm run build --workspace contracts && npm run build --workspace integrations-kit && npm run build --workspace ${SERVICE}
+RUN npm run build --workspace contracts && npm run build --workspace platform-kit && npm run build --workspace integrations-kit && npm run build --workspace ${SERVICE}
 
 # ---------- runtime ----------
 FROM node:${NODE_VERSION}
@@ -37,6 +40,8 @@ COPY --from=build /repo/contracts/dist ./contracts/dist
 COPY --from=build /repo/contracts/package.json ./contracts/
 COPY --from=build /repo/integrations-kit/dist ./integrations-kit/dist
 COPY --from=build /repo/integrations-kit/package.json ./integrations-kit/
+COPY --from=build /repo/platform-kit/dist ./platform-kit/dist
+COPY --from=build /repo/platform-kit/package.json ./platform-kit/
 COPY --from=build /repo/${SERVICE}/dist ./dist
 COPY --from=build /repo/${SERVICE}/package.json ./package.json
 
