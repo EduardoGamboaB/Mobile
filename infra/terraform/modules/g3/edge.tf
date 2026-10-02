@@ -13,6 +13,7 @@ module "edge" {
   auth_rate_limit_per_minute   = var.auth_rate_limit_per_minute
   ingest_rate_limit_per_minute = var.ingest_rate_limit_per_minute
   waf_preview                  = var.waf_preview
+  stripe_webhook_enabled       = var.stripe_webhook_enabled
   api_allowed_regions          = var.api_allowed_regions
   admin_allowed_regions        = var.admin_allowed_regions
 

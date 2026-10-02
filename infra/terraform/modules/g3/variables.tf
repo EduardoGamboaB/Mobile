@@ -349,3 +349,9 @@ variable "extra_labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "stripe_webhook_enabled" {
+  description = "Abre /api/webhooks/stripe en el borde (pendiente: handler en billing)."
+  type        = bool
+  default     = false
+}

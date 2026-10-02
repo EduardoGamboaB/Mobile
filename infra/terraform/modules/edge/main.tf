@@ -137,10 +137,26 @@ resource "google_compute_security_policy" "api" {
   rule {
     priority    = 1200
     action      = "deny(404)"
-    description = "Rutas internas (/api/*/internal/*, escalamientos) nunca desde Internet"
+    description = "Rutas internas (/api/*/internal/*, escalamientos, cambio de plan) nunca desde Internet"
     match {
       expr {
-        expression = "request.path.matches('^/api/[a-z-]+/internal/.*') || request.path.startsWith('/api/incidents/escalations/')"
+        expression = "request.path.matches('^/api/[a-z-]+/internal/.*') || request.path.startsWith('/api/incidents/escalations/') || request.path.matches('(?i)^/api/subscriptions/(apply-tier|start-trial)(/.*)?$')"
+      }
+    }
+  }
+
+  # Webhook de Stripe: billing aún no tiene handler. Cerrado en el borde hasta
+  # que exista (stripe_webhook_enabled = true lo abre).
+  dynamic "rule" {
+    for_each = var.stripe_webhook_enabled ? [] : [1]
+    content {
+      priority    = 1210
+      action      = "deny(404)"
+      description = "Webhook de Stripe deshabilitado (sin handler en billing)"
+      match {
+        expr {
+          expression = "request.path.startsWith('/api/webhooks/stripe')"
+        }
       }
     }
   }

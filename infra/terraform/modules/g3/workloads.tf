@@ -46,7 +46,7 @@ module "service" {
   depends_on = [google_secret_manager_secret_iam_member.svc]
 }
 
-# ── Migraciones: migrate-<svc> (node dist/migrate.js con el rol g3_<svc>) ───
+# ── Migraciones: migrate-<svc> (node dist/migrate.js con g3_<svc>_migrator) ─
 module "migrate_job" {
   source   = "../cloud-run-job"
   for_each = var.deploy_workloads ? toset(var.migrate_services) : toset([])
@@ -57,14 +57,14 @@ module "migrate_job" {
   image                 = "${local.registry}/${each.key}:${var.image_tag}"
   command               = ["node"]
   args                  = ["dist/migrate.js"]
-  service_account_email = google_service_account.svc[each.key].email
+  service_account_email = google_service_account.migrator[each.key].email
   env = {
     NODE_ENV    = "production"
     G3_ENV      = var.env
     DB_POOL_MAX = "2"
   }
   secret_env = {
-    DATABASE_URL = module.database.url_secret_ids[each.key]
+    DATABASE_URL = module.database.migrator_url_secret_ids[each.key]
   }
   timeout_seconds = 900
   max_retries     = 1
@@ -72,7 +72,7 @@ module "migrate_job" {
   subnetwork      = module.network.run_subnet_id
   labels          = merge(local.labels, { service = each.key, job = "migrate" })
 
-  depends_on = [google_secret_manager_secret_iam_member.svc]
+  depends_on = [google_secret_manager_secret_iam_member.migrator]
 }
 
 # ── Bootstrap de la base: schemas, roles g3_<svc>, permisos ─────────────────
@@ -95,6 +95,7 @@ module "db_bootstrap_job" {
   secret_env = merge(
     { PGPASSWORD = module.database.admin_password_secret_id },
     { for s, id in module.database.password_secret_ids : "G3_PW_${upper(s)}" => id },
+    { for s, id in module.database.migrator_password_secret_ids : "G3_MPW_${upper(s)}" => id },
   )
   timeout_seconds = 300
   max_retries     = 0

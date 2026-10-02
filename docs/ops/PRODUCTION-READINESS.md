@@ -47,10 +47,14 @@ siguiente paso y puede destapar detalles de cuotas, APIs o permisos de la organi
 
 | Ítem | Estado | Notas |
 |---|---|---|
-| `/health` y `/ready` en **todos los servicios** | ✅ | gateway, auth, billing, drivers, fleet, trips, alerts, integrations y ai. El startup probe apunta a `/ready` (DB + Redis). |
-| Persistencia Postgres en los 8 servicios con datos (migraciones + `src/migrate.ts`) | ✅ | auth, billing, drivers, fleet, trips, alerts, integrations, invoicing. El pipeline los detecta y corre `migrate-<svc>`. Tests de contrato contra Postgres 16 y Redis reales. |
+| `/health` y `/ready` en los 9 servicios, fuera de `/api` | ✅ | Probado: auth como rol runtime responde `/ready` con `db` y `redis` OK. |
+| Migraciones de los 8 servicios con schema (`node dist/migrate.js`) | ✅ | Probado en Postgres 16 con el rol dueño `g3_<svc>_migrator`. |
+| Separación dueño/runtime y `auth.audit_log` append-only | ✅ | Probado: runtime sin DDL ni GRANT; `g3_auth` sin UPDATE/DELETE en `audit_log` incluso tras re-ejecutar el bootstrap. |
+| Webhook de Stripe (`/api/webhooks/stripe`) | ⛔ | Billing aún no tiene handler (Stripe real pendiente). Cloud Armor lo **cierra** (`deny(404)`, regla 1210) hasta que exista; abrir con `stripe_webhook_enabled = true` solo cuando verifique la firma `Stripe-Signature`. |
+| `apply-tier` / `start-trial` de billing | ✅ | Exigen `x-internal-token`; el gateway las bloquea y Cloud Armor también (regla 1200). |
+| Particiones de telemetría en runtime | ✅ | Las funciones de creación son `SECURITY DEFINER` (migración `fleet/0002`): el runtime crea la partición de un mes nuevo al vuelo sin ser dueño; borrar (retención) solo lo puede el dueño vía `g3-fleet-maintenance`. Probado con roles separados. |
 | **invoicing** sin servidor HTTP | ⛔ | Solo tiene job `migrate-invoicing`. No se despliega como Cloud Run service. Falta definir su host HTTP, o que billing lo use como librería. Su cuenta ya tiene `run.invoker` sobre integrations. |
-| Roles de servicio sin `CREATE ON DATABASE` | ✅ | `runMigrations` consulta `pg_namespace` antes del `CREATE SCHEMA`; `init-schemas.sql` revoca el grant (probado con un rol sin el privilegio). |
+| Roles sin `CREATE ON DATABASE` | ✅ | `runMigrations` consulta `pg_namespace` antes del `CREATE SCHEMA`; ni runtime ni migrator tienen el privilegio (el migrator crea tablas como dueño de su schema). |
 | Keyring para `MFA_ENCRYPTION_KEY` / `INTEGRATIONS_ENCRYPTION_KEY` | ⛔ | Sin él, rotar exige re-capturar o re-enrolar (RUNBOOK › Re-encriptación). |
 | Rotación de `INTERNAL_TOKEN` sin corte | ⛔ | Aceptar token actual + anterior durante la rotación. |
 | ai → Vertex AI real | ⛔ | Hoy usa el proveedor stub. La cuenta `g3-run-ai` ya tiene `aiplatform.user`. |
@@ -67,7 +71,7 @@ siguiente paso y puede destapar detalles de cuotas, APIs o permisos de la organi
 | Correos de on-call y herramienta de guardias | 👤 |
 | **Pentest externo** antes de la beta (`security/08-pentest-scope.md`) | 👤 |
 | WhatsApp Cloud API: cuenta de Meta Business verificada, número y **plantilla `g3_incidente` aprobada** (es_MX) | 👤 |
-| Proveedores: SMS, correo, Stripe (cuenta verificada, webhook a `https://api.<dominio>/api/webhooks/stripe`), PAC (contrato y certificados CSD), Expo push | 👤 |
+| Proveedores: SMS, correo, Stripe (cuenta verificada; webhook pendiente del handler en billing), PAC (contrato y certificados CSD), Expo push | 👤 |
 | **G3 Drive:** `eas init` (projectId), credenciales de Apple y Google Play, `eas build --profile production`, fichas de tienda (mobile/BUILD.md) | 👤 |
 | Registrar la compañía de G3 Tech y fijar `platform_company_id` | 👤 |
 | Aviso de privacidad, términos y retención (5 años de evidencias, 13 meses de GPS) validados por legal | 👤 |

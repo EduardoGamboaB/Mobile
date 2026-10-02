@@ -156,15 +156,19 @@ servicios. Continúa con el paso 7 y vuelve a correr `terraform apply`.
 ```bash
 gcloud run jobs execute g3-db-bootstrap --region=$REGION --wait
 for s in auth billing drivers fleet trips alerts integrations invoicing; do
-  [ -f backend/services/$s/src/migrate.ts ] || { echo "sin migraciones: $s"; continue; }
   gcloud run jobs execute migrate-$s --region=$REGION --wait || break
 done
-gcloud run jobs execute g3-db-bootstrap --region=$REGION --wait   # deja auth.audit_log append-only
+gcloud run jobs execute g3-db-bootstrap --region=$REGION --wait   # re-asegura auth.audit_log append-only
 gcloud run jobs execute g3-fleet-maintenance --region=$REGION --wait   # particiones de telemetría
 ```
 
-`g3-db-bootstrap` aplica `backend/infra/db/init-schemas.sql`. Ese script crea los schemas y los roles `g3_<svc>` con
-las contraseñas de Secret Manager y otorga permisos solo sobre el schema propio. Es idempotente.
+`g3-db-bootstrap` aplica `backend/infra/db/init-schemas.sql`. Es idempotente. Por servicio crea dos roles con las
+contraseñas de Secret Manager:
+
+- `g3_<svc>_migrator`: dueño del schema. Lo usan los jobs `migrate-<svc>` y `g3-fleet-maintenance`.
+- `g3_<svc>`: runtime de Cloud Run, solo DML sobre su schema.
+
+Ningún rol ve el schema de otro servicio.
 
 ## 8. Despliegue completo con el pipeline
 

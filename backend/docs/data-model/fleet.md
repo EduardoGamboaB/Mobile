@@ -192,3 +192,11 @@ viaje, y alerts lo tolera. Compartirla costaría un viaje de red por punto, que 
 - Sin `DATABASE_URL`/`DB_HOST` el servicio usa memoria (solo desarrollo). En producción falla al arrancar.
 - `/health` (liveness) y `/ready` (hace ping a la DB). Al recibir SIGTERM se cierra Nest, se esperan las señales en
   vuelo hacia alerts (`IncidentSignalBus.drain`) y se cierra el pool.
+
+## Permisos de las funciones de particiones
+
+`telemetry_ensure_partition` y `telemetry_ensure_partitions` son `SECURITY DEFINER` con `search_path` fijo
+(migración `0002`). Así el rol de runtime (`g3_fleet`), que no es dueño del schema, puede crear la partición del
+mes de un punto que llega. Solo puede crear particiones mensuales de `telemetry_points`. `telemetry_drop_partitions_before`
+no tiene `EXECUTE` para `PUBLIC`, así que solo el dueño (`g3_fleet_migrator`, job `g3-fleet-maintenance`) aplica la
+retención.

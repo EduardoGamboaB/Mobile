@@ -154,8 +154,9 @@ steps:
         gcloud run jobs update g3-fleet-maintenance --region=${_REGION} --image="$$REGISTRY/fleet:$$TAG" --quiet
     waitFor: ['db-bootstrap']
 
-  # Re-aplica init-schemas.sql: deja auth.audit_log append-only si la
-  # migración de auth la acaba de crear.
+  # Re-aplica init-schemas.sql (idempotente): permisos del runtime y REVOKE de
+  # UPDATE/DELETE en auth.audit_log (la migración de auth ya lo hace; esto
+  # garantiza que ninguna re-ejecución se los devuelva).
   - id: db-harden
     name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
     entrypoint: bash

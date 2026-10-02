@@ -19,13 +19,14 @@ module "fleet_maintenance_job" {
   source = "../cloud-run-job"
   count  = var.deploy_workloads ? 1 : 0
 
-  project_id            = var.project_id
-  region                = var.region
-  name                  = "g3-fleet-maintenance"
-  image                 = "${local.registry}/fleet:${var.image_tag}"
-  command               = ["node"]
-  args                  = ["dist/maintenance.js"]
-  service_account_email = google_service_account.svc["fleet"].email
+  project_id = var.project_id
+  region     = var.region
+  name       = "g3-fleet-maintenance"
+  image      = "${local.registry}/fleet:${var.image_tag}"
+  command    = ["node"]
+  args       = ["dist/maintenance.js"]
+  # Crea y borra particiones (DDL): corre con el rol dueño del schema fleet.
+  service_account_email = google_service_account.migrator["fleet"].email
   env = {
     NODE_ENV                   = "production"
     G3_ENV                     = var.env
@@ -33,7 +34,7 @@ module "fleet_maintenance_job" {
     TELEMETRY_RETENTION_MONTHS = tostring(var.telemetry_retention_months)
   }
   secret_env = {
-    DATABASE_URL = module.database.url_secret_ids["fleet"]
+    DATABASE_URL = module.database.migrator_url_secret_ids["fleet"]
   }
   timeout_seconds = 1800
   max_retries     = 2
@@ -41,7 +42,7 @@ module "fleet_maintenance_job" {
   subnetwork      = module.network.run_subnet_id
   labels          = merge(local.labels, { service = "fleet", job = "maintenance" })
 
-  depends_on = [google_secret_manager_secret_iam_member.svc]
+  depends_on = [google_secret_manager_secret_iam_member.migrator]
 }
 
 # Cloud Scheduler ejecuta el job por la API de Cloud Run (OAuth de g3-scheduler).

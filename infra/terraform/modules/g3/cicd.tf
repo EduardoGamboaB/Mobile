@@ -30,7 +30,11 @@ resource "google_artifact_registry_repository_iam_member" "deployer" {
 
 # actAs: desplegar una revisión que corre como g3-<svc> / g3-db-bootstrap.
 resource "google_service_account_iam_member" "deployer_act_as" {
-  for_each           = merge({ for s in keys(local.catalog) : s => google_service_account.svc[s].name }, { "db-bootstrap" = google_service_account.db_bootstrap.name })
+  for_each = merge(
+    { for s in keys(local.catalog) : s => google_service_account.svc[s].name },
+    { for s in local.db_services : "mig-${s}" => google_service_account.migrator[s].name },
+    { "db-bootstrap" = google_service_account.db_bootstrap.name },
+  )
   service_account_id = each.value
   role               = "roles/iam.serviceAccountUser"
   member             = google_service_account.deployer.member
