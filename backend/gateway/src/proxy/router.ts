@@ -23,6 +23,9 @@ const ROUTES: { prefix: RegExp; service: keyof ServiceUrls }[] = [
   { prefix: /^\/api\/trips(\/|$)/, service: 'trips' },
   { prefix: /^\/api\/expense-policy(\/|$)/, service: 'trips' },
   { prefix: /^\/api\/alerts(\/|$)/, service: 'alerts' },
+  { prefix: /^\/api\/incidents(\/|$)/, service: 'alerts' },
+  { prefix: /^\/api\/alert-rules(\/|$)/, service: 'alerts' },
+  { prefix: /^\/api\/notification-contacts(\/|$)/, service: 'alerts' },
   { prefix: /^\/api\/ai(\/|$)/, service: 'ai' },
 ];
 

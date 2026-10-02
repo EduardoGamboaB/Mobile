@@ -12,6 +12,12 @@ import {
   ClockIcon,
 } from '@/components/icons';
 import { useColors, radius, spacing, typography } from '@/theme';
+import uuid from 'react-native-uuid';
+import { sendSos } from '@/api/incidents';
+import { getCurrentCoords } from '@/services/location';
+import { offlineQueue } from '@/services/offlineQueue';
+import { useActiveTrips } from '@/hooks/useTrips';
+import { useAuthStore } from '@/stores/auth';
 import type { ColorPalette } from '@/theme';
 
 const HOLD_MS = 3_000;
@@ -24,6 +30,40 @@ export function SosScreen() {
   const progress = useRef(new Animated.Value(0)).current;
   const [armed, setArmed] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const driverId = useAuthStore((s) => s.session?.user.driverId ?? s.session?.user.id);
+  const activeTrip = useActiveTrips().data?.[0];
+
+  /**
+   * Abre un incidente crítico en el centro de incidentes de G3 Admin con la
+   * ubicación; el backend avisa por push y WhatsApp a la torre. Sin señal,
+   * queda en la cola offline y se le pide al operador llamar.
+   */
+  const fire = async () => {
+    const coords = await getCurrentCoords().catch(() => null);
+    const payload = {
+      client_uuid: String(uuid.v4()),
+      trip_id: activeTrip?.id ?? null,
+      driver_id: driverId ?? '',
+      lat: coords?.lat ?? null,
+      lng: coords?.lng ?? null,
+    };
+    try {
+      await sendSos(payload);
+      Alert.alert(
+        '⚠ SOS activado',
+        'Tu ubicación y unidad se enviaron a la torre de control; te van a contactar.',
+      );
+    } catch {
+      await offlineQueue.enqueue('incident', {
+        ...payload,
+        type: 'sos',
+        urgency: 'critical',
+        description: 'SOS activado por el operador (enviado sin señal)',
+        occurred_at: new Date().toISOString(),
+      });
+      Alert.alert('Sin señal', 'El SOS se enviará en cuanto haya red. Si puedes, llama a despacho ahora.');
+    }
+  };
 
   useEffect(() => {
     Animated.loop(
@@ -42,10 +82,7 @@ export function SosScreen() {
       useNativeDriver: false,
     }).start();
     timer.current = setTimeout(() => {
-      Alert.alert(
-        '⚠ SOS activado',
-        'Tu ubicación, datos de unidad y hora se enviaron a despacho, supervisor y seguridad.',
-      );
+      void fire();
       progress.setValue(0);
       setArmed(false);
     }, HOLD_MS);

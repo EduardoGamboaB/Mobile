@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   HomeI, TruckI, UsersI, DollarI, ChartI, SparklesI,
-  SettingsI, LockI, ShieldI, PackageI, BellI,
+  SettingsI, LockI, ShieldI, PackageI, BellI, AlertI,
 } from './Icons';
 import { useFeature } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
@@ -22,6 +22,7 @@ const OPEN_ALERTS = alerts.filter((a) => !a.acknowledged).length;
 const OPERATION: NavItem[] = [
   { href: '/dashboard', label: 'Resumen',             icon: HomeI },
   { href: '/monitor',   label: 'Monitoreo · Alertas', icon: BellI, badge: OPEN_ALERTS },
+  { href: '/incidents', label: 'Centro de incidentes', icon: AlertI },
   { href: '/trips',     label: 'Viajes',              icon: TruckI },
 ];
 const FLEET: NavItem[] = [
