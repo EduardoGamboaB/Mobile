@@ -1,4 +1,5 @@
 'use client';
+import { tripStatusLabel } from '@/lib/tripStatusUi';
 import Link from 'next/link';
 import {
   tractorById, driverById, trips, documentsForOwner, alertsByEntity,
@@ -98,7 +99,7 @@ export default function TractorDetailClient({ id }: { id: string }) {
                 }}
               >
                 <span className={`chip status-${trip.status}`} style={{ width: 90, justifyContent: 'center' }}>
-                  {trip.status.replace('_', ' ').toUpperCase()}
+                  {tripStatusLabel(trip.status)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <strong style={{ fontSize: 13 }}>{trip.folio} · {trip.client}</strong>
@@ -106,7 +107,7 @@ export default function TractorDetailClient({ id }: { id: string }) {
                     <MapPinI size={12} /> {trip.origin.split(',')[0]} → {trip.destination.split(',')[0]}
                   </div>
                 </div>
-                <span className="small" style={{ fontWeight: 700 }}>${fmt(trip.grossAmount)}</span>
+                <span className="small" style={{ fontWeight: 700 }}>${fmt(trip.freightAmount ?? 0)}</span>
               </Link>
             ))}
             {myTrips.length === 0 ? <div className="small muted">Sin viajes asignados.</div> : null}

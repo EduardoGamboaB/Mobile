@@ -1,13 +1,22 @@
 'use client';
 import Link from 'next/link';
-import { tripById, driverById, unitById, incidents } from '@/lib/demoData';
+import { tripById, driverById, unitById, incidents, logbookForTrip } from '@/lib/demoData';
+import { PAYABLE_TRIP_STATUSES } from '@/lib/contracts/tripStatus';
+import { tripStatusLabel } from '@/lib/tripStatusUi';
+import { TripProfitabilitySection } from '@/components/ProfitabilityBreakdown';
 import {
   ChevronLI, MapPinI, PackageI, AlertI, CheckI, ShieldCheckI,
 } from '@/components/Icons';
 import { useAppStore } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
 
-const fmt = (n: number) => '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n: number | null) =>
+  n == null ? 'Sin capturar' : '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+const LOG_TITLE: Record<string, string> = {
+  departure: 'Salida', loading: 'Carga', stop: 'Parada', toll: 'Caseta', diesel: 'Diesel',
+  incident: 'Incidencia', arrival: 'Llegada', unloading: 'Descarga', closing: 'Cierre',
+};
 
 export default function TripDetailClient({ id }: { id: string }) {
   const trip = tripById(id);
@@ -25,6 +34,7 @@ export default function TripDetailClient({ id }: { id: string }) {
   const driver = driverById(trip.driverId);
   const unit = unitById(trip.tractorId);
   const tripIncidents = incidents.filter((i) => i.tripFolio === trip.folio);
+  const log = logbookForTrip(trip.id);
 
   return (
     <>
@@ -37,7 +47,7 @@ export default function TripDetailClient({ id }: { id: string }) {
           <div className="eyebrow">{trip.folio} · {trip.cargo}</div>
           <h1 className="h1">{trip.client}</h1>
           <div className="row" style={{ gap: 8, marginTop: 8 }}>
-            <span className={`chip status-${trip.status}`}>{trip.status.replace('_', ' ').toUpperCase()}</span>
+            <span className={`chip status-${trip.status}`}>{tripStatusLabel(trip.status)}</span>
             <span className="chip gray">{trip.tons} TON</span>
             {trip.inspectionPct === 100
               ? <span className="chip green">NOM-068 ✓</span>
@@ -46,7 +56,7 @@ export default function TripDetailClient({ id }: { id: string }) {
         </div>
         <div className="row" style={{ gap: 8 }}>
           <button className="btn outline sm">Cambiar estatus</button>
-          {trip.paymentStatus === 'pending' && has(Feature.PaymentAuthorization) ? (
+          {trip.paymentStatus === 'pending' && PAYABLE_TRIP_STATUSES.includes(trip.status) && has(Feature.PaymentAuthorization) ? (
             <button className="btn accent sm">Autorizar pago</button>
           ) : null}
         </div>
@@ -71,8 +81,8 @@ export default function TripDetailClient({ id }: { id: string }) {
                 <div className="caption">
                   {trip.status === 'pre_closed' && trip.preClosedAt
                     ? `Precerrado · entregó ${new Date(trip.preClosedAt).toLocaleString('es-MX')} · en retorno a matriz`
-                    : trip.finishedAt
-                      ? `Entregado · ${new Date(trip.finishedAt).toLocaleString('es-MX')}`
+                    : trip.closedAt
+                      ? `Cerrado en matriz · ${new Date(trip.closedAt).toLocaleString('es-MX')}`
                       : `ETA · ${new Date(trip.etaUnload).toLocaleString('es-MX')}`}
                 </div>
               </div>
@@ -82,28 +92,44 @@ export default function TripDetailClient({ id }: { id: string }) {
           <div className="card">
             <div className="eyebrow" style={{ marginBottom: 12 }}>Importes</div>
             <RowKV label={`Precio por tonelada · ${trip.tons} ton`} value={fmt(trip.pricePerTon)} />
-            <RowKV label="Importe total del viaje" value={fmt(trip.grossAmount)} />
+            <RowKV label="Importe total del viaje" value={fmt(trip.freightAmount)} />
             <hr style={{ border: 0, borderTop: '1px solid var(--border)', margin: '12px 0' }} />
-            <RowKV label="Casetas estimadas" value={`− ${fmt(trip.tolls)}`} muted />
-            <RowKV label="Diesel estimado"  value={`− ${fmt(trip.diesel)}`} muted />
+            <RowKV label="Casetas estimadas" value={`− ${fmt(trip.estimatedTolls)}`} muted />
+            <RowKV label="Diesel estimado"  value={`− ${fmt(trip.estimatedDiesel)}`} muted />
             <hr style={{ border: 0, borderTop: '1px solid var(--border)', margin: '12px 0' }} />
             <RowKV label="Comisión chofer" value={fmt(trip.driverCommission)} strong />
           </div>
+
+          <TripProfitabilitySection tripId={trip.id} />
 
           <div className="card">
             <div className="row-between" style={{ marginBottom: 12 }}>
               <span className="eyebrow">Bitácora del viaje</span>
               <span className="chip blue">{trip.evidenceCount} EVIDENCIAS</span>
             </div>
-            <TimelineRow icon={<PackageI size={14} color="var(--blue)" />} title="Salida de planta"  meta="Tula · ayer 19:30 · km 142,385" />
-            <TimelineRow icon={<MapPinI  size={14} color="var(--blue)" />} title="Caseta Atlacomulco" meta="ayer 22:14 · $285 · km 142,510" />
-            <TimelineRow icon={<MapPinI  size={14} color="var(--blue)" />} title="Diesel Pemex km 187" meta="hoy 02:48 · 180 L · $2,450" />
-            {trip.status === 'finished' ? (
+            {log.length === 0 ? (
+              <div className="caption" style={{ paddingBottom: 12 }}>Sin registros de bitácora todavía.</div>
+            ) : null}
+            {log.map((e) => (
+              <TimelineRow
+                key={e.id}
+                icon={<MapPinI size={14} color="var(--blue)" />}
+                title={`${LOG_TITLE[e.eventType] ?? e.eventType} · ${e.locationText}`}
+                meta={[
+                  new Date(e.occurredAt).toLocaleString('es-MX'),
+                  e.expenseAmount != null
+                    ? fmt(e.expenseAmount)
+                    : e.eventType === 'toll' || e.eventType === 'diesel' ? 'monto sin capturar' : null,
+                  e.expenseAmount != null ? (e.expenseHasReceipt ? 'con ticket' : 'SIN ticket') : null,
+                ].filter(Boolean).join(' · ')}
+              />
+            ))}
+            {trip.status === 'closed' ? (
               <>
                 {trip.preClosedAt ? (
                   <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Precierre · entrega con cliente" meta={`${new Date(trip.preClosedAt).toLocaleString('es-MX')} · retorno en vacío`} />
                 ) : null}
-                <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Viaje cerrado en matriz" meta={`${trip.finishedAt ? new Date(trip.finishedAt).toLocaleString('es-MX') : ''}`} last />
+                <TimelineRow icon={<CheckI size={14} color="var(--success)" />} title="Viaje cerrado en matriz" meta={`${trip.closedAt ? new Date(trip.closedAt).toLocaleString('es-MX') : ''}`} last />
               </>
             ) : trip.status === 'pre_closed' ? (
               <>

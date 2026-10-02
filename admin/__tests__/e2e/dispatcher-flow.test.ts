@@ -1,7 +1,8 @@
 /**
  * E2E del flujo completo del despachador desde el admin web:
  * login → catalog → onboard driver → create tractor + trailer → asignar viaje
- * → ver live position (Pro+) → liberar pago → ver IA insights del chofer.
+ * → ver live position (Pro+) → precierre → liberar pago → ver IA insights del chofer.
+ * Estados con el vocabulario único (lib/contracts/tripStatus.ts).
  */
 import { useAppStore } from '../../lib/store';
 import {
@@ -88,13 +89,13 @@ describe('E2E — flujo completo del despachador (Pro)', () => {
           },
         ],
       })
-      // entregar
+      // precierre: entregó con el cliente final
       .on('PATCH /api/trips/trp_e2e/status', {
         status: 200,
         body: fixtures.trip({
           id: 'trp_e2e',
-          status: 'delivered',
-          completedAt: '2026-05-19T18:00:00Z',
+          status: 'pre_closed',
+          preClosedAt: '2026-05-19T18:00:00Z',
         }),
       })
       // liberar pago (Starter+ — pro lo tiene)
@@ -102,7 +103,8 @@ describe('E2E — flujo completo del despachador (Pro)', () => {
         status: 200,
         body: fixtures.trip({
           id: 'trp_e2e',
-          status: 'paid',
+          status: 'pre_closed',
+          paymentStatus: 'released',
           paymentReleasedAt: '2026-05-19T18:30:00Z',
         }),
       })
@@ -164,10 +166,13 @@ describe('E2E — flujo completo del despachador (Pro)', () => {
     const live = await tractorsApi.livePositions();
     expect(live[0].lat).toBe(19.5);
 
-    // 8) Entregado y pago liberado
-    const delivered = await tripsApi.setStatus(trip.id, 'delivered');
-    expect(delivered.status).toBe('delivered');
+    // 8) Precierre y pago liberado (sin esperar el retorno a matriz)
+    const preClosed = await tripsApi.setStatus(trip.id, 'pre_closed');
+    expect(preClosed.status).toBe('pre_closed');
+    expect(preClosed.preClosedAt).toBeTruthy();
     const paid = await tripsApi.releasePayment(trip.id);
+    expect(paid.status).toBe('pre_closed');
+    expect(paid.paymentStatus).toBe('released');
     expect(paid.paymentReleasedAt).toBeTruthy();
 
     // 9) IA: insights del chofer (Pro+)

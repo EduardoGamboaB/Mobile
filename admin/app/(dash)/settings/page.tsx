@@ -1,9 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store';
 import { TierLabel } from '@/lib/tiers';
 import { company } from '@/lib/demoData';
+import { isLive } from '@/lib/api/config';
 import {
   MoonI, SparklesI, BellI, MailI, LockI, ShieldI, ChevronRI,
 } from '@/components/Icons';
@@ -14,7 +15,27 @@ export default function SettingsPage() {
   const tier = useAppStore((s) => s.tier);
   const expensePolicy = useAppStore((s) => s.expensePolicy);
   const setExpensePolicy = useAppStore((s) => s.setExpensePolicy);
+  const loadExpensePolicy = useAppStore((s) => s.loadExpensePolicy);
+  const saveExpensePolicy = useAppStore((s) => s.saveExpensePolicy);
+  const [policySync, setPolicySync] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [push, setPush] = useState(true);
+
+  // Con backend la regla vive en GET/PUT /expense-policy; en demo, en localStorage.
+  useEffect(() => {
+    if (!isLive) return;
+    loadExpensePolicy().catch(() => setPolicySync('error'));
+  }, [loadExpensePolicy]);
+
+  const savePolicy = (patch: Parameters<typeof saveExpensePolicy>[0]) => {
+    if (!isLive) {
+      setExpensePolicy(patch);
+      return;
+    }
+    setPolicySync('saving');
+    saveExpensePolicy(patch)
+      .then(() => setPolicySync('saved'))
+      .catch(() => setPolicySync('error'));
+  };
   const [digest, setDigest] = useState(true);
 
   return (
@@ -98,7 +119,16 @@ export default function SettingsPage() {
       <div className="card" style={{ marginBottom: 24 }}>
         <div className="row-between" style={{ marginBottom: 4 }}>
           <div className="eyebrow">Reglas de gastos · G3 Drive</div>
-          <span className="chip blue">APLICA A CHOFERES</span>
+          <div className="row" style={{ gap: 6 }}>
+            {isLive ? (
+              <span className={`chip ${policySync === 'error' ? 'red' : policySync === 'saving' ? 'amber' : 'green'}`}>
+                {policySync === 'error' ? 'SIN SINCRONIZAR' : policySync === 'saving' ? 'GUARDANDO…' : 'EN SERVIDOR'}
+              </span>
+            ) : (
+              <span className="chip gray">DEMO · LOCAL</span>
+            )}
+            <span className="chip blue">APLICA A CHOFERES</span>
+          </div>
         </div>
         <div className="small" style={{ marginBottom: 12 }}>
           Todo gasto con foto de ticket se lee con IA. Aquí decides qué pasa
@@ -109,14 +139,14 @@ export default function SettingsPage() {
           title="Exigir ticket en todos los gastos"
           hint="Si está activo, el chofer no puede registrar ningún gasto sin foto."
           value={expensePolicy.requireReceipt}
-          onChange={(v) => setExpensePolicy({ requireReceipt: v })}
+          onChange={(v) => savePolicy({ requireReceipt: v })}
         />
         <ToggleRow
           icon={<LockI size={18} color="var(--blue)" />}
           title="Permitir gastos manuales sin ticket"
           hint="El chofer captura monto y concepto a mano (sujeto al tope de abajo)."
           value={expensePolicy.allowManualExpense}
-          onChange={(v) => setExpensePolicy({ allowManualExpense: v })}
+          onChange={(v) => savePolicy({ allowManualExpense: v })}
         />
         <div className="row" style={{ padding: '12px 0', gap: 12 }}>
           <span className="icon-tile sm blue"><BellI size={18} color="var(--blue)" /></span>
@@ -135,6 +165,7 @@ export default function SettingsPage() {
               const v = e.target.value;
               setExpensePolicy({ manualMaxAmount: v === '' ? null : Math.max(0, Number(v)) });
             }}
+            onBlur={() => savePolicy({})}
             style={{
               width: 120,
               padding: '8px 10px',

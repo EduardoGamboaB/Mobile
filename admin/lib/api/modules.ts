@@ -12,6 +12,11 @@ import type {
   TractorDTO,
   TrailerDTO,
   TripDTO,
+  LogbookEntryDTO,
+  ExpensePolicyDTO,
+  ProfitabilityQuery,
+  ProfitabilityReportDTO,
+  TripProfitabilityDTO,
   AIClassifyEventResult,
   AIExtractEvidenceResult,
   AIAssistantReplyResult,
@@ -19,6 +24,7 @@ import type {
   AIDriverInsightsResult,
 } from './types';
 import type { TierValue } from '../tiers';
+import type { TripStatus } from '../contracts/tripStatus';
 
 // =============== AUTH ===============
 export interface LoginInput {
@@ -137,13 +143,22 @@ export interface CreateTripInput {
   origin: string;
   destination: string;
   scheduledAt?: string;
+  estimatedUnloadAt?: string;
+  clientName?: string;
+  cargo?: string;
   driverId?: string;
   tractorId?: string;
   trailerId?: string;
+  tons?: number;
+  pricePerTon?: number;
   freightAmount?: number;
+  driverCommission?: number;
+  estimatedTolls?: number;
+  estimatedDiesel?: number;
+  notes?: string;
 }
 
-export type TripStatus = TripDTO['status'];
+export type { TripStatus };
 
 export const tripsApi = {
   list: (filters?: { status?: TripStatus; driverId?: string }) =>
@@ -155,6 +170,29 @@ export const tripsApi = {
   setStatus: (id: string, status: TripStatus) =>
     api.patch<TripDTO>(`/trips/${id}/status`, { status }),
   releasePayment: (id: string) => api.post<TripDTO>(`/trips/${id}/release-payment`),
+  logbook: (id: string) => api.get<LogbookEntryDTO[]>(`/trips/${id}/logbook`),
+};
+
+// =============== RENTABILIDAD (US-25) ===============
+export const profitabilityApi = {
+  /** Reporte del periodo: totales + una fila por viaje. */
+  report: (query: ProfitabilityQuery = {}) =>
+    api.get<ProfitabilityReportDTO>('/trips/profitability', {
+      query: query as Record<string, string | undefined>,
+    }),
+  /** Desglose de un viaje (detalle del viaje). */
+  trip: (id: string) => api.get<TripProfitabilityDTO>(`/trips/${id}/profitability`),
+};
+
+// =============== POLÍTICA DE GASTOS ===============
+export type ExpensePolicyInput = Pick<
+  ExpensePolicyDTO,
+  'allowManualExpense' | 'manualMaxAmount' | 'requireReceipt'
+>;
+
+export const expensePolicyApi = {
+  get: () => api.get<ExpensePolicyDTO>('/expense-policy'),
+  put: (input: ExpensePolicyInput) => api.put<ExpensePolicyDTO>('/expense-policy', input),
 };
 
 // =============== ALERTS ===============

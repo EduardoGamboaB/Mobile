@@ -6,12 +6,15 @@
  */
 
 /**
- * `pre_closed` = precierre: el chofer entregó con el cliente final pero la
- * unidad viaja en vacío de regreso a matriz. El viaje se considera completo
- * hasta `finished` (cierre en matriz).
+ * Estados del viaje: vocabulario ÚNICO de G3 (copia de @g3/contracts).
+ * `pre_closed` = precierre (entregó con el cliente; retorno en vacío a
+ * matriz); `closed` = cierre en matriz. El pago NO es un estado: es
+ * `paymentStatus` ('pending' | 'released').
  */
-export type TripStatus =
-  | 'scheduled' | 'loading' | 'in_transit' | 'unloading' | 'pre_closed' | 'finished' | 'cancelled';
+import { PAYABLE_TRIP_STATUSES, type TripPaymentStatus, type TripStatus } from './contracts/tripStatus';
+import type { LogbookEvent } from './api/types';
+
+export type { TripPaymentStatus, TripStatus };
 
 export interface Driver {
   id: string;
@@ -84,16 +87,35 @@ export interface Trip {
   etaUnload: string;
   /** Precierre: entrega con el cliente final (retorno en vacío a matriz). */
   preClosedAt?: string | null;
-  finishedAt: string | null;
+  /** Cierre en matriz (TripDto.closedAt). */
+  closedAt: string | null;
   tons: number;
-  pricePerTon: number;
-  grossAmount: number;
+  /** null = tarifa aún sin capturar. */
+  pricePerTon: number | null;
+  /** Importe del flete (TripDto.freightAmount); null = sin capturar. */
+  freightAmount: number | null;
   driverCommission: number;
-  tolls: number;
-  diesel: number;
+  /** Casetas y diesel ESTIMADOS por el despacho al crear el viaje. */
+  estimatedTolls: number;
+  estimatedDiesel: number;
   inspectionPct: number;
   evidenceCount: number;
-  paymentStatus: 'pending' | 'released' | 'held' | 'na';
+  paymentStatus: TripPaymentStatus;
+}
+
+/**
+ * Registro de bitácora con gasto (subconjunto de LogbookEntryDTO) — lo que
+ * G3 Drive captura: casetas, diesel y paradas con o sin foto de ticket.
+ */
+export interface DemoLogbookEntry {
+  id: string;
+  tripId: string;
+  eventType: LogbookEvent;
+  occurredAt: string;
+  locationText: string;
+  expenseAmount: number | null;
+  expenseConcept: string | null;
+  expenseHasReceipt: boolean;
 }
 
 export interface FleetKpi {
@@ -206,17 +228,89 @@ export const trailers: Trailer[] = [
  * TRIPS · tractorId + trailerId
  * ============================================================= */
 export const trips: Trip[] = [
-  { id: 't1',  folio: 'G3-2026-00123', client: 'Cementos Mexicanos', cargo: 'Cemento CPC-30R',     origin: 'Tula, Hidalgo',    destination: 'Tampico, Tamaulipas', driverId: 'd1', tractorId: 't104', trailerId: 'r1', status: 'in_transit', loadDate: hours(-6),  etaUnload: hours(8),  finishedAt: null,        tons: 28, pricePerTon: 1450, grossAmount: 40600, driverCommission: 4200, tolls: 1850, diesel: 6400, inspectionPct: 100, evidenceCount: 6, paymentStatus: 'na' },
-  { id: 't2',  folio: 'G3-2026-00124', client: 'Grupo Modelo',       cargo: 'Cerveza en pallets',  origin: 'Zacatecas',         destination: 'Monterrey',           driverId: 'd2', tractorId: 't108', trailerId: 'r2', status: 'scheduled',   loadDate: days(2),    etaUnload: days(3),   finishedAt: null,        tons: 24, pricePerTon: 1700, grossAmount: 40800, driverCommission: 4800, tolls: 1200, diesel: 4900, inspectionPct: 0,   evidenceCount: 0, paymentStatus: 'na' },
-  { id: 't3',  folio: 'G3-2026-00125', client: 'Walmart',            cargo: 'Mercancía mixta',     origin: 'CDMX',              destination: 'Guadalajara',         driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'scheduled',   loadDate: days(5),    etaUnload: days(6),   finishedAt: null,        tons: 22, pricePerTon: 1900, grossAmount: 41800, driverCommission: 5100, tolls: 1400, diesel: 5300, inspectionPct: 0,   evidenceCount: 0, paymentStatus: 'na' },
-  { id: 't4',  folio: 'G3-2026-00126', client: 'Soriana',            cargo: 'Productos secos',     origin: 'Saltillo',          destination: 'Tijuana',             driverId: 'd3', tractorId: 't201', trailerId: 'r5', status: 'loading',     loadDate: hours(-2),  etaUnload: days(2),   finishedAt: null,        tons: 26, pricePerTon: 1650, grossAmount: 42900, driverCommission: 4900, tolls: 2100, diesel: 7800, inspectionPct: 88,  evidenceCount: 2, paymentStatus: 'na' },
-  { id: 't5',  folio: 'G3-2026-00120', client: 'Bimbo',              cargo: 'Producto terminado',  origin: 'CDMX',              destination: 'Querétaro',           driverId: 'd1', tractorId: 't104', trailerId: 'r1', status: 'finished',    loadDate: days(-5),   etaUnload: days(-4),  finishedAt: days(-4),    tons: 18, pricePerTon: 1900, grossAmount: 34200, driverCommission: 3400, tolls: 720,  diesel: 2800, inspectionPct: 100, evidenceCount: 7, paymentStatus: 'pending' },
-  { id: 't6',  folio: 'G3-2026-00118', client: 'Coca-Cola FEMSA',    cargo: 'Refrescos',           origin: 'Toluca',            destination: 'Puebla',              driverId: 'd2', tractorId: 't108', trailerId: 'r2', status: 'finished',    loadDate: days(-10),  etaUnload: days(-9),  finishedAt: days(-9),    tons: 26, pricePerTon: 1650, grossAmount: 42900, driverCommission: 3900, tolls: 980,  diesel: 3600, inspectionPct: 100, evidenceCount: 8, paymentStatus: 'released' },
-  { id: 't7',  folio: 'G3-2026-00115', client: 'Soriana',            cargo: 'Mercancía',           origin: 'Saltillo',          destination: 'Reynosa',             driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'finished',    loadDate: days(-13),  etaUnload: days(-11), finishedAt: days(-11),   tons: 24, pricePerTon: 1700, grossAmount: 40800, driverCommission: 4100, tolls: 1140, diesel: 4200, inspectionPct: 100, evidenceCount: 6, paymentStatus: 'released' },
-  { id: 't8',  folio: 'G3-2026-00112', client: 'Lala',               cargo: 'Lácteos refrigerados',origin: 'Gómez Palacio',     destination: 'CDMX',                driverId: 'd5', tractorId: 't303', trailerId: 'r4', status: 'finished',    loadDate: days(-15),  etaUnload: days(-13), finishedAt: days(-13),   tons: 22, pricePerTon: 1500, grossAmount: 33000, driverCommission: 2800, tolls: 1820, diesel: 5600, inspectionPct: 75,  evidenceCount: 4, paymentStatus: 'held' },
-  { id: 't9',  folio: 'G3-2026-00108', client: 'Pemex',              cargo: 'Aditivos químicos',   origin: 'Salamanca',         destination: 'Veracruz',            driverId: 'd1', tractorId: 't104', trailerId: 'r6', status: 'finished',    loadDate: days(-20),  etaUnload: days(-18), finishedAt: days(-18),   tons: 28, pricePerTon: 1900, grossAmount: 53200, driverCommission: 5200, tolls: 1400, diesel: 5800, inspectionPct: 100, evidenceCount: 9, paymentStatus: 'released' },
-  { id: 't10', folio: 'G3-2026-00104', client: 'Walmart',            cargo: 'Mercancía',           origin: 'CDMX',              destination: 'Guadalajara',         driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'finished',    loadDate: days(-25),  etaUnload: days(-23), finishedAt: days(-23),   tons: 22, pricePerTon: 1800, grossAmount: 39600, driverCommission: 3800, tolls: 1200, diesel: 5100, inspectionPct: 100, evidenceCount: 8, paymentStatus: 'released' },
+  { id: 't1',  folio: 'G3-2026-00123', client: 'Cementos Mexicanos', cargo: 'Cemento CPC-30R',     origin: 'Tula, Hidalgo',    destination: 'Tampico, Tamaulipas', driverId: 'd1', tractorId: 't104', trailerId: 'r1', status: 'in_transit', loadDate: hours(-6),  etaUnload: hours(8),  closedAt:   null,        tons: 28, pricePerTon: 1450, freightAmount: 40600, driverCommission: 4200, estimatedTolls: 1850, estimatedDiesel: 6400, inspectionPct: 100, evidenceCount: 6, paymentStatus: 'pending' },
+  { id: 't2',  folio: 'G3-2026-00124', client: 'Grupo Modelo',       cargo: 'Cerveza en pallets',  origin: 'Zacatecas',         destination: 'Monterrey',           driverId: 'd2', tractorId: 't108', trailerId: 'r2', status: 'scheduled',   loadDate: days(2),    etaUnload: days(3),   closedAt:   null,        tons: 24, pricePerTon: 1700, freightAmount: 40800, driverCommission: 4800, estimatedTolls: 1200, estimatedDiesel: 4900, inspectionPct: 0,   evidenceCount: 0, paymentStatus: 'pending' },
+  { id: 't3',  folio: 'G3-2026-00125', client: 'Walmart',            cargo: 'Mercancía mixta',     origin: 'CDMX',              destination: 'Guadalajara',         driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'scheduled',   loadDate: days(5),    etaUnload: days(6),   closedAt:   null,        tons: 22, pricePerTon: 1900, freightAmount: 41800, driverCommission: 5100, estimatedTolls: 1400, estimatedDiesel: 5300, inspectionPct: 0,   evidenceCount: 0, paymentStatus: 'pending' },
+  { id: 't4',  folio: 'G3-2026-00126', client: 'Soriana',            cargo: 'Productos secos',     origin: 'Saltillo',          destination: 'Tijuana',             driverId: 'd3', tractorId: 't201', trailerId: 'r5', status: 'loading',     loadDate: hours(-2),  etaUnload: days(2),   closedAt:   null,        tons: 26, pricePerTon: 1650, freightAmount: 42900, driverCommission: 4900, estimatedTolls: 2100, estimatedDiesel: 7800, inspectionPct: 88,  evidenceCount: 2, paymentStatus: 'pending' },
+  { id: 't5',  folio: 'G3-2026-00120', client: 'Bimbo',              cargo: 'Producto terminado',  origin: 'CDMX',              destination: 'Querétaro',           driverId: 'd1', tractorId: 't104', trailerId: 'r1', status: 'closed',      loadDate: days(-5),   etaUnload: days(-4),  closedAt:   days(-4),    tons: 18, pricePerTon: 1900, freightAmount: 34200, driverCommission: 3400, estimatedTolls: 720,  estimatedDiesel: 2800, inspectionPct: 100, evidenceCount: 7, paymentStatus: 'pending' },
+  { id: 't6',  folio: 'G3-2026-00118', client: 'Coca-Cola FEMSA',    cargo: 'Refrescos',           origin: 'Toluca',            destination: 'Puebla',              driverId: 'd2', tractorId: 't108', trailerId: 'r2', status: 'closed',      loadDate: days(-10),  etaUnload: days(-9),  closedAt:   days(-9),    tons: 26, pricePerTon: 1650, freightAmount: 42900, driverCommission: 3900, estimatedTolls: 980,  estimatedDiesel: 3600, inspectionPct: 100, evidenceCount: 8, paymentStatus: 'released' },
+  { id: 't7',  folio: 'G3-2026-00115', client: 'Soriana',            cargo: 'Mercancía',           origin: 'Saltillo',          destination: 'Reynosa',             driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'closed',      loadDate: days(-13),  etaUnload: days(-11), closedAt:   days(-11),   tons: 24, pricePerTon: 1700, freightAmount: 40800, driverCommission: 4100, estimatedTolls: 1140, estimatedDiesel: 4200, inspectionPct: 100, evidenceCount: 6, paymentStatus: 'released' },
+  { id: 't8',  folio: 'G3-2026-00112', client: 'Lala',               cargo: 'Lácteos refrigerados',origin: 'Gómez Palacio',     destination: 'CDMX',                driverId: 'd5', tractorId: 't303', trailerId: 'r4', status: 'closed',      loadDate: days(-15),  etaUnload: days(-13), closedAt:   days(-13),   tons: 22, pricePerTon: 1500, freightAmount: 33000, driverCommission: 2800, estimatedTolls: 1820, estimatedDiesel: 5600, inspectionPct: 75,  evidenceCount: 4, paymentStatus: 'pending' },
+  { id: 't9',  folio: 'G3-2026-00108', client: 'Pemex',              cargo: 'Aditivos químicos',   origin: 'Salamanca',         destination: 'Veracruz',            driverId: 'd1', tractorId: 't104', trailerId: 'r6', status: 'closed',      loadDate: days(-20),  etaUnload: days(-18), closedAt:   days(-18),   tons: 28, pricePerTon: 1900, freightAmount: 53200, driverCommission: 5200, estimatedTolls: 1400, estimatedDiesel: 5800, inspectionPct: 100, evidenceCount: 9, paymentStatus: 'released' },
+  { id: 't10', folio: 'G3-2026-00104', client: 'Walmart',            cargo: 'Mercancía',           origin: 'CDMX',              destination: 'Guadalajara',         driverId: 'd4', tractorId: 't202', trailerId: 'r3', status: 'closed',      loadDate: days(-25),  etaUnload: days(-23), closedAt:   days(-23),   tons: 22, pricePerTon: 1800, freightAmount: 39600, driverCommission: 3800, estimatedTolls: 1200, estimatedDiesel: 5100, inspectionPct: 100, evidenceCount: 8, paymentStatus: 'released' },
+  // Viajes cortos con margen apretado y uno con tarifa sin capturar: así la
+  // pantalla de rentabilidad muestra el semáforo completo y los datos incompletos.
+  { id: 't11', folio: 'G3-2026-00110', client: 'Cervecería Cuauhtémoc', cargo: 'Envase vacío',    origin: 'Monterrey',         destination: 'Nuevo Laredo',        driverId: 'd2', tractorId: 't108', trailerId: 'r2', status: 'closed',      loadDate: days(-17),  etaUnload: days(-17), closedAt:   days(-16),   tons: 20, pricePerTon: 600,  freightAmount: 12000, driverCommission: 2400, estimatedTolls: 900,  estimatedDiesel: 3200, inspectionPct: 100, evidenceCount: 5, paymentStatus: 'released' },
+  { id: 't12', folio: 'G3-2026-00106', client: 'Ternium',            cargo: 'Lámina en rollo',     origin: 'Monterrey',         destination: 'Saltillo',            driverId: 'd5', tractorId: 't303', trailerId: 'r4', status: 'closed',      loadDate: days(-22),  etaUnload: days(-22), closedAt:   days(-21),   tons: 25, pricePerTon: 420,  freightAmount: 10500, driverCommission: 2100, estimatedTolls: 600,  estimatedDiesel: 2200, inspectionPct: 100, evidenceCount: 3, paymentStatus: 'pending' },
+  { id: 't13', folio: 'G3-2026-00109', client: 'Cliente spot (por confirmar)', cargo: 'Carga general', origin: 'Saltillo',     destination: 'Monclova',            driverId: 'd3', tractorId: 't201', trailerId: 'r5', status: 'closed',      loadDate: days(-8),   etaUnload: days(-8),  closedAt:   days(-7),    tons: 22, pricePerTon: null, freightAmount: null,  driverCommission: 1900, estimatedTolls: 400,  estimatedDiesel: 1800, inspectionPct: 100, evidenceCount: 2, paymentStatus: 'pending' },
 ];
+
+/* =============================================================
+ * BITÁCORA DEMO · gastos que G3 Drive captura (con o sin ticket)
+ * ============================================================= */
+let lbSeq = 0;
+function lb(
+  tripId: string, occurredAt: string, eventType: LogbookEvent, locationText: string,
+  expenseAmount: number | null = null, expenseHasReceipt = true, expenseConcept: string | null = null,
+): DemoLogbookEntry {
+  lbSeq += 1;
+  return { id: `lb${lbSeq}`, tripId, occurredAt, eventType, locationText, expenseAmount, expenseConcept, expenseHasReceipt };
+}
+
+export const logbook: DemoLogbookEntry[] = [
+  // t1 · en tránsito Tula → Tampico
+  lb('t1', hours(-6),  'departure', 'Salida de planta · Tula'),
+  lb('t1', hours(-5),  'toll',      'Caseta Atlacomulco', 285, true,  'Caseta'),
+  lb('t1', hours(-4),  'toll',      'Caseta Palmillas',   412, false, 'Caseta (ticket extraviado)'),
+  lb('t1', hours(-3),  'diesel',    'Pemex km 187 · 100 L', 2450, true, 'Diesel'),
+  lb('t1', hours(-2),  'stop',      'Pensión Ixmiquilpan', 150, false, 'Pensión'),
+  // t4 · cargando
+  lb('t4', hours(-2),  'diesel',    'Diesel antes de carga · Saltillo', 3900, true, 'Diesel'),
+  // t5 · Bimbo CDMX → Querétaro
+  lb('t5', days(-5),   'departure', 'Salida CDMX'),
+  lb('t5', days(-5),   'toll',      'Caseta Tepotzotlán', 380, true, 'Caseta'),
+  lb('t5', days(-5),   'toll',      'Caseta Palmillas',   360, true, 'Caseta'),
+  lb('t5', days(-4.9), 'diesel',    'Pemex San Juan del Río', 2950, true, 'Diesel'),
+  lb('t5', days(-4),   'closing',   'Cierre en matriz'),
+  // t6 · Coca-Cola Toluca → Puebla
+  lb('t6', days(-10),  'toll',      'Caseta La Marquesa', 520, true,  'Caseta'),
+  lb('t6', days(-10),  'toll',      'Caseta San Marcos',  470, false, 'Caseta'),
+  lb('t6', days(-10),  'diesel',    'Pemex Río Frío', 3550, true, 'Diesel'),
+  lb('t6', days(-9.8), 'stop',      'Comida', 220, false, 'Alimentos'),
+  // t7 · Soriana Saltillo → Reynosa (diesel desviado)
+  lb('t7', days(-13),  'toll',      'Caseta Monterrey–Reynosa', 1140, true, 'Caseta'),
+  lb('t7', days(-12.5),'diesel',    'Pemex Cadereyta', 5100, true, 'Diesel'),
+  lb('t7', days(-12),  'stop',      'Maniobra de descarga', 400, false, 'Maniobras'),
+  // t8 · Lala Gómez Palacio → CDMX (mucho gasto sin ticket)
+  lb('t8', days(-15),  'toll',      'Caseta Torreón–Saltillo', 1100, false, 'Caseta'),
+  lb('t8', days(-14.5),'toll',      'Caseta Querétaro',        980,  false, 'Caseta'),
+  lb('t8', days(-14.8),'diesel',    'Pemex Fresnillo',  4000, true,  'Diesel'),
+  lb('t8', days(-14.2),'diesel',    'Gasolinera km 92', 3200, false, 'Diesel sin factura'),
+  lb('t8', days(-14),  'stop',      'Pensión + talacha', 650, false, 'Talacha'),
+  // t9 · Pemex Salamanca → Veracruz
+  lb('t9', days(-20),  'toll',      'Casetas Arco Norte', 1380, true, 'Caseta'),
+  lb('t9', days(-19.5),'diesel',    'Pemex Córdoba', 5900, true, 'Diesel'),
+  // t10 · Walmart CDMX → Guadalajara (una caseta sin monto)
+  lb('t10', days(-25), 'toll',      'Caseta Tepotzotlán', 650, true, 'Caseta'),
+  lb('t10', days(-25), 'toll',      'Caseta Atlacomulco', 600, true, 'Caseta'),
+  lb('t10', days(-24.6),'toll',     'Caseta Zapotlanejo', null, false, 'Caseta (monto sin capturar)'),
+  lb('t10', days(-24.5),'diesel',   'Pemex La Barca', 5000, true, 'Diesel'),
+  // t11 · Cuauhtémoc Monterrey → Nuevo Laredo (casetas y diesel desviados)
+  lb('t11', days(-17), 'toll',      'Caseta Sabinas Hidalgo', 700, false, 'Caseta'),
+  lb('t11', days(-17), 'toll',      'Caseta Nuevo Laredo',    650, true,  'Caseta'),
+  lb('t11', days(-17), 'diesel',    'Pemex Anáhuac', 4900, true, 'Diesel'),
+  lb('t11', days(-16.8),'stop',     'Espera en aduana', 600, false, 'Estadía'),
+  // t12 · Ternium Monterrey → Saltillo (maniobras se comen el margen)
+  lb('t12', days(-22), 'toll',      'Caseta Saltillo', 980, false, 'Caseta'),
+  lb('t12', days(-22), 'diesel',    'Pemex Santa Catarina', 3600, true, 'Diesel'),
+  lb('t12', days(-21.8),'stop',     'Maniobras de descarga', 2600, false, 'Maniobras'),
+  // t13 · spot sin tarifa
+  lb('t13', days(-8),  'toll',      'Caseta Castaños', 420, true, 'Caseta'),
+  lb('t13', days(-8),  'diesel',    'Pemex Monclova', 1750, true, 'Diesel'),
+];
+
+export const logbookForTrip = (tripId: string): DemoLogbookEntry[] =>
+  logbook.filter((e) => e.tripId === tripId).sort((a, b) => a.occurredAt.localeCompare(b.occurredAt));
 
 /* =============================================================
  * INCIDENTS / ALERTS / DOCS
@@ -269,9 +363,10 @@ export function kpis(): FleetKpi {
   const driversOnRoute = drivers.filter((d) => d.status === 'on_trip').length;
   const monthRevenue = trips
     .filter((t) => t.paymentStatus === 'released')
-    .reduce((s, t) => s + t.grossAmount, 0);
+    .reduce((s, t) => s + (t.freightAmount ?? 0), 0);
+  // Pago por liberar: entregados (precierre o cierre) con pago pendiente.
   const pendingPayouts = trips
-    .filter((t) => t.paymentStatus === 'pending' || t.paymentStatus === 'held')
+    .filter((t) => t.paymentStatus === 'pending' && PAYABLE_TRIP_STATUSES.includes(t.status))
     .reduce((s, t) => s + t.driverCommission, 0);
   return {
     unitsActive,

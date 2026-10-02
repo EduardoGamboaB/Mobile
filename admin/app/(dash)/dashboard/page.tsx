@@ -7,6 +7,8 @@ import {
 } from '@/components/Icons';
 import { useAppStore } from '@/lib/store';
 import { Feature, TierLabel } from '@/lib/tiers';
+import { ACTIVE_TRIP_STATUSES } from '@/lib/contracts/tripStatus';
+import { tripStatusLabel } from '@/lib/tripStatusUi';
 
 const fmt = (n: number) => '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
 
@@ -15,9 +17,7 @@ export default function DashboardPage() {
   const has = useAppStore((s) => s.has);
   const tier = useAppStore((s) => s.tier);
 
-  const activeTrips = trips.filter((t) =>
-    ['scheduled', 'loading', 'in_transit', 'unloading'].includes(t.status),
-  );
+  const activeTrips = trips.filter((t) => ACTIVE_TRIP_STATUSES.includes(t.status));
   const openIncidents = incidents.filter((i) => !i.resolved);
 
   return (
@@ -148,7 +148,7 @@ export default function DashboardPage() {
                   </div>
                 </td>
                 <td>
-                  <span className={`chip status-${t.status}`}>{statusLabel(t.status)}</span>
+                  <span className={`chip status-${t.status}`}>{tripStatusLabel(t.status)}</span>
                 </td>
                 <td>
                   <div className="row" style={{ gap: 8 }}>
@@ -158,7 +158,7 @@ export default function DashboardPage() {
                     <span className="small">{t.inspectionPct}%</span>
                   </div>
                 </td>
-                <td style={{ textAlign: 'right', fontWeight: 700 }}>{fmt(t.grossAmount)}</td>
+                <td style={{ textAlign: 'right', fontWeight: 700 }}>{fmt(t.freightAmount ?? 0)}</td>
               </tr>
             );
           })}
@@ -197,18 +197,6 @@ export default function DashboardPage() {
       )}
     </>
   );
-}
-
-function statusLabel(s: string) {
-  switch (s) {
-    case 'scheduled':  return 'PROGRAMADO';
-    case 'loading':    return 'CARGANDO';
-    case 'in_transit': return 'EN TRÁNSITO';
-    case 'unloading':  return 'DESCARGANDO';
-    case 'finished':   return 'FINALIZADO';
-    case 'cancelled':  return 'CANCELADO';
-    default: return s.toUpperCase();
-  }
 }
 
 function Kpi({
@@ -310,7 +298,7 @@ function FleetMapCard() {
         <div className="pin in_transit" style={{ left: '45%', top: '38%' }} title="U-104" />
         <div className="pin in_transit" style={{ left: '68%', top: '60%' }} title="U-201" />
         <div className="pin warning"    style={{ left: '30%', top: '70%' }} title="U-303" />
-        <div className="pin finished"   style={{ left: '85%', top: '25%' }} title="Tampico" />
+        <div className="pin closed"     style={{ left: '85%', top: '25%' }} title="Tampico" />
         <div className="pin"            style={{ left: '15%', top: '45%' }} title="U-202 stand-by" />
       </div>
     </div>
