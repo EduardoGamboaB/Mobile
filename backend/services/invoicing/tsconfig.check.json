@@ -8,6 +8,9 @@
     "paths": {
       "@g3/contracts": [
         "../../contracts/src"
+      ],
+      "@g3/integrations": [
+        "../../integrations-kit/src"
       ]
     }
   },

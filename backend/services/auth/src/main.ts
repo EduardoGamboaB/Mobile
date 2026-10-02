@@ -15,6 +15,8 @@ import { AUDIT_INGEST_TOKEN, AUTH_CONTAINER } from './tokens';
 import { RecordingEventBus, type EventBus } from './event.bus';
 import { PubSubEventBus } from './pubsub.bus';
 import { FetchOidcDiscovery, FetchTokenExchanger, JwksSignatureVerifier } from './sso/oidc';
+import { IntegrationsClient, SecretResolver } from '@g3/integrations';
+import { ProviderEmailSender, ProviderSmsSender } from './passwordless/provider-senders';
 
 const env = (k: string, fallback?: string): string => process.env[k] ?? fallback ?? '';
 const isProd = env('NODE_ENV') === 'production';
@@ -51,6 +53,13 @@ function mfaKey(): Buffer {
     {
       provide: AUTH_CONTAINER,
       useFactory: () => {
+        const secretResolver = new SecretResolver();
+        // Sin INTEGRATIONS_URL/INTERNAL_TOKEN solo usa variables de entorno (o modo registro).
+        const integrations = new IntegrationsClient({
+          baseUrl: env('INTEGRATIONS_URL'),
+          internalToken: env('INTERNAL_TOKEN'),
+          onError: (m) => console.warn(m),
+        });
         const bus: EventBus =
           env('GCP_PROJECT_ID') !== '' ? new PubSubEventBus() : new RecordingEventBus();
         return buildAuthContainer({
@@ -71,20 +80,28 @@ function mfaKey(): Buffer {
             discovery: new FetchOidcDiscovery(),
             exchanger: new FetchTokenExchanger(),
             signatureVerifier: new JwksSignatureVerifier(),
-            // TODO(prod): resolver `projects/*/secrets/*` con @google-cloud/secret-manager.
+            // client_secret: `projects/*/secrets/*` (Secret Manager vía metadata server) o `env:VAR`.
             secrets: {
               resolve: async (ref: string) => {
-                const m = /^env:([A-Z][A-Z0-9_]*)$/.exec(ref);
-                const v = m ? env(m[1]) : '';
-                if (!v) throw new Error('No se pudo resolver el secreto OIDC');
-                return v;
+                try {
+                  return await secretResolver.resolveReference(ref);
+                } catch {
+                  throw new Error('No se pudo resolver el secreto OIDC');
+                }
               },
             },
+          },
+          // OTP de choferes y recuperación de contraseña: proveedor de la compañía del usuario.
+          passwordless: {
+            sms: new ProviderSmsSender(integrations),
+            email: new ProviderEmailSender(integrations),
+            resetUrl: env('PASSWORD_RESET_URL', 'https://admin.g3logistics.mx/login/reset'),
           },
         });
       },
     },
-    { provide: AUDIT_INGEST_TOKEN, useValue: env('AUDIT_INGEST_TOKEN', '') },
+    // Ingesta interna de auditoría (trips, integrations…): AUDIT_INGEST_TOKEN o, si no, INTERNAL_TOKEN.
+    { provide: AUDIT_INGEST_TOKEN, useValue: env('AUDIT_INGEST_TOKEN') || env('INTERNAL_TOKEN') },
   ],
 })
 class AuthAppModule {}

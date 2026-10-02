@@ -9,27 +9,31 @@ import type { PasswordHasher } from '../password.hasher';
 import type { UserRecord, UserRepo } from '../repos/in-memory.user.repo';
 import { assertAdmin, auditActor, NO_META, type ActorContext, type RequestMeta } from '../security/actor';
 
-/** Envío de SMS (Twilio, Vonage, AWS SNS…). */
+/**
+ * Envío de SMS. `companyId` es la compañía del destinatario: el proveedor
+ * se resuelve por compañía (su Twilio/Vonage, el de la plataforma o el de
+ * entorno). En runtime: `ProviderSmsSender` (./provider-senders).
+ */
 export interface SmsSender {
-  send(toE164: string, body: string): Promise<void>;
+  send(companyId: string, toE164: string, body: string): Promise<void>;
 }
 
-/** Envío de correo transaccional (SendGrid, SES…). */
+/** Correo transaccional resuelto por compañía (SendGrid, Mailgun…). */
 export interface EmailSender {
-  send(to: string, subject: string, body: string): Promise<void>;
+  send(companyId: string, to: string, subject: string, body: string): Promise<void>;
 }
 
 export class RecordingSmsSender implements SmsSender {
-  readonly sent: { to: string; body: string }[] = [];
-  async send(to: string, body: string) {
-    this.sent.push({ to, body });
+  readonly sent: { companyId: string; to: string; body: string }[] = [];
+  async send(companyId: string, to: string, body: string) {
+    this.sent.push({ companyId, to, body });
   }
 }
 
 export class RecordingEmailSender implements EmailSender {
-  readonly sent: { to: string; subject: string; body: string }[] = [];
-  async send(to: string, subject: string, body: string) {
-    this.sent.push({ to, subject, body });
+  readonly sent: { companyId: string; to: string; subject: string; body: string }[] = [];
+  async send(companyId: string, to: string, subject: string, body: string) {
+    this.sent.push({ companyId, to, subject, body });
   }
 }
 
@@ -146,7 +150,7 @@ export class PasswordlessService {
 
     const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
     this.otps.set(phone, { userId: user.id, codeHash: this.hash(code), expiresAt: now + otpTtlSec * 1000, attempts: 0 });
-    await this.deps.sms.send(phone, `G3 Drive: tu código es ${code}. Vence en ${Math.round(otpTtlSec / 60)} min. No lo compartas.`);
+    await this.deps.sms.send(user.companyId, phone, `G3 Drive: tu código es ${code}. Vence en ${Math.round(otpTtlSec / 60)} min. No lo compartas.`);
     await this.record(user.companyId, auditActor({ userId: user.id, role: user.role }), 'auth.otp.requested', user.id, meta, {});
     return { accepted: true };
   }
@@ -188,6 +192,7 @@ export class PasswordlessService {
       expiresAt: this.deps.clock.now() + this.deps.cfg.resetTtlSec * 1000,
     });
     await this.deps.email.send(
+      user.companyId,
       user.email,
       'Restablece tu contraseña de G3',
       `Abre este enlace en los próximos ${Math.round(this.deps.cfg.resetTtlSec / 60)} min: ${this.deps.cfg.resetUrl}?token=${token}\nSi no lo pediste, ignora este correo.`,

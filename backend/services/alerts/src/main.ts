@@ -13,33 +13,29 @@ import {
 } from './incidents/incidents.controller';
 import { IncidentsService } from './incidents/incidents.service';
 import { InMemoryAlertRuleRepo, InMemoryIncidentRepo } from './incidents/in-memory.incidents.repo';
+import { IntegrationsClient } from '@g3/integrations';
 import {
-  ExpoPushNotifier,
   InMemoryContactDirectory,
-  RecordingNotifier,
-  WhatsAppCloudNotifier,
+  ResolvedPushNotifier,
+  ResolvedWhatsAppNotifier,
   type Notifier,
 } from './incidents/notifier';
 
 /**
- * Canales reales solo si hay credenciales; si no, se registran en memoria
- * (desarrollo local) para no enviar nada por accidente.
+ * Canales resueltos POR COMPAÑÍA del incidente vía el servicio integrations
+ * (push: plataforma → entorno; WhatsApp: compañía → plataforma → entorno).
+ * Sin INTEGRATIONS_URL/INTERNAL_TOKEN se usan solo las variables de entorno
+ * (EXPO_PUSH_ENABLED/EXPO_ACCESS_TOKEN, WHATSAPP_*); sin nada, el canal queda
+ * en modo registro para no enviar por accidente.
  */
-function buildNotifiers(): Notifier[] {
-  const http = (url: string, init: { method: string; headers: Record<string, string>; body: string }) =>
-    fetch(url, init);
-  const push: Notifier = process.env.EXPO_PUSH_ENABLED === '1'
-    ? new ExpoPushNotifier(http, process.env.EXPO_ACCESS_TOKEN)
-    : new RecordingNotifier('push');
-  const wa: Notifier =
-    process.env.WHATSAPP_PHONE_NUMBER_ID && process.env.WHATSAPP_ACCESS_TOKEN
-      ? new WhatsAppCloudNotifier(http, {
-          phoneNumberId: process.env.WHATSAPP_PHONE_NUMBER_ID,
-          accessToken: process.env.WHATSAPP_ACCESS_TOKEN,
-          template: process.env.WHATSAPP_TEMPLATE,
-        })
-      : new RecordingNotifier('whatsapp');
-  return [push, wa];
+export function buildNotifiers(env: Record<string, string | undefined> = process.env): Notifier[] {
+  const integrations = new IntegrationsClient({
+    baseUrl: env.INTEGRATIONS_URL,
+    internalToken: env.INTERNAL_TOKEN,
+    env,
+    onError: (m) => console.warn(m),
+  });
+  return [new ResolvedPushNotifier(integrations), new ResolvedWhatsAppNotifier(integrations)];
 }
 
 @Module({

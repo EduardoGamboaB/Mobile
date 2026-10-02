@@ -19,6 +19,8 @@ describe('Acceso de choferes a G3 Drive (OTP por SMS)', () => {
     await c.passwordless.grantDriverAccess(actor, { driverId: 'drv_1', phone: '+52 1 55 1234 5678', fullName: 'Juan Pérez' });
     await c.passwordless.requestOtp('+5215512345678', META);
     expect(sms.sent[0].to).toBe('+5215512345678');
+    // El proveedor de SMS se resuelve por la compañía del chofer.
+    expect(sms.sent[0].companyId).toBe(actor.companyId);
 
     const session = await c.passwordless.verifyOtp('+5215512345678', lastCode(), META);
     expect(session.user).toMatchObject({ role: 'driver', driverId: 'drv_1', companyId: actor.companyId });
@@ -88,6 +90,7 @@ describe('Recuperación de contraseña', () => {
   test('enlace de un solo uso: cambia la contraseña y el login usa la nueva', async () => {
     const { c, owner, email } = await setup();
     await c.passwordless.requestPasswordReset(owner.user.email, META);
+    expect(email.sent[0].companyId).toBe(owner.user.companyId);
     const token = email.sent[0].body.match(/token=([A-Za-z0-9_-]+)/)![1];
     await expect(c.passwordless.resetPassword(token, 'corta')).rejects.toMatchObject({ status: 400 });
     // El intento fallido por contraseña corta no consume el token.

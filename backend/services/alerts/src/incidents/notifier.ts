@@ -1,4 +1,15 @@
 import type { IncidentDto, NotificationChannel } from '@g3/contracts';
+import {
+  buildPushNotifier,
+  buildWhatsAppNotifier,
+  ExpoPushClient,
+  WhatsAppCloudClient,
+  type DeliveryResult,
+  type FetchLike as KitFetch,
+  type IntegrationResolver,
+  type PushMessage,
+  type WhatsAppTemplateMessage,
+} from '@g3/integrations';
 
 /** Persona a notificar, con los canales que tiene dados de alta. */
 export interface Recipient {
@@ -36,42 +47,54 @@ type FetchLike = (url: string, init: { method: string; headers: Record<string, s
   text(): Promise<string>;
 }>;
 
+/** Adapta el `fetch` de alerts (body obligatorio) al del kit de integraciones. */
+const toKitFetch = (f: FetchLike): KitFetch => (url, init) =>
+  f(url, { method: init.method, headers: init.headers, body: init.body ?? '' });
+
 export function incidentHeadline(i: IncidentDto): string {
   return `${i.urgency === 'critical' ? '🚨 ' : ''}${i.folio} · ${i.title}`;
 }
 
-/** Push vía Expo Push API (G3 Drive es Expo). https://docs.expo.dev/push-notifications/sending-notifications/ */
+const URGENCY_ES: Record<IncidentDto['urgency'], string> = { low: 'Baja', medium: 'Media', high: 'Alta', critical: 'CRÍTICA' };
+
+/** Mensaje push de un incidente (independiente del proveedor). */
+export function incidentPush(n: OutboundNotification): PushMessage {
+  return {
+    to: n.to.pushToken ?? '',
+    title: incidentHeadline(n.incident),
+    body: `${n.reason} · ${n.incident.description}`.slice(0, 240),
+    priority: n.incident.urgency === 'critical' || n.incident.urgency === 'high' ? 'high' : 'default',
+    sound: 'default',
+    data: { incidentId: n.incident.id, folio: n.incident.folio, kind: 'incident' },
+  };
+}
+
+/** Plantilla `g3_incidente`: folio, título, urgencia, motivo. */
+export function incidentTemplate(n: OutboundNotification): WhatsAppTemplateMessage {
+  return {
+    to: n.to.whatsapp ?? '',
+    parameters: [n.incident.folio, n.incident.title, URGENCY_ES[n.incident.urgency], n.reason],
+  };
+}
+
+const toResult = (channel: NotificationChannel, userId: string, r: DeliveryResult): NotificationResult =>
+  r.ok ? { channel, userId, ok: true } : { channel, userId, ok: false, error: r.error ?? 'error' };
+
+/** Push vía Expo Push API (adaptador de @g3/integrations). https://docs.expo.dev/push-notifications/sending-notifications/ */
 export class ExpoPushNotifier implements Notifier {
   readonly channel = 'push' as const;
-  constructor(
-    private readonly fetchImpl: FetchLike,
-    private readonly accessToken?: string,
-    private readonly endpoint = 'https://exp.host/--/api/v2/push/send',
-  ) {}
+  private readonly client: ExpoPushClient;
+  constructor(fetchImpl: FetchLike, accessToken?: string, endpoint?: string) {
+    this.client = new ExpoPushClient(toKitFetch(fetchImpl), accessToken, endpoint);
+  }
 
   buildRequest(n: OutboundNotification) {
-    return {
-      to: n.to.pushToken,
-      title: incidentHeadline(n.incident),
-      body: `${n.reason} · ${n.incident.description}`.slice(0, 240),
-      priority: n.incident.urgency === 'critical' || n.incident.urgency === 'high' ? 'high' : 'default',
-      sound: 'default',
-      data: { incidentId: n.incident.id, folio: n.incident.folio, kind: 'incident' },
-    };
+    return JSON.parse(this.client.buildRequest(incidentPush(n)).init.body) as Record<string, unknown>;
   }
 
   async send(n: OutboundNotification): Promise<NotificationResult> {
     if (!n.to.pushToken) return { channel: 'push', userId: n.to.userId, ok: false, error: 'sin token push' };
-    const headers: Record<string, string> = { 'content-type': 'application/json', accept: 'application/json' };
-    if (this.accessToken) headers.authorization = `Bearer ${this.accessToken}`;
-    const res = await this.fetchImpl(this.endpoint, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(this.buildRequest(n)),
-    });
-    return res.ok
-      ? { channel: 'push', userId: n.to.userId, ok: true }
-      : { channel: 'push', userId: n.to.userId, ok: false, error: `HTTP ${res.status}` };
+    return toResult('push', n.to.userId, await this.client.send(incidentPush(n)));
   }
 }
 
@@ -82,44 +105,62 @@ export class ExpoPushNotifier implements Notifier {
  */
 export class WhatsAppCloudNotifier implements Notifier {
   readonly channel = 'whatsapp' as const;
+  private readonly client: WhatsAppCloudClient;
   constructor(
-    private readonly fetchImpl: FetchLike,
-    private readonly cfg: { phoneNumberId: string; accessToken: string; template?: string; lang?: string },
-    private readonly apiBase = 'https://graph.facebook.com/v20.0',
-  ) {}
+    fetchImpl: FetchLike,
+    cfg: { phoneNumberId: string; accessToken: string; template?: string; lang?: string },
+    apiBase?: string,
+  ) {
+    this.client = new WhatsAppCloudClient(
+      toKitFetch(fetchImpl),
+      { phoneNumberId: cfg.phoneNumberId, accessToken: cfg.accessToken, template: cfg.template, language: cfg.lang },
+      apiBase,
+    );
+  }
 
   buildRequest(n: OutboundNotification) {
-    const urgency = { low: 'Baja', medium: 'Media', high: 'Alta', critical: 'CRÍTICA' }[n.incident.urgency];
-    return {
-      messaging_product: 'whatsapp',
-      to: (n.to.whatsapp ?? '').replace(/[^\d]/g, ''),
-      type: 'template',
-      template: {
-        name: this.cfg.template ?? 'g3_incidente',
-        language: { code: this.cfg.lang ?? 'es_MX' },
-        components: [
-          {
-            type: 'body',
-            parameters: [n.incident.folio, n.incident.title, urgency, n.reason].map((text) => ({
-              type: 'text',
-              text: text.slice(0, 120),
-            })),
-          },
-        ],
-      },
-    };
+    return JSON.parse(this.client.buildRequest(incidentTemplate(n)).init.body) as Record<string, unknown>;
   }
 
   async send(n: OutboundNotification): Promise<NotificationResult> {
     if (!n.to.whatsapp) return { channel: 'whatsapp', userId: n.to.userId, ok: false, error: 'sin WhatsApp' };
-    const res = await this.fetchImpl(`${this.apiBase}/${this.cfg.phoneNumberId}/messages`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', authorization: `Bearer ${this.cfg.accessToken}` },
-      body: JSON.stringify(this.buildRequest(n)),
-    });
-    return res.ok
-      ? { channel: 'whatsapp', userId: n.to.userId, ok: true }
-      : { channel: 'whatsapp', userId: n.to.userId, ok: false, error: `HTTP ${res.status}` };
+    return toResult('whatsapp', n.to.userId, await this.client.sendTemplate(incidentTemplate(n)));
+  }
+}
+
+/**
+ * Push con el proveedor que resuelva integrations para la compañía del
+ * incidente (push es de plataforma: plataforma → entorno). Sin proveedor,
+ * modo registro (no envía).
+ */
+export class ResolvedPushNotifier implements Notifier {
+  readonly channel = 'push' as const;
+  constructor(private readonly resolver: IntegrationResolver, private readonly fetchImpl?: KitFetch) {}
+
+  async send(n: OutboundNotification): Promise<NotificationResult> {
+    if (!n.to.pushToken) return { channel: 'push', userId: n.to.userId, ok: false, error: 'sin token push' };
+    try {
+      const notifier = buildPushNotifier(await this.resolver.resolve(n.incident.companyId, 'push'), { fetch: this.fetchImpl });
+      return toResult('push', n.to.userId, await notifier.send(incidentPush(n)));
+    } catch (e) {
+      return { channel: 'push', userId: n.to.userId, ok: false, error: (e as Error).message };
+    }
+  }
+}
+
+/** WhatsApp con el número de la compañía → el de la plataforma → el de entorno. */
+export class ResolvedWhatsAppNotifier implements Notifier {
+  readonly channel = 'whatsapp' as const;
+  constructor(private readonly resolver: IntegrationResolver, private readonly fetchImpl?: KitFetch) {}
+
+  async send(n: OutboundNotification): Promise<NotificationResult> {
+    if (!n.to.whatsapp) return { channel: 'whatsapp', userId: n.to.userId, ok: false, error: 'sin WhatsApp' };
+    try {
+      const notifier = buildWhatsAppNotifier(await this.resolver.resolve(n.incident.companyId, 'whatsapp'), { fetch: this.fetchImpl });
+      return toResult('whatsapp', n.to.userId, await notifier.sendTemplate(incidentTemplate(n)));
+    } catch (e) {
+      return { channel: 'whatsapp', userId: n.to.userId, ok: false, error: (e as Error).message };
+    }
   }
 }
 
