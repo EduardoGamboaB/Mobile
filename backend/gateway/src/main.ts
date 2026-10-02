@@ -8,6 +8,17 @@ import { matchGate } from './middleware/tier-gate';
 import { resolveUpstream, type ServiceUrls } from './proxy/router';
 import { rateLimitFromEnv } from './middleware/rate-limit';
 import { isInternalOnlyPath } from './middleware/internal-routes';
+import {
+  assertProductionEnv,
+  createLogger,
+  createServiceFetch,
+  ephemeralStoreFromEnv,
+  onShutdown,
+  registerHealthRoutes,
+  type ReadinessCheck,
+} from '@g3/platform';
+
+const log = createLogger('gateway');
 
 const env = (k: string, fallback?: string): string => process.env[k] ?? fallback ?? '';
 
@@ -23,6 +34,14 @@ const SERVICE_URLS: ServiceUrls = {
 };
 
 const JWT_SECRET = env('JWT_ACCESS_SECRET', 'a'.repeat(32));
+
+/**
+ * Hacia los servicios: con SERVICE_AUTH=gcp agrega el ID token de Cloud Run
+ * (run.invoker) y nada más. A propósito SIN internalToken: el gateway nunca
+ * manda ni reenvía `x-internal-token` (los endpoints internos no deben ser
+ * alcanzables desde fuera).
+ */
+const upstreamFetch = createServiceFetch({ mode: env('SERVICE_AUTH') === 'gcp' ? 'gcp' : 'none' });
 
 /** Rutas que NO requieren JWT (públicas). */
 const PUBLIC_PATHS = [
@@ -69,7 +88,7 @@ async function proxy(upstream: string, req: Request, res: Response, ctx?: { comp
         ? req.body // text/plain (ASCII de Suntech/Queclink) pasa tal cual
         : JSON.stringify(req.body),
   };
-  const r = await fetch(url, init);
+  const r = await upstreamFetch(url, init);
   res.status(r.status);
   const ct = r.headers.get('content-type');
   if (ct) res.setHeader('content-type', ct);
@@ -81,6 +100,9 @@ async function proxy(upstream: string, req: Request, res: Response, ctx?: { comp
 class GatewayModule {}
 
 async function bootstrap() {
+  assertProductionEnv('gateway', ['JWT_ACCESS_SECRET', 'REDIS_URL']);
+  // Redis compartido entre réplicas (rate limit). En producción es obligatorio.
+  const ephemeral = env('REDIS_URL') ? ephemeralStoreFromEnv('gateway') : null;
   const app = await NestFactory.create(GatewayModule, { cors: true, bodyParser: true });
   const http = app.getHttpAdapter().getInstance() as import('express').Express;
   // Saltos de proxy confiables delante del gateway (LB de GCP = 2 en prod).
@@ -94,7 +116,9 @@ async function bootstrap() {
     limit: '1mb',
   });
 
-  http.get('/health', (_req, res) => res.json({ ok: true, services: Object.keys(SERVICE_URLS) }));
+  // /health (liveness) y /ready (readiness: Redis del rate limit).
+  const checks: ReadinessCheck[] = ephemeral ? [{ name: 'redis', check: () => ephemeral.ping() }] : [];
+  registerHealthRoutes(http, 'gateway', checks);
 
   // Rutas internas servicio→servicio (/api/trips/internal/*, /api/integrations/internal/*): 404 sin reenviar.
   http.use((req: Request, res: Response, next: NextFunction) =>
@@ -103,7 +127,7 @@ async function bootstrap() {
       : next(),
   );
   // Rate limit de rutas públicas sensibles (auth, ingesta). Ver middleware/rate-limit.ts.
-  http.use(rateLimitFromEnv());
+  http.use(rateLimitFromEnv(process.env, { ephemeral, log: (m) => log.warn(m) }));
 
   http.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -137,12 +161,15 @@ async function bootstrap() {
     }
   });
 
+  onShutdown(log, [() => app.close(), async () => ephemeral?.close()]);
   const port = Number(env('PORT', '8080'));
   await app.listen(port, '0.0.0.0');
-  // eslint-disable-next-line no-console
-  console.log(`[gateway] up on :${port}, routes to:`, SERVICE_URLS);
+  log.info(`escuchando en :${port}`, { routes: SERVICE_URLS, sharedRateLimit: !!ephemeral });
 }
 
 if (require.main === module) {
-  bootstrap();
+  bootstrap().catch((e: unknown) => {
+    log.error('no arrancó', { error: (e as Error).message });
+    process.exit(1);
+  });
 }

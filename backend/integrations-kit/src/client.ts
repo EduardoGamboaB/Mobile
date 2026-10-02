@@ -11,6 +11,10 @@ export interface IntegrationsClientOptions {
   baseUrl?: string;
   /** `INTERNAL_TOKEN` compartido entre servicios. */
   internalToken?: string;
+  /**
+   * `fetch` para llamar a integrations. En los servicios: `serviceFetchFromEnv()`
+   * de @g3/platform (agrega el ID token de Cloud Run con SERVICE_AUTH=gcp).
+   */
   fetch?: FetchLike;
   env?: EnvLike;
   /** TTL de la caché por (companyId, categoría, ranura). Default 60 s. */
@@ -27,7 +31,9 @@ export interface IntegrationsClientOptions {
  * Orden: lo que diga el servicio (compañía → plataforma → entorno del
  * servicio) y, si el servicio dice `none` o no responde, las variables de
  * entorno de ESTE proceso (`envFallback` del catálogo). Caché de 60 s por
- * (companyId, categoría, ranura); `invalidate()` la limpia.
+ * (companyId, categoría, ranura) por instancia; `invalidate()` la limpia y
+ * `subscribeToIntegrationChanges` la conecta a los avisos de integrations
+ * (Redis pub/sub) para que un cambio se vea en todas las réplicas al instante.
  */
 export class IntegrationsClient implements IntegrationResolver {
   private readonly cache = new Map<string, { value: ResolvedIntegrationDto; expiresAt: number }>();

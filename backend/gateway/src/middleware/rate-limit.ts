@@ -1,4 +1,6 @@
+import { createHash } from 'crypto';
 import type { NextFunction, Request, Response } from 'express';
+import type { EphemeralStore } from '@g3/platform';
 
 /**
  * Rate limiting del gateway para rutas públicas sensibles (login, MFA, OTP,
@@ -17,10 +19,9 @@ import type { NextFunction, Request, Response } from 'express';
  *
  * Producción: este límite es una capa de defensa en profundidad, NO
  * sustituye a Cloud Armor (rate-based ban por IP en el LB, antes de llegar a
- * Cloud Run). Con varias réplicas del gateway el store en memoria cuenta por
- * réplica: usar una implementación de `RateLimitStore` sobre Redis /
- * Memorystore (ZSET por llave + script Lua atómico: ZREMRANGEBYSCORE, ZCARD,
- * ZADD, PEXPIRE).
+ * Cloud Run). Con `REDIS_URL` el cupo se comparte entre todas las réplicas
+ * del gateway (`EphemeralRateLimitStore` sobre Memorystore); sin Redis
+ * (solo dev) cada réplica cuenta por su lado.
  */
 
 export interface RateLimitDecision {
@@ -79,6 +80,27 @@ export class InMemoryRateLimitStore implements RateLimitStore {
 
   size(): number {
     return this.hits.size;
+  }
+}
+
+/**
+ * Store compartido entre réplicas sobre `EphemeralStore.slidingHit` de
+ * @g3/platform (Redis: ZSET por llave + Lua atómico; llaves
+ * `g3:<G3_ENV>:gateway:ratelimit:*` con TTL = ventana).
+ *
+ * Diferencia con `InMemoryRateLimitStore`: `slidingHit` registra TODOS los
+ * intentos, también los rechazados. Quien sigue insistiendo durante el
+ * bloqueo lo prolonga (más estricto) y `retryAfterMs` es una cota inferior
+ * (cuándo sale el intento más viejo). El orden IP → identificador del
+ * middleware se mantiene: con la IP rechazada no se toca el cupo de la cuenta.
+ */
+export class EphemeralRateLimitStore implements RateLimitStore {
+  constructor(private readonly store: EphemeralStore) {}
+
+  async consume(key: string, limit: number, windowMs: number, now: number): Promise<RateLimitDecision> {
+    const { count, oldest } = await this.store.slidingHit(`ratelimit:${key}`, now, windowMs);
+    if (count <= limit) return { allowed: true, remaining: limit - count, retryAfterMs: 0 };
+    return { allowed: false, remaining: 0, retryAfterMs: Math.max(1, oldest + windowMs - now) };
   }
 }
 
@@ -167,6 +189,14 @@ export function matchRateLimitRule(rules: RateLimitRule[], method: string, path:
   );
 }
 
+/**
+ * Llave del identificador en el store: hash, para no dejar correos ni
+ * teléfonos en claro en Redis.
+ */
+export function identifierKey(id: string): string {
+  return createHash('sha256').update(id).digest('hex').slice(0, 32);
+}
+
 /** Correo → minúsculas sin espacios; teléfono → solo dígitos. */
 export function normalizeIdentifier(raw: string): string | null {
   const v = raw.trim().toLowerCase();
@@ -213,7 +243,7 @@ export function createRateLimitMiddleware(opts: RateLimitMiddlewareOptions) {
       const id = rule.identifierMax ? identifierFromBody(req.body) : null;
       if (decisions[0].allowed && id && rule.identifierMax) {
         decisions.push(
-          await opts.store.consume(`${rule.id}:id:${id}`, rule.identifierMax, rule.identifierWindowMs ?? rule.ipWindowMs, t),
+          await opts.store.consume(`${rule.id}:id:${identifierKey(id)}`, rule.identifierMax, rule.identifierWindowMs ?? rule.ipWindowMs, t),
         );
       }
       const denied = decisions.filter((d) => !d.allowed);
@@ -235,11 +265,24 @@ export function createRateLimitMiddleware(opts: RateLimitMiddlewareOptions) {
   };
 }
 
-/** Middleware listo para `main.ts`, configurado desde el entorno. */
-export function rateLimitFromEnv(env: Record<string, string | undefined> = process.env) {
+/**
+ * Middleware listo para `main.ts`, configurado desde el entorno. Con
+ * `ephemeral` (Redis, de `ephemeralStoreFromEnv('gateway')`) el cupo es
+ * compartido entre réplicas; sin él, memoria de esta réplica.
+ */
+export function rateLimitFromEnv(
+  env: Record<string, string | undefined> = process.env,
+  opts: { ephemeral?: EphemeralStore | null; log?: (msg: string) => void } = {},
+) {
   const cfg = loadRateLimitConfig(env);
   if (!cfg.enabled) return (_req: Request, _res: Response, next: NextFunction) => next();
-  const store = new InMemoryRateLimitStore();
-  setInterval(() => store.sweep(Date.now()), 60_000).unref();
-  return createRateLimitMiddleware({ rules: defaultRateLimitRules(cfg), store });
+  let store: RateLimitStore;
+  if (opts.ephemeral) {
+    store = new EphemeralRateLimitStore(opts.ephemeral);
+  } else {
+    const mem = new InMemoryRateLimitStore();
+    setInterval(() => mem.sweep(Date.now()), 60_000).unref();
+    store = mem;
+  }
+  return createRateLimitMiddleware({ rules: defaultRateLimitRules(cfg), store, log: opts.log });
 }

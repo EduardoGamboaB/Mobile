@@ -1,18 +1,47 @@
 import 'reflect-metadata';
 import { Module, type DynamicModule } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { globalFetch, SecretResolver } from '@g3/integrations';
+import {
+  globalFetch,
+  invalidationChannel,
+  redisChangePublisher,
+  SecretResolver,
+  type FetchLike,
+  type IntegrationChange,
+} from '@g3/integrations';
+import {
+  assertProductionEnv,
+  createLogger,
+  createPool,
+  createRedisFromEnv,
+  dbConfigFromEnv,
+  isProduction,
+  onShutdown,
+  pingDb,
+  registerHealthRoutes,
+  serviceFetchFromEnv,
+  type ReadinessCheck,
+} from '@g3/platform';
 import { IntegrationsController, IntegrationsInternalController, INTERNAL_TOKEN } from './integrations.controller';
 import { IntegrationsService, type IntegrationsServiceDeps } from './integrations.service';
-import { InMemoryIntegrationRepo } from './integrations.repo';
+import { InMemoryIntegrationRepo, type IntegrationRepo } from './integrations.repo';
+import { PgIntegrationRepo } from './pg.integrations.repo';
 import { AesGcmSecretCipher, loadEncryptionKey } from './secret-cipher';
 import { HttpAuditSink, LogAuditSink } from './audit';
 import { HttpErrorFilter } from './http-error.filter';
+import { migrate, SERVICE } from './migrate';
 
 type Env = Record<string, string | undefined>;
 
+export interface RuntimeOverrides {
+  repo?: IntegrationRepo;
+  publishChange?: (change: IntegrationChange) => Promise<void>;
+  /** `fetch` servicio→servicio (auditoría a auth). Default: `serviceFetchFromEnv(env)`. */
+  serviceFetch?: FetchLike;
+}
+
 /** Dependencias de runtime a partir del entorno. En producción falla si falta algo crítico. */
-export function depsFromEnv(env: Env = process.env): { deps: IntegrationsServiceDeps; internalToken: string } {
+export function depsFromEnv(env: Env = process.env, over: RuntimeOverrides = {}): { deps: IntegrationsServiceDeps; internalToken: string } {
   const isProd = env.NODE_ENV === 'production';
   const internalToken = env.INTERNAL_TOKEN ?? '';
   if (isProd && internalToken.length < 32) {
@@ -27,13 +56,20 @@ export function depsFromEnv(env: Env = process.env): { deps: IntegrationsService
   return {
     internalToken,
     deps: {
-      repo: new InMemoryIntegrationRepo(),
+      repo: over.repo ?? new InMemoryIntegrationRepo(),
       cipher: new AesGcmSecretCipher(loadEncryptionKey(env)),
       secrets: new SecretResolver({ env }),
-      audit: authUrl && internalToken ? new HttpAuditSink(authUrl, internalToken) : new LogAuditSink(),
+      // Auditoría a auth: llamada interna (x-internal-token + ID token de Cloud Run).
+      audit:
+        authUrl && internalToken
+          ? new HttpAuditSink(authUrl, internalToken, over.serviceFetch ?? serviceFetchFromEnv(env as NodeJS.ProcessEnv))
+          : new LogAuditSink(),
+      // "Probar conexión" sale a proveedores externos: fetch global, NUNCA el
+      // serviceFetch (no debe llevar el token interno ni el ID token).
       fetch: globalFetch,
       env,
       platformCompanyId,
+      publishChange: over.publishChange,
     },
   };
 }
@@ -53,7 +89,9 @@ export class IntegrationsAppModule {
   }
 }
 
-export async function createIntegrationsApp(opts: { deps?: IntegrationsServiceDeps; internalToken?: string; logger?: false } = {}) {
+export async function createIntegrationsApp(
+  opts: { deps?: IntegrationsServiceDeps; internalToken?: string; logger?: false; readiness?: ReadinessCheck[] } = {},
+) {
   const fromEnv = opts.deps ? null : depsFromEnv();
   const deps = opts.deps ?? fromEnv!.deps;
   const internalToken = opts.internalToken ?? fromEnv?.internalToken ?? '';
@@ -64,15 +102,40 @@ export async function createIntegrationsApp(opts: { deps?: IntegrationsServiceDe
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new HttpErrorFilter());
   const http = app.getHttpAdapter().getInstance() as import('express').Express;
-  http.get('/health', (_req, res) => res.json({ ok: true }));
+  registerHealthRoutes(http, SERVICE, opts.readiness ?? []);
   return app;
 }
 
 async function bootstrap() {
-  const app = await createIntegrationsApp();
+  const log = createLogger(SERVICE);
+  assertProductionEnv(SERVICE, ['INTERNAL_TOKEN', 'INTEGRATIONS_ENCRYPTION_KEY', 'AUTH_URL', 'REDIS_URL']);
+  const dbCfg = dbConfigFromEnv(SERVICE);
+  if (!dbCfg && isProduction()) throw new Error(`[${SERVICE}] DATABASE_URL o DB_HOST es obligatorio en producción`);
+  if (!dbCfg) log.warn('sin DATABASE_URL/DB_HOST: configuraciones en memoria (solo desarrollo)');
+
+  const pool = dbCfg ? createPool(dbCfg) : null;
+  if (pool && dbCfg && process.env.DB_MIGRATE_ON_BOOT === '1') await migrate(pool, dbCfg, log);
+  // Conexión para PUBLISH de invalidaciones (sin Redis las cachés expiran en ≤ 60 s).
+  const redis = createRedisFromEnv();
+  redis?.on('error', (e: Error) => log.warn('redis', { error: e.message }));
+
+  const { deps, internalToken } = depsFromEnv(process.env, {
+    repo: pool ? new PgIntegrationRepo(pool) : undefined,
+    publishChange: redis ? redisChangePublisher(redis, { channel: invalidationChannel(), onError: (m) => log.warn(m) }) : undefined,
+  });
+  const checks: ReadinessCheck[] = [];
+  if (pool) checks.push({ name: 'db', check: () => pingDb(pool) });
+  if (redis) checks.push({ name: 'redis', check: async () => void (await redis.ping()) });
+
+  const app = await createIntegrationsApp({ deps, internalToken, readiness: checks });
+  onShutdown(log, [() => app.close(), async () => pool?.end(), async () => redis?.quit()]);
   const port = Number(process.env.PORT ?? '8088');
   await app.listen(port, '0.0.0.0');
-  // eslint-disable-next-line no-console
-  console.log(`[integrations-service] up on :${port}`);
+  log.info(`escuchando en :${port}`, { db: !!pool, redis: !!redis });
 }
-if (require.main === module) bootstrap();
+if (require.main === module) {
+  bootstrap().catch((e: unknown) => {
+    createLogger(SERVICE).error('no arrancó', { error: (e as Error).message });
+    process.exit(1);
+  });
+}

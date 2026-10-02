@@ -11,6 +11,12 @@
       ],
       "@g3/integrations": [
         "../../integrations-kit/src"
+      ],
+      "@g3/platform": [
+        "../../platform-kit/src"
+      ],
+      "@g3/platform/testing": [
+        "../../platform-kit/src/testing"
       ]
     }
   },

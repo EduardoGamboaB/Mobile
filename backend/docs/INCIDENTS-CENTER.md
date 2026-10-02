@@ -34,6 +34,20 @@ Cada nivel se dispara una sola vez. A quién se avisa y por qué canal depende d
 - **Sin reglas:** se manda push a owner, admin y dispatcher, más WhatsApp si la urgencia es alta o crítica.
 - **SOS:** avisa siempre por push y WhatsApp a la torre, aunque no haya reglas.
 
+### Varias instancias
+
+El barrido puede correr en varias réplicas a la vez (Cloud Scheduler reintenta y Cloud Run escala) sin duplicar
+avisos:
+
+- **Escalamiento:** cada nivel se reclama con un compare-and-set en Postgres
+  (`UPDATE … WHERE escalation_level < n … RETURNING`). Solo la instancia que gana notifica.
+- **`device_offline`:** la última posición de cada unidad vive en `vehicle_last_signals` (Postgres), compartida
+  entre réplicas. El barrido reclama la unidad con `DELETE … RETURNING` antes de abrir el incidente.
+- **Folios:** `INC-{año}-{seq}` sale de un contador por compañía y año (`UPDATE … RETURNING`). Son únicos aunque
+  haya altas simultáneas.
+
+Detalle del modelo en [data-model/alerts.md](./data-model/alerts.md).
+
 ## Reglas (`/alert-rules`)
 
 | Disparador | Efecto |
@@ -41,7 +55,7 @@ Cada nivel se dispara una sola vez. A quién se avisa y por qué canal depende d
 | `incident_created` (urgencia mínima, tipos) | Notifica al abrirse un incidente |
 | `sla_breach` (ack \| resolve) | Define el escalamiento |
 | `speeding` (umbral km/h) | Con telemetría, abre un incidente `speeding`; uno por unidad cada 30 min |
-| `device_offline` (minutos) | Sin posición durante un viaje activo, abre un incidente `device_offline` |
+| `device_offline` (minutos) | Sin posición durante un viaje activo, abre un incidente `device_offline`. Una posición sin `tripId` deja de vigilar la unidad |
 
 ## Canales
 
@@ -81,7 +95,9 @@ incidentes del chofer.
 
 ## Pendiente para producción
 
-- Persistencia en Postgres (TypeORM). Hoy los repositorios son in-memory.
+- ~~Persistencia en Postgres~~: hecho (repos `Pg*`, migraciones en `services/alerts/migrations/`). Sin
+  `DATABASE_URL`/`DB_HOST` se usan los repos en memoria (solo dev). En producción la base es obligatoria y, antes del
+  deploy, corre el job `node dist/migrate.js`.
 - Fleet → alerts ya está conectado por HTTP (`services/fleet/src/incident-signals.ts`): cada posición aceptada
   llega a `/incidents/signals` con `tripId`/`driverId` resueltos en trips
   (`GET /trips/internal/active-by-vehicle/:vehicleId`, caché 60 s). Variables en fleet: `ALERTS_URL`,

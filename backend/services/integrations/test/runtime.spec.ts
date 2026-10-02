@@ -51,6 +51,17 @@ describe('depsFromEnv', () => {
     expect(ok.deps.audit).toBeInstanceOf(HttpAuditSink);
   });
 
+  test('la auditoría a auth usa el fetch servicio→servicio; "Probar conexión" no', async () => {
+    const internal = fakeHttp(201, {});
+    const { deps } = depsFromEnv(
+      { AUTH_URL: 'http://auth:8081', INTERNAL_TOKEN: 'x'.repeat(32) },
+      { serviceFetch: internal.fetch },
+    );
+    await deps.audit.record(event);
+    expect(internal.calls[0].url).toBe('http://auth:8081/api/audit/events');
+    expect(deps.fetch).not.toBe(internal.fetch);
+  });
+
   test('desarrollo sin AUTH_URL audita solo a log', () => {
     expect(depsFromEnv({}).deps.audit).toBeInstanceOf(LogAuditSink);
   });
