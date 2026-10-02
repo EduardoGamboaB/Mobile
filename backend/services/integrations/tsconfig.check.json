@@ -1,0 +1,21 @@
+{
+  "//": "Typecheck de src + tests contra el código fuente de @g3/contracts y @g3/integrations (sin compilarlos). El build (tsconfig.json) los resuelve como paquetes compilados.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@g3/contracts": [
+        "../../contracts/src"
+      ],
+      "@g3/integrations": [
+        "../../integrations-kit/src"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ]
+}

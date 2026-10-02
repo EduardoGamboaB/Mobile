@@ -5,7 +5,7 @@ import type { NextFunction, Request, Response } from 'express';
 import { tierHas, UpgradeRequiredError, type FeatureValue } from '@g3/contracts';
 import { extractContext } from './middleware/jwt-context';
 import { matchGate } from './middleware/tier-gate';
-import { resolveUpstream, type ServiceUrls } from './proxy/router';
+import { isBlockedPath, resolveUpstream, type ServiceUrls } from './proxy/router';
 
 const env = (k: string, fallback?: string): string => process.env[k] ?? fallback ?? '';
 
@@ -17,6 +17,7 @@ const SERVICE_URLS: ServiceUrls = {
   trips: env('TRIPS_URL', 'http://localhost:8085'),
   alerts: env('ALERTS_URL', 'http://localhost:8086'),
   ai: env('AI_URL', 'http://localhost:8087'),
+  integrations: env('INTEGRATIONS_URL', 'http://localhost:8088'),
 };
 
 const JWT_SECRET = env('JWT_ACCESS_SECRET', 'a'.repeat(32));
@@ -92,6 +93,8 @@ async function bootstrap() {
 
   http.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // Rutas internas (p.ej. /api/integrations/internal/*): nunca se exponen.
+      if (isBlockedPath(req.path)) return res.status(404).json({ statusCode: 404, error: 'Not Found', message: 'Not Found' });
       const target = resolveUpstream(req.path, SERVICE_URLS);
       if (!target) return next();
 

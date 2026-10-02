@@ -117,6 +117,28 @@ describe('AuditController — solo admin', () => {
     expect((await c.audit.query(s.user.companyId, { action: 'expense_policy.updated' })).total).toBe(1);
   });
 
+  test.each(['integration.updated', 'integration.deleted', 'integration.tested'] as const)(
+    'ingesta interna acepta %s (servicio integrations)',
+    async (action) => {
+      const c = buildTestContainer();
+      const s = await registerOwner(c);
+      const ctl = new AuditController(c, 'internal-token-de-prueba-32-chars!!');
+      await ctl.ingest(
+        {
+          companyId: s.user.companyId,
+          actor: { type: 'user', userId: s.user.id, role: 'owner' },
+          action,
+          resource: { type: 'integration', id: 'int_1' },
+          ip: null,
+          userAgent: 'integrations-service',
+          metadata: { scope: 'company', category: 'sms', slot: 'default', provider: 'twilio' },
+        },
+        req({ 'x-internal-token': 'internal-token-de-prueba-32-chars!!' }),
+      );
+      expect((await c.audit.query(s.user.companyId, { action })).total).toBe(1);
+    },
+  );
+
   test('sin token interno configurado la ingesta está deshabilitada', async () => {
     const c = buildTestContainer();
     expect(await status(new AuditController(c).ingest({} as never, req({ 'x-internal-token': '' })))).toBe(401);

@@ -158,7 +158,10 @@ export type AuditAction =
   | 'auth.otp.failed'
   | 'auth.password_reset.requested'
   | 'auth.password_reset.completed'
-  | 'user.driver_access_granted';
+  | 'user.driver_access_granted'
+  | 'integration.updated'
+  | 'integration.deleted'
+  | 'integration.tested';
 
 export const AUDIT_ACTIONS: readonly AuditAction[] = [
   'auth.login.succeeded',
@@ -179,6 +182,9 @@ export const AUDIT_ACTIONS: readonly AuditAction[] = [
   'auth.password_reset.requested',
   'auth.password_reset.completed',
   'user.driver_access_granted',
+  'integration.updated',
+  'integration.deleted',
+  'integration.tested',
 ];
 
 export interface AuditActorDto {

@@ -8,6 +8,7 @@ const URLS: ServiceUrls = {
   trips: 'http://trips:8085',
   alerts: 'http://alerts:8086',
   ai: 'http://ai:8087',
+  integrations: 'http://integrations:8088',
 };
 
 describe('proxy router: rutea /api/<resource>/* al microservicio correcto', () => {

@@ -154,7 +154,13 @@ export class UsersController {
 }
 
 /** Acciones que otros servicios pueden registrar vía ingesta interna. */
-const INGESTABLE: readonly AuditAction[] = ['expense_policy.updated'];
+/** Eventos que otros servicios pueden registrar (política de gastos, integraciones). */
+const INGESTABLE: readonly AuditAction[] = [
+  'expense_policy.updated',
+  'integration.updated',
+  'integration.deleted',
+  'integration.tested',
+];
 
 interface IngestBody {
   companyId: string;

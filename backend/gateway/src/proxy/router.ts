@@ -6,6 +6,7 @@ export interface ServiceUrls {
   trips: string;
   alerts: string;
   ai: string;
+  integrations: string;
 }
 
 const ROUTES: { prefix: RegExp; service: keyof ServiceUrls }[] = [
@@ -28,6 +29,7 @@ const ROUTES: { prefix: RegExp; service: keyof ServiceUrls }[] = [
   { prefix: /^\/api\/alert-rules(\/|$)/, service: 'alerts' },
   { prefix: /^\/api\/notification-contacts(\/|$)/, service: 'alerts' },
   { prefix: /^\/api\/ai(\/|$)/, service: 'ai' },
+  { prefix: /^\/api\/integrations(\/|$)/, service: 'integrations' },
 ];
 
 export function resolveUpstream(path: string, urls: ServiceUrls): string | null {
@@ -35,4 +37,40 @@ export function resolveUpstream(path: string, urls: ServiceUrls): string | null 
     if (r.prefix.test(path)) return urls[r.service];
   }
   return null;
+}
+
+/**
+ * Rutas internas (servicio → servicio) que el gateway NUNCA expone, aunque
+ * su prefijo se rutee: responden 404. `/api/integrations/internal/*`
+ * devuelve secretos en claro.
+ */
+const BLOCKED: RegExp[] = [/^\/api\/integrations\/internal(\/|$)/i];
+
+export function isBlockedPath(path: string): boolean {
+  return candidates(path).some((p) => BLOCKED.some((r) => r.test(p)));
+}
+
+/**
+ * Variantes normalizadas de la ruta: tal cual y decodificada, con `\`→`/`,
+ * segmentos `.`/`..` resueltos (como lo haría `fetch` al reenviar) y `//`
+ * colapsadas. Así `/api/integrations/x/../internal`, `%69nternal` o
+ * `//internal` no se saltan el bloqueo.
+ */
+function candidates(path: string): string[] {
+  const raw = [path];
+  try {
+    raw.push(decodeURIComponent(path));
+  } catch {
+    // codificación inválida: se evalúa solo la ruta cruda
+  }
+  return raw.map((p) => {
+    const slashes = p.replace(/\\/g, '/').replace(/\/{2,}/g, '/');
+    let resolved = slashes;
+    try {
+      resolved = new URL(slashes.startsWith('/') ? slashes : `/${slashes}`, 'http://gateway.local').pathname;
+    } catch {
+      // se queda la versión sin resolver
+    }
+    return resolved.replace(/\/{2,}/g, '/');
+  });
 }

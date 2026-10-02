@@ -8,6 +8,7 @@ const URLS: ServiceUrls = {
   trips: 'http://trips',
   alerts: 'http://alerts',
   ai: 'http://ai',
+  integrations: 'http://integrations',
 };
 
 describe('router — rutas de seguridad', () => {
