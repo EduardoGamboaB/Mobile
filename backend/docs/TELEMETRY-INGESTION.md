@@ -45,7 +45,9 @@ Archivos:
 | Adapters puros | `services/fleet/src/telemetry/adapters/{suntech,teltonika,queclink,generic}.ts` |
 | Servicio de ingesta, tokens, recorrido | `services/fleet/src/telemetry/telemetry.service.ts` |
 | CRUD de dispositivos y vínculo | `services/fleet/src/devices.service.ts` |
-| Repos in-memory | `services/fleet/src/telemetry/in-memory.telemetry.repos.ts` |
+| Contratos de repos | `services/fleet/src/repos.ts` |
+| Repos Postgres (particionado, lotes) | `services/fleet/src/pg.repos.ts`, `migrations/`, ver `docs/data-model/fleet.md` |
+| Repos in-memory (dev/tests) | `services/fleet/src/telemetry/in-memory.telemetry.repos.ts` |
 | Controllers HTTP | `services/fleet/src/telemetry.controller.ts` |
 | Errores → HTTP | `services/fleet/src/errors.ts`, `http-error.filter.ts` |
 
@@ -224,15 +226,11 @@ Una función pura `(body: unknown) => AdapterResult` en
 
 ## 5. Qué falta para producción
 
-- **Persistencia TypeORM/Postgres** (hoy in-memory, se pierde al reiniciar):
-  - `devices` con `UNIQUE(external_id)` global, índice `(company_id)`.
-  - `telemetry_points` con `UNIQUE(device_id, recorded_at)` (idempotencia vía
-    `INSERT ... ON CONFLICT DO NOTHING`), particionada por mes, índice
-    `(company_id, vehicle_id, recorded_at)`; retención (ej. 13 meses) o
-    TimescaleDB/PostGIS.
-  - `vehicle_last_position` (upsert con `WHERE excluded.recorded_at > recorded_at`).
-  - `ingest_tokens(hash)`; con muchas compañías conviene token
-    `g3it_<id>.<secreto>` para buscar por id y comparar un solo hash.
+- ~~Persistencia Postgres~~ **hecho** (`docs/data-model/fleet.md`): `devices` con IMEI único global,
+  `telemetry_points` particionada por mes con PK `(device_id, recorded_at)` e insert por lote
+  (`ON CONFLICT DO NOTHING`), `vehicle_last_position` monotónica, retención de 13 meses
+  (`dist/maintenance.js`). Pendiente: token `g3it_<id>.<secreto>` para buscar por id cuando haya
+  muchas compañías.
 - **Pub/Sub**: hoy `NoopEventBus` (o el reenvío HTTP a alerts, ver arriba) en `main.ts`. Usar `PubSubEventBus` como en
   `services/auth`. Para volumen alto: el webhook sólo valida + encola
   (`g3-telemetry-raw`) y un worker hace parseo/persistencia; agrupar eventos

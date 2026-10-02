@@ -4,13 +4,16 @@ import type {
   TelemetryProvider,
   UnknownDeviceHitDto,
 } from '@g3/contracts';
+import type { DeviceRepo, IngestTokenRepo, StoredIngestToken, TelemetryRepo } from '../repos';
+
+export type { StoredIngestToken } from '../repos';
 
 // ---------------------------------------------------------------------------
 // Telemetría: dispositivos, puntos y tokens de ingesta.
-// En prod → TypeORM/Postgres (ver docs/TELEMETRY-INGESTION.md).
+// Gemelos en memoria de los Pg*Repo (src/pg.repos.ts); docs/data-model/fleet.md.
 // ---------------------------------------------------------------------------
 
-export class InMemoryDeviceRepo {
+export class InMemoryDeviceRepo implements DeviceRepo {
   private readonly byId = new Map<string, DeviceDto>();
   /** Índice global externalId → deviceId: un IMEI pertenece a una sola compañía. */
   private readonly byExternalId = new Map<string, string>();
@@ -48,17 +51,29 @@ export class InMemoryDeviceRepo {
     this.byExternalId.delete(d.externalId);
     return true;
   }
+  async markSeen(companyId: string, id: string, seenAt: string) {
+    const d = this.byId.get(id);
+    if (!d || d.companyId !== companyId) return null;
+    const next: DeviceDto = {
+      ...d,
+      status: d.status === 'pending' ? 'active' : d.status,
+      lastSeenAt: !d.lastSeenAt || Date.parse(d.lastSeenAt) < Date.parse(seenAt) ? seenAt : d.lastSeenAt,
+    };
+    this.byId.set(id, next);
+    return { ...next };
+  }
 }
 
-export class InMemoryTelemetryRepo {
+export class InMemoryTelemetryRepo implements TelemetryRepo {
   private readonly points: TelemetryPoint[] = [];
   /** Clave de idempotencia deviceId|recordedAt (en Postgres: UNIQUE(device_id, recorded_at)). */
   private readonly keys = new Set<string>();
   /** Última posición por vehículo (companyId|vehicleId). */
   private readonly lastByVehicleKey = new Map<string, TelemetryPoint>();
 
+  /** Por instante (ms), igual que timestamptz: `…:10Z` y `…:10.000Z` son el mismo punto. */
   private static key(deviceId: string, recordedAt: string) {
-    return `${deviceId}|${recordedAt}`;
+    return `${deviceId}|${Date.parse(recordedAt)}`;
   }
 
   /** Inserta si no existe; devuelve false si era duplicado (idempotencia). */
@@ -70,9 +85,24 @@ export class InMemoryTelemetryRepo {
     if (p.vehicleId) {
       const vk = `${p.companyId}|${p.vehicleId}`;
       const prev = this.lastByVehicleKey.get(vk);
-      if (!prev || prev.recordedAt < p.recordedAt) this.lastByVehicleKey.set(vk, { ...p });
+      if (!prev || Date.parse(prev.recordedAt) < Date.parse(p.recordedAt)) this.lastByVehicleKey.set(vk, { ...p });
     }
     return true;
+  }
+
+  async insertMany(points: TelemetryPoint[]) {
+    const out: boolean[] = [];
+    for (const p of points) out.push(await this.insert(p));
+    return out;
+  }
+
+  async lastByVehicles(companyId: string, vehicleIds: string[]) {
+    const out = new Map<string, TelemetryPoint>();
+    for (const id of vehicleIds) {
+      const p = this.lastByVehicleKey.get(`${companyId}|${id}`);
+      if (p) out.set(id, { ...p });
+    }
+    return out;
   }
 
   async lastByVehicle(companyId: string, vehicleId: string) {
@@ -104,18 +134,7 @@ export class InMemoryTelemetryRepo {
   }
 }
 
-export interface StoredIngestToken {
-  id: string;
-  companyId: string;
-  prefix: string;
-  /** sha256(token) en hex — nunca guardamos el secreto. */
-  hash: string;
-  label: string | null;
-  createdAt: string;
-  revokedAt: string | null;
-}
-
-export class InMemoryIngestTokenRepo {
+export class InMemoryIngestTokenRepo implements IngestTokenRepo {
   private readonly byId = new Map<string, StoredIngestToken>();
   private readonly unknownHits = new Map<string, UnknownDeviceHitDto & { companyId: string }>();
 

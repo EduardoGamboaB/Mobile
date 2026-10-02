@@ -18,13 +18,13 @@ import {
 } from '@g3/contracts';
 import type { RequestCtx } from '../fleet.service';
 import type {
-  InMemoryDeviceRepo,
-  InMemoryIngestTokenRepo,
-  InMemoryTelemetryRepo,
-  InMemoryTractorRepo,
-  InMemoryTrailerRepo,
+  DeviceRepo,
+  IngestTokenRepo,
   StoredIngestToken,
-} from '../in-memory.repos';
+  TelemetryRepo,
+  TractorRepo,
+  TrailerRepo,
+} from '../repos';
 import type { EventBus } from '../event.bus';
 import { ADAPTERS } from './adapters';
 import {
@@ -36,11 +36,11 @@ import {
 } from '../errors';
 
 export interface TelemetryDeps {
-  devices: InMemoryDeviceRepo;
-  telemetry: InMemoryTelemetryRepo;
-  tokens: InMemoryIngestTokenRepo;
-  tractors: InMemoryTractorRepo;
-  trailers: InMemoryTrailerRepo;
+  devices: DeviceRepo;
+  telemetry: TelemetryRepo;
+  tokens: IngestTokenRepo;
+  tractors: TractorRepo;
+  trailers: TrailerRepo;
   bus: EventBus;
   clock?: () => Date;
 }
@@ -57,7 +57,7 @@ const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest();
  * Ingesta de telemetría agnóstica de proveedor.
  *
  *   webhook (token por compañía) → adapter puro → resolver IMEI → idempotencia
- *   → guardar punto → actualizar device/vehículo → evento de dominio
+ *   → guardar puntos (un INSERT por lote) → actualizar device/vehículo → eventos
  */
 export class TelemetryService {
   private readonly clock: () => Date;
@@ -143,6 +143,7 @@ export class TelemetryService {
 
     const receivedAt = this.clock().toISOString();
     const deviceCache = new Map<string, DeviceDto | null>();
+    const points: TelemetryPoint[] = [];
 
     for (const r of parsed.readings) {
       if (!deviceCache.has(r.externalId)) {
@@ -172,7 +173,7 @@ export class TelemetryService {
         continue;
       }
 
-      const point: TelemetryPoint = {
+      points.push({
         id: uuid(),
         deviceId: device.id,
         vehicleId: device.vehicleId,
@@ -190,39 +191,34 @@ export class TelemetryService {
         fuelLevelPct: r.fuelLevelPct,
         eventCode: r.eventCode,
         raw: r.raw,
-      };
-      if (!(await this.d.telemetry.insert(point))) {
-        result.duplicates++;
-        continue;
-      }
-      result.accepted++;
-
-      const updated = await this.touchDevice(device, point);
-      deviceCache.set(r.externalId, updated);
-      await this.touchVehicle(point);
-      await this.publish(point);
+      });
     }
+
+    // Todo el lote en una escritura; (deviceId, recordedAt) repetido = duplicado.
+    const inserted = await this.d.telemetry.insertMany(points);
+    const accepted = points.filter((_, i) => inserted[i]);
+    result.duplicates = points.length - accepted.length;
+    result.accepted = accepted.length;
+
+    await this.touchDevices(accepted);
+    await this.touchTractors(accepted);
+    for (const p of accepted) await this.publish(p);
     return result;
   }
 
-  private async touchDevice(device: DeviceDto, p: TelemetryPoint): Promise<DeviceDto> {
-    const patch: Partial<DeviceDto> = {};
-    if (device.status === 'pending') patch.status = 'active';
-    if (!device.lastSeenAt || device.lastSeenAt < p.recordedAt) patch.lastSeenAt = p.recordedAt;
-    if (Object.keys(patch).length === 0) return device;
-    return (await this.d.devices.update(device.companyId, device.id, patch)) ?? device;
+  /** Un UPDATE por equipo con su punto más nuevo del lote (pending → active, lastSeenAt monotónico). */
+  private async touchDevices(points: TelemetryPoint[]) {
+    for (const p of latestBy(points, (x) => x.deviceId)) {
+      await this.d.devices.markSeen(p.companyId, p.deviceId, p.recordedAt);
+    }
   }
 
   /** Mantiene lastLat/lastLng del tracto (compatibilidad con TractorDto). Puntos viejos no pisan. */
-  private async touchVehicle(p: TelemetryPoint) {
-    if (p.vehicleKind !== 'tractor' || !p.vehicleId) return;
-    const t = await this.d.tractors.findById(p.companyId, p.vehicleId);
-    if (!t || (t.lastSeenAt && t.lastSeenAt >= p.recordedAt)) return;
-    await this.d.tractors.update(p.companyId, p.vehicleId, {
-      lastLat: p.lat,
-      lastLng: p.lng,
-      lastSeenAt: p.recordedAt,
-    });
+  private async touchTractors(points: TelemetryPoint[]) {
+    const ofTractors = points.filter((p) => p.vehicleKind === 'tractor' && p.vehicleId);
+    for (const p of latestBy(ofTractors, (x) => x.vehicleId!)) {
+      await this.d.tractors.touchPosition(p.companyId, p.vehicleId!, p.lat, p.lng, p.recordedAt);
+    }
   }
 
   private async publish(p: TelemetryPoint) {
@@ -307,3 +303,13 @@ function toTokenDto(t: StoredIngestToken): IngestTokenDto {
   };
 }
 
+/** El punto más reciente (por recordedAt) de cada grupo. */
+function latestBy(points: TelemetryPoint[], key: (p: TelemetryPoint) => string): TelemetryPoint[] {
+  const out = new Map<string, TelemetryPoint>();
+  for (const p of points) {
+    const k = key(p);
+    const prev = out.get(k);
+    if (!prev || Date.parse(prev.recordedAt) < Date.parse(p.recordedAt)) out.set(k, p);
+  }
+  return [...out.values()];
+}
