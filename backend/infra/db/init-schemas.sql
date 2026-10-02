@@ -108,15 +108,13 @@ SELECT format('GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGG
 SELECT format('GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA %I TO %I', svc, 'g3_' || svc) FROM _g3_svc
 \gexec
 
--- 3. CONNECT a la base y TEMP para cada rol.
---    CREATE ON DATABASE es necesario HOY porque runMigrations (@g3/platform)
---    ejecuta `CREATE SCHEMA IF NOT EXISTS <svc>` y Postgres valida el
---    privilegio de base ANTES de ver que el schema existe (probado en PG16:
---    "permission denied for database"). Con él, el rol podría crear schemas
---    NUEVOS (de su propiedad), pero no entrar a los de otros servicios.
---    Cuando platform-kit consulte pg_namespace antes del CREATE, quitar el
---    CREATE de esta línea (ver docs/ops/PRODUCTION-READINESS.md).
-SELECT format('GRANT CONNECT, TEMP, CREATE ON DATABASE %I TO %I', current_database(), 'g3_' || svc) FROM _g3_svc
+-- 3. CONNECT a la base y TEMP para cada rol. SIN CREATE ON DATABASE: el
+--    schema lo crea este script y runMigrations (@g3/platform) solo intenta
+--    `CREATE SCHEMA` si no existe en pg_namespace. Se revoca explícitamente
+--    por si una versión anterior de este script lo otorgó.
+SELECT format('GRANT CONNECT, TEMP ON DATABASE %I TO %I', current_database(), 'g3_' || svc) FROM _g3_svc
+\gexec
+SELECT format('REVOKE CREATE ON DATABASE %I FROM %I', current_database(), 'g3_' || svc) FROM _g3_svc
 \gexec
 
 -- 4. Los roles de servicio NO deben heredar cloudsqlsuperuser (Cloud SQL lo

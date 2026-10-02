@@ -155,7 +155,11 @@ export async function runMigrations(
   const applied: string[] = [];
   try {
     await client.query('SELECT pg_advisory_lock($1)', [lockKey.toString()]);
-    await client.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`);
+    // Solo se intenta crear si no existe: en producción el schema lo crea el
+    // bootstrap (init-schemas.sql) y el rol del servicio no necesita
+    // CREATE ON DATABASE (Postgres lo exige aun con IF NOT EXISTS).
+    const exists = await client.query('SELECT 1 FROM pg_namespace WHERE nspname = $1', [schema]);
+    if (exists.rowCount === 0) await client.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`);
     await client.query(`SET search_path = ${schema}, public`);
     await client.query(`CREATE TABLE IF NOT EXISTS ${schema}.schema_migrations (
       version text PRIMARY KEY,

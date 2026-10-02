@@ -47,10 +47,10 @@ siguiente paso y puede destapar detalles de cuotas, APIs o permisos de la organi
 
 | Ítem | Estado | Notas |
 |---|---|---|
-| `/health` y `/ready` en **auth, billing, drivers** | ⛔ | Hoy solo los tienen gateway, fleet, trips, alerts, integrations y ai. Sin `/ready`, el startup probe falla. Mientras tanto: `startup_probe_path = "/health"` (variable del módulo). |
-| Persistencia Postgres de auth, billing y drivers (migraciones + `src/migrate.ts`) | ⛔ | El pipeline omite los servicios sin `src/migrate.ts`. Los jobs `migrate-<svc>` existen pero no se ejecutan. |
+| `/health` y `/ready` en **todos los servicios** | ✅ | gateway, auth, billing, drivers, fleet, trips, alerts, integrations y ai. El startup probe apunta a `/ready` (DB + Redis). |
+| Persistencia Postgres en los 8 servicios con datos (migraciones + `src/migrate.ts`) | ✅ | auth, billing, drivers, fleet, trips, alerts, integrations, invoicing. El pipeline los detecta y corre `migrate-<svc>`. Tests de contrato contra Postgres 16 y Redis reales. |
 | **invoicing** sin servidor HTTP | ⛔ | Solo tiene job `migrate-invoicing`. No se despliega como Cloud Run service. Falta definir su host HTTP, o que billing lo use como librería. Su cuenta ya tiene `run.invoker` sobre integrations. |
-| `CREATE SCHEMA IF NOT EXISTS` en `runMigrations` exige `CREATE ON DATABASE` | ⛔ | Se otorga hoy (`init-schemas.sql`). Mejora en platform-kit: consultar `pg_namespace` antes, y después quitar ese grant. |
+| Roles de servicio sin `CREATE ON DATABASE` | ✅ | `runMigrations` consulta `pg_namespace` antes del `CREATE SCHEMA`; `init-schemas.sql` revoca el grant (probado con un rol sin el privilegio). |
 | Keyring para `MFA_ENCRYPTION_KEY` / `INTEGRATIONS_ENCRYPTION_KEY` | ⛔ | Sin él, rotar exige re-capturar o re-enrolar (RUNBOOK › Re-encriptación). |
 | Rotación de `INTERNAL_TOKEN` sin corte | ⛔ | Aceptar token actual + anterior durante la rotación. |
 | ai → Vertex AI real | ⛔ | Hoy usa el proveedor stub. La cuenta `g3-run-ai` ya tiene `aiplatform.user`. |
