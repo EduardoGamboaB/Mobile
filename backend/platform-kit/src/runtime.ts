@@ -48,14 +48,19 @@ export async function readiness(service: string, checks: ReadinessCheck[], timeo
   const results: Record<string, string> = {};
   await Promise.all(
     checks.map(async (c) => {
+      let timer: NodeJS.Timeout | undefined;
       try {
         await Promise.race([
           c.check(),
-          new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), timeoutMs)),
+          new Promise((_, rej) => {
+            timer = setTimeout(() => rej(new Error('timeout')), timeoutMs);
+          }),
         ]);
         results[c.name] = 'ok';
       } catch (e) {
         results[c.name] = (e as Error).message || 'error';
+      } finally {
+        if (timer) clearTimeout(timer);
       }
     }),
   );
