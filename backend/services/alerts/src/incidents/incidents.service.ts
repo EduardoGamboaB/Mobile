@@ -18,8 +18,9 @@ import {
   type SosDto,
   type TierValue,
 } from '@g3/contracts';
-import type { InMemoryAlertRuleRepo, InMemoryIncidentRepo } from './in-memory.incidents.repo';
-import type { InMemoryContactDirectory, Notifier, NotificationResult, Recipient } from './notifier';
+import type { AlertRuleRepo, ContactDirectory, IncidentPatch, IncidentRepo, NewIncident, VehicleSignalRepo } from './incidents.repo';
+import { InMemoryVehicleSignalRepo } from './in-memory.incidents.repo';
+import type { Notifier, NotificationResult, Recipient } from './notifier';
 import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from './errors';
 import type { EventBus } from '../event.bus';
 
@@ -52,9 +53,11 @@ export interface ManualIncidentInput {
 export type AlertRuleInput = Pick<AlertRuleDto, 'name' | 'enabled' | 'trigger' | 'channels' | 'notifyRoles'>;
 
 export interface IncidentsDeps {
-  incidents: InMemoryIncidentRepo;
-  rules: InMemoryAlertRuleRepo;
-  contacts: InMemoryContactDirectory;
+  incidents: IncidentRepo;
+  rules: AlertRuleRepo;
+  contacts: ContactDirectory;
+  /** Última posición por unidad (regla device_offline). Default: memoria (una réplica). */
+  signals?: VehicleSignalRepo;
   notifiers: Notifier[];
   bus: EventBus;
   now?: () => Date;
@@ -64,6 +67,10 @@ const MANAGER_ROLES = ['owner', 'admin', 'dispatcher'];
 /** A quién se avisa cuando no hay una regla configurada que diga otra cosa. */
 const DEFAULT_ESCALATION_ROLES = ['owner', 'admin', 'dispatcher'];
 const URGENCY_RANK: Record<IncidentUrgency, number> = { low: 0, medium: 1, high: 2, critical: 3 };
+/** La regla device_offline más corta permitida (validateRule). */
+const MIN_OFFLINE_MINUTES = 5;
+
+export const formatFolio = (year: number, seq: number) => `INC-${year}-${String(seq).padStart(5, '0')}`;
 
 export const INCIDENT_TITLE_ES: Record<IncidentType, string> = {
   mechanical: 'Falla mecánica',
@@ -97,11 +104,11 @@ function requireManager(ctx: RequestCtx) {
 
 export class IncidentsService {
   private readonly now: () => Date;
-  /** Última señal de posición por vehículo con viaje activo (regla device_offline). */
-  private readonly lastSignal = new Map<string, { companyId: string; signal: OperationalSignalDto }>();
+  private readonly signals: VehicleSignalRepo;
 
   constructor(private readonly deps: IncidentsDeps) {
     this.now = deps.now ?? (() => new Date());
+    this.signals = deps.signals ?? new InMemoryVehicleSignalRepo();
   }
 
   // ── Alta ────────────────────────────────────────────────────────────────
@@ -168,7 +175,7 @@ export class IncidentsService {
       lat: null,
       lng: null,
     }).then(async (i) =>
-      input.vehicleId ? (await this.deps.incidents.update(ctx.companyId, i.id, { vehicleId: input.vehicleId }))! : i,
+      input.vehicleId ? (await this.deps.incidents.update(ctx.companyId, i.id, { vehicleId: input.vehicleId })) ?? i : i,
     );
   }
 
@@ -183,13 +190,11 @@ export class IncidentsService {
   ): Promise<IncidentDto> {
     const now = this.now();
     const sla = DEFAULT_SLA[data.urgency];
-    const seq = (await this.deps.incidents.countForCompany(ctx.companyId)) + 1;
-    const incident: IncidentDto = {
+    const draft: NewIncident = {
       ...data,
       driverId: data.driverId || null,
       id: uuid(),
       companyId: ctx.companyId,
-      folio: `INC-${now.getUTCFullYear()}-${String(seq).padStart(5, '0')}`,
       status: 'open',
       title: INCIDENT_TITLE_ES[data.type],
       assigneeId: null,
@@ -203,7 +208,11 @@ export class IncidentsService {
       createdAt: now.toISOString(),
       updatedAt: now.toISOString(),
     };
-    const saved = await this.deps.incidents.create(incident);
+    // El folio lo asigna el repo (contador por compañía/año, atómico). Si otra
+    // petición con el mismo clientUuid ganó la carrera, se devuelve esa sin
+    // volver a notificar.
+    const { incident: saved, created } = await this.deps.incidents.create(draft, formatFolio);
+    if (!created) return saved;
     await this.system(saved, `Incidente abierto (${labelSource(saved.source)}) · SLA acuse ${sla.ackMinutes} min`);
     await this.publish(ctx.companyId, 'incident.opened', {
       incidentId: saved.id,
@@ -230,7 +239,14 @@ export class IncidentsService {
 
   async list(ctx: RequestCtx, filter: IncidentFilter = {}): Promise<IncidentWithSlaDto[]> {
     requireManager(ctx);
-    const rows = (await this.deps.incidents.list(ctx.companyId))
+    const rows = (
+      await this.deps.incidents.list(ctx.companyId, {
+        status: filter.status,
+        urgency: filter.urgency,
+        assigneeId: filter.assigneeId,
+        tripId: filter.tripId,
+      })
+    )
       .filter((i) => !filter.status || i.status === filter.status)
       .filter((i) => !filter.urgency || i.urgency === filter.urgency)
       .filter((i) => !filter.assigneeId || i.assigneeId === filter.assigneeId)
@@ -243,14 +259,14 @@ export class IncidentsService {
   /** Incidentes reportados por el chofer autenticado. */
   async mine(ctx: RequestCtx): Promise<IncidentDto[]> {
     if (!ctx.driverId) throw new ForbiddenError('El usuario no está vinculado a un chofer');
-    return (await this.deps.incidents.list(ctx.companyId))
+    return (await this.deps.incidents.list(ctx.companyId, { driverId: ctx.driverId }))
       .filter((i) => i.driverId === ctx.driverId)
       .sort((a, b) => b.occurredAt.localeCompare(a.occurredAt));
   }
 
   async get(ctx: RequestCtx, id: string): Promise<{ incident: IncidentWithSlaDto; comments: IncidentCommentDto[] }> {
     const i = await this.find(ctx, id);
-    return { incident: this.withSla(i), comments: await this.deps.incidents.listComments(i.id) };
+    return { incident: this.withSla(i), comments: await this.deps.incidents.listComments(i.companyId, i.id) };
   }
 
   /** Resumen para el tablero: abiertos, críticos, SLA vencidos y sin asignar. */
@@ -310,13 +326,16 @@ export class IncidentsService {
       throw new ConflictError(`Transición inválida: ${i.status} → ${next}`);
     }
     const now = this.now().toISOString();
-    const patch: Partial<IncidentDto> = { status: next };
+    const patch: IncidentPatch = { status: next };
     // Cualquier atención cuenta como acuse para el SLA.
     if (!i.acknowledgedAt) patch.acknowledgedAt = now;
     if (next === 'resolved') patch.resolvedAt = now;
     if (next === 'closed') patch.closedAt = now;
     if (next === 'in_progress' && i.status === 'resolved') patch.resolvedAt = null;
-    const updated = await this.patch(i, patch);
+    // Control optimista: si otro operador cambió el estado entre la lectura y
+    // la escritura, la transición se rechaza en vez de pisarlo.
+    const updated = await this.deps.incidents.update(i.companyId, i.id, { ...patch, updatedAt: now }, { ifStatus: i.status });
+    if (!updated) throw new ConflictError('El incidente cambió mientras lo atendías; recarga e intenta de nuevo');
     await this.system(i, `Estado: ${i.status} → ${next}`, ctx.userId);
     await this.publish(ctx.companyId, 'incident.status_changed', { incidentId: i.id, from: i.status, to: next });
     return updated;
@@ -325,7 +344,7 @@ export class IncidentsService {
   async addComment(ctx: RequestCtx, id: string, body: string): Promise<IncidentCommentDto> {
     const i = await this.find(ctx, id);
     if (!body?.trim()) throw new ValidationError('El comentario está vacío');
-    return this.deps.incidents.addComment({
+    return this.deps.incidents.addComment(i.companyId, {
       id: uuid(),
       incidentId: i.id,
       authorId: ctx.userId ?? null,
@@ -340,7 +359,8 @@ export class IncidentsService {
     const i = await this.find(ctx, id);
     if (!evidenceId) throw new ValidationError('evidenceId requerido');
     if (i.evidenceIds.includes(evidenceId)) return i;
-    const updated = await this.patch(i, { evidenceIds: [...i.evidenceIds, evidenceId] });
+    const updated = await this.deps.incidents.addEvidence(i.companyId, i.id, evidenceId, this.now().toISOString());
+    if (!updated) throw new NotFoundError('Incidente no encontrado');
     await this.system(i, `Evidencia agregada (${evidenceId})`, ctx.userId);
     return updated;
   }
@@ -355,36 +375,37 @@ export class IncidentsService {
   async runEscalations(): Promise<{ escalated: number; offline: number }> {
     const now = this.now();
     let escalated = 0;
-    for (const i of await this.deps.incidents.listOpenAll()) {
+    // Seguro con varias instancias: cada nivel se "reclama" con un
+    // compare-and-set en el repo y solo el ganador notifica.
+    for (const i of await this.deps.incidents.listEscalationDue(now)) {
       const ackLate = !i.acknowledgedAt && now.getTime() > Date.parse(i.slaAckDueAt);
       const resolveLate = now.getTime() > Date.parse(i.slaResolveDueAt);
+      let claimed: IncidentDto | null = null;
       if (ackLate && i.escalationLevel < 1) {
-        await this.escalate(i, 1, 'ack', 'Sin acuse dentro del SLA');
-        escalated++;
+        claimed = await this.deps.incidents.claimEscalation(i.companyId, i.id, 1, 'ack', now);
+        if (claimed) await this.escalate(claimed, 1, 'ack', 'Sin acuse dentro del SLA');
       } else if (resolveLate && i.escalationLevel < 2) {
-        await this.escalate(i, 2, 'resolve', 'Sin resolver dentro del SLA');
-        escalated++;
+        claimed = await this.deps.incidents.claimEscalation(i.companyId, i.id, 2, 'resolve', now);
+        if (claimed) await this.escalate(claimed, 2, 'resolve', 'Sin resolver dentro del SLA');
       }
+      if (claimed) escalated++;
     }
     return { escalated, offline: await this.sweepOffline(now) };
   }
 
+  /** `i` ya trae el nivel nuevo (reclamado por este barrido). */
   private async escalate(i: IncidentDto, level: number, stage: 'ack' | 'resolve', reason: string) {
-    const updated = (await this.deps.incidents.update(i.companyId, i.id, {
-      escalationLevel: level,
-      updatedAt: this.now().toISOString(),
-    }))!;
     await this.system(i, `Escalamiento nivel ${level}: ${reason}`);
     const rules = (await this.enabledRules(i.companyId, 'sla_breach')).filter(
       (r) => r.trigger.kind === 'sla_breach' && r.trigger.stage === stage,
     );
     if (rules.length) {
-      for (const r of rules) await this.notify(updated, r.channels, r.notifyRoles, `${reason} · regla "${r.name}"`);
+      for (const r of rules) await this.notify(i, r.channels, r.notifyRoles, `${reason} · regla "${r.name}"`);
     } else {
       // Sin regla: push a la torre; WhatsApp solo si es alto/crítico.
       const channels: NotificationChannel[] =
         URGENCY_RANK[i.urgency] >= URGENCY_RANK.high ? ['push', 'whatsapp'] : ['push'];
-      await this.notify(updated, channels, DEFAULT_ESCALATION_ROLES, reason);
+      await this.notify(i, channels, DEFAULT_ESCALATION_ROLES, reason);
     }
     await this.publish(i.companyId, 'incident.escalated', { incidentId: i.id, level, stage });
   }
@@ -395,14 +416,14 @@ export class IncidentsService {
    * regla de GPS sin señal.
    */
   async ingestSignal(companyId: string, signal: OperationalSignalDto): Promise<IncidentDto | null> {
-    if (signal.tripId) this.lastSignal.set(signal.vehicleId, { companyId, signal });
+    await this.signals.record(companyId, signal);
     if (signal.speedKph == null) return null;
     const rule = (await this.enabledRules(companyId, 'speeding'))
       .filter((r) => r.trigger.kind === 'speeding' && signal.speedKph! > r.trigger.thresholdKph)
       .sort((a, b) => thresholdOf(a) - thresholdOf(b))[0];
     if (!rule) return null;
     // Una sola alerta abierta de velocidad por unidad cada 30 min.
-    const recent = (await this.deps.incidents.list(companyId)).find(
+    const recent = (await this.deps.incidents.list(companyId, { type: 'speeding', vehicleId: signal.vehicleId, limit: 20 })).find(
       (i) =>
         i.type === 'speeding' &&
         i.vehicleId === signal.vehicleId &&
@@ -429,16 +450,30 @@ export class IncidentsService {
     return incident;
   }
 
+  /**
+   * Regla device_offline sobre la última posición compartida
+   * (`VehicleSignalRepo`). Cada unidad se "reclama" antes de abrir el
+   * incidente: con varias instancias solo una lo abre.
+   */
   private async sweepOffline(now: Date): Promise<number> {
     let opened = 0;
-    for (const [vehicleId, { companyId, signal }] of this.lastSignal) {
+    const stale = await this.signals.listStale(new Date(now.getTime() - MIN_OFFLINE_MINUTES * 60_000));
+    for (const { companyId, signal } of stale) {
       const rule = (await this.enabledRules(companyId, 'device_offline'))[0];
-      if (!rule || rule.trigger.kind !== 'device_offline') continue;
+      if (!rule || rule.trigger.kind !== 'device_offline') {
+        // Sin regla no hay nada que vigilar; la próxima señal la vuelve a registrar.
+        await this.signals.claim(companyId, signal.vehicleId, signal.recordedAt);
+        continue;
+      }
       if (now.getTime() - Date.parse(signal.recordedAt) < rule.trigger.minutes * 60_000) continue;
-      const already = (await this.deps.incidents.list(companyId)).some(
-        (i) => i.type === 'device_offline' && i.vehicleId === vehicleId && i.status !== 'resolved' && i.status !== 'closed',
-      );
-      if (already) continue;
+      if (!(await this.signals.claim(companyId, signal.vehicleId, signal.recordedAt))) continue;
+      const already = await this.deps.incidents.list(companyId, {
+        type: 'device_offline',
+        vehicleId: signal.vehicleId,
+        openOnly: true,
+        limit: 1,
+      });
+      if (already.length) continue;
       const incident = await this.open({ companyId, tier: 'enterprise' }, {
         source: 'rule',
         clientUuid: null,
@@ -447,14 +482,13 @@ export class IncidentsService {
         description: `Sin posición desde ${signal.recordedAt} (regla: ${rule.trigger.minutes} min)`,
         tripId: signal.tripId,
         driverId: signal.driverId,
-        vehicleId,
+        vehicleId: signal.vehicleId,
         occurredAt: now.toISOString(),
         locationText: null,
         lat: signal.lat,
         lng: signal.lng,
       });
       await this.notify(incident, rule.channels, rule.notifyRoles, `Regla "${rule.name}"`);
-      this.lastSignal.delete(vehicleId);
       opened++;
     }
     return opened;
@@ -521,8 +555,10 @@ export class IncidentsService {
     if (i.status === 'closed') throw new ConflictError('El incidente está cerrado');
   }
 
-  private async patch(i: IncidentDto, patch: Partial<IncidentDto>) {
-    return (await this.deps.incidents.update(i.companyId, i.id, { ...patch, updatedAt: this.now().toISOString() }))!;
+  private async patch(i: IncidentDto, patch: IncidentPatch) {
+    const updated = await this.deps.incidents.update(i.companyId, i.id, { ...patch, updatedAt: this.now().toISOString() });
+    if (!updated) throw new NotFoundError('Incidente no encontrado');
+    return updated;
   }
 
   private withSla(i: IncidentDto): IncidentWithSlaDto {
@@ -579,7 +615,7 @@ export class IncidentsService {
   }
 
   private async system(i: IncidentDto, body: string, authorId: string | null = null) {
-    await this.deps.incidents.addComment({
+    await this.deps.incidents.addComment(i.companyId, {
       id: uuid(),
       incidentId: i.id,
       authorId,

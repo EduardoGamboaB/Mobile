@@ -10,6 +10,7 @@ import {
   type PushMessage,
   type WhatsAppTemplateMessage,
 } from '@g3/integrations';
+import type { ContactDirectory } from './incidents.repo';
 
 /** Persona a notificar, con los canales que tiene dados de alta. */
 export interface Recipient {
@@ -174,22 +175,24 @@ export class RecordingNotifier implements Notifier {
   }
 }
 
-/** Contactos de notificación por compañía. En producción: tabla en Postgres. */
-export class InMemoryContactDirectory {
+/** Contactos de notificación por compañía (dev/tests). En producción: `PgContactDirectory`. */
+export class InMemoryContactDirectory implements ContactDirectory {
   private readonly byCompany = new Map<string, Map<string, Recipient>>();
 
   async upsert(companyId: string, r: Recipient) {
     const m = this.byCompany.get(companyId) ?? new Map<string, Recipient>();
-    m.set(r.userId, { ...(m.get(r.userId) ?? {}), ...r });
+    const defined = Object.fromEntries(Object.entries(r).filter(([, v]) => v !== undefined)) as Recipient;
+    m.set(r.userId, { pushToken: null, whatsapp: null, ...(m.get(r.userId) ?? {}), ...defined });
     this.byCompany.set(companyId, m);
     return { ...m.get(r.userId)! };
   }
 
   async findByRoles(companyId: string, roles: string[]): Promise<Recipient[]> {
-    return [...(this.byCompany.get(companyId)?.values() ?? [])].filter((r) => roles.includes(r.role));
+    return [...(this.byCompany.get(companyId)?.values() ?? [])].filter((r) => roles.includes(r.role)).map((r) => ({ ...r }));
   }
 
   async findByUser(companyId: string, userId: string): Promise<Recipient | null> {
-    return this.byCompany.get(companyId)?.get(userId) ?? null;
+    const r = this.byCompany.get(companyId)?.get(userId);
+    return r ? { ...r } : null;
   }
 }
