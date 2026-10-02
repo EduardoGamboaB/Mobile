@@ -27,6 +27,8 @@ substitutions:
   _MIGRATE: 'auth billing drivers fleet trips alerts integrations invoicing'
   # Imágenes que solo existen como job (sin servicio HTTP).
   _JOB_ONLY: 'invoicing'
+  # 'true' = solo build + push (primer despliegue, antes de que existan los jobs).
+  _ONLY_IMAGES: 'false'
 
 options:
   machineType: E2_HIGHCPU_8
@@ -120,6 +122,7 @@ steps:
       - -c
       - |
         set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
         gcloud run jobs update g3-db-bootstrap --region=${_REGION} --image="$$REGISTRY/db-bootstrap:$$TAG" --quiet
         gcloud run jobs execute g3-db-bootstrap --region=${_REGION} --wait
     waitFor: ['push']
@@ -135,6 +138,7 @@ steps:
       - -c
       - |
         set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
         for s in ${_MIGRATE}; do
           echo "=== migrate-$$s"
           gcloud run jobs update "migrate-$$s" --region=${_REGION} --image="$$REGISTRY/$$s:$$TAG" \
@@ -150,7 +154,11 @@ steps:
   - id: db-harden
     name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
     entrypoint: bash
-    args: ['-c', 'gcloud run jobs execute g3-db-bootstrap --region=${_REGION} --wait']
+    args:
+      - -c
+      - |
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        gcloud run jobs execute g3-db-bootstrap --region=${_REGION} --wait
     waitFor: ['migrate']
 
   # ---------- DEPLOY por servicio (internos → gateway) ----------
@@ -161,6 +169,7 @@ steps:
       - -c
       - |
         set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
         : > /workspace/previous-revisions.txt
         for s in ${_SERVICES} gateway; do
           prev=$$(gcloud run services describe "g3-$$s" --region=${_REGION} \
@@ -183,6 +192,7 @@ steps:
       - -c
       - |
         set -uo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
         base="https://${_API_DOMAIN}"
         ok=0
         for i in $$(seq 1 12); do
