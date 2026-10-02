@@ -121,7 +121,7 @@ Este cumplimiento nativo es la barrera de entrada: ninguna plataforma extranjera
 | **Brand book** | Esencia, arquitectura de marca, identidad visual, voz/tono, aplicaciones + assets; 5 conceptos alternos enterprise |
 | **Manual organizacional** | Estructura del holding (3 entidades), roles, gobierno corporativo, políticas, cadencias y procesos |
 | **Benchmark competitivo** | 30+ rivales en 7 capas · 14 dimensiones críticas (G3 cubre 14/14; ningún rival >7) · mapa de posicionamiento |
-| **Plan de crecimiento** | 7 fases / 36 meses hacia ecosistema multi-lado · trayectoria $500K → $18M MXN/mes |
+| **Plan de crecimiento** | 7 fases / 36 meses hacia ecosistema multi-lado · de SaaS pre-revenue hoy a $18M MXN/mes (proyección) |
 | **Análisis de nichos** | 7 nichos evaluados · 3 priorizados (Carta Porte 3.0, cooperativas, cadena de frío) |
 | **Business case** | 14 páginas: opciones analizadas, P&L modelado con supuestos, riesgos, gates, KPIs |
 | **Decks** | Overview del proyecto (12 slides) · Seed Logistics (14) · Seed Platform (15) |

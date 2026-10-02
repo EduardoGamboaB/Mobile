@@ -9,8 +9,8 @@ nueva generación".
 
 | Mal | Bien |
 |---|---|
-| "Optimizamos tu cadena logística con tecnología de vanguardia." | "Movemos +1,200 viajes al mes con 99.4% de entregas a tiempo." |
-| "Ofrecemos soluciones integrales de transporte." | "Operamos carga seca, refrigerada, sobredimensionada y dedicada en 32 estados." |
+| "Optimizamos tu cadena logística con tecnología de vanguardia." | "Movemos grano y fertilizante con 12 unidades especializadas y 99.4% de entregas a tiempo." |
+| "Ofrecemos soluciones integrales de transporte." | "Operamos jaula granelera y thermo en el corredor Bajío–norte." |
 
 ### 2. Cercano sin ser informal
 

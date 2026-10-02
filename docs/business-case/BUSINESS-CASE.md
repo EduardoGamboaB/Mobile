@@ -25,10 +25,10 @@ G3 es un proyecto con dos frentes que se refuerzan mutuamente:
 
 | Métrica | Valor |
 |---|---|
-| Trayectoria de revenue | $500K → $18M MXN mensuales en 36 meses |
+| Trayectoria de revenue | SaaS pre-revenue hoy → $18M MXN mensuales en 36 meses (proyección) |
 | ARR proyectado al cierre (Q2 2029) | ~$220M MXN |
 | Mercado agregado direccionable (7 capas) | ~$11B USD |
-| Capital requerido | Pre-seed/fundadores ~$1–1.5M USD (Fases 0–2) + Seed $5–8M USD (Q1 2027, Fases 3–4) + Series A $15–25M USD (Q3 2028, Fases 5–6) |
+| Capital requerido | Pre-seed/fundadores ~$1–1.5M USD (Fases 0–2) + Seed $5M USD (Q1 2027, Fases 3–4) + Series A $15–25M USD (Q3 2028, Fases 5–6) |
 | Rol de G3 Logistics | Exclusivamente laboratorio de validación — **no financia ninguna fase** |
 | Equipo | ≈101 → ≈450 personas en 36 meses (proyecto completo) |
 
@@ -86,7 +86,7 @@ Plataforma core en el centro (G3 Drive + G3 Admin) y 6 verticales que se nutren 
 
 | Fase | Vertical | Submarca | Trimestre | Revenue objetivo al cierre |
 |---|---|---|---|---|
-| 0 | Plataforma core (Drive + Admin) | G3 DRIVE · ADMIN | HOY (Q2 2026) | $500K/mes |
+| 0 | Plataforma core (Drive + Admin) | G3 DRIVE · ADMIN | HOY (Q2 2026) | Pre-revenue (beta) |
 | 1 | IoT + Telemetría (sensores, cámaras IA fatiga) | **G3 Fleet** | Q3–Q4 2026 | $1.5M/mes |
 | 2 | Roadside on-demand (grúa, llantera, mecánico) | **G3 Market** | Q1–Q2 2027 | $3M/mes |
 | 3 | **Marketplace de fletes (el core financiero)** | **G3 Freight** | Q3–Q4 2027 | $7M/mes |
@@ -166,7 +166,7 @@ El negocio de transporte agroindustrial **no es el objeto de esta inversión ni 
 
 | Hito | Revenue mensual (MXN) | Driver |
 |---|---|---|
-| Hoy (Q2 2026) | $500K | SaaS core |
+| Hoy (Q2 2026) | $0 · pre-revenue | SaaS core en beta (5–10 clientes por firmar) |
 | Q4 2026 | $1.5M | + G3 Fleet (IoT) |
 | Q2 2027 | $3M | + G3 Market (roadside) |
 | Q4 2027 | $7M | + **G3 Freight** (inflexión: +130% semestral) |
@@ -255,7 +255,7 @@ El negocio de transporte agroindustrial **no es el objeto de esta inversión ni 
 | Ronda | Cuándo | Monto | Financia | Estado |
 |---|---|---|---|---|
 | Pre-seed / capital de fundadores | Hoy → Q4 2026 | ~$1–1.5M USD | Fases 0–2 (core, IoT, roadside) — burn 2026 ≈ $0.9M USD + capex/capital de trabajo | En curso |
-| **Seed** | Q1 2027 | **$5–8M USD** | Fases 3–4 (Freight + Talent) — burn 2027–2028 ≈ $5.2M USD | A levantar — objeto de este caso |
+| **Seed** | Q1 2027 | **$5M USD** | Fases 3–4 (Freight + Talent) — burn 2027–2028 ≈ $5.2M USD | A levantar — objeto de este caso |
 | Series A | Q3 2028 | $15–25M USD | Fases 5–6 (Renta + Finance/Seguros) + aceleración | Condicionada a hitos de Fase 3 |
 
 > G3 Logistics no aporta capital en ninguna etapa. Todo el financiamiento del proyecto proviene de capital de fundadores y rondas de inversión.
@@ -380,7 +380,7 @@ El caso se replantea si: (a) el churn SaaS supera 5% mensual por dos trimestres;
 
 **Proceder con la opción D (ecosistema secuenciado)**, arrancando la Fase 1 (G3 Fleet · IoT + telemetría) en Q3 2026 con capital de fundadores/pre-seed, y ejecutar los 10 puntos de los próximos 60 días — en particular la constitución del holding, los clientes beta y el term sheet preliminar del Seed.
 
-El razonamiento en una línea: **G3 ya pagó el costo de entrada que detiene a todos los demás** (operación real, compliance en producción, plataforma validada, estructura corporativa lista). La ventana regulatoria y generacional está abierta ahora; el riesgo mayor del proyecto no es ejecutar este plan — es no ejecutarlo y ver a otro consolidar las capas sobre una posición inferior.
+El razonamiento en una línea: **G3 ya pagó el costo de entrada que detiene a todos los demás** (operación real como laboratorio, compliance MX ya en código, plataforma core construida, estructura corporativa lista). La ventana regulatoria y generacional está abierta ahora; el riesgo mayor del proyecto no es ejecutar este plan — es no ejecutarlo y ver a otro consolidar las capas sobre una posición inferior.
 
 ---
 

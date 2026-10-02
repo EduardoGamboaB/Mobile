@@ -7,7 +7,7 @@
 
 | Fecha | Q2 2026 |
 |---|---|
-| Estado actual | G3 Drive + G3 Admin en producción dogfooding · 1,200 viajes/mes |
+| Estado actual | G3 Drive + G3 Admin con código completo · en validación sobre la operación propia · SaaS pre-revenue |
 | Estado a 36 meses | Ecosistema con 7 productos B2B2C · 50,000+ unidades · presencia LATAM |
 | Versión documento | 1.0 |
 
@@ -87,10 +87,10 @@ Los productos transversales que sostienen todo:
 
 ## 4. Roadmap por fases · 36 meses
 
-### Fase 0 · YA · Plataforma core (Q2 2026 — en producción)
+### Fase 0 · YA · Plataforma core (Q2 2026 — código completo, pre-producción)
 
 **Productos**: G3 Drive · G3 Admin · backend microservicios · bitácora NOM-087
-**Estado**: dogfooding interno · 1,200 viajes/mes · 49 + 18 + 112 tests verdes
+**Estado**: validación interna sobre ~12 unidades de G3 Logistics · sin clientes SaaS externos · 200+ tests verdes
 **Headcount**: 101 personas (línea base actual)
 
 Lo que hay que cerrar para arrancar Fase 1:
@@ -395,7 +395,7 @@ si tenemos **3 cosas que se construyen en fases previas**:
 
 | Fase | Trimestre | Iniciativa | Submarca | Revenue mensual al cierre |
 |---|---|---|---|---|
-| 0 | Q2 2026 | Plataforma core | Drive + Admin | $500K MXN |
+| 0 | Q2 2026 | Plataforma core | Drive + Admin | Pre-revenue (beta) |
 | 1 | Q4 2026 | IoT y telemetría | G3 Fleet | $1.5M MXN |
 | 2 | Q2 2027 | Marketplace Roadside | G3 Market | $3M MXN |
 | 3 | Q4 2027 | Marketplace Fletes | G3 Freight | $7M MXN |
@@ -440,10 +440,10 @@ hacer eso, pero tampoco lo necesitamos porque:
 
 | Fase | Inversión | Acumulado | Fuente sugerida |
 |---|---|---|---|
-| 0 | $0 (ya invertido) | $0 | Self-funded / fundadores |
-| 1 | $1.5M MXN | $1.5M | Cashflow operativo de Logistics |
-| 2 | $3M MXN | $4.5M | Cashflow + posible préstamo |
-| 3 | $8M MXN | $12.5M | **Ronda Seed Q1 2027** · $5-8M USD |
+| 0 | $0 (ya invertido) | $0 | Fundadores |
+| 1 | $1.5M MXN | $1.5M | **Pre-seed / fundadores** · ~$1–1.5M USD (G3 Logistics no aporta capital) |
+| 2 | $3M MXN | $4.5M | Mismo pre-seed |
+| 3 | $8M MXN | $12.5M | **Ronda Seed Q1 2027** · $5M USD |
 | 4 | $5M MXN | $17.5M | Misma ronda Seed |
 | 5 | $4M MXN | $21.5M | **Series A Q3 2028** · $15-25M USD |
 | 6 | $10M MXN | $31.5M | Misma Series A |

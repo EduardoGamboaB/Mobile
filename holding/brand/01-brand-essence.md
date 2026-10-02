@@ -89,7 +89,7 @@ ingeniería**:
   "soluciones disruptivas".
 - **Cálido** sin ser informal. Tutea, pero no usa memes ni emoji.
 - **Confiado por hechos**, no por marketing. Muestra números reales
-  (1,200 viajes/mes, 99.4% on-time) en lugar de adjetivos.
+  (12 unidades especializadas, 99.4% on-time como indicador interno) en lugar de adjetivos.
 - **Educador**: explica antes que vender. Documenta antes que prometer.
 - **Mexicano sin folclor**: orgulloso del origen, sin caer en clichés
   de mariachi o color brillante por defecto.
