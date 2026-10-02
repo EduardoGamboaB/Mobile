@@ -20,6 +20,14 @@ import { RecoveryCodeHasher } from './mfa/recovery-codes';
 import { SsoService } from './sso/sso.service';
 import { InMemorySsoConfigRepo, InMemorySsoStateStore } from './sso/sso.repos';
 import type { IdTokenSignatureVerifier, OidcDiscovery, SecretResolver, TokenExchanger } from './sso/oidc';
+import {
+  DEFAULT_PASSWORDLESS,
+  PasswordlessService,
+  RecordingEmailSender,
+  RecordingSmsSender,
+  type EmailSender,
+  type SmsSender,
+} from './passwordless/passwordless.service';
 
 export interface AuthContainerOptions {
   clock?: Clock;
@@ -33,6 +41,8 @@ export interface AuthContainerOptions {
   recoveryPepper: string;
   mfaIssuer?: string;
   bus?: EventBus;
+  /** OTP SMS de choferes y recuperación de contraseña. */
+  passwordless?: { sms?: SmsSender; email?: EmailSender; pepper?: string; resetUrl?: string };
   sso: {
     redirectUri: string;
     discovery: OidcDiscovery;
@@ -83,6 +93,23 @@ export function buildAuthContainer(o: AuthContainerOptions) {
     redirectUri: o.sso.redirectUri,
   });
 
+  const sms = o.passwordless?.sms ?? new RecordingSmsSender();
+  const email = o.passwordless?.email ?? new RecordingEmailSender();
+  const passwordless = new PasswordlessService({
+    users,
+    auth,
+    hasher,
+    audit,
+    clock,
+    sms,
+    email,
+    cfg: {
+      ...DEFAULT_PASSWORDLESS,
+      pepper: o.passwordless?.pepper ?? o.recoveryPepper,
+      resetUrl: o.passwordless?.resetUrl ?? 'https://admin.g3logistics.mx/login/reset',
+    },
+  });
+
   return {
     clock,
     users,
@@ -99,6 +126,9 @@ export function buildAuthContainer(o: AuthContainerOptions) {
     auth,
     ssoConfigs,
     sso,
+    passwordless,
+    sms,
+    email,
   };
 }
 

@@ -138,6 +138,15 @@ export class SsoController {
 export class UsersController {
   constructor(@Inject(AUTH_CONTAINER) private readonly c: AuthContainer) {}
 
+  /** Da acceso a G3 Drive (OTP por SMS) a un chofer del servicio drivers. */
+  @Post('drivers')
+  grantDriver(
+    @Body() body: { driverId: string; phone: string; fullName: string; email?: string | null },
+    @Req() req: HttpRequestLike,
+  ) {
+    return run(async () => this.c.passwordless.grantDriverAccess(await actorFrom(this.c, req), body));
+  }
+
   @Patch(':id/role')
   changeRole(@Param('id') id: string, @Body() body: ChangeUserRoleDto, @Req() req: HttpRequestLike) {
     return run(async () => this.c.auth.changeUserRole(await actorFrom(this.c, req), id, body?.role));

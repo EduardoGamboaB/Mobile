@@ -24,6 +24,8 @@ const JWT_SECRET = env('JWT_ACCESS_SECRET', 'a'.repeat(32));
 /** Rutas que NO requieren JWT (públicas). */
 const PUBLIC_PATHS = [
   /^\/api\/auth\/(login|register-company|refresh)$/,
+  // G3 Drive: OTP por SMS; recuperación de contraseña de Admin
+  /^\/api\/auth\/(otp\/request|otp\/verify|password\/forgot|password\/reset)$/,
   /^\/api\/webhooks\/stripe$/,
   /^\/health$/,
   // MFA paso 2 / enrolamiento forzado: autenticados por mfaToken, no por JWT

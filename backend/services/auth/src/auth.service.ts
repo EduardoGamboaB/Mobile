@@ -237,13 +237,14 @@ export class AuthService {
   }
 
   /** Emite sesión para un usuario ya autenticado por otro medio (SSO). */
-  sessionFor(user: Pick<UserRecord, 'id' | 'email' | 'role' | 'companyId' | 'tier'>): AuthSessionDto {
+  sessionFor(user: Pick<UserRecord, 'id' | 'email' | 'role' | 'companyId' | 'tier' | 'driverId'>): AuthSessionDto {
     return this.buildSession({
       id: user.id,
       email: user.email,
       role: user.role,
       companyId: user.companyId,
       tier: user.tier,
+      ...(user.role === 'driver' && user.driverId ? { driverId: user.driverId } : {}),
     });
   }
 
@@ -302,6 +303,7 @@ export class AuthService {
     role: AuthSessionDto['user']['role'];
     companyId: string;
     tier: TierValue;
+    driverId?: string;
   }): AuthSessionDto {
     const tokens = this.tokens.issue({
       sub: user.id,
@@ -309,6 +311,7 @@ export class AuthService {
       role: user.role,
       companyId: user.companyId,
       tier: user.tier,
+      ...(user.driverId ? { driverId: user.driverId } : {}),
     });
     return {
       accessToken: tokens.accessToken,

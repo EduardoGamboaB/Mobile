@@ -42,6 +42,32 @@ export class AuthController {
     });
   }
 
+  /** G3 Drive: código por SMS al teléfono del chofer (siempre 202). */
+  @Post('otp/request')
+  @HttpCode(202)
+  otpRequest(@Body() body: { phone: string }, @Req() req: HttpRequestLike) {
+    return run(() => this.c.passwordless.requestOtp(body?.phone, metaFrom(req)));
+  }
+
+  @Post('otp/verify')
+  @HttpCode(200)
+  otpVerify(@Body() body: { phone: string; code: string }, @Req() req: HttpRequestLike) {
+    return run(() => this.c.passwordless.verifyOtp(body?.phone, body?.code, metaFrom(req)));
+  }
+
+  /** Siempre 202: no revela si el correo existe. */
+  @Post('password/forgot')
+  @HttpCode(202)
+  forgot(@Body() body: { email: string }, @Req() req: HttpRequestLike) {
+    return run(() => this.c.passwordless.requestPasswordReset(body?.email, metaFrom(req)));
+  }
+
+  @Post('password/reset')
+  @HttpCode(200)
+  reset(@Body() body: { token: string; newPassword: string }, @Req() req: HttpRequestLike) {
+    return run(() => this.c.passwordless.resetPassword(body?.token, body?.newPassword, metaFrom(req)));
+  }
+
   @Post('mfa/verify')
   @HttpCode(200)
   mfaVerify(@Body() body: MfaVerifyDto, @Req() req: HttpRequestLike) {

@@ -29,6 +29,8 @@ export interface AuthSessionDto {
     role: UserRole;
     companyId: string;
     tier: TierValue;
+    /** Solo usuarios chofer: registro de chofer vinculado (servicio drivers). */
+    driverId?: string;
   };
 }
 

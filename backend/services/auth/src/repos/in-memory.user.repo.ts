@@ -10,6 +10,10 @@ export interface UserRecord {
   companyId: string;
   tier: TierValue;
   createdAt: string;
+  /** Teléfono E.164 (choferes: login por OTP SMS). */
+  phone?: string | null;
+  /** Choferes: id del registro en el servicio drivers (claim `driverId`). */
+  driverId?: string | null;
 }
 
 export interface UserRepo {
@@ -20,6 +24,8 @@ export interface UserRepo {
   create(rec: UserRecord): Promise<UserRecord>;
   updateTierForCompany(companyId: string, tier: TierValue): Promise<void>;
   updateRole(id: string, role: UserRole): Promise<UserRecord | null>;
+  findByPhone(phone: string): Promise<UserRecord | null>;
+  updatePassword(id: string, passwordHash: string): Promise<void>;
 }
 
 export class InMemoryUserRepo implements UserRepo {
@@ -30,6 +36,14 @@ export class InMemoryUserRepo implements UserRepo {
       if (u.email.toLowerCase() === email.toLowerCase()) return { ...u };
     }
     return null;
+  }
+  async findByPhone(phone: string): Promise<UserRecord | null> {
+    for (const u of this.byId.values()) if (u.phone && u.phone === phone) return { ...u };
+    return null;
+  }
+  async updatePassword(id: string, passwordHash: string): Promise<void> {
+    const u = this.byId.get(id);
+    if (u) this.byId.set(id, { ...u, passwordHash });
   }
   async findById(id: string): Promise<UserRecord | null> {
     const u = this.byId.get(id);
