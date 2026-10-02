@@ -174,6 +174,26 @@ resource "google_service_account" "svc" {
   depends_on   = [google_project_service.apis]
 }
 
+# Cuentas de los jobs de migración: leen SOLO el DATABASE_URL del rol dueño
+# (g3_<svc>_migrator) de su servicio. El runtime nunca ve esa credencial.
+resource "google_service_account" "migrator" {
+  for_each     = toset(local.db_services)
+  project      = var.project_id
+  account_id   = "g3-mig-${each.key}"
+  display_name = "G3 ${each.key} migraciones"
+  description  = "Jobs migrate-${each.key} (y g3-fleet-maintenance en fleet) con el rol dueño del schema."
+  depends_on   = [google_project_service.apis]
+}
+
+resource "google_secret_manager_secret_iam_member" "migrator" {
+  for_each   = toset(local.db_services)
+  project    = var.project_id
+  secret_id  = module.database.migrator_url_secret_ids[each.key]
+  role       = "roles/secretmanager.secretAccessor"
+  member     = google_service_account.migrator[each.key].member
+  depends_on = [module.database]
+}
+
 resource "google_service_account" "scheduler" {
   project      = var.project_id
   account_id   = "g3-scheduler"
@@ -190,10 +210,14 @@ resource "google_service_account" "db_bootstrap" {
 
 # Cloud SQL client (por si se usa el conector/Auth Proxy; la conexión normal es por IP privada).
 resource "google_project_iam_member" "sql_client" {
-  for_each = toset(concat(local.db_services, ["db-bootstrap"]))
-  project  = var.project_id
-  role     = "roles/cloudsql.client"
-  member   = each.key == "db-bootstrap" ? google_service_account.db_bootstrap.member : google_service_account.svc[each.key].member
+  for_each = merge(
+    { for s in local.db_services : s => google_service_account.svc[s].member },
+    { for s in local.db_services : "mig-${s}" => google_service_account.migrator[s].member },
+    { "db-bootstrap" = google_service_account.db_bootstrap.member },
+  )
+  project = var.project_id
+  role    = "roles/cloudsql.client"
+  member  = each.value
 }
 
 # auth publica eventos de dominio.
@@ -229,7 +253,11 @@ resource "google_secret_manager_secret_iam_member" "svc" {
 }
 
 resource "google_secret_manager_secret_iam_member" "db_bootstrap" {
-  for_each   = toset(concat([module.database.admin_password_secret_id], values(module.database.password_secret_ids)))
+  for_each = toset(concat(
+    [module.database.admin_password_secret_id],
+    values(module.database.password_secret_ids),
+    values(module.database.migrator_password_secret_ids),
+  ))
   project    = var.project_id
   secret_id  = each.value
   role       = "roles/secretmanager.secretAccessor"

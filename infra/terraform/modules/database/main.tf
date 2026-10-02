@@ -2,10 +2,12 @@
 # obligatorio, backups + PITR, flags de auditoría y Query Insights.
 #
 # Usuarios: Terraform solo fija la contraseña de `postgres` (admin). Los roles
-# de servicio g3_<svc> NO se crean por la API de Cloud SQL (eso los haría
-# miembros de cloudsqlsuperuser); los crea el job g3-db-bootstrap con
+# de servicio NO se crean por la API de Cloud SQL (eso los haría miembros de
+# cloudsqlsuperuser); los crea el job g3-db-bootstrap con
 # backend/infra/db/init-schemas.sql usando las contraseñas que se generan
-# aquí y se guardan en Secret Manager.
+# aquí y se guardan en Secret Manager. Por servicio hay dos roles:
+#   g3_<svc>_migrator  dueño del schema (jobs de migración/mantenimiento)
+#   g3_<svc>           runtime de Cloud Run (solo DML)
 
 terraform {
   required_version = ">= 1.6"
@@ -146,6 +148,13 @@ resource "random_password" "svc" {
   keepers  = { rotation = var.password_rotation_id }
 }
 
+resource "random_password" "migrator" {
+  for_each = toset(var.service_roles)
+  length   = 40
+  special  = false
+  keepers  = { rotation = var.password_rotation_id }
+}
+
 resource "google_secret_manager_secret" "admin_password" {
   project   = var.project_id
   secret_id = "g3-db-admin-password"
@@ -198,6 +207,46 @@ resource "google_secret_manager_secret_version" "svc_url" {
     "postgres://g3_%s:%s@%s:5432/%s?sslmode=%s",
     each.key,
     random_password.svc[each.key].result,
+    google_sql_database_instance.pg.private_ip_address,
+    var.database_name,
+    var.client_sslmode,
+  )
+}
+
+# ── Rol dueño (migrator): contraseña y DATABASE_URL para los jobs ──────────
+resource "google_secret_manager_secret" "migrator_password" {
+  for_each  = toset(var.service_roles)
+  project   = var.project_id
+  secret_id = "g3-db-migrator-password-${each.key}"
+  labels    = var.labels
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "migrator_password" {
+  for_each    = toset(var.service_roles)
+  secret      = google_secret_manager_secret.migrator_password[each.key].id
+  secret_data = random_password.migrator[each.key].result
+}
+
+resource "google_secret_manager_secret" "migrator_url" {
+  for_each  = toset(var.service_roles)
+  project   = var.project_id
+  secret_id = "g3-db-migrator-url-${each.key}"
+  labels    = var.labels
+  replication {
+    auto {}
+  }
+}
+
+resource "google_secret_manager_secret_version" "migrator_url" {
+  for_each = toset(var.service_roles)
+  secret   = google_secret_manager_secret.migrator_url[each.key].id
+  secret_data = format(
+    "postgres://g3_%s_migrator:%s@%s:5432/%s?sslmode=%s",
+    each.key,
+    random_password.migrator[each.key].result,
     google_sql_database_instance.pg.private_ip_address,
     var.database_name,
     var.client_sslmode,

@@ -113,6 +113,27 @@ run "fase_2_completa" {
     error_message = "URI del escalamiento incorrecta."
   }
 
+  # Migraciones y mantenimiento con el rol dueño (cuenta g3-mig-<svc>), no con el runtime.
+  assert {
+    condition     = google_service_account.migrator["auth"].account_id == "g3-mig-auth"
+    error_message = "Falta la cuenta de migraciones de auth."
+  }
+
+  assert {
+    condition     = !contains(keys(local.secret_access), "auth/g3-db-migrator-url-auth")
+    error_message = "El runtime de auth no debe leer la credencial del rol dueño."
+  }
+
+  assert {
+    condition     = google_secret_manager_secret_iam_member.migrator["fleet"].secret_id == "g3-db-migrator-url-fleet"
+    error_message = "La cuenta de migraciones de fleet debe leer g3-db-migrator-url-fleet."
+  }
+
+  assert {
+    condition     = contains(keys(local.secret_env["billing"]), "REDIS_URL") && contains(keys(local.secret_env["billing"]), "INTERNAL_TOKEN")
+    error_message = "billing necesita REDIS_URL (invalidación) e INTERNAL_TOKEN (apply-tier/start-trial)."
+  }
+
   # Solo trips administra el bucket de evidencias.
   assert {
     condition     = google_storage_bucket_iam_member.evidence_trips.role == "roles/storage.objectAdmin"

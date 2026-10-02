@@ -1,32 +1,39 @@
 -- ─────────────────────────────────────────────────────────────────────────────
 -- G3 · schemas, roles y permisos de la base `g3` (Postgres 16 / Cloud SQL).
 --
--- Una base, un schema por servicio y un rol de login por servicio
--- (`g3_<svc>`) que solo puede usar SU schema. Ningún servicio lee tablas de
--- otro: los datos ajenos se piden por API (docs/PERSISTENCE-CONVENTIONS.md).
+-- Una base y un schema por servicio. Cada servicio tiene DOS roles de login:
 --
--- Es IDEMPOTENTE: se corre en cada bootstrap y cada vez que se rotan las
+--   g3_<svc>_migrator  DUEÑO del schema y de todas sus tablas. Solo lo usan los
+--                      jobs `migrate-<svc>` (y g3-fleet-maintenance, que crea y
+--                      borra particiones). Aplica DDL.
+--   g3_<svc>           rol de RUNTIME (Cloud Run). Solo USAGE del schema y DML
+--                      (SELECT/INSERT/UPDATE/DELETE) sobre sus tablas, vía
+--                      default privileges del migrator. No puede crear, alterar
+--                      ni borrar objetos, ni otorgarse permisos.
+--
+-- Ningún rol puede usar el schema de otro servicio: los datos ajenos se piden
+-- por API (docs/PERSISTENCE-CONVENTIONS.md).
+--
+-- auth.audit_log es append-only para el runtime: la migración de auth hace
+-- `REVOKE UPDATE, DELETE, TRUNCATE … FROM g3_auth` (corre como
+-- g3_auth_migrator) y este script lo vuelve a aplicar después de otorgar DML
+-- (sección 6), así una re-ejecución nunca devuelve esos permisos.
+--
+-- IDEMPOTENTE: se corre en cada bootstrap y cada vez que se rotan las
 -- contraseñas (ALTER ROLE … PASSWORD sincroniza con Secret Manager).
 --
--- Se ejecuta con psql como el usuario administrador (`postgres` en Cloud SQL,
--- miembro de cloudsqlsuperuser) y recibe una contraseña por servicio como
--- variable de psql:
+-- Se ejecuta con psql como administrador (`postgres` en Cloud SQL) con dos
+-- contraseñas por servicio como variables de psql:
 --
---   psql -v ON_ERROR_STOP=1 -v pw_auth=… -v pw_billing=… … -f init-schemas.sql
+--   psql -v ON_ERROR_STOP=1 -v pw_auth=… -v mpw_auth=… … -f init-schemas.sql
 --
---   · Producción/staging: lo corre el Cloud Run Job `g3-db-bootstrap`
---     (infra/db/bootstrap.sh) con las contraseñas montadas desde Secret
---     Manager. Terraform genera las contraseñas; nadie las teclea.
---   · docker compose: infra/db/dev-init.sh pasa la contraseña de desarrollo.
---
--- Las tablas las crea cada servicio con sus migraciones
--- (`services/<x>/migrations/NNNN_*.sql`, Cloud Run Job `migrate-<svc>`), que
--- corren con el propio rol `g3_<svc>`: el rol es dueño de sus tablas.
+--   · GCP: Cloud Run Job `g3-db-bootstrap` (infra/db/bootstrap.sh) con las
+--     contraseñas de Secret Manager (las genera Terraform).
+--   · docker compose: infra/db/dev-init.sh con la contraseña de desarrollo.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 \set ON_ERROR_STOP on
 
--- Sin contraseña para un servicio = error explícito (no roles sin password).
 \if :{?pw_auth}
 \else
   DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v pw_auth=...'; END $$;
@@ -59,69 +66,130 @@
 \else
   DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v pw_invoicing=...'; END $$;
 \endif
+\if :{?mpw_auth}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_auth=...'; END $$;
+\endif
+\if :{?mpw_billing}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_billing=...'; END $$;
+\endif
+\if :{?mpw_drivers}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_drivers=...'; END $$;
+\endif
+\if :{?mpw_fleet}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_fleet=...'; END $$;
+\endif
+\if :{?mpw_trips}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_trips=...'; END $$;
+\endif
+\if :{?mpw_alerts}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_alerts=...'; END $$;
+\endif
+\if :{?mpw_integrations}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_integrations=...'; END $$;
+\endif
+\if :{?mpw_invoicing}
+\else
+  DO $$ BEGIN RAISE EXCEPTION 'Falta la variable de psql -v mpw_invoicing=...'; END $$;
+\endif
 
 -- Nadie crea objetos en `public` ni se conecta "por omisión".
 REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 SELECT format('REVOKE ALL ON DATABASE %I FROM PUBLIC', current_database())
 \gexec
 
-CREATE TEMP TABLE _g3_svc (svc text PRIMARY KEY, pw text NOT NULL);
+CREATE TEMP TABLE _g3_svc (svc text PRIMARY KEY, pw text NOT NULL, mpw text NOT NULL);
 INSERT INTO _g3_svc VALUES
-  ('auth',         :'pw_auth'),
-  ('billing',      :'pw_billing'),
-  ('drivers',      :'pw_drivers'),
-  ('fleet',        :'pw_fleet'),
-  ('trips',        :'pw_trips'),
-  ('alerts',       :'pw_alerts'),
-  ('integrations', :'pw_integrations'),
-  ('invoicing',    :'pw_invoicing');
+  ('auth',         :'pw_auth',         :'mpw_auth'),
+  ('billing',      :'pw_billing',      :'mpw_billing'),
+  ('drivers',      :'pw_drivers',      :'mpw_drivers'),
+  ('fleet',        :'pw_fleet',        :'mpw_fleet'),
+  ('trips',        :'pw_trips',        :'mpw_trips'),
+  ('alerts',       :'pw_alerts',       :'mpw_alerts'),
+  ('integrations', :'pw_integrations', :'mpw_integrations'),
+  ('invoicing',    :'pw_invoicing',    :'mpw_invoicing');
+
+CREATE TEMP VIEW _g3_roles AS
+  SELECT svc, 'g3_' || svc AS runtime, 'g3_' || svc || '_migrator' AS migrator, pw, mpw FROM _g3_svc;
 
 -- 1. Roles de login (crear si faltan; siempre sincronizar contraseña).
-SELECT format('CREATE ROLE %I LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION CONNECTION LIMIT %s',
-              'g3_' || svc, 100)
-FROM _g3_svc
-WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'g3_' || svc)
+SELECT format('CREATE ROLE %I LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE NOINHERIT NOREPLICATION CONNECTION LIMIT 200', r)
+FROM (SELECT runtime AS r FROM _g3_roles UNION ALL SELECT migrator FROM _g3_roles) x
+WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = x.r)
 \gexec
 
-SELECT format('ALTER ROLE %I WITH LOGIN PASSWORD %L', 'g3_' || svc, pw) FROM _g3_svc
+SELECT format('ALTER ROLE %I WITH LOGIN PASSWORD %L', runtime, pw) FROM _g3_roles
+\gexec
+SELECT format('ALTER ROLE %I WITH LOGIN PASSWORD %L CONNECTION LIMIT 10', migrator, mpw) FROM _g3_roles
 \gexec
 
--- search_path por rol (además del que fija el pool de @g3/platform).
-SELECT format('ALTER ROLE %I SET search_path = %I, public', 'g3_' || svc, svc) FROM _g3_svc
+SELECT format('ALTER ROLE %I SET search_path = %I, public', r, svc)
+FROM (SELECT svc, runtime AS r FROM _g3_roles UNION ALL SELECT svc, migrator FROM _g3_roles) x
 \gexec
-SELECT format('ALTER ROLE %I SET statement_timeout = %L', 'g3_' || svc, '15s') FROM _g3_svc
+SELECT format('ALTER ROLE %I SET statement_timeout = %L', runtime, '15s') FROM _g3_roles
 \gexec
-SELECT format('ALTER ROLE %I SET idle_in_transaction_session_timeout = %L', 'g3_' || svc, '60s') FROM _g3_svc
-\gexec
-
--- 2. Schemas (dueño: el administrador) y permisos SOLO sobre el propio.
-SELECT format('CREATE SCHEMA IF NOT EXISTS %I', svc) FROM _g3_svc
-\gexec
-SELECT format('REVOKE ALL ON SCHEMA %I FROM PUBLIC', svc) FROM _g3_svc
-\gexec
-SELECT format('GRANT USAGE, CREATE ON SCHEMA %I TO %I', svc, 'g3_' || svc) FROM _g3_svc
-\gexec
--- Tablas que ya existieran (p. ej. creadas por el admin en una restauración).
-SELECT format('GRANT SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER ON ALL TABLES IN SCHEMA %I TO %I',
-              svc, 'g3_' || svc) FROM _g3_svc
-\gexec
-SELECT format('GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA %I TO %I', svc, 'g3_' || svc) FROM _g3_svc
+SELECT format('ALTER ROLE %I SET idle_in_transaction_session_timeout = %L', runtime, '60s') FROM _g3_roles
 \gexec
 
--- 3. CONNECT a la base y TEMP para cada rol.
---    CREATE ON DATABASE es necesario HOY porque runMigrations (@g3/platform)
---    ejecuta `CREATE SCHEMA IF NOT EXISTS <svc>` y Postgres valida el
---    privilegio de base ANTES de ver que el schema existe (probado en PG16:
---    "permission denied for database"). Con él, el rol podría crear schemas
---    NUEVOS (de su propiedad), pero no entrar a los de otros servicios.
---    Cuando platform-kit consulte pg_namespace antes del CREATE, quitar el
---    CREATE de esta línea (ver docs/ops/PRODUCTION-READINESS.md).
-SELECT format('GRANT CONNECT, TEMP, CREATE ON DATABASE %I TO %I', current_database(), 'g3_' || svc) FROM _g3_svc
+-- El administrador necesita poder actuar como cada rol para transferir
+-- dueños (en Cloud SQL `postgres` no es superusuario; en PG16 quien crea un
+-- rol tiene ADMIN OPTION y puede otorgárselo).
+SELECT format('GRANT %I TO %I', r, current_user)
+FROM (SELECT runtime AS r FROM _g3_roles UNION ALL SELECT migrator FROM _g3_roles) x
+WHERE NOT pg_has_role(current_user, x.r, 'MEMBER')
 \gexec
 
--- 4. Los roles de servicio NO deben heredar cloudsqlsuperuser (Cloud SQL lo
---    da a los usuarios creados por la API; estos se crean por SQL, pero si
---    alguien los creó con `gcloud sql users create`, se les quita aquí).
+-- 2. Schemas: dueño = migrator.
+SELECT format('CREATE SCHEMA IF NOT EXISTS %I AUTHORIZATION %I', svc, migrator) FROM _g3_roles
+\gexec
+SELECT format('ALTER SCHEMA %I OWNER TO %I', svc, migrator) FROM _g3_roles
+\gexec
+SELECT format('REVOKE ALL ON SCHEMA %I FROM PUBLIC', svc) FROM _g3_roles
+\gexec
+
+-- Instalaciones previas donde el rol de runtime era dueño de las tablas:
+-- todo lo suyo pasa al migrator (no-op si no tiene nada).
+SELECT format('REASSIGN OWNED BY %I TO %I', runtime, migrator) FROM _g3_roles
+\gexec
+
+-- 3. CONNECT para ambos; CREATE en la base SOLO para el migrator, porque
+--    runMigrations (@g3/platform) ejecuta `CREATE SCHEMA IF NOT EXISTS` y
+--    Postgres valida ese privilegio aunque el schema exista (probado en PG16).
+SELECT format('GRANT CONNECT, TEMP ON DATABASE %I TO %I', current_database(), r)
+FROM (SELECT runtime AS r FROM _g3_roles UNION ALL SELECT migrator FROM _g3_roles) x
+\gexec
+SELECT format('GRANT CREATE ON DATABASE %I TO %I', current_database(), migrator) FROM _g3_roles
+\gexec
+SELECT format('REVOKE CREATE ON DATABASE %I FROM %I', current_database(), runtime) FROM _g3_roles
+\gexec
+
+-- 4. Runtime: USAGE del schema (sin CREATE) y DML en tablas/secuencias,
+--    actuales y futuras (default privileges de lo que cree el migrator).
+SELECT format('REVOKE CREATE ON SCHEMA %I FROM %I', svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('GRANT USAGE ON SCHEMA %I TO %I', svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA %I TO %I', svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA %I TO %I', svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA %I TO %I', svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('ALTER DEFAULT PRIVILEGES FOR ROLE %I IN SCHEMA %I GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO %I',
+              migrator, svc, runtime) FROM _g3_roles
+\gexec
+SELECT format('ALTER DEFAULT PRIVILEGES FOR ROLE %I IN SCHEMA %I GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO %I',
+              migrator, svc, runtime) FROM _g3_roles
+\gexec
+
+-- 5. Ningún rol g3_* hereda cloudsqlsuperuser (Cloud SQL lo da a los usuarios
+--    creados por la API; estos se crean por SQL, pero por si acaso).
 DO $$
 DECLARE r record;
 BEGIN
@@ -137,8 +205,22 @@ BEGIN
   END IF;
 END $$;
 
--- 4b. pgaudit (Cloud SQL con flag cloudsql.enable_pgaudit=on): registra DDL y
---     cambios de roles en Cloud Logging. En Postgres local no existe y se omite.
+-- 6. Bitácora append-only: el runtime de auth solo SELECT + INSERT en
+--    auth.audit_log (la tabla es del migrator; además hay trigger que rechaza
+--    UPDATE/DELETE). Se re-aplica aquí porque el GRANT de la sección 4 da DML
+--    en todas las tablas.
+DO $$
+BEGIN
+  IF to_regclass('auth.audit_log') IS NOT NULL THEN
+    EXECUTE 'REVOKE UPDATE, DELETE, TRUNCATE ON auth.audit_log FROM g3_auth';
+    RAISE NOTICE 'auth.audit_log: append-only para g3_auth';
+  ELSE
+    RAISE NOTICE 'auth.audit_log aún no existe (se crea en migrate-auth, que ya revoca)';
+  END IF;
+END $$;
+
+-- 7. pgaudit (Cloud SQL con flag cloudsql.enable_pgaudit=on): DDL y cambios
+--    de roles en Cloud Logging. En Postgres local no existe y se omite.
 DO $$
 BEGIN
   IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name = 'pgaudit')
@@ -147,28 +229,5 @@ BEGIN
   END IF;
 END $$;
 
--- 5. Bitácora de auditoría append-only (auth.audit_log).
---    La tabla la crea la migración de auth, así que su dueño es g3_auth y un
---    REVOKE al dueño no es suficiente (el dueño puede volver a otorgarse
---    permisos). Por eso, cuando la tabla existe, se transfiere a un rol sin
---    login (`g3_audit_owner`) y g3_auth queda solo con SELECT + INSERT:
---    nadie desde la app puede hacer UPDATE/DELETE/TRUNCATE.
---    Consecuencia: una migración futura de auth que altere audit_log debe
---    correrse con el admin (ver docs/ops/RUNBOOK.md › Migraciones). Este
---    bloque se re-ejecuta tras cada migración de auth (bootstrap idempotente).
-DO $$
-BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'g3_audit_owner') THEN
-    CREATE ROLE g3_audit_owner NOLOGIN;
-  END IF;
-  IF to_regclass('auth.audit_log') IS NOT NULL THEN
-    EXECUTE 'ALTER TABLE auth.audit_log OWNER TO g3_audit_owner';
-    EXECUTE 'REVOKE ALL ON auth.audit_log FROM g3_auth';
-    EXECUTE 'GRANT SELECT, INSERT ON auth.audit_log TO g3_auth';
-    RAISE NOTICE 'auth.audit_log: append-only para g3_auth (sin UPDATE/DELETE/TRUNCATE)';
-  ELSE
-    RAISE NOTICE 'auth.audit_log aún no existe: re-ejecutar tras migrar auth';
-  END IF;
-END $$;
-
+DROP VIEW _g3_roles;
 DROP TABLE _g3_svc;

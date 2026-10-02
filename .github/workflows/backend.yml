@@ -90,19 +90,25 @@ jobs:
       - uses: actions/checkout@v4
       - name: init-schemas.sql (dos veces → idempotente)
         run: |
-          for i in 1 2; do
-            psql -v ON_ERROR_STOP=1 -X \
-              -v pw_auth=ci-pw -v pw_billing=ci-pw -v pw_drivers=ci-pw -v pw_fleet=ci-pw \
-              -v pw_trips=ci-pw -v pw_alerts=ci-pw -v pw_integrations=ci-pw -v pw_invoicing=ci-pw \
-              -f infra/db/init-schemas.sql
+          args=""
+          for s in auth billing drivers fleet trips alerts integrations invoicing; do
+            args="$args -v pw_$s=ci-pw -v mpw_$s=ci-mpw"
           done
-      - name: Aislamiento entre schemas
+          for i in 1 2; do psql -v ON_ERROR_STOP=1 -X $args -f infra/db/init-schemas.sql; done
+      - name: Dueño (migrator) vs runtime y aislamiento entre schemas
         run: |
-          PGPASSWORD=ci-pw psql -U g3_fleet -v ON_ERROR_STOP=1 -c "CREATE SCHEMA IF NOT EXISTS fleet" -c "CREATE TABLE fleet.ci_probe(id text)"
+          set -e
+          # El migrator crea; el runtime solo DML.
+          PGPASSWORD=ci-mpw psql -U g3_fleet_migrator -v ON_ERROR_STOP=1 \
+            -c "CREATE SCHEMA IF NOT EXISTS fleet" -c "CREATE TABLE fleet.ci_probe(id text)"
+          PGPASSWORD=ci-pw psql -U g3_fleet -v ON_ERROR_STOP=1 -c "INSERT INTO fleet.ci_probe VALUES ('x')"
+          if PGPASSWORD=ci-pw psql -U g3_fleet -c "ALTER TABLE fleet.ci_probe ADD COLUMN y int" 2>/dev/null; then
+            echo "el runtime pudo alterar una tabla" && exit 1
+          fi
           if PGPASSWORD=ci-pw psql -U g3_trips -c "SELECT * FROM fleet.ci_probe" 2>/dev/null; then
             echo "g3_trips pudo leer el schema fleet" && exit 1
           fi
-          echo "OK: g3_trips no ve fleet"
+          echo "OK: runtime sin DDL y schemas aislados"
       - name: docker compose config
         run: docker compose -f infra/docker/docker-compose.yml config --quiet
 

@@ -106,7 +106,10 @@ abajo). La revisión anterior debe funcionar con el schema nuevo. Si una migraci
   checksum de una ya aplicada.
 - El pipeline las corre con `migrate-<svc>` **antes** de desplegar. Si una falla, no se despliega ningún servicio y
   se dispara la alerta *Falló una migración*.
-- Cada migración corre en una transacción, con advisory lock y con el rol `g3_<svc>`.
+- Cada migración corre en una transacción, con advisory lock y con el rol **dueño** `g3_<svc>_migrator` (cuenta
+  `g3-mig-<svc>`, secreto `g3-db-migrator-url-<svc>`).
+- El runtime `g3_<svc>` (Cloud Run) solo tiene SELECT/INSERT/UPDATE/DELETE: no puede crear, alterar ni borrar objetos
+  ni otorgarse permisos. Las tablas nuevas le llegan por *default privileges* del migrator.
 
 **Expand/contract.** Así se cambia un schema sin downtime:
 
@@ -124,16 +127,17 @@ abajo). La revisión anterior debe funcionar con el schema nuevo. Si una migraci
    aplicó en otro ambiente.
 3. Vuelve a correr el pipeline.
 
-**Migraciones que tocan `auth.audit_log`.** La tabla es append-only: su dueño es `g3_audit_owner` y `g3_auth` solo
-tiene SELECT/INSERT. Una migración de auth que la altere fallará. Córrela como administrador:
+**`auth.audit_log` (append-only).** El dueño es `g3_auth_migrator`, así que las migraciones de auth pueden
+alterarla con normalidad. La migración de auth y `init-schemas.sql` dejan al runtime `g3_auth` solo con SELECT e
+INSERT; además hay un trigger que rechaza UPDATE y DELETE. El pipeline re-ejecuta `g3-db-bootstrap` después de migrar,
+y ese paso vuelve a aplicar el REVOKE.
 
-```bash
-# Desde una VM/Cloud Shell con acceso a la VPC o con el job g3-db-bootstrap adaptado:
-psql "host=<ip privada> dbname=g3 user=postgres sslmode=require" -f <migracion>.sql
+Comprobación:
+
+```sql
+SELECT has_table_privilege('g3_auth','auth.audit_log','UPDATE'),
+       has_table_privilege('g3_auth','auth.audit_log','DELETE');  -- ambos false
 ```
-
-Después registra la versión en `auth.schema_migrations` con el mismo checksum (`sha256` del archivo) y re-ejecuta
-`g3-db-bootstrap`.
 
 ## Escalado
 
@@ -232,7 +236,8 @@ llaves, solo hay dos caminos:
 **Base.**
 
 1. En `terraform.tfvars` cambia `db_password_rotation_id` (por ejemplo, a la fecha) y corre `terraform apply`. Eso
-   genera nuevas contraseñas y nuevas versiones de `g3-db-password-*` y `g3-db-url-*`, y actualiza la de `postgres`.
+   genera nuevas contraseñas y nuevas versiones de `g3-db-password-*`, `g3-db-url-*`, `g3-db-migrator-password-*` y
+   `g3-db-migrator-url-*`, y actualiza la de `postgres`.
 2. `gcloud run jobs execute g3-db-bootstrap --wait`, que hace `ALTER ROLE … PASSWORD`.
 3. Redespliega todos los servicios con base, por ejemplo con el pipeline.
 

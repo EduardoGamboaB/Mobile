@@ -34,7 +34,7 @@ Leyenda:
 | SQL-01 CMEK | 🟡 | Solo si una regulación lo exige (decisión de negocio). |
 | SQL-02 CIS | 📝 | Flags de log y pgaudit. Revisión CIS en la auditoría trimestral. |
 | SQL-03 versión aprobada | ✅ | `POSTGRES_16`. Requiere VoBo de Arquitectura 👤. |
-| SQL-04 IAM mínimo | ✅ | `cloudsql.client` solo para servicios con base. Los roles de base `g3_<svc>` solo pueden usar su schema (`backend/infra/db/init-schemas.sql`). |
+| SQL-04 IAM mínimo | ✅ | `cloudsql.client` solo para servicios con base. Por servicio, un rol dueño `g3_<svc>_migrator` (solo jobs, cuenta `g3-mig-<svc>`) y un runtime `g3_<svc>` con solo DML en su schema (`backend/infra/db/init-schemas.sql`). `auth.audit_log` es append-only para el runtime. |
 | SQL-05 restringir quién se conecta | ✅ | Sin IP pública; solo desde la VPC (PSA). Deny-all de ingreso. |
 | SQL-06 plan de actualización | 📝 | RUNBOOK › Escalado y la ventana de mantenimiento. |
 | SQL-07 cambios de flags notificados | 📝 | Los flags viven en Terraform: todo cambio pasa por PR + `terraform plan`. |

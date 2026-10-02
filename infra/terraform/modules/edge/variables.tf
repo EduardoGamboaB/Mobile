@@ -86,3 +86,9 @@ variable "api_log_sample_rate" {
   type        = number
   default     = 1
 }
+
+variable "stripe_webhook_enabled" {
+  description = "Abre /api/webhooks/stripe en Cloud Armor (solo cuando billing tenga el handler con verificación de firma)."
+  type        = bool
+  default     = false
+}

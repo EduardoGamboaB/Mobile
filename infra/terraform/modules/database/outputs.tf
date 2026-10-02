@@ -37,3 +37,13 @@ output "url_secret_versions" {
   description = "servicio → versión actual del DATABASE_URL (para forzar nuevas revisiones al rotar)."
   value       = { for k, v in google_secret_manager_secret_version.svc_url : k => v.version }
 }
+
+output "migrator_password_secret_ids" {
+  description = "servicio → secreto con la contraseña de g3_<svc>_migrator."
+  value       = { for k, s in google_secret_manager_secret.migrator_password : k => s.secret_id }
+}
+
+output "migrator_url_secret_ids" {
+  description = "servicio → secreto con el DATABASE_URL del rol dueño (jobs de migración)."
+  value       = { for k, s in google_secret_manager_secret.migrator_url : k => s.secret_id }
+}
