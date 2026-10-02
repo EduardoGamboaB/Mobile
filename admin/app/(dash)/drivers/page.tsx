@@ -1,8 +1,10 @@
 'use client';
+import Link from 'next/link';
 import { drivers, units } from '@/lib/demoData';
 import { PlusI, SparklesI, ShieldI, FilterI } from '@/components/Icons';
 import { useAppStore } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
+import { DriverAccessButton } from '@/components/DriverAccessButton';
 
 const fmt = (n: number) => '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
 
@@ -51,6 +53,7 @@ export default function DriversPage() {
             <th>km/L</th>
             <th>Viajes 30d</th>
             <th style={{ textAlign: 'right' }}>Ingresos del mes</th>
+            <th>G3 Drive</th>
           </tr>
         </thead>
         <tbody>
@@ -60,7 +63,7 @@ export default function DriversPage() {
                 <div className="row" style={{ gap: 10 }}>
                   <div className="avatar">{d.initials}</div>
                   <div>
-                    <div style={{ fontWeight: 600 }}>{d.name}</div>
+                    <Link href={`/drivers/${d.id}/`} style={{ fontWeight: 600, color: 'var(--text)' }}>{d.name}</Link>
                     <div className="caption">{d.email}</div>
                   </div>
                 </div>
@@ -83,6 +86,7 @@ export default function DriversPage() {
               <td>{d.kmPerLiter}</td>
               <td>{d.tripsLast30}</td>
               <td style={{ textAlign: 'right', fontWeight: 700, color: 'var(--blue)' }}>{fmt(d.earningsMonthMXN)}</td>
+              <td><DriverAccessButton driver={{ id: d.id, name: d.name, phone: d.phone, email: d.email }} /></td>
             </tr>
           ))}
         </tbody>

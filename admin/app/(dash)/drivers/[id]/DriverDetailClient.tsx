@@ -10,6 +10,7 @@ import {
 } from '@/components/Icons';
 import { useAppStore } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
+import { DriverAccessButton } from '@/components/DriverAccessButton';
 
 const fmt = (n: number) => '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
 const statusLabel = (s: string) =>
@@ -54,6 +55,7 @@ export default function DriverDetailClient({ id }: { id: string }) {
           </div>
         </div>
         <div className="row" style={{ gap: 8 }}>
+          <DriverAccessButton driver={{ id: d.id, name: d.name, phone: d.phone, email: d.email }} size="md" />
           <button className="btn outline sm">Suspender</button>
           <button className="btn primary sm">Asignar viaje</button>
         </div>

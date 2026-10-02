@@ -1,28 +1,71 @@
 'use client';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { tripById, driverById, unitById, incidents, logbookForTrip } from '@/lib/demoData';
+import { incidents } from '@/lib/demoData';
 import { PAYABLE_TRIP_STATUSES } from '@/lib/contracts/tripStatus';
 import { tripStatusLabel } from '@/lib/tripStatusUi';
+import { isLive } from '@/lib/api/config';
+import { EVIDENCE_TYPE_LABEL, demoTripDetail, getTripDetail, type TripDetailData } from '@/lib/trips';
 import { TripProfitabilitySection } from '@/components/ProfitabilityBreakdown';
 import {
-  ChevronLI, MapPinI, PackageI, AlertI, CheckI, ShieldCheckI,
+  ChevronLI, MapPinI, PackageI, AlertI, CheckI, ShieldCheckI, FileI,
 } from '@/components/Icons';
 import { useAppStore } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
 
 const fmt = (n: number | null) =>
   n == null ? 'Sin capturar' : '$' + n.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmtDate = (iso: string | null) => (iso ? new Date(iso).toLocaleString('es-MX') : 'sin fecha');
 
 const LOG_TITLE: Record<string, string> = {
   departure: 'Salida', loading: 'Carga', stop: 'Parada', toll: 'Caseta', diesel: 'Diesel',
   incident: 'Incidencia', arrival: 'Llegada', unloading: 'Descarga', closing: 'Cierre',
 };
 
-export default function TripDetailClient({ id }: { id: string }) {
-  const trip = tripById(id);
-  const has = useAppStore((s) => s.has);
+type LoadState =
+  | { kind: 'loading' }
+  | { kind: 'error'; message: string }
+  | { kind: 'not_found' }
+  | { kind: 'ready'; data: TripDetailData };
 
-  if (!trip) {
+/** Detalle del viaje: demoData en demo; API (viaje, bitácora, evidencias, chofer, tracto) con backend. */
+export default function TripDetailClient({ id }: { id: string }) {
+  // Se carga tras montar (también en demo): las fechas de demoData son
+  // relativas a "ahora" y el HTML prerenderizado no coincidiría al hidratar.
+  const [state, setState] = useState<LoadState>({ kind: 'loading' });
+
+  const load = useCallback(async () => {
+    if (!isLive) {
+      const d = demoTripDetail(id);
+      return setState(d ? { kind: 'ready', data: d } : { kind: 'not_found' });
+    }
+    if (!id) return setState({ kind: 'not_found' });
+    setState({ kind: 'loading' });
+    try {
+      const d = await getTripDetail(id);
+      setState(d ? { kind: 'ready', data: d } : { kind: 'not_found' });
+    } catch (e) {
+      setState({ kind: 'error', message: e instanceof Error ? e.message : String(e) });
+    }
+  }, [id]);
+
+  useEffect(() => { void load(); }, [load]);
+
+  if (state.kind === 'loading') {
+    return <div className="card small muted" role="status">Cargando viaje…</div>;
+  }
+  if (state.kind === 'error') {
+    return (
+      <div>
+        <div className="banner danger" style={{ marginBottom: 12 }}>No se pudo cargar el viaje: {state.message}</div>
+        <div className="row" style={{ gap: 8 }}>
+          <button className="btn primary sm" onClick={() => void load()}>Reintentar</button>
+          <Link href="/trips/" className="btn outline sm">Volver</Link>
+        </div>
+      </div>
+    );
+  }
+  if (state.kind === 'not_found') {
     return (
       <div>
         <h2 className="h2">Viaje no encontrado</h2>
@@ -30,11 +73,15 @@ export default function TripDetailClient({ id }: { id: string }) {
       </div>
     );
   }
+  return <TripDetailView data={state.data} />;
+}
 
-  const driver = driverById(trip.driverId);
-  const unit = unitById(trip.tractorId);
-  const tripIncidents = incidents.filter((i) => i.tripFolio === trip.folio);
-  const log = logbookForTrip(trip.id);
+function TripDetailView({ data }: { data: TripDetailData }) {
+  const { trip, logbook: log, evidences, warnings } = data;
+  const has = useAppStore((s) => s.has);
+  const driver = trip.driver;
+  const unit = trip.unit;
+  const tripIncidents = isLive ? [] : incidents.filter((i) => i.tripFolio === trip.folio);
 
   return (
     <>
@@ -48,8 +95,8 @@ export default function TripDetailClient({ id }: { id: string }) {
           <h1 className="h1">{trip.client}</h1>
           <div className="row" style={{ gap: 8, marginTop: 8 }}>
             <span className={`chip status-${trip.status}`}>{tripStatusLabel(trip.status)}</span>
-            <span className="chip gray">{trip.tons} TON</span>
-            {trip.inspectionPct === 100
+            {trip.tons != null ? <span className="chip gray">{trip.tons} TON</span> : null}
+            {trip.inspectionPct == null ? null : trip.inspectionPct === 100
               ? <span className="chip green">NOM-068 ✓</span>
               : <span className="chip amber">NOM-068 · {trip.inspectionPct}%</span>}
           </div>
@@ -70,7 +117,7 @@ export default function TripDetailClient({ id }: { id: string }) {
               <span className="icon-tile sm navy"><MapPinI size={16} /></span>
               <div style={{ flex: 1 }}>
                 <strong>{trip.origin}</strong>
-                <div className="caption">Carga · {new Date(trip.loadDate).toLocaleString('es-MX')}</div>
+                <div className="caption">Carga · {fmtDate(trip.loadDate)}</div>
               </div>
             </div>
             <div style={{ width: 2, height: 18, background: 'var(--border)', marginLeft: 15, marginTop: 4, marginBottom: 4 }} />
@@ -83,7 +130,7 @@ export default function TripDetailClient({ id }: { id: string }) {
                     ? `Precerrado · entregó ${new Date(trip.preClosedAt).toLocaleString('es-MX')} · en retorno a matriz`
                     : trip.closedAt
                       ? `Cerrado en matriz · ${new Date(trip.closedAt).toLocaleString('es-MX')}`
-                      : `ETA · ${new Date(trip.etaUnload).toLocaleString('es-MX')}`}
+                      : `ETA · ${fmtDate(trip.etaUnload)}`}
                 </div>
               </div>
             </div>
@@ -91,7 +138,7 @@ export default function TripDetailClient({ id }: { id: string }) {
 
           <div className="card">
             <div className="eyebrow" style={{ marginBottom: 12 }}>Importes</div>
-            <RowKV label={`Precio por tonelada · ${trip.tons} ton`} value={fmt(trip.pricePerTon)} />
+            <RowKV label={`Precio por tonelada · ${trip.tons ?? '—'} ton`} value={fmt(trip.pricePerTon)} />
             <RowKV label="Importe total del viaje" value={fmt(trip.freightAmount)} />
             <hr style={{ border: 0, borderTop: '1px solid var(--border)', margin: '12px 0' }} />
             <RowKV label="Casetas estimadas" value={`− ${fmt(trip.estimatedTolls)}`} muted />
@@ -105,8 +152,9 @@ export default function TripDetailClient({ id }: { id: string }) {
           <div className="card">
             <div className="row-between" style={{ marginBottom: 12 }}>
               <span className="eyebrow">Bitácora del viaje</span>
-              <span className="chip blue">{trip.evidenceCount} EVIDENCIAS</span>
+              {trip.evidenceCount != null ? <span className="chip blue">{trip.evidenceCount} EVIDENCIAS</span> : null}
             </div>
+            {warnings.map((w) => <div key={w} className="banner amber" style={{ marginBottom: 12 }}>{w}</div>)}
             {log.length === 0 ? (
               <div className="caption" style={{ paddingBottom: 12 }}>Sin registros de bitácora todavía.</div>
             ) : null}
@@ -137,7 +185,7 @@ export default function TripDetailClient({ id }: { id: string }) {
                 <TimelineRow icon={<MapPinI size={14} color="var(--muted)" />} title="Retorno en vacío a matriz" meta="El viaje cierra cuando la unidad llegue a matriz" last />
               </>
             ) : (
-              <TimelineRow icon={<MapPinI size={14} color="var(--muted)" />} title="En camino al destino" meta={`ETA ${new Date(trip.etaUnload).toLocaleString('es-MX')}`} last />
+              <TimelineRow icon={<MapPinI size={14} color="var(--muted)" />} title="En camino al destino" meta={`ETA ${fmtDate(trip.etaUnload)}`} last />
             )}
           </div>
         </div>
@@ -145,54 +193,98 @@ export default function TripDetailClient({ id }: { id: string }) {
         <div className="stack-lg">
           <div className="card">
             <div className="eyebrow" style={{ marginBottom: 12 }}>Chofer asignado</div>
-            <div className="row" style={{ gap: 12 }}>
-              <div className="avatar lg">{driver?.initials}</div>
-              <div>
-                <strong>{driver?.name}</strong>
-                <div className="caption">{driver?.phone}</div>
-              </div>
-            </div>
-            <hr style={{ border: 0, borderTop: '1px solid var(--border)', margin: '16px 0 12px' }} />
-            <div className="row-between" style={{ marginBottom: 6 }}>
-              <span className="small muted">Score</span>
-              <span className={`score-chip ${(driver?.score ?? 0) > 85 ? 'high' : 'medium'}`}>★ {driver?.score}</span>
-            </div>
-            <div className="row-between"><span className="small muted">A tiempo</span><span className="small">{driver?.onTimePct}%</span></div>
-            <div className="row-between"><span className="small muted">km/L promedio</span><span className="small">{driver?.kmPerLiter}</span></div>
+            {driver ? (
+              <>
+                <div className="row" style={{ gap: 12 }}>
+                  <div className="avatar lg">{driver.initials}</div>
+                  <div>
+                    <strong>{driver.name}</strong>
+                    <div className="caption">{driver.phone ?? 'Sin teléfono'}</div>
+                  </div>
+                </div>
+                {driver.score != null ? (
+                  <>
+                    <hr style={{ border: 0, borderTop: '1px solid var(--border)', margin: '16px 0 12px' }} />
+                    <div className="row-between" style={{ marginBottom: 6 }}>
+                      <span className="small muted">Score</span>
+                      <span className={`score-chip ${driver.score > 85 ? 'high' : 'medium'}`}>★ {driver.score}</span>
+                    </div>
+                    <div className="row-between"><span className="small muted">A tiempo</span><span className="small">{driver.onTimePct}%</span></div>
+                    <div className="row-between"><span className="small muted">km/L promedio</span><span className="small">{driver.kmPerLiter}</span></div>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <div className="caption">Sin chofer asignado.</div>
+            )}
           </div>
 
           <div className="card">
             <div className="eyebrow" style={{ marginBottom: 12 }}>Unidad asignada</div>
-            <div className="row" style={{ gap: 12 }}>
-              <span className="icon-tile sm navy"><PackageI size={16} /></span>
-              <div>
-                <strong>{unit?.number}</strong>
-                <div className="caption">{`${unit?.brand} ${unit?.model}`} · {unit?.plates}</div>
-              </div>
-            </div>
-            <div className="row-between" style={{ marginTop: 16 }}>
-              <span className="small muted">Salud (mantenimiento)</span>
-              <span className="small" style={{ fontWeight: 700 }}>{unit?.health}/100</span>
-            </div>
-            <div className="bar" style={{ marginTop: 6 }}>
-              <div className="fill" style={{ width: `${unit?.health}%`, background: (unit?.health ?? 0) > 80 ? 'var(--success)' : 'var(--warning)' }} />
-            </div>
+            {unit ? (
+              <>
+                <div className="row" style={{ gap: 12 }}>
+                  <span className="icon-tile sm navy"><PackageI size={16} /></span>
+                  <div>
+                    <strong>{unit.number}</strong>
+                    <div className="caption">{unit.description} · {unit.plates}</div>
+                  </div>
+                </div>
+                {unit.health != null ? (
+                  <>
+                    <div className="row-between" style={{ marginTop: 16 }}>
+                      <span className="small muted">Salud (mantenimiento)</span>
+                      <span className="small" style={{ fontWeight: 700 }}>{unit.health}/100</span>
+                    </div>
+                    <div className="bar" style={{ marginTop: 6 }}>
+                      <div className="fill" style={{ width: `${unit.health}%`, background: unit.health > 80 ? 'var(--success)' : 'var(--warning)' }} />
+                    </div>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <div className="caption">Sin tracto asignado.</div>
+            )}
           </div>
 
-          <div className="card">
-            <div className="row-between" style={{ marginBottom: 8 }}>
-              <span className="eyebrow">Inspección NOM-068</span>
-              <ShieldCheckI size={16} color={trip.inspectionPct === 100 ? 'var(--success)' : 'var(--warning)'} />
+          {trip.inspectionPct != null ? (
+            <div className="card">
+              <div className="row-between" style={{ marginBottom: 8 }}>
+                <span className="eyebrow">Inspección NOM-068</span>
+                <ShieldCheckI size={16} color={trip.inspectionPct === 100 ? 'var(--success)' : 'var(--warning)'} />
+              </div>
+              <div className="row-between" style={{ marginBottom: 8 }}>
+                <span className="small">{trip.inspectionPct === 100 ? 'Completa' : 'Pendiente'}</span>
+                <strong>{trip.inspectionPct}%</strong>
+              </div>
+              <div className={`bar ${trip.inspectionPct === 100 ? 'success' : 'warning'}`}>
+                <div className="fill" style={{ width: `${trip.inspectionPct}%` }} />
+              </div>
+              <div className="caption" style={{ marginTop: 8 }}>36 puntos · 13 categorías</div>
             </div>
-            <div className="row-between" style={{ marginBottom: 8 }}>
-              <span className="small">{trip.inspectionPct === 100 ? 'Completa' : 'Pendiente'}</span>
-              <strong>{trip.inspectionPct}%</strong>
+          ) : null}
+
+          {evidences ? (
+            <div className="card">
+              <div className="row-between" style={{ marginBottom: 8 }}>
+                <span className="eyebrow">Evidencias</span>
+                <span className="chip blue">{evidences.length}</span>
+              </div>
+              {evidences.length === 0 ? (
+                <div className="caption">G3 Drive aún no sube evidencias de este viaje.</div>
+              ) : (
+                evidences.map((ev) => (
+                  <div key={ev.id} className="row" style={{ gap: 10, padding: '6px 0', borderTop: '1px solid var(--border)' }}>
+                    <FileI size={14} color="var(--blue)" />
+                    <div style={{ flex: 1 }}>
+                      <div className="small" style={{ fontWeight: 600 }}>{EVIDENCE_TYPE_LABEL[ev.type] ?? ev.type}</div>
+                      <div className="caption">{fmtDate(ev.takenAt)}{ev.mimeType ? ` · ${ev.mimeType}` : ''}</div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
-            <div className={`bar ${trip.inspectionPct === 100 ? 'success' : 'warning'}`}>
-              <div className="fill" style={{ width: `${trip.inspectionPct}%` }} />
-            </div>
-            <div className="caption" style={{ marginTop: 8 }}>36 puntos · 13 categorías</div>
-          </div>
+          ) : null}
 
           {tripIncidents.length > 0 ? (
             <div className="card" style={{ borderColor: 'var(--danger)' }}>
