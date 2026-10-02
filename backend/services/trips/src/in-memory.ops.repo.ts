@@ -1,6 +1,8 @@
 import type { EvidenceDto, ExpensePolicyDto, LogbookEntryDto, UploadUrlDto } from '@g3/contracts';
+import type { EvidenceRepo, ExpensePolicyRepo, LogbookRepo } from './repos';
 
-export class InMemoryLogbookRepo {
+/** Gemelo en memoria de `PgLogbookRepo`. */
+export class InMemoryLogbookRepo implements LogbookRepo {
   private readonly rows = new Map<string, LogbookEntryDto>();
 
   async findByClientUuid(companyId: string, clientUuid: string) {
@@ -24,12 +26,16 @@ export class InMemoryLogbookRepo {
   }
 
   async create(e: LogbookEntryDto) {
+    // Búsqueda síncrona: entre la verificación y el alta no hay `await` (sin carreras).
+    const existing = [...this.rows.values()].find((r) => r.companyId === e.companyId && r.clientUuid === e.clientUuid);
+    if (existing) return { ...existing };
     this.rows.set(e.id, { ...e });
     return { ...e };
   }
 }
 
-export class InMemoryEvidenceRepo {
+/** Gemelo en memoria de `PgEvidenceRepo`. */
+export class InMemoryEvidenceRepo implements EvidenceRepo {
   private readonly rows = new Map<string, EvidenceDto>();
 
   async findByClientUuid(companyId: string, clientUuid: string) {
@@ -45,12 +51,15 @@ export class InMemoryEvidenceRepo {
   }
 
   async create(e: EvidenceDto) {
+    // Búsqueda síncrona: entre la verificación y el alta no hay `await` (sin carreras).
+    const existing = [...this.rows.values()].find((r) => r.companyId === e.companyId && r.clientUuid === e.clientUuid);
+    if (existing) return { ...existing };
     this.rows.set(e.id, { ...e });
     return { ...e };
   }
 }
 
-export class InMemoryExpensePolicyRepo {
+export class InMemoryExpensePolicyRepo implements ExpensePolicyRepo {
   private readonly byCompany = new Map<string, ExpensePolicyDto>();
 
   async get(companyId: string) {

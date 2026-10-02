@@ -24,14 +24,9 @@ import {
   type TripProfitabilityDto,
   type UploadUrlDto,
 } from '@g3/contracts';
-import { computeTripProfitability, summarizeProfitability, tripReferenceDate } from './profitability';
-import type { InMemoryTripRepo } from './in-memory.trip.repo';
-import type {
-  EvidenceStorage,
-  InMemoryEvidenceRepo,
-  InMemoryExpensePolicyRepo,
-  InMemoryLogbookRepo,
-} from './in-memory.ops.repo';
+import { computeTripProfitability, summarizeProfitability } from './profitability';
+import type { EvidenceStorage } from './in-memory.ops.repo';
+import { formatFolio, type TripTransitionPatch, type EvidenceRepo, type ExpensePolicyRepo, type LogbookRepo, type TripRepo } from './repos';
 import type { EventBus } from './event.bus';
 import { NoopAuditSink, type AuditSink } from './audit.sink';
 
@@ -92,9 +87,9 @@ const ruleOf = (p: ExpenseRule): ExpenseRule => ({
 });
 
 export interface OpsRepos {
-  logbook: InMemoryLogbookRepo;
-  evidences: InMemoryEvidenceRepo;
-  policies: InMemoryExpensePolicyRepo;
+  logbook: LogbookRepo;
+  evidences: EvidenceRepo;
+  policies: ExpensePolicyRepo;
   storage: EvidenceStorage;
 }
 
@@ -110,7 +105,7 @@ function requireManager(ctx: RequestCtx) {
 }
 
 /** Estampa de tiempo que deja cada transición. */
-const STAMP: Partial<Record<TripStatus, keyof TripDto>> = {
+const STAMP: Partial<Record<TripStatus, 'startedAt' | 'preClosedAt' | 'closedAt' | 'cancelledAt'>> = {
   loading: 'startedAt',
   pre_closed: 'preClosedAt',
   closed: 'closedAt',
@@ -119,7 +114,7 @@ const STAMP: Partial<Record<TripStatus, keyof TripDto>> = {
 
 export class TripsService {
   constructor(
-    private readonly repo: InMemoryTripRepo,
+    private readonly repo: TripRepo,
     private readonly bus: EventBus,
     private readonly ops: OpsRepos,
     deps: TripsServiceDeps = {},
@@ -171,12 +166,19 @@ export class TripsService {
       });
     }
 
-    const seq = (await this.repo.countTotalForCompany(ctx.companyId)) + 1;
-    const now = new Date().toISOString();
+    const scheduledAt = optionalDate(input.scheduledAt, 'scheduledAt');
+    const estimatedUnloadAt = optionalDate(input.estimatedUnloadAt, 'estimatedUnloadAt');
+    const nowDate = new Date();
+    const now = nowDate.toISOString();
+    // Consecutivo atómico por compañía y año (en Postgres: UPDATE … RETURNING sobre
+    // trip_folio_counters). Si el alta falla después, el número queda sin usar: los
+    // folios pueden tener huecos, nunca repetirse.
+    const year = nowDate.getUTCFullYear();
+    const seq = await this.repo.nextFolioSeq(ctx.companyId, year);
     const trip: TripDto = {
       id: uuid(),
       companyId: ctx.companyId,
-      folio: `G3-${new Date().getUTCFullYear()}-${String(seq).padStart(5, '0')}`,
+      folio: formatFolio(year, seq),
       status: 'scheduled',
       driverId: input.driverId ?? null,
       tractorId: input.tractorId ?? null,
@@ -185,8 +187,8 @@ export class TripsService {
       cargo: input.cargo ?? null,
       origin: input.origin,
       destination: input.destination,
-      scheduledAt: input.scheduledAt ?? null,
-      estimatedUnloadAt: input.estimatedUnloadAt ?? null,
+      scheduledAt,
+      estimatedUnloadAt,
       tons: input.tons ?? null,
       pricePerTon: input.pricePerTon ?? null,
       freightAmount: input.freightAmount ?? null,
@@ -216,11 +218,18 @@ export class TripsService {
       throw new Error(`Transición inválida: ${trip.status} → ${next}`);
     }
     const now = new Date().toISOString();
-    const patch: Partial<TripDto> = { status: next, updatedAt: now };
+    const patch: TripTransitionPatch = { updatedAt: now };
     const stamp = STAMP[next];
-    if (stamp) (patch as Record<string, unknown>)[stamp] = now;
+    if (stamp) patch[stamp] = now;
 
-    const updated = (await this.repo.update(ctx.companyId, id, patch))!;
+    // Compare-and-set: solo avanza si el estado sigue siendo el que validamos. Si
+    // otro request lo movió entre la lectura y la escritura, es una transición inválida.
+    const updated = await this.repo.transition(ctx.companyId, id, trip.status, next, patch);
+    if (!updated) {
+      const current = await this.repo.findById(ctx.companyId, id);
+      if (!current) throw new Error('Viaje no encontrado');
+      throw new Error(`Transición inválida: ${current.status} → ${next}`);
+    }
     await this.publish(ctx, 'trip.status_changed', { tripId: id, fromStatus: trip.status, toStatus: next });
     return updated;
   }
@@ -240,11 +249,9 @@ export class TripsService {
     }
     if (trip.paymentStatus === 'released') throw new Error('El pago de este viaje ya fue liberado');
     const now = new Date().toISOString();
-    const updated = (await this.repo.update(ctx.companyId, id, {
-      paymentStatus: 'released',
-      paymentReleasedAt: now,
-      updatedAt: now,
-    }))!;
+    // Condicional en la base: dos liberaciones simultáneas no pagan dos veces.
+    const updated = await this.repo.releasePayment(ctx.companyId, id, PAYABLE_TRIP_STATUSES, now);
+    if (!updated) throw new Error('El pago de este viaje ya fue liberado');
     await this.publish(ctx, 'trip.payment_released', { tripId: id, amount: trip.freightAmount });
     return updated;
   }
@@ -255,10 +262,7 @@ export class TripsService {
    */
   async activeTripByVehicle(companyId: string, vehicleId: string): Promise<TripDto | null> {
     const rank = (t: TripDto) => ACTIVE_RANK[t.status] ?? 9;
-    const candidates = (await this.repo.list(companyId))
-      .filter((t) => ACTIVE_TRIP_STATUSES.includes(t.status))
-      .filter((t) => t.tractorId === vehicleId || t.trailerId === vehicleId)
-      .sort((a, b) => rank(a) - rank(b) || b.updatedAt.localeCompare(a.updatedAt));
+    const candidates = (await this.repo.listByVehicle(companyId, vehicleId, ACTIVE_TRIP_STATUSES)).sort((a, b) => rank(a) - rank(b) || b.updatedAt.localeCompare(a.updatedAt));
     return candidates[0] ?? null;
   }
 
@@ -293,6 +297,8 @@ export class TripsService {
       createdAt: new Date().toISOString(),
     };
     const saved = await this.ops.logbook.create(row);
+    // Reintento concurrente de la cola offline: otro request guardó el mismo clientUuid primero.
+    if (saved.id !== row.id) return saved;
     await this.publish(ctx, 'trip.logbook_entry_added', {
       tripId: trip.id,
       entryId: saved.id,
@@ -333,15 +339,13 @@ export class TripsService {
       if (!isTripStatus(s)) throw new Error(`Estado de viaje desconocido: ${s}`);
     }
 
-    const trips = (await this.repo.list(ctx.companyId))
-      .filter((t) => (statuses ? statuses.includes(t.status) : t.status !== 'draft' && t.status !== 'cancelled'))
-      .filter((t) => !query.driverId || t.driverId === query.driverId)
-      .filter((t) => !query.tractorId || t.tractorId === query.tractorId)
-      .filter((t) => {
-        const at = Date.parse(tripReferenceDate(t));
-        return (from == null || at >= from) && (to == null || at <= to);
-      })
-      .sort((a, b) => tripReferenceDate(b).localeCompare(tripReferenceDate(a)));
+    const trips = await this.repo.listForReport(ctx.companyId, {
+      statuses: statuses as TripStatus[] | null,
+      driverId: query.driverId || undefined,
+      tractorId: query.tractorId || undefined,
+      fromMs: from,
+      toMs: to,
+    });
 
     const logbook = await this.ops.logbook.listByTrips(ctx.companyId, trips.map((t) => t.id));
     const rows = trips.map((t) => computeTripProfitability(t, logbook));
@@ -455,6 +459,14 @@ export class TripsService {
   private publish(ctx: RequestCtx, type: string, data: Record<string, unknown>) {
     return this.bus.publish({ type, occurredAt: new Date().toISOString(), companyId: ctx.companyId, data });
   }
+}
+
+/** Fecha opcional del alta normalizada a ISO UTC (igual en memoria y en Postgres). */
+function optionalDate(v: string | undefined | null, field: string): string | null {
+  if (v == null || v === '') return null;
+  const ms = Date.parse(v);
+  if (Number.isNaN(ms)) throw new Error(`Fecha inválida en ${field}: ${v}`);
+  return new Date(ms).toISOString();
 }
 
 /** Fecha ISO o YYYY-MM-DD; un `to` de solo fecha cubre el día completo (UTC). */

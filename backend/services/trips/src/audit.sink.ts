@@ -1,4 +1,8 @@
 import type { AuditAction, AuditActorDto } from '@g3/contracts';
+import { serviceFetchFromEnv } from '@g3/platform';
+
+/** Lo que el sink necesita de `fetch` (lo cumplen `fetch` y `serviceFetch` de @g3/platform). */
+export type FetchLike = (url: string, init?: RequestInit) => Promise<Response>;
 
 /**
  * Evento para la bitácora de auditoría encadenada del servicio auth
@@ -37,16 +41,17 @@ export class NoopAuditSink implements AuditSink {
 
 /**
  * Ingesta HTTP servicio→servicio hacia auth con `x-internal-token`. Lanza si
- * la respuesta no es 2xx o se excede `timeoutMs`; quien llama decide.
- * TODO(prod): identidad de service account (OIDC de Cloud Run) en vez de token compartido.
+ * la respuesta no es 2xx o se excede `timeoutMs`; quien llama decide. En
+ * `auditSinkFromEnv` el fetch es `serviceFetch` de @g3/platform, que con
+ * `SERVICE_AUTH=gcp` agrega además el ID token de Cloud Run.
  */
 export class HttpAuditSink implements AuditSink {
   private readonly url: string;
   private readonly token: string;
-  private readonly fetchFn: typeof fetch;
+  private readonly fetchFn: FetchLike;
   private readonly timeoutMs: number;
 
-  constructor(opts: { authUrl: string; internalToken: string; fetch?: typeof fetch; timeoutMs?: number }) {
+  constructor(opts: { authUrl: string; internalToken: string; fetch?: FetchLike; timeoutMs?: number }) {
     this.url = `${opts.authUrl.replace(/\/+$/, '')}/api/audit/events`;
     this.token = opts.internalToken;
     this.fetchFn = opts.fetch ?? fetch.bind(globalThis);
@@ -78,5 +83,7 @@ export function auditSinkFromEnv(env: Record<string, string | undefined> = proce
   const token = env.AUDIT_INGEST_TOKEN || env.INTERNAL_TOKEN || '';
   const authUrl = env.AUTH_URL || '';
   if (!token || !authUrl) return new NoopAuditSink();
-  return new HttpAuditSink({ authUrl, internalToken: token });
+  // serviceFetch manda como x-internal-token el secreto que auth espera en su ingesta.
+  const serviceFetch = serviceFetchFromEnv({ ...env, INTERNAL_TOKEN: token });
+  return new HttpAuditSink({ authUrl, internalToken: token, fetch: serviceFetch });
 }

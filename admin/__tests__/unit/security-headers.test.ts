@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { buildCsp, securityHeaders, originOf } = require('../../security-headers') as {
   buildCsp: (o?: { apiUrl?: string; dev?: boolean; meta?: boolean }) => string;
   securityHeaders: (o?: { apiUrl?: string; dev?: boolean }) => { key: string; value: string }[];

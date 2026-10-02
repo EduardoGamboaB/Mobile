@@ -7,7 +7,7 @@ import {
   type UpdateDeviceDto,
 } from '@g3/contracts';
 import type { RequestCtx } from './fleet.service';
-import type { InMemoryDeviceRepo, InMemoryTractorRepo, InMemoryTrailerRepo } from './in-memory.repos';
+import type { DeviceRepo, TractorRepo, TrailerRepo } from './repos';
 import { ConflictError, NotFoundError, ValidationError } from './errors';
 
 /**
@@ -17,9 +17,9 @@ import { ConflictError, NotFoundError, ValidationError } from './errors';
  */
 export class DevicesService {
   constructor(
-    private readonly devices: InMemoryDeviceRepo,
-    private readonly tractors: InMemoryTractorRepo,
-    private readonly trailers: InMemoryTrailerRepo,
+    private readonly devices: DeviceRepo,
+    private readonly tractors: TractorRepo,
+    private readonly trailers: TrailerRepo,
     private readonly clock: () => Date = () => new Date(),
   ) {}
 

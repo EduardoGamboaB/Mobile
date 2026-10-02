@@ -1,8 +1,10 @@
 import type { TractorDto, TrailerDto, LivePosition } from '@g3/contracts';
+import type { TractorRepo, TrailerRepo } from './repos';
 
 export * from './telemetry/in-memory.telemetry.repos';
 
-export class InMemoryTractorRepo {
+/** Gemelo en memoria de `PgTractorRepo`. */
+export class InMemoryTractorRepo implements TractorRepo {
   private readonly byId = new Map<string, TractorDto>();
   async list(companyId: string) {
     return [...this.byId.values()].filter((t) => t.companyId === companyId).map((t) => ({ ...t }));
@@ -44,9 +46,16 @@ export class InMemoryTractorRepo {
         lastSeenAt: t.lastSeenAt as string,
       }));
   }
+  async touchPosition(companyId: string, id: string, lat: number, lng: number, seenAt: string) {
+    const t = this.byId.get(id);
+    if (!t || t.companyId !== companyId) return;
+    if (t.lastSeenAt && Date.parse(t.lastSeenAt) >= Date.parse(seenAt)) return;
+    this.byId.set(id, { ...t, lastLat: lat, lastLng: lng, lastSeenAt: seenAt });
+  }
 }
 
-export class InMemoryTrailerRepo {
+/** Gemelo en memoria de `PgTrailerRepo`. */
+export class InMemoryTrailerRepo implements TrailerRepo {
   private readonly byId = new Map<string, TrailerDto>();
   async list(companyId: string) {
     return [...this.byId.values()].filter((t) => t.companyId === companyId).map((t) => ({ ...t }));
