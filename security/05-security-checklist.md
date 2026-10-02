@@ -8,7 +8,10 @@ justificación.
 
 - [ ] Endpoints nuevos requieren JWT válido (excepto los explícitamente
       públicos: `/api/auth/login`, `/api/auth/register-company`,
-      `/api/auth/refresh`, `/api/webhooks/stripe`, `/health`)
+      `/api/auth/refresh`, `/api/auth/mfa/verify`,
+      `/api/auth/mfa/challenge/{enroll,confirm}`,
+      `/api/auth/sso/{discover,start,callback}`, `/api/webhooks/stripe`,
+      `/health`)
 - [ ] El JWT se verifica en el **gateway**, no en cada servicio
       (servicios confían en `x-company-id`, `x-tier`, `x-user-id`)
 - [ ] Validación de **role** cuando aplica (owner / admin / dispatcher /
@@ -16,6 +19,18 @@ justificación.
 - [ ] Validación de **tier** cuando aplica (gating en `gateway` +
       enforcement en `contracts/UpgradeRequiredError`)
 - [ ] Tests negativos: usuario sin tier intenta acción gated → 402
+- [ ] **MFA:** cambios en login no emiten JWT antes del segundo factor
+      cuando el usuario tiene MFA o la política lo exige (owner/admin
+      siempre); el `mfaToken` no se acepta como access token
+- [ ] **MFA:** códigos TOTP con anti-replay, ventana ±1; códigos de
+      recuperación de uso único y guardados como hash; ≤ 5 intentos por
+      `mfaToken`
+- [ ] **SSO:** `state`, `nonce` y PKCE S256 de un solo uso; `redirect_uri`
+      fijo por entorno; `id_token` validado (firma JWKS, iss, aud/azp,
+      exp, nonce, email verificado, dominio permitido); JIT solo con rol
+      `viewer`
+- [ ] Endpoints de seguridad (política MFA, SSO, roles, bitácora) solo
+      para owner/admin y con el rol **vigente** de la DB, no solo el claim
 
 ## B. Aislamiento multi-tenant (companyId)
 
@@ -65,6 +80,15 @@ justificación.
 
 - [ ] Acciones críticas (login, cambio de tier, autorización de pago,
       borrado de recursos) generan **audit log**
+- [ ] Se usan los eventos de la bitácora encadenada (`AuditService`,
+      `services/auth/src/audit`): login ok/fallido, MFA enrolado /
+      desactivado / código de recuperación usado / bloqueo, cambios de rol,
+      política de seguridad, configuración SSO y regla de gastos
+      (`expense_policy.updated` vía ingesta interna)
+- [ ] La bitácora sigue siendo **append-only** (sin update/delete) y
+      `verify()` pasa en los tests tras el cambio
+- [ ] Metadata de auditoría sin secretos (password, token, secret, code
+      se redactan) ni correos en claro de intentos fallidos
 - [ ] Logs incluyen `userId`, `companyId`, `action`, `timestamp`,
       `resource_id`
 - [ ] Logs **NO incluyen** PII (email, teléfono, password — ni
@@ -177,3 +201,4 @@ Cada PR de feature crítica debe incluir tests que validen:
 | Versión | Fecha | Cambio |
 |---|---|---|
 | 1.0 | 2026-05-19 | Checklist inicial |
+| 1.1 | 2026-10-02 | MFA TOTP, SSO OIDC y bitácora de auditoría encadenada (ver `08-pentest-scope.md`) |

@@ -51,6 +51,7 @@ security/
 ├── 05-security-checklist.md        PR checklist obligatorio
 ├── 06-testing-protocol.md          pruebas de seguridad por capa
 ├── 07-incident-response.md         qué hacer cuando algo se rompe
+├── 08-pentest-scope.md             alcance del pentest externo previo a la beta
 ├── data/                           181 controles G3 + por servicio (JSON)
 ├── hooks/                          pre-commit con gitleaks + semgrep + npm audit
 │   ├── pre-commit                    hook ejecutable

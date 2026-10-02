@@ -22,3 +22,30 @@ export type {
   CreateAlertInput,
   TripStatus,
 } from './modules';
+export {
+  mfaLoginApi,
+  securityApi,
+  auditApi,
+  isMfaChallenge,
+  isValidMfaCodeFormat,
+  MfaRequiredError,
+  MFA_MANDATORY_ROLES,
+  AUDIT_ACTION_LABEL,
+  SSO_PROVIDER_LABEL,
+} from './security';
+export type {
+  MfaChallenge,
+  LoginResult,
+  MfaEnrollResponse,
+  MfaStatus,
+  SecurityPolicy,
+  SsoConfig,
+  UpdateSsoConfig,
+  SsoProvider,
+  AuditAction,
+  AuditEntry,
+  AuditPage,
+  AuditQuery,
+  AuditIntegrity,
+  UserRole,
+} from './security';

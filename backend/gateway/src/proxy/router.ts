@@ -12,6 +12,7 @@ const ROUTES: { prefix: RegExp; service: keyof ServiceUrls }[] = [
   { prefix: /^\/api\/auth(\/|$)/, service: 'auth' },
   { prefix: /^\/api\/companies(\/|$)/, service: 'auth' },
   { prefix: /^\/api\/users(\/|$)/, service: 'auth' },
+  { prefix: /^\/api\/audit(\/|$)/, service: 'auth' },
   { prefix: /^\/api\/subscriptions(\/|$)/, service: 'billing' },
   { prefix: /^\/api\/webhooks\/stripe(\/|$)/, service: 'billing' },
   { prefix: /^\/api\/drivers(\/|$)/, service: 'drivers' },

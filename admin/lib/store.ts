@@ -4,7 +4,7 @@ import { Tier, FEATURES_BY_TIER, type TierValue, type FeatureValue } from './tie
 import { authApi } from './api/modules';
 import { subscriptionsApi } from './api/modules';
 import { isLive, tokenStore } from './api';
-import { G3ApiError, type SubscriptionDTO } from './api/types';
+import { G3ApiError, type AuthSession, type SubscriptionDTO } from './api/types';
 
 const TIER_KEY = 'g3admin.tier.v1';
 const NIGHT_KEY = 'g3admin.night.v1';
@@ -31,6 +31,14 @@ export const DEFAULT_EXPENSE_POLICY: ExpensePolicy = {
   requireReceipt: false,
 };
 
+type ExpensePolicyListener = (before: ExpensePolicy, after: ExpensePolicy) => void;
+const expensePolicyListeners = new Set<ExpensePolicyListener>();
+/** Suscripción a cambios de la regla de gastos (la bitácora de auditoría la usa). */
+export function onExpensePolicyChanged(fn: ExpensePolicyListener): () => void {
+  expensePolicyListeners.add(fn);
+  return () => expensePolicyListeners.delete(fn);
+}
+
 function readLS(k: string): string | null {
   if (typeof window === 'undefined') return null;
   return window.localStorage.getItem(k);
@@ -45,7 +53,10 @@ interface AppState {
   /* auth */
   authed: boolean;
   userEmail: string | null;
+  userRole: AuthSession['user']['role'] | null;
   signIn: () => void;
+  /** Cierra el login (password, MFA o SSO) con la sesión emitida por el backend. */
+  completeSignIn: (session: AuthSession) => Promise<void>;
   signOut: () => void;
   signInG3: (email: string, password: string) => Promise<void>;
 
@@ -70,6 +81,7 @@ interface AppState {
 export const useAppStore = create<AppState>((set, get) => ({
   authed: false,
   userEmail: null,
+  userRole: null,
   signIn: () => {
     writeLS(AUTH_KEY, '1');
     set({ authed: true });
@@ -77,14 +89,18 @@ export const useAppStore = create<AppState>((set, get) => ({
   signOut: () => {
     writeLS(AUTH_KEY, null);
     tokenStore.clear();
-    set({ authed: false, userEmail: null, subscription: null });
+    set({ authed: false, userEmail: null, userRole: null, subscription: null });
+  },
+  completeSignIn: async (session) => {
+    writeLS(AUTH_KEY, '1');
+    writeLS(TIER_KEY, session.user.tier);
+    set({ authed: true, userEmail: session.user.email, userRole: session.user.role, tier: session.user.tier });
+    await get().syncFromBackend();
   },
   signInG3: async (email, password) => {
+    // Si la cuenta tiene MFA lanza MfaRequiredError: usar useSecurityStore.beginLogin.
     const res = await authApi.login({ email, password });
-    writeLS(AUTH_KEY, '1');
-    writeLS(TIER_KEY, res.user.tier);
-    set({ authed: true, userEmail: res.user.email, tier: res.user.tier });
-    await get().syncFromBackend();
+    await get().completeSignIn(res);
   },
 
   tier: Tier.Pro,
@@ -114,9 +130,11 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   expensePolicy: DEFAULT_EXPENSE_POLICY,
   setExpensePolicy: (p) => {
-    const merged = { ...get().expensePolicy, ...p };
+    const before = get().expensePolicy;
+    const merged = { ...before, ...p };
     writeLS(EXPENSE_POLICY_KEY, JSON.stringify(merged));
     set({ expensePolicy: merged });
+    expensePolicyListeners.forEach((fn) => fn(before, merged));
   },
 
   hydrate: () => {
