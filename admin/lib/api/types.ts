@@ -162,6 +162,37 @@ export interface LogbookEntryDTO {
   createdAt: string;
 }
 
+export type EvidenceType =
+  | 'bill_of_lading'
+  | 'scale_ticket'
+  | 'loading_photo'
+  | 'unloading_photo'
+  | 'diesel_ticket'
+  | 'toll_ticket'
+  | 'delivery_proof'
+  | 'incident_photo'
+  | 'other';
+
+/** Espejo de `EvidenceDto` (GET /trips/:id/evidences). */
+export interface EvidenceDTO {
+  id: string;
+  companyId: string;
+  clientUuid: string;
+  tripId: string | null;
+  logbookId: string | null;
+  incidentId: string | null;
+  driverId: string;
+  type: EvidenceType;
+  /** Ruta en Cloud Storage (bucket privado); se lee con URL firmada. */
+  storagePath: string;
+  mimeType: string | null;
+  sizeBytes: number | null;
+  lat: number | null;
+  lng: number | null;
+  takenAt: string | null;
+  createdAt: string;
+}
+
 /** Espejo de `ExpensePolicyDto` (GET/PUT /expense-policy). */
 export interface ExpensePolicyDTO {
   companyId: string;

@@ -6,7 +6,7 @@ import { TierLabel } from '@/lib/tiers';
 import { company } from '@/lib/demoData';
 import { isLive } from '@/lib/api/config';
 import {
-  MoonI, SparklesI, BellI, MailI, LockI, ShieldI, ChevronRI,
+  MoonI, SparklesI, BellI, MailI, LockI, ShieldI, ChevronRI, ZapI,
 } from '@/components/Icons';
 import { SecurityCard } from '@/components/SecurityCard';
 
@@ -190,6 +190,22 @@ export default function SettingsPage() {
                 : 'gastos sin ticket permitidos sin tope.'}
         </div>
       </div>
+
+      {/* Proveedores externos: SMS, correo, WhatsApp, PAC, GPS… */}
+      <Link href="/integrations/" style={{ textDecoration: 'none', display: 'block', marginBottom: 24 }}>
+        <div className="card">
+          <div className="row" style={{ gap: 12 }}>
+            <span className="icon-tile sm blue"><ZapI size={18} color="var(--blue)" /></span>
+            <div style={{ flex: 1 }}>
+              <strong>Integraciones</strong>
+              <div className="caption">
+                SMS, correo, WhatsApp, PAC (timbrado) y telemetría GPS: configura tus propios proveedores o hereda los de G3.
+              </div>
+            </div>
+            <ChevronRI size={16} color="var(--muted)" />
+          </div>
+        </div>
+      </Link>
 
       {/* Seguridad: MFA, códigos de recuperación, MFA por rol, SSO y bitácora */}
       <SecurityCard />

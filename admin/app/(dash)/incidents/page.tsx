@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { tripHref } from '@/lib/trips';
 import {
   AlertI, ShieldI, ClockI, UserI, CheckI, MapPinI, PlusI, RefreshI, BellI, PhoneI, XI,
 } from '@/components/Icons';
@@ -236,7 +237,7 @@ function IncidentPanel({ detail, act }: { detail: IncidentDetail; act: (fn: () =
             value={i.resolvedAt ? (i.sla.resolveBreached ? 'Resuelto fuera de tiempo' : 'Resuelto a tiempo') : new Date(i.slaResolveDueAt).toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' })}
             danger={i.sla.resolveBreached}
           />
-          <Fact label="Viaje" value={i.tripId ? <Link href={`/trips/${i.tripId}/`} style={{ color: 'var(--blue)' }}>{i.tripId}</Link> : '—'} />
+          <Fact label="Viaje" value={i.tripId ? <Link href={tripHref(i.tripId)} style={{ color: 'var(--blue)' }}>{i.tripId}</Link> : '—'} />
           <Fact label="Unidad" value={i.vehicleId ?? '—'} />
           <Fact
             label="Ubicación"
