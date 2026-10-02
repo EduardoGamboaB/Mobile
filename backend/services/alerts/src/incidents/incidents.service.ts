@@ -186,7 +186,7 @@ export class IncidentsService {
       | 'source' | 'clientUuid' | 'type' | 'urgency' | 'description' | 'tripId' | 'driverId'
       | 'vehicleId' | 'occurredAt' | 'locationText' | 'lat' | 'lng'
     >,
-    opts: { forceNotify?: boolean } = {},
+    opts: { forceNotify?: boolean; afterCreate?: (i: IncidentDto) => Promise<unknown> } = {},
   ): Promise<IncidentDto> {
     const now = this.now();
     const sla = DEFAULT_SLA[data.urgency];
@@ -232,6 +232,7 @@ export class IncidentsService {
     } else if (opts.forceNotify) {
       await this.notify(saved, ['push', 'whatsapp'], DEFAULT_ESCALATION_ROLES, 'SOS activado');
     }
+    await opts.afterCreate?.(saved);
     return saved;
   }
 
@@ -432,9 +433,14 @@ export class IncidentsService {
     );
     if (recent) return null;
     const ctx: RequestCtx = { companyId, tier: 'enterprise' };
+    // clientUuid determinista por unidad y ventana de 30 min: con varias
+    // réplicas recibiendo señales de la misma unidad a la vez, la unicidad
+    // (company_id, client_uuid) deja abrir uno solo y solo ese notifica.
+    const bucket = Math.floor(Date.parse(signal.recordedAt) / (30 * 60_000));
+    let opened = false;
     const incident = await this.open(ctx, {
       source: 'rule',
-      clientUuid: null,
+      clientUuid: `rule:speeding:${signal.vehicleId}:${bucket}`,
       type: 'speeding',
       urgency: 'high',
       description: `${Math.round(signal.speedKph)} km/h (límite de la regla: ${thresholdOf(rule)} km/h)`,
@@ -445,9 +451,13 @@ export class IncidentsService {
       locationText: null,
       lat: signal.lat,
       lng: signal.lng,
+    }, {
+      afterCreate: async (created) => {
+        opened = true;
+        await this.notify(created, rule.channels, rule.notifyRoles, `Regla "${rule.name}"`);
+      },
     });
-    await this.notify(incident, rule.channels, rule.notifyRoles, `Regla "${rule.name}"`);
-    return incident;
+    return opened ? incident : null;
   }
 
   /**

@@ -310,6 +310,22 @@ function contractSuite(name: string, d: jest.Describe, setup: () => Promise<{ re
         expect(comments.filter((x) => x.body.startsWith('Escalamiento nivel 1'))).toHaveLength(1);
       });
 
+      test('exceso de velocidad: dos réplicas con la misma señal abren y notifican una sola vez', async () => {
+        const c = cmp();
+        const { a, b, push } = services(() => T0);
+        await r.contacts.upsert(c, { userId: 'usr_disp', role: 'dispatcher', pushToken: 'ExponentPushToken[d]', whatsapp: null });
+        await a.createRule(admin(c), {
+          name: 'Velocidad > 95', enabled: true, channels: ['push'], notifyRoles: ['dispatcher'],
+          trigger: { kind: 'speeding', thresholdKph: 95 },
+        });
+        const s = signal({ vehicleId: `trc_${c}`, speedKph: 118 });
+        const [ia, ib] = await Promise.all([a.ingestSignal(c, s), b.ingestSignal(c, s)]);
+        expect([ia, ib].filter(Boolean)).toHaveLength(1);
+        const open: IncidentDto[] = await a.list(admin(c), { status: 'open' });
+        expect(open.filter((i) => i.type === 'speeding')).toHaveLength(1);
+        expect(push.sent.filter((n) => n.incident.type === 'speeding' && n.incident.companyId === c)).toHaveLength(1);
+      });
+
       test('device_offline: la señal es compartida y solo una instancia abre el incidente', async () => {
         const c = cmp();
         let now = T0;
