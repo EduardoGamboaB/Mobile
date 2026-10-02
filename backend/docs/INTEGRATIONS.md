@@ -10,8 +10,10 @@ WhatsApp, PAC, cobro, IA y almacenamiento. Los servicios piden la configuración
 G3 Admin ──/api/integrations──▶ gateway ──▶ integrations (:8088) ──▶ bitácora de auth (POST /api/audit/events)
                                    ✗ /api/integrations/internal/* → 404
 auth · alerts · billing · invoicing
-   └─ IntegrationsClient ──GET /api/integrations/internal/resolve (x-internal-token)──▶ integrations
-        caché 60 s · si responde none o está caído → variables de entorno del propio servicio
+   └─ IntegrationsClient ──GET /api/integrations/internal/resolve (serviceFetch: x-internal-token + ID token)──▶ integrations
+        caché 60 s por instancia · si responde none o está caído → variables de entorno del propio servicio
+        ▲
+        └── Redis pub/sub g3:<G3_ENV>:integrations:invalidate ◀── integrations publica al guardar/borrar
 ```
 
 | Pieza | Dónde | Qué hace |
@@ -19,7 +21,7 @@ auth · alerts · billing · invoicing
 | Catálogo | `contracts/src/integrations-catalog.ts` | Fuente de verdad: categorías, proveedores, campos, secretos, alcances, ranuras, `envFallback` y `validateIntegrationSettings`. Se copia a Admin con `scripts/sync-contracts.sh`. |
 | DTOs | `contracts/src/dtos/integrations.ts` | `IntegrationConfigDto`, `UpsertIntegrationDto`, `IntegrationOverviewItemDto`, `IntegrationTestDto`, `ResolvedIntegrationDto`. |
 | Kit `@g3/integrations` | `integrations-kit/` | Adaptadores con `fetch` inyectable (sin SDKs), `testConnection`, `SecretResolver`, `IntegrationsClient`, `envFallbackFor` y factories `build*`. |
-| Servicio | `services/integrations/` | Guarda las configuraciones, cifra los secretos, aplica permisos, prueba conexiones y audita. |
+| Servicio | `services/integrations/` | Guarda las configuraciones en Postgres (`integration_configs`, ver [data-model/integrations.md](./data-model/integrations.md)), cifra los secretos, aplica permisos, prueba conexiones, audita y avisa de los cambios. |
 
 ### Consumidores
 
@@ -232,6 +234,26 @@ Pasos comunes:
 2. Da `roles/iam.serviceAccountTokenCreator` a la cuenta firmante.
 3. En G3, captura `bucket` y `signerServiceAccount`.
 
+## Caché e invalidación
+
+`IntegrationsClient` guarda 60 s, por instancia, la configuración resuelta de cada (compañía, categoría, ranura).
+Para que un cambio en Admin se note de inmediato en todas las réplicas de los consumidores:
+
+1. Al guardar o borrar, integrations publica `{ scope, companyId, category, slot }` en el canal Redis
+   `g3:<G3_ENV>:integrations:invalidate` (`redisChangePublisher`).
+2. Cada consumidor abre una conexión dedicada en modo suscriptor (`subscribeToIntegrationChanges`) e invalida
+   solo lo afectado. Un cambio de compañía borra esa compañía; uno de plataforma, esa categoría/ranura en todas.
+3. Pub/sub no garantiza la entrega. Al reconectar, el suscriptor descarta toda la caché, y el TTL de 60 s sigue
+   como respaldo. Si Redis no está disponible, publicar no falla la operación: solo se registra en el log.
+
+**Por qué pub/sub y no un TTL corto:** un TTL de pocos segundos multiplica las llamadas internas a integrations, y
+cada una pasa por un ID token y por descifrar secretos. Ni así sería inmediato. Con pub/sub, el cambio se aplica
+en milisegundos y la caché sigue absorbiendo el tráfico normal.
+
+Hoy se suscribe **alerts**. auth y billing construyen su `IntegrationsClient` en su propio `main.ts` y todavía no
+se suscriben (siguen con el TTL de 60 s). Basta con agregar el `subscribeToIntegrationChanges` igual que en
+`services/alerts/src/main.ts`.
+
 ## Auditoría
 
 Cada alta o cambio (`integration.updated`), borrado (`integration.deleted`) y prueba (`integration.tested`) se
@@ -257,8 +279,12 @@ La lista completa está en [`backend/.env.example`](../.env.example). Las del m�
 | `G3_PLATFORM_COMPANY_ID` | integrations | Compañía cuyos owner/admin editan el alcance plataforma. Vacía = nadie. |
 | `INTERNAL_TOKEN` | integrations, auth, alerts, billing, fleet, trips | Token servicio→servicio de 32 caracteres o más. Obligatorio en producción para integrations. |
 | `AUDIT_INGEST_TOKEN` | auth (valida); trips, integrations | Ingesta de auditoría. Si falta, se usa `INTERNAL_TOKEN`. |
-| `INTEGRATIONS_URL` | gateway, auth, alerts, billing | URL del servicio. Sin ella (o sin `INTERNAL_TOKEN`), los consumidores usan solo el entorno. |
-| `AUTH_URL` | integrations | Auditoría. |
+| `INTEGRATIONS_URL` | gateway, auth, alerts, billing, invoicing | URL del servicio. Sin ella (o sin `INTERNAL_TOKEN`), los consumidores usan solo el entorno. |
+| `AUTH_URL` | integrations | Auditoría (obligatoria en producción). |
+| `DATABASE_URL` o `DB_HOST`/`DB_PORT`/`DB_USER`/`DB_PASS`/`DB_NAME` | integrations | Postgres (schema `integrations`). Obligatoria en producción. Sin ella, memoria (solo dev). |
+| `DB_MIGRATE_ON_BOOT` | integrations | `1` aplica las migraciones al arrancar (dev). En producción: Cloud Run Job `node dist/migrate.js`. |
+| `REDIS_URL`, `G3_ENV` | integrations (publica), alerts (se suscribe) | Invalidación de cachés. `REDIS_URL` es obligatoria en producción. `G3_ENV` (`dev`/`staging`/`prod`) separa los canales. |
+| `SERVICE_AUTH` | integrations, consumidores | `gcp`: las llamadas internas (`serviceFetchFromEnv`) agregan el ID token de Cloud Run. |
 | `EXPO_*`, `WHATSAPP_*`, `STRIPE_*`, `GCP_PROJECT_ID`, `VERTEX_*`, `EVIDENCE_*` | consumidores e integrations | Respaldo por entorno (ver la tabla de prioridad). |
 
 ### Despliegue
@@ -273,13 +299,14 @@ La lista completa está en [`backend/.env.example`](../.env.example). Las del m�
   ```
 
 - Agrega `INTEGRATIONS_URL` a auth, alerts y billing.
-- Los servicios internos de Cloud Run son `--no-allow-unauthenticated`. Las llamadas servicio→servicio necesitan
-  un ID token de invocador (pendiente, igual que en el resto de rutas internas). Mientras tanto, despliega con
-  ingress interno y una VPC.
+- Los servicios internos de Cloud Run son `--no-allow-unauthenticated`. Con `SERVICE_AUTH=gcp`, las llamadas
+  servicio→servicio (`serviceFetchFromEnv()` de `@g3/platform`) mandan `x-internal-token` y un ID token con
+  audiencia = URL del destino. La cuenta de servicio del llamador necesita `roles/run.invoker` sobre el destino.
+  Ya lo usan alerts→integrations, integrations→auth (auditoría) e invoicing→integrations. auth y billing siguen
+  con el `fetch` global en su `main.ts`.
+- Migraciones: antes de cada deploy corre el job `node dist/migrate.js` (la imagen debe incluir `migrations/`).
 
 ## Pendientes conocidos
 
-- Repositorio en memoria: la configuración se pierde al reiniciar. Falta la tabla en Postgres.
 - Faltan los adaptadores HTTP reales de los PAC y de Stripe Checkout.
-- La caché de 60 s del `IntegrationsClient` hace que un cambio tarde hasta un minuto en aplicarse en los
-  consumidores.
+- auth y billing todavía no se suscriben a la invalidación: un cambio puede tardar hasta 60 s en aplicarse ahí.

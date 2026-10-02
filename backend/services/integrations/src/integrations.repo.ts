@@ -39,7 +39,10 @@ const key = (scope: IntegrationScope, companyId: string | null, category: string
 
 const clone = (r: IntegrationRecord): IntegrationRecord => JSON.parse(JSON.stringify(r)) as IntegrationRecord;
 
-/** Una configuración por (alcance, compañía|null, categoría, ranura). En producción: tabla en Postgres. */
+/**
+ * Una configuración por (alcance, compañía|null, categoría, ranura). Solo
+ * dev/tests (una réplica); en producción `PgIntegrationRepo`.
+ */
 export class InMemoryIntegrationRepo implements IntegrationRepo {
   private readonly rows = new Map<string, IntegrationRecord>();
 
@@ -48,9 +51,13 @@ export class InMemoryIntegrationRepo implements IntegrationRepo {
     return r ? clone(r) : null;
   }
 
+  /** Alta o reemplazo del destino; conserva `id` y `createdAt` existentes (igual que Postgres). */
   async save(r: IntegrationRecord) {
-    this.rows.set(key(r.scope, r.companyId, r.category, r.slot), clone(r));
-    return clone(r);
+    const k = key(r.scope, r.companyId, r.category, r.slot);
+    const cur = this.rows.get(k);
+    const next = clone({ ...r, companyId: r.scope === 'platform' ? null : r.companyId, ...(cur ? { id: cur.id, createdAt: cur.createdAt } : {}) });
+    this.rows.set(k, next);
+    return clone(next);
   }
 
   async remove(scope: IntegrationScope, companyId: string | null, category: IntegrationCategory, slot: string) {

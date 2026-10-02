@@ -6,7 +6,8 @@
  * - `testConnection`: prueba en vivo sin enviar mensajes.
  * - `SecretResolver`: `env:`, `gsm:` (Secret Manager) y literales.
  * - `IntegrationsClient`: resuelve la configuración efectiva vía el
- *   servicio integrations, con caché y respaldo por variables de entorno.
+ *   servicio integrations, con caché y respaldo por variables de entorno;
+ *   la caché se invalida entre réplicas por Redis pub/sub (`invalidation.ts`).
  * - Factories `build*` que devuelven el adaptador real o uno de registro.
  */
 export * from './http';
@@ -18,4 +19,5 @@ export * from './test-connection';
 export * from './secret-resolver';
 export * from './env-fallback';
 export * from './client';
+export * from './invalidation';
 export * from './factories';

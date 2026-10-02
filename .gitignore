@@ -36,3 +36,6 @@ mobile/dist-web/
 
 # Worktrees locales de agentes de Claude Code
 .claude/worktrees/
+
+# Volcado local de redis-server
+dump.rdb

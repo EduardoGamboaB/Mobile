@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import type { AlertDto, TierValue } from '@g3/contracts';
-import type { InMemoryAlertRepo } from './in-memory.alert.repo';
+import type { AlertRepo } from './in-memory.alert.repo';
 import type { EventBus } from './event.bus';
 
 export interface RequestCtx { companyId: string; tier: TierValue; }
@@ -12,7 +12,7 @@ export interface CreateAlertInput {
 }
 
 export class AlertsService {
-  constructor(private readonly repo: InMemoryAlertRepo, private readonly bus: EventBus) {}
+  constructor(private readonly repo: AlertRepo, private readonly bus: EventBus) {}
 
   list(ctx: RequestCtx, filter: { resolved?: boolean; level?: AlertDto['level'] } = {}) {
     return this.repo.list(ctx.companyId, filter);
