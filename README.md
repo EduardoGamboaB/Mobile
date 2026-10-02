@@ -71,7 +71,7 @@ HTTP con interceptor 402 → upgrade automático.
 │   ├── 06-testing-protocol.md        SAST + DAST + pentest + auditoría
 │   ├── 07-incident-response.md       runbook + postmortem template
 │   └── data/                         controls.json + per-service JSON
-└── supabase/                       ← migraciones legacy (V1 sin backend propio)
+└── supabase/                       ← LEGADO V1 · ya no se usa (el backend G3 es la fuente de verdad)
 ```
 
 ## Cómo se integran los tres
@@ -159,8 +159,8 @@ Detalle completo en [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ### Modo demo (sin backend)
 
-Si **no** configuras `.env`, la app arranca automáticamente en **modo demo** con datos
-ficticios en memoria — útil para revisar UI y flujos sin montar Supabase. Verás un
+Si **no** configuras `EXPO_PUBLIC_G3_API_URL`, la app arranca en **modo demo** con datos
+ficticios en memoria — útil para revisar UI y flujos sin levantar el backend. Verás un
 banner rojo "MODO DEMO" arriba de cada pantalla y un botón "ENTRAR EN MODO DEMO" en
 el login.
 
@@ -171,30 +171,37 @@ npx expo start
 # escanear QR con Expo Go → tocar "ENTRAR EN MODO DEMO"
 ```
 
-Forzar el modo demo aunque haya credenciales: `EXPO_PUBLIC_DEMO=1`.
+Forzar el modo demo aunque haya URL configurada: `EXPO_PUBLIC_DEMO=1`.
 
-### Con Supabase real
+### Con el backend G3
 
-```bash
-# 1. Variables de entorno
-cp mobile/.env.example mobile/.env
-# rellenar SUPABASE_URL y SUPABASE_ANON_KEY
-
-# 2. Instalar
-cd mobile
-npm install --ignore-scripts
-
-# 3. Correr
-npx expo start
-# → escanear QR con Expo Go (Android/iOS) o pulsar `a` / `i`
-```
-
-Para la base de datos:
+El backend NestJS es la **única fuente de verdad** de G3 Drive y G3 Admin
+(viajes, bitácora, evidencias, gastos, incidentes, auth). Supabase quedó como
+legado de la V1 (`supabase/`, ver su README) y ya no se usa.
 
 ```bash
-# Con Supabase CLI ya logueado
-supabase db push       # aplica supabase/migrations/0001_initial_schema.sql
+# 1. Backend + gateway (docker compose con Postgres y emulador de Pub/Sub)
+cd backend && npm install && npm run dev        # gateway en http://localhost:8080
+
+# 2. G3 Drive contra ese gateway
+cp mobile/.env.example mobile/.env             # EXPO_PUBLIC_G3_API_URL=http://<tu-ip>:8080
+cd mobile && npm install --ignore-scripts && npx expo start
+
+# 3. G3 Admin
+cd admin && NEXT_PUBLIC_G3_API_URL=http://localhost:8080 npm run dev
 ```
+
+### Vocabulario de estados del viaje
+
+Uno solo para backend, Drive y Admin — fuente en `backend/contracts/src/trip-status.ts`:
+
+```
+draft → scheduled → loading → in_transit → unloading → pre_closed → closed   (+ cancelled)
+```
+
+`pre_closed` es el precierre (entregó con el cliente, regresa en vacío). El pago al
+chofer es `paymentStatus`, no un estado. Tras editar la fuente:
+`backend/scripts/sync-contracts.sh` (un test falla si las copias se desfasan).
 
 ---
 
