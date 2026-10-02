@@ -10,6 +10,7 @@ import {
   canTransition,
   isTripStatus,
   tierHas,
+  type AuditActorDto,
   type CreateEvidenceDto,
   type CreateLogbookEntryDto,
   type EvidenceDto,
@@ -32,6 +33,7 @@ import type {
   InMemoryLogbookRepo,
 } from './in-memory.ops.repo';
 import type { EventBus } from './event.bus';
+import { NoopAuditSink, type AuditSink } from './audit.sink';
 
 export interface RequestCtx {
   companyId: string;
@@ -40,6 +42,9 @@ export interface RequestCtx {
   role?: string;
   /** Presente cuando el usuario es un chofer (claim `driverId` del JWT). */
   driverId?: string;
+  /** IP real del cliente (`x-client-ip` que fija el gateway) y user-agent, para auditoría. */
+  ip?: string;
+  userAgent?: string;
 }
 
 export interface CreateTripInput {
@@ -62,6 +67,29 @@ export interface CreateTripInput {
 }
 
 export type ExpensePolicyInput = Pick<ExpensePolicyDto, 'allowManualExpense' | 'manualMaxAmount' | 'requireReceipt'>;
+
+export interface TripsServiceDeps {
+  /** Bitácora de auditoría encadenada (auth). Por defecto no registra nada. */
+  audit?: AuditSink;
+  log?: (msg: string) => void;
+}
+
+/** Orden de preferencia cuando un vehículo tiene varios viajes activos. */
+const ACTIVE_RANK: Partial<Record<TripStatus, number>> = {
+  loading: 0,
+  in_transit: 0,
+  unloading: 0,
+  pre_closed: 1,
+  scheduled: 2,
+};
+
+type ExpenseRule = Pick<ExpensePolicyDto, 'allowManualExpense' | 'manualMaxAmount' | 'requireReceipt'>;
+const RULE_FIELDS = ['allowManualExpense', 'manualMaxAmount', 'requireReceipt'] as const;
+const ruleOf = (p: ExpenseRule): ExpenseRule => ({
+  allowManualExpense: p.allowManualExpense,
+  manualMaxAmount: p.manualMaxAmount,
+  requireReceipt: p.requireReceipt,
+});
 
 export interface OpsRepos {
   logbook: InMemoryLogbookRepo;
@@ -94,7 +122,15 @@ export class TripsService {
     private readonly repo: InMemoryTripRepo,
     private readonly bus: EventBus,
     private readonly ops: OpsRepos,
-  ) {}
+    deps: TripsServiceDeps = {},
+  ) {
+    this.audit = deps.audit ?? new NoopAuditSink();
+    // eslint-disable-next-line no-console
+    this.log = deps.log ?? ((m) => console.error(m));
+  }
+
+  private readonly audit: AuditSink;
+  private readonly log: (msg: string) => void;
 
   list(ctx: RequestCtx, filter: { status?: TripStatus; driverId?: string } = {}) {
     if (isDriver(ctx)) return this.repo.list(ctx.companyId, { ...filter, driverId: ctx.driverId ?? '__none__' });
@@ -213,6 +249,19 @@ export class TripsService {
     return updated;
   }
 
+  /**
+   * Interno (fleet → alerts): viaje activo cuyo tracto o remolque es el
+   * vehículo. Si hay varios, el que está en movimiento; luego el más reciente.
+   */
+  async activeTripByVehicle(companyId: string, vehicleId: string): Promise<TripDto | null> {
+    const rank = (t: TripDto) => ACTIVE_RANK[t.status] ?? 9;
+    const candidates = (await this.repo.list(companyId))
+      .filter((t) => ACTIVE_TRIP_STATUSES.includes(t.status))
+      .filter((t) => t.tractorId === vehicleId || t.trailerId === vehicleId)
+      .sort((a, b) => rank(a) - rank(b) || b.updatedAt.localeCompare(a.updatedAt));
+    return candidates[0] ?? null;
+  }
+
   // ── Bitácora ────────────────────────────────────────────────────────────
 
   async listLogbook(ctx: RequestCtx, tripId: string): Promise<LogbookEntryDto[]> {
@@ -322,13 +371,46 @@ export class TripsService {
     if (input.manualMaxAmount != null && (!Number.isFinite(input.manualMaxAmount) || input.manualMaxAmount < 0)) {
       throw new Error('El tope de gasto manual debe ser un número ≥ 0');
     }
-    return this.ops.policies.put({
+    const before = ruleOf(await this.getExpensePolicy(ctx));
+    const saved = await this.ops.policies.put({
       companyId: ctx.companyId,
       allowManualExpense: Boolean(input.allowManualExpense),
       manualMaxAmount: input.manualMaxAmount ?? null,
       requireReceipt: Boolean(input.requireReceipt),
       updatedAt: new Date().toISOString(),
     });
+    await this.auditPolicyChange(ctx, before, ruleOf(saved));
+    return saved;
+  }
+
+  /**
+   * Registra `expense_policy.updated` en la bitácora de auth. Decisión: la
+   * auditoría es best-effort respecto a la regla. Si auth no responde, la
+   * política ya quedó guardada (el dueño no debe quedarse sin poder cambiar
+   * la regla de su operación por una caída de otro servicio) y el fallo va al
+   * log de errores para alertar y reconciliar. En prod: outbox/Pub/Sub con
+   * reintentos para no perder el evento.
+   */
+  private async auditPolicyChange(ctx: RequestCtx, before: ExpenseRule, after: ExpenseRule) {
+    try {
+      await this.audit.record({
+        companyId: ctx.companyId,
+        actor: {
+          type: 'user',
+          userId: ctx.userId ?? null,
+          role: (ctx.role ?? null) as AuditActorDto['role'],
+        },
+        action: 'expense_policy.updated',
+        resource: { type: 'expense_policy', id: ctx.companyId },
+        ip: ctx.ip ?? null,
+        userAgent: ctx.userAgent ?? null,
+        metadata: { before, after, changed: RULE_FIELDS.filter((k) => before[k] !== after[k]) },
+      });
+    } catch (e) {
+      this.log(
+        `[trips-service] auditoría de expense_policy.updated falló (company ${ctx.companyId}); la política se guardó: ${(e as Error).message}`,
+      );
+    }
   }
 
   // ── Evidencias ──────────────────────────────────────────────────────────

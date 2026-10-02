@@ -1,4 +1,20 @@
-import { Body, Controller, Get, HttpCode, Inject, Param, Patch, Post, Put, Query, Req } from '@nestjs/common';
+import { timingSafeEqual } from 'crypto';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Inject,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
 import type { Request } from 'express';
 import type {
   CreateEvidenceDto,
@@ -20,7 +36,39 @@ export function ctx(req: Request): RequestCtx {
     userId: req.header('x-user-id') ?? undefined,
     role: req.header('x-user-role') ?? undefined,
     driverId: req.header('x-driver-id') ?? undefined,
+    ip: req.header('x-client-ip') ?? undefined,
+    userAgent: req.header('user-agent') ?? undefined,
   };
+}
+
+/**
+ * Endpoints servicio→servicio: `x-internal-token` = INTERNAL_TOKEN, comparado
+ * en tiempo constante. El gateway responde 404 a `/api/trips/internal/*`.
+ */
+function requireInternal(req: Request) {
+  const expected = Buffer.from(process.env.INTERNAL_TOKEN ?? '');
+  const got = Buffer.from(req.header('x-internal-token') ?? '');
+  if (expected.length === 0 || got.length !== expected.length || !timingSafeEqual(got, expected)) {
+    throw new UnauthorizedException('Token interno inválido');
+  }
+}
+
+@Controller('/trips/internal')
+export class InternalTripsController {
+  constructor(@Inject(TripsService) private readonly svc: TripsService) {}
+
+  /** Viaje activo de un vehículo (tracto o remolque). Lo usa fleet para enriquecer señales a alerts. */
+  @Get('active-by-vehicle/:vehicleId') async activeByVehicle(
+    @Req() req: Request,
+    @Param('vehicleId') vehicleId: string,
+    @Query('companyId') companyId?: string,
+  ) {
+    requireInternal(req);
+    if (!companyId) throw new BadRequestException('companyId requerido');
+    const trip = await this.svc.activeTripByVehicle(companyId, vehicleId);
+    if (!trip) throw new NotFoundException('Sin viaje activo para el vehículo');
+    return trip;
+  }
 }
 
 @Controller('/trips')
