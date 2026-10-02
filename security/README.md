@@ -52,6 +52,7 @@ security/
 ├── 06-testing-protocol.md          pruebas de seguridad por capa
 ├── 07-incident-response.md         qué hacer cuando algo se rompe
 ├── 08-pentest-scope.md             alcance del pentest externo previo a la beta
+├── 09-infra-controls-mapping.md    controles DSI ↔ infra/terraform (estado y excepciones)
 ├── data/                           181 controles G3 + por servicio (JSON)
 ├── hooks/                          pre-commit con gitleaks + semgrep + npm audit
 │   ├── pre-commit                    hook ejecutable
@@ -73,6 +74,8 @@ security/
   validación companyId, anti SQL injection, etc.)
 - **`backend/infra/ci/cloudbuild.yaml`** — pipeline con security gate
   (gitleaks + semgrep + npm audit) **antes** de cualquier build
+- **`infra/terraform`** — infraestructura GCP como código; mapeo de
+  controles en [`09-infra-controls-mapping.md`](./09-infra-controls-mapping.md)
 - **`security/hooks/pre-commit`** — hook local opcional (instalable con
   `bash security/hooks/install.sh`)
 

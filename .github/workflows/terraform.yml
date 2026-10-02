@@ -1,0 +1,111 @@
+# Terraform: fmt, validate y tests en cada PR; plan por ambiente con
+# Workload Identity Federation (sin llaves ni secretos en el repo).
+#
+# Variables del repositorio (Settings › Variables, NO secretos), salidas de
+# infra/terraform/bootstrap por proyecto:
+#   GCP_WIF_PROVIDER_STAGING, GCP_TF_PLAN_SA_STAGING, GCP_TF_STATE_BUCKET_STAGING
+#   GCP_WIF_PROVIDER_PRODUCTION, GCP_TF_PLAN_SA_PRODUCTION, GCP_TF_STATE_BUCKET_PRODUCTION
+# Sin esas variables el plan se omite (fmt/validate/test siguen corriendo).
+# El plan necesita envs/<env>/terraform.tfvars versionado (no lleva secretos).
+#
+# El APPLY no se automatiza aquí: lo corre una persona (o un workflow con el
+# ambiente protegido de GitHub y g3-tf-apply), ver docs/ops/DEPLOY.md.
+name: terraform
+
+on:
+  pull_request:
+    paths:
+      - 'infra/terraform/**'
+      - '.github/workflows/terraform.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'infra/terraform/**'
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: 1.9.8
+  TF_IN_AUTOMATION: '1'
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      - name: fmt
+        run: terraform -chdir=infra/terraform fmt -check -recursive
+      - name: validate
+        run: |
+          for d in envs/staging envs/production bootstrap modules/g3; do
+            echo "=== $d"
+            terraform -chdir=infra/terraform/$d init -backend=false -input=false
+            terraform -chdir=infra/terraform/$d validate
+          done
+      - name: test (providers simulados)
+        run: terraform -chdir=infra/terraform/modules/g3 test
+
+  plan:
+    needs: static
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [staging, production]
+    steps:
+      - uses: actions/checkout@v4
+      - name: ¿Configurado?
+        id: cfg
+        env:
+          PROVIDER: ${{ matrix.env == 'staging' && vars.GCP_WIF_PROVIDER_STAGING || vars.GCP_WIF_PROVIDER_PRODUCTION }}
+        run: |
+          if [ -n "$PROVIDER" ] && [ -f infra/terraform/envs/${{ matrix.env }}/terraform.tfvars ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Plan de ${{ matrix.env }} omitido (falta WIF o terraform.tfvars)"
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: google-github-actions/auth@v2
+        if: steps.cfg.outputs.enabled == 'true'
+        with:
+          workload_identity_provider: ${{ matrix.env == 'staging' && vars.GCP_WIF_PROVIDER_STAGING || vars.GCP_WIF_PROVIDER_PRODUCTION }}
+          service_account: ${{ matrix.env == 'staging' && vars.GCP_TF_PLAN_SA_STAGING || vars.GCP_TF_PLAN_SA_PRODUCTION }}
+      - uses: hashicorp/setup-terraform@v3
+        if: steps.cfg.outputs.enabled == 'true'
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      - name: plan
+        if: steps.cfg.outputs.enabled == 'true'
+        id: plan
+        working-directory: infra/terraform/envs/${{ matrix.env }}
+        env:
+          BUCKET: ${{ matrix.env == 'staging' && vars.GCP_TF_STATE_BUCKET_STAGING || vars.GCP_TF_STATE_BUCKET_PRODUCTION }}
+        run: |
+          terraform init -input=false -backend-config="bucket=${BUCKET}"
+          terraform plan -input=false -lock-timeout=120s -no-color -out=plan.tfplan | tee plan.txt
+          terraform show -no-color plan.tfplan | grep -E '^Plan:|No changes' > summary.txt || true
+      - name: Comentario en el PR
+        if: steps.cfg.outputs.enabled == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const dir = 'infra/terraform/envs/${{ matrix.env }}';
+            const summary = fs.readFileSync(`${dir}/summary.txt`, 'utf8').trim() || '(sin resumen)';
+            let plan = fs.readFileSync(`${dir}/plan.txt`, 'utf8');
+            if (plan.length > 60000) plan = plan.slice(-60000);
+            await github.rest.issues.createComment({
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: context.issue.number,
+              body: `### terraform plan · ${{ matrix.env }}\n**${summary}**\n<details><summary>Plan</summary>\n\n\`\`\`\n${plan}\n\`\`\`\n</details>`,
+            });

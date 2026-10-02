@@ -1,29 +1,38 @@
-# G3 microservices — desarrollo local
-# Levanta los 8 servicios + gateway + postgres + pubsub emulator.
+# G3 microservicios — desarrollo local
+# Levanta gateway + 8 servicios HTTP + Postgres 16 + Redis 7 + emulador Pub/Sub.
 #
 #   cd backend && docker compose -f infra/docker/docker-compose.yml up --build
 #
 # Una vez arriba:
 #   curl http://localhost:8080/health
+#   curl http://localhost:8081/ready          # auth: DB + Redis
 #   curl -X POST http://localhost:8080/api/auth/register-company -d '{...}'
 #
-# Todas las variables están documentadas en backend/.env.example. Los
-# valores por defecto de aquí son SOLO de desarrollo.
-
-version: '3.9'
+# Postgres: una base `g3`, un schema y un rol por servicio (g3_<svc>), creados
+# por infra/db/init-schemas.sql la PRIMERA vez que se crea el volumen
+# (`docker compose down -v` para empezar de cero). Cada servicio aplica sus
+# migraciones al arrancar (DB_MIGRATE_ON_BOOT=1); en GCP las aplica el Cloud
+# Run Job migrate-<svc> antes del deploy.
+#
+# Todas las variables están documentadas en backend/.env.example. Los valores
+# por defecto de aquí son SOLO de desarrollo.
 
 # Entorno común. Ojo: `environment` de un servicio REEMPLAZA (no mezcla) el
 # de la ancla `base`, por eso cada servicio hace `<<: *common-env`.
 x-common-env: &common-env
   NODE_ENV: development
+  G3_ENV: dev
   JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
   JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
   PUBSUB_EMULATOR_HOST: pubsub-emulator:8085
-  DB_HOST: postgres
-  DB_PORT: 5432
-  DB_USER: g3
-  DB_PASS: g3
-  DB_NAME: g3
+  REDIS_URL: redis://redis:6379
+  # En compose no hay ID tokens de Cloud Run: solo x-internal-token.
+  SERVICE_AUTH: none
+
+# Base de datos: cada servicio con su rol y su schema (search_path lo fija el pool).
+x-db-env: &db-env
+  DB_MIGRATE_ON_BOOT: "1"
+  DB_POOL_MAX: "5"
 
 # Token compartido servicio→servicio (x-internal-token). Mismo valor en todos;
 # auth exige ≥ 32 caracteres para la ingesta de auditoría.
@@ -37,8 +46,16 @@ x-service-base: &base
     dockerfile: infra/docker/service.Dockerfile
   restart: unless-stopped
   environment: *common-env
-  depends_on:
-    - postgres
+  depends_on: &infra-deps
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+  # La imagen trae HEALTHCHECK a /health; aquí se acorta el arranque.
+  healthcheck:
+    test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:$${PORT}/health || exit 1"]
+    interval: 10s
+    timeout: 3s
+    retries: 6
+    start_period: 20s
 
 services:
   postgres:
@@ -47,8 +64,28 @@ services:
       POSTGRES_USER: g3
       POSTGRES_PASSWORD: g3
       POSTGRES_DB: g3
+      # Contraseña de los roles g3_<svc> (infra/db/dev-init.sh)
+      G3_DEV_DB_PASSWORD: g3dev
     ports: ['5432:5432']
-    volumes: ['pgdata:/var/lib/postgresql/data']
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ../db/init-schemas.sql:/g3/init-schemas.sql:ro
+      - ../db/dev-init.sh:/docker-entrypoint-initdb.d/10-g3-init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U g3 -d g3"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "256mb", "--maxmemory-policy", "volatile-lru"]
+    ports: ['6379:6379']
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
 
   pubsub-emulator:
     image: gcr.io/google.com/cloudsdktool/cloud-sdk:emulators
@@ -75,7 +112,16 @@ services:
       AI_URL: http://ai:8087
       INTEGRATIONS_URL: http://integrations:8088
       # Rate limit: RATE_LIMIT_* opcionales (ver .env.example)
-    depends_on: [auth, billing, drivers, fleet, trips, alerts, ai, integrations]
+    depends_on:
+      redis: { condition: service_healthy }
+      auth: { condition: service_healthy }
+      billing: { condition: service_healthy }
+      drivers: { condition: service_healthy }
+      fleet: { condition: service_healthy }
+      trips: { condition: service_healthy }
+      alerts: { condition: service_healthy }
+      ai: { condition: service_healthy }
+      integrations: { condition: service_healthy }
 
   auth:
     <<: *base
@@ -84,31 +130,35 @@ services:
       dockerfile: infra/docker/service.Dockerfile
       args: { SERVICE: services/auth }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8081
+      DATABASE_URL: postgres://g3_auth:g3dev@postgres:5432/g3
       INTEGRATIONS_URL: http://integrations:8088
 
   billing:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/billing } }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8082
+      DATABASE_URL: postgres://g3_billing:g3dev@postgres:5432/g3
       INTEGRATIONS_URL: http://integrations:8088
 
   drivers:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/drivers } }
     environment:
-      <<: *common-env
+      <<: [*common-env, *db-env]
       PORT: 8083
+      DATABASE_URL: postgres://g3_drivers:g3dev@postgres:5432/g3
 
   fleet:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/fleet } }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8084
+      DATABASE_URL: postgres://g3_fleet:g3dev@postgres:5432/g3
       ALERTS_URL: http://alerts:8086
       TRIPS_URL: http://trips:8085
 
@@ -116,16 +166,18 @@ services:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/trips } }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8085
+      DATABASE_URL: postgres://g3_trips:g3dev@postgres:5432/g3
       AUTH_URL: http://auth:8081
 
   alerts:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/alerts } }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8086
+      DATABASE_URL: postgres://g3_alerts:g3dev@postgres:5432/g3
       INTEGRATIONS_URL: http://integrations:8088
       # Respaldo si no hay configuración en integrations (vacío = modo registro)
       EXPO_PUSH_ENABLED: "${EXPO_PUSH_ENABLED:-}"
@@ -138,19 +190,35 @@ services:
     environment:
       <<: *common-env
       PORT: 8087
+    depends_on:
+      redis: { condition: service_healthy }
 
   integrations:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/integrations } }
     environment:
-      <<: [*common-env, *internal-env]
+      <<: [*common-env, *db-env, *internal-env]
       PORT: 8088
+      DATABASE_URL: postgres://g3_integrations:g3dev@postgres:5432/g3
       AUTH_URL: http://auth:8081
       # Compañía dueña de la plataforma (edita el alcance plataforma). Pon aquí el id
       # de tu compañía de G3 Tech tras registrarla.
       G3_PLATFORM_COMPANY_ID: "${G3_PLATFORM_COMPANY_ID:-}"
       # Vacío en dev = llave derivada de prueba. En prod es obligatoria.
       INTEGRATIONS_ENCRYPTION_KEY: "${INTEGRATIONS_ENCRYPTION_KEY:-}"
+
+  # invoicing aún no tiene servidor HTTP (es una librería con su schema). Sus
+  # migraciones se aplican con un contenedor de un solo uso:
+  #   docker compose -f infra/docker/docker-compose.yml --profile jobs run --rm migrate-invoicing
+  migrate-invoicing:
+    profiles: [jobs]
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/invoicing } }
+    command: ["node", "dist/migrate.js"]
+    restart: "no"
+    environment:
+      <<: *common-env
+      DATABASE_URL: postgres://g3_invoicing:g3dev@postgres:5432/g3
+    depends_on: *infra-deps
 
 volumes:
   pgdata:

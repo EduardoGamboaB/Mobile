@@ -1,0 +1,37 @@
+# G3 · staging — copia a terraform.tfvars. NO lleva secretos (se pueden
+# versionar): los valores secretos van a Secret Manager (docs/ops/DEPLOY.md).
+project_id   = "g3-staging"
+region       = "us-central1"
+api_domain   = "api.staging.g3logistics.mx"
+admin_domain = "admin.staging.g3logistics.mx"
+# dns_managed_zone = "g3logistics-mx"   # solo si el dominio vive en Cloud DNS de este proyecto
+
+# Fase 1: false. Fase 2 (secretos cargados e imágenes subidas): true + image_tag = SHA.
+deploy_workloads = false
+image_tag        = "bootstrap"
+
+# Id de la compañía de G3 Tech (después de registrarla).
+platform_company_id = ""
+
+alert_emails = ["oncall@g3logistics.mx"]
+runbook_url  = "https://github.com/OWNER/REPO/blob/main/docs/ops/RUNBOOK.md"
+
+# billing_account = "XXXXXX-XXXXXX-XXXXXX"
+budget_amount   = 300
+budget_currency = "USD"
+
+# Geo restricción del panel (el API queda abierto para webhooks de GPS/Stripe).
+admin_allowed_regions = ["MX", "US"]
+
+# Respaldos de proveedores por entorno (si no se configuran en Admin › Integraciones):
+# extra_secret_env = {
+#   alerts = { WHATSAPP_ACCESS_TOKEN = "g3-whatsapp-access-token" }
+# }
+# extra_env = {
+#   alerts = { WHATSAPP_PHONE_NUMBER_ID = "123456789", EXPO_PUSH_ENABLED = "1" }
+# }
+# client_secret de SSO guardado en Secret Manager y referenciado en la config SSO:
+# extra_secret_access = { auth = ["g3-sso-google-client-secret"] }
+
+# Trigger de Cloud Build (tras conectar GitHub a Cloud Build 2nd gen):
+# cloudbuild_repository = "projects/g3-staging/locations/us-central1/connections/github/repositories/OWNER-REPO"

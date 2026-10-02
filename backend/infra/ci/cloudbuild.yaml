@@ -1,13 +1,44 @@
-# Pipeline Cloud Build para los 9 microservicios + gateway.
-# Construye en paralelo, sube a Artifact Registry y despliega a Cloud Run.
+# Pipeline PRINCIPAL de despliegue del backend G3 (Cloud Build).
 #
-#   gcloud builds submit --config infra/ci/cloudbuild.yaml \
-#     --substitutions _REGION=us-central1,_REGISTRY=us-central1-docker.pkg.dev/g3-prod/g3
+# Orden: seguridad → build → push → bootstrap de la base → migraciones →
+# deploy por servicio (internos primero, gateway al final) → smoke test de
+# /health y /ready vía el gateway → rollback automático si el smoke falla.
+#
+# La CONFIGURACIÓN de Cloud Run (cuentas, red, secretos, escalado, probes)
+# es de Terraform (infra/terraform). Este pipeline solo cambia IMÁGENES.
+#
+# Se corre desde la RAÍZ del repo con la cuenta g3-deployer:
+#   - Trigger de Terraform (google_cloudbuild_trigger.deploy): staging en cada
+#     push a main; producción en tags vX.Y.Z con aprobación manual.
+#   - Manual:
+#       gcloud builds submit --config backend/infra/ci/cloudbuild.yaml \
+#         --service-account=projects/<p>/serviceAccounts/g3-deployer@<p>.iam.gserviceaccount.com \
+#         --substitutions _ENV=staging,_API_DOMAIN=api.staging.g3logistics.mx,SHORT_SHA=$(git rev-parse --short HEAD) .
+#
+# Rollback manual: docs/ops/RUNBOOK.md › Rollback.
 
 substitutions:
+  _ENV: staging
   _REGION: us-central1
-  _REGISTRY: us-central1-docker.pkg.dev/g3-prod/g3
-  _TAG: $SHORT_SHA
+  _API_DOMAIN: ''
+  # Servicios HTTP (Cloud Run services g3-<svc>), en orden de despliegue.
+  _SERVICES: 'integrations auth billing drivers fleet trips alerts ai'
+  # Servicios con migraciones (jobs migrate-<svc>). Orden: auth primero.
+  _MIGRATE: 'auth billing drivers fleet trips alerts integrations invoicing'
+  # Imágenes que solo existen como job (sin servicio HTTP).
+  _JOB_ONLY: 'invoicing'
+  # 'true' = solo build + push (primer despliegue, antes de que existan los jobs).
+  _ONLY_IMAGES: 'false'
+
+options:
+  machineType: E2_HIGHCPU_8
+  logging: CLOUD_LOGGING_ONLY
+  dynamicSubstitutions: true
+  env:
+    - 'REGISTRY=${_REGION}-docker.pkg.dev/${PROJECT_ID}/g3'
+    - 'TAG=${SHORT_SHA}'
+
+timeout: 3600s
 
 steps:
   # ---------- SECURITY (pre-build, falla rápido) ----------
@@ -31,136 +62,155 @@ steps:
     waitFor: ['-']
 
   - id: sec-npm-audit
-    name: node:20-alpine
+    name: node:22-alpine
     entrypoint: sh
     args:
       - -c
       - |
         set -e
-        for dir in backend backend/contracts backend/gateway backend/services/auth \
-                   backend/services/billing backend/services/drivers backend/services/fleet \
-                   backend/services/trips backend/services/alerts backend/services/ai \
-                   backend/services/integrations backend/integrations-kit \
-                   mobile admin website; do
-          if [ -f "$dir/package.json" ]; then
-            echo "=== npm audit $dir ==="
-            (cd "$dir" && npm audit --audit-level=high --omit=dev || exit 1)
+        for dir in backend mobile admin website; do
+          if [ -f "$$dir/package-lock.json" ]; then
+            echo "=== npm audit $$dir ==="
+            (cd "$$dir" && npm audit --audit-level=high --omit=dev)
           fi
         done
     waitFor: ['-']
 
-  # ---------- BUILD (parallel) — solo si seguridad pasa ----------
-  - id: build-gateway
+  # ---------- BUILD (en paralelo dentro de un paso) ----------
+  - id: build
     name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=gateway',
-           '-t', '${_REGISTRY}/gateway:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-auth
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/auth',
-           '-t', '${_REGISTRY}/auth:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-billing
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/billing',
-           '-t', '${_REGISTRY}/billing:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-drivers
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/drivers',
-           '-t', '${_REGISTRY}/drivers:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-fleet
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/fleet',
-           '-t', '${_REGISTRY}/fleet:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-trips
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/trips',
-           '-t', '${_REGISTRY}/trips:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-alerts
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/alerts',
-           '-t', '${_REGISTRY}/alerts:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-ai
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/ai',
-           '-t', '${_REGISTRY}/ai:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-  - id: build-integrations
-    name: gcr.io/cloud-builders/docker
-    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/integrations',
-           '-t', '${_REGISTRY}/integrations:${_TAG}', '.']
-    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
-
-  # ---------- PUSH ----------
-  - id: push-all
-    name: gcr.io/cloud-builders/docker
+    dir: backend
     entrypoint: bash
     args:
       - -c
       - |
-        for s in gateway auth billing drivers fleet trips alerts ai integrations; do
-          docker push ${_REGISTRY}/$s:${_TAG} &
+        set -euo pipefail
+        export DOCKER_BUILDKIT=1
+        pids=()
+        build() {
+          docker build -q -f infra/docker/service.Dockerfile \
+            --build-arg SERVICE="$$1" --build-arg GIT_SHA="$$TAG" \
+            -t "$$REGISTRY/$$2:$$TAG" . > "/workspace/build-$$2.log" 2>&1 \
+            || { echo "FALLÓ build $$2"; cat "/workspace/build-$$2.log"; return 1; }
+          echo "ok $$2"
+        }
+        build gateway gateway & pids+=($$!)
+        for s in ${_SERVICES} ${_JOB_ONLY}; do build "services/$$s" "$$s" & pids+=($$!); done
+        docker build -q -f infra/db/Dockerfile -t "$$REGISTRY/db-bootstrap:$$TAG" infra/db & pids+=($$!)
+        for p in "$${pids[@]}"; do wait "$$p"; done
+        # Solo se migran los servicios que ya tienen src/migrate.ts.
+        : > /workspace/migrate-list.txt
+        for s in ${_MIGRATE}; do
+          if [ -f "services/$$s/src/migrate.ts" ]; then echo "$$s" >> /workspace/migrate-list.txt; else echo "sin migrate.ts: $$s"; fi
         done
-        wait
-    waitFor: [build-gateway, build-auth, build-billing, build-drivers,
-              build-fleet, build-trips, build-alerts, build-ai, build-integrations]
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
 
-  # ---------- DEPLOY a Cloud Run (uno por servicio) ----------
-  - id: deploy-services
-    name: gcr.io/google.cloud-sdk/cloud-sdk
+  - id: push
+    name: gcr.io/cloud-builders/docker
     entrypoint: bash
     args:
       - -c
       - |
-        # INTERNAL_TOKEN (servicio→servicio) en todos; la llave de cifrado solo en integrations.
-        for s in auth billing drivers fleet trips alerts ai integrations; do
-          secrets="JWT_ACCESS_SECRET=g3-jwt-access:latest,JWT_REFRESH_SECRET=g3-jwt-refresh:latest,INTERNAL_TOKEN=g3-internal-token:latest"
-          if [ "$s" = "integrations" ]; then
-            secrets="$secrets,INTEGRATIONS_ENCRYPTION_KEY=g3-integrations-encryption-key:latest"
+        set -euo pipefail
+        pids=()
+        for s in gateway ${_SERVICES} ${_JOB_ONLY} db-bootstrap; do
+          docker push -q "$$REGISTRY/$$s:$$TAG" & pids+=($$!)
+        done
+        for p in "$${pids[@]}"; do wait "$$p"; done
+    waitFor: ['build']
+
+  # ---------- BASE: roles y permisos (idempotente) ----------
+  - id: db-bootstrap
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        gcloud run jobs update g3-db-bootstrap --region=${_REGION} --image="$$REGISTRY/db-bootstrap:$$TAG" --quiet
+        gcloud run jobs execute g3-db-bootstrap --region=${_REGION} --wait
+    waitFor: ['push']
+
+  # ---------- MIGRACIONES: ANTES de desplegar cualquier servicio ----------
+  # Si una falla, el build se detiene y NINGÚN servicio se despliega.
+  # Migraciones expand/contract: el código viejo debe funcionar con el
+  # schema nuevo (docs/ops/RUNBOOK.md › Migraciones).
+  - id: migrate
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        for s in $$(cat /workspace/migrate-list.txt); do
+          echo "=== migrate-$$s"
+          gcloud run jobs update "migrate-$$s" --region=${_REGION} --image="$$REGISTRY/$$s:$$TAG" \
+            --update-labels=commit-sha=$$TAG --quiet
+          gcloud run jobs execute "migrate-$$s" --region=${_REGION} --wait
+        done
+        # El mantenimiento de telemetría usa la imagen de fleet.
+        gcloud run jobs update g3-fleet-maintenance --region=${_REGION} --image="$$REGISTRY/fleet:$$TAG" --quiet
+    waitFor: ['db-bootstrap']
+
+  # Re-aplica init-schemas.sql: deja auth.audit_log append-only si la
+  # migración de auth la acaba de crear.
+  - id: db-harden
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        gcloud run jobs execute g3-db-bootstrap --region=${_REGION} --wait
+    waitFor: ['migrate']
+
+  # ---------- DEPLOY por servicio (internos → gateway) ----------
+  - id: deploy
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -euo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        : > /workspace/previous-revisions.txt
+        for s in ${_SERVICES} gateway; do
+          prev=$$(gcloud run services describe "g3-$$s" --region=${_REGION} \
+                   --format='value(status.traffic[0].revisionName)' 2>/dev/null || true)
+          echo "g3-$$s $$prev" >> /workspace/previous-revisions.txt
+          echo "=== deploy g3-$$s (antes: $$prev)"
+          gcloud run deploy "g3-$$s" --region=${_REGION} --image="$$REGISTRY/$$s:$$TAG" \
+            --update-labels=commit-sha=$$TAG --quiet
+          # Si un rollback fijó el tráfico a una revisión, volver a "latest".
+          gcloud run services update-traffic "g3-$$s" --region=${_REGION} --to-latest --quiet
+        done
+        cat /workspace/previous-revisions.txt
+    waitFor: ['db-harden']
+
+  # ---------- SMOKE TEST vía gateway + rollback automático ----------
+  - id: smoke
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        set -uo pipefail
+        if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
+        base="https://${_API_DOMAIN}"
+        ok=0
+        for i in $$(seq 1 12); do
+          if curl -fsS --max-time 10 "$$base/health" >/dev/null && curl -fsS --max-time 10 "$$base/ready" >/dev/null; then
+            ok=1; break
           fi
-          gcloud run deploy g3-$s \
-            --image=${_REGISTRY}/$s:${_TAG} \
-            --region=${_REGION} \
-            --platform=managed \
-            --no-allow-unauthenticated \
-            --service-account=g3-runtime@$PROJECT_ID.iam.gserviceaccount.com \
-            --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID \
-            --set-secrets=$secrets \
-            --add-cloudsql-instances=$PROJECT_ID:${_REGION}:g3-postgres
+          echo "smoke: intento $$i falló; reintento en 10 s"; sleep 10
         done
-    waitFor: [push-all]
-
-  - id: deploy-gateway
-    name: gcr.io/google.cloud-sdk/cloud-sdk
-    entrypoint: bash
-    args:
-      - -c
-      - |
-        gcloud run deploy g3-gateway \
-          --image=${_REGISTRY}/gateway:${_TAG} \
-          --region=${_REGION} \
-          --platform=managed \
-          --allow-unauthenticated \
-          --set-env-vars=AUTH_URL=$(gcloud run services describe g3-auth --region=${_REGION} --format='value(status.url)'),BILLING_URL=$(gcloud run services describe g3-billing --region=${_REGION} --format='value(status.url)'),DRIVERS_URL=$(gcloud run services describe g3-drivers --region=${_REGION} --format='value(status.url)'),FLEET_URL=$(gcloud run services describe g3-fleet --region=${_REGION} --format='value(status.url)'),TRIPS_URL=$(gcloud run services describe g3-trips --region=${_REGION} --format='value(status.url)'),ALERTS_URL=$(gcloud run services describe g3-alerts --region=${_REGION} --format='value(status.url)'),AI_URL=$(gcloud run services describe g3-ai --region=${_REGION} --format='value(status.url)'),INTEGRATIONS_URL=$(gcloud run services describe g3-integrations --region=${_REGION} --format='value(status.url)') \
-          --set-secrets=JWT_ACCESS_SECRET=g3-jwt-access:latest
-    waitFor: [deploy-services]
-
-options:
-  machineType: E2_HIGHCPU_8
-  logging: CLOUD_LOGGING_ONLY
-
-images:
-  - '${_REGISTRY}/gateway:${_TAG}'
-  - '${_REGISTRY}/auth:${_TAG}'
-  - '${_REGISTRY}/billing:${_TAG}'
-  - '${_REGISTRY}/drivers:${_TAG}'
-  - '${_REGISTRY}/fleet:${_TAG}'
-  - '${_REGISTRY}/trips:${_TAG}'
-  - '${_REGISTRY}/alerts:${_TAG}'
-  - '${_REGISTRY}/ai:${_TAG}'
-  - '${_REGISTRY}/integrations:${_TAG}'
+        if [ "$$ok" = 1 ]; then echo "smoke OK ($$base)"; exit 0; fi
+        echo "smoke FALLÓ: rollback de tráfico a las revisiones anteriores"
+        while read -r svc rev; do
+          [ -n "$$rev" ] || continue
+          gcloud run services update-traffic "$$svc" --region=${_REGION} --to-revisions="$$rev=100" --quiet || true
+        done < /workspace/previous-revisions.txt
+        exit 1
+    waitFor: ['deploy']
