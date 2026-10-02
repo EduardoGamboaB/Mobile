@@ -1,7 +1,10 @@
 import type { AddressInfo } from 'net';
 import type { Server } from 'http';
 import express from 'express';
+import { createRedisFromEnv, MemoryEphemeralStore, RedisEphemeralStore } from '@g3/platform';
+import { describeIfRedis } from '@g3/platform/testing';
 import {
+  EphemeralRateLimitStore,
   InMemoryRateLimitStore,
   createRateLimitMiddleware,
   defaultRateLimitRules,
@@ -9,7 +12,9 @@ import {
   loadRateLimitConfig,
   matchRateLimitRule,
   normalizeIdentifier,
+  identifierKey,
   type RateLimitRule,
+  type RateLimitStore,
 } from '../src/middleware/rate-limit';
 
 describe('rate-limit: InMemoryRateLimitStore (ventana deslizante)', () => {
@@ -110,8 +115,12 @@ describe('rate-limit: reglas y configuración', () => {
   });
 });
 
-describe('rate-limit: middleware montado en express', () => {
+/** Misma batería del middleware con cada store: la semántica hacia fuera es idéntica. */
+function middlewareSuite(name: string, d: jest.Describe, makeStore: () => Promise<{ store: RateLimitStore; close(): Promise<void> }>) {
+d(`rate-limit: middleware montado en express (${name})`, () => {
   let server: Server;
+  let store: RateLimitStore;
+  let closeStore: () => Promise<void>;
   let base: string;
   let now = 1_000_000;
   const rules: RateLimitRule[] = [
@@ -120,10 +129,11 @@ describe('rate-limit: middleware montado en express', () => {
   ];
 
   beforeAll(async () => {
+    ({ store, close: closeStore } = await makeStore());
     const app = express();
     app.set('trust proxy', 1);
     app.use(express.json());
-    app.use(createRateLimitMiddleware({ rules, store: new InMemoryRateLimitStore(), now: () => now, log: () => {} }));
+    app.use(createRateLimitMiddleware({ rules, store, now: () => now, log: () => {} }));
     app.use((_req, res) => res.json({ ok: true }));
     await new Promise<void>((resolve) => {
       server = app.listen(0, '127.0.0.1', () => resolve());
@@ -132,6 +142,7 @@ describe('rate-limit: middleware montado en express', () => {
   });
   afterAll(async () => {
     await new Promise((r) => server.close(r));
+    await closeStore();
   });
 
   const post = (path: string, body: unknown, ip: string) =>
@@ -201,5 +212,105 @@ describe('rate-limit: middleware montado en express', () => {
     await new Promise((res) => s.close(res));
     expect(r.status).toBe(200);
     expect(logs.join(' ')).toContain('redis caído');
+  });
+});
+}
+
+const testPrefix = () => `g3:test-${Date.now()}-${Math.random().toString(36).slice(2)}:gateway`;
+/** Store sobre una conexión propia (una "réplica"), ya conectada: con enableOfflineQueue=false no encola. */
+async function redisStore(prefix = testPrefix()) {
+  const redis = createRedisFromEnv({ REDIS_URL: process.env.TEST_REDIS_URL })!;
+  if (redis.status !== 'ready') await new Promise((r) => redis.once('ready', r));
+  return new RedisEphemeralStore(redis, prefix);
+}
+
+middlewareSuite('memoria', describe, async () => ({ store: new InMemoryRateLimitStore(), close: async () => undefined }));
+middlewareSuite('EphemeralStore en memoria', describe, async () => ({
+  store: new EphemeralRateLimitStore(new MemoryEphemeralStore()),
+  close: async () => undefined,
+}));
+middlewareSuite('Redis', describeIfRedis, async () => {
+  const s = await redisStore();
+  return { store: new EphemeralRateLimitStore(s), close: () => s.close() };
+});
+
+describe('rate-limit: EphemeralRateLimitStore', () => {
+  test('ventana deslizante con retryAfter; las llaves de identificador no llevan el correo en claro', async () => {
+    const store = new EphemeralRateLimitStore(new MemoryEphemeralStore());
+    const w = 60_000;
+    expect(await store.consume('k', 2, w, 0)).toEqual({ allowed: true, remaining: 1, retryAfterMs: 0 });
+    expect(await store.consume('k', 2, w, 10_000)).toEqual({ allowed: true, remaining: 0, retryAfterMs: 0 });
+    expect(await store.consume('k', 2, w, 30_000)).toEqual({ allowed: false, remaining: 0, retryAfterMs: 30_000 });
+    expect(identifierKey('ana@example.com')).toMatch(/^[0-9a-f]{32}$/);
+    expect(identifierKey('ana@example.com')).not.toContain('ana');
+  });
+});
+
+describeIfRedis('rate-limit: dos réplicas del gateway sobre el mismo Redis', () => {
+  const conns: RedisEphemeralStore[] = [];
+  const replica = async (prefix: string) => {
+    const s = await redisStore(prefix);
+    conns.push(s);
+    return s;
+  };
+  afterAll(async () => {
+    await Promise.all(conns.map((c) => c.close()));
+  });
+
+  test('comparten el cupo por llave; la ventana lo libera', async () => {
+    const prefix = testPrefix();
+    const [a, b] = [new EphemeralRateLimitStore(await replica(prefix)), new EphemeralRateLimitStore(await replica(prefix))];
+    const t = Date.now();
+    expect((await a.consume('auth:ip:1.1.1.1', 3, 60_000, t)).allowed).toBe(true);
+    expect((await b.consume('auth:ip:1.1.1.1', 3, 60_000, t + 1)).allowed).toBe(true);
+    expect(await a.consume('auth:ip:1.1.1.1', 3, 60_000, t + 2)).toMatchObject({ allowed: true, remaining: 0 });
+    const denied = await b.consume('auth:ip:1.1.1.1', 3, 60_000, t + 3);
+    expect(denied.allowed).toBe(false);
+    expect(denied.retryAfterMs).toBe(60_000 - 3);
+    expect((await b.consume('auth:ip:2.2.2.2', 3, 60_000, t + 3)).allowed).toBe(true);
+    expect((await a.consume('ingest:ip:9.9.9.9', 1, 50, t)).allowed).toBe(true);
+    expect((await b.consume('ingest:ip:9.9.9.9', 1, 50, t + 10)).allowed).toBe(false);
+    expect((await b.consume('ingest:ip:9.9.9.9', 1, 50, t + 200)).allowed).toBe(true);
+  });
+
+  test('middleware en dos réplicas: IP primero y el cupo de la cuenta se agota entre ambas', async () => {
+    const prefix = testPrefix();
+    const rules: RateLimitRule[] = [
+      { id: 'auth', paths: [/^\/api\/auth\/login$/], ipMax: 2, ipWindowMs: 60_000, identifierMax: 2, identifierWindowMs: 60_000 },
+    ];
+    const servers: Server[] = [];
+    const urls: string[] = [];
+    for (let n = 0; n < 2; n++) {
+      const app = express();
+      app.set('trust proxy', 1);
+      app.use(express.json());
+      app.use(createRateLimitMiddleware({ rules, store: new EphemeralRateLimitStore(await replica(prefix)), log: () => {} }));
+      app.use((_req, res) => res.json({ ok: true }));
+      const srv = await new Promise<Server>((resolve) => {
+        const x = app.listen(0, '127.0.0.1', () => resolve(x));
+      });
+      servers.push(srv);
+      urls.push(`http://127.0.0.1:${(srv.address() as AddressInfo).port}`);
+    }
+    const login = (url: string, ip: string, email: string) =>
+      fetch(`${url}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-forwarded-for': ip },
+        body: JSON.stringify({ email }),
+      });
+    try {
+      // La IP 10.9.9.9 agota su cupo entre las dos réplicas…
+      expect((await login(urls[0], '10.9.9.9', 'otro1@x.mx')).status).toBe(200);
+      expect((await login(urls[1], '10.9.9.9', 'otro2@x.mx')).status).toBe(200);
+      // …y sus intentos contra la víctima se rechazan por IP sin tocar el cupo de la cuenta.
+      for (let i = 0; i < 4; i++) expect((await login(urls[i % 2], '10.9.9.9', 'victima@x.mx')).status).toBe(429);
+      // La víctima conserva sus 2 intentos (repartidos entre réplicas) y luego se bloquea.
+      expect((await login(urls[0], '10.9.0.1', 'victima@x.mx')).status).toBe(200);
+      expect((await login(urls[1], '10.9.0.2', 'victima@x.mx')).status).toBe(200);
+      expect((await login(urls[0], '10.9.0.3', 'victima@x.mx')).status).toBe(429);
+      expect((await login(urls[1], '10.9.0.4', 'victima@x.mx')).status).toBe(429);
+    } finally {
+      await Promise.all(servers.map((srv) => new Promise((r) => srv.close(r))));
+    }
   });
 });
