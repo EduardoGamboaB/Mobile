@@ -138,6 +138,12 @@ export class SsoController {
 export class UsersController {
   constructor(@Inject(AUTH_CONTAINER) private readonly c: AuthContainer) {}
 
+  /** Choferes con acceso a G3 Drive: `{ userId, driverId, phoneSuffix }[]`. */
+  @Get('drivers')
+  listDrivers(@Req() req: HttpRequestLike) {
+    return run(async () => this.c.passwordless.listDriverAccess(await actorFrom(this.c, req)));
+  }
+
   /** Da acceso a G3 Drive (OTP por SMS) a un chofer del servicio drivers. */
   @Post('drivers')
   grantDriver(

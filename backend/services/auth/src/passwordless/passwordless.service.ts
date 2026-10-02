@@ -134,6 +134,20 @@ export class PasswordlessService {
     return { userId: user.id, driverId: input.driverId, phone };
   }
 
+  /**
+   * Choferes de la compañía con acceso a G3 Drive (owner/admin/dispatcher).
+   * Solo los últimos 4 dígitos del teléfono.
+   */
+  async listDriverAccess(actor: ActorContext): Promise<{ userId: string; driverId: string; phoneSuffix: string }[]> {
+    if (!['owner', 'admin', 'dispatcher'].includes(actor.role)) {
+      throw new AuthError(403, 'Solo owner, admin o dispatcher pueden ver el acceso de choferes');
+    }
+    const users = await this.deps.users.findByCompanyId(actor.companyId);
+    return users
+      .filter((u) => u.role === 'driver' && u.driverId && u.phone)
+      .map((u) => ({ userId: u.id, driverId: u.driverId!, phoneSuffix: u.phone!.slice(-4) }));
+  }
+
   /** Siempre "ok": no revela si el teléfono existe. */
   async requestOtp(rawPhone: string, meta: RequestMeta = NO_META): Promise<{ accepted: true }> {
     const phone = normalizePhone(rawPhone);

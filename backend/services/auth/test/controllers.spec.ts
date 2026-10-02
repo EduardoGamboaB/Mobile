@@ -157,6 +157,20 @@ describe('SecurityPolicyController y UsersController', () => {
     expect((u as unknown as Record<string, unknown>).passwordHash).toBeUndefined();
   });
 
+  test('GET /users/drivers: { userId, driverId, phoneSuffix } de la compañía; driver no', async () => {
+    const c = buildTestContainer();
+    const s = await registerOwner(c);
+    const other = await registerOwner(c, 'otro@beta.mx');
+    const ctl = new UsersController(c);
+    const granted = await ctl.grantDriver({ driverId: 'drv_1', phone: '+5215512345678', fullName: 'Juan' }, asUser(s.user));
+
+    expect(await ctl.listDrivers(asUser(s.user))).toEqual([{ userId: granted.userId, driverId: 'drv_1', phoneSuffix: '5678' }]);
+    const disp = await addUser(c, s.user.companyId, 'disp@acme.mx', 'dispatcher');
+    expect(await ctl.listDrivers(asUser(disp))).toHaveLength(1);
+    expect(await ctl.listDrivers(asUser(other.user))).toEqual([]);
+    expect(await status(ctl.listDrivers(asUser({ id: granted.userId, companyId: s.user.companyId, role: 'driver' })))).toBe(403);
+  });
+
   test('dispatcher no puede cambiar la política (403)', async () => {
     const c = buildTestContainer();
     const s = await registerOwner(c);
