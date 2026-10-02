@@ -5,6 +5,7 @@ import {
   alerts as initialAlerts, tractors, trailers, drivers, trips, kpis,
 } from '@/lib/demoData';
 import type { Alert, AlertSeverity, AlertSource } from '@/lib/demoData';
+import { isInMotion, tripStatusLabel } from '@/lib/tripStatusUi';
 import {
   AlertI, ShieldI, TruckI, PackageI, UserI, FileI, BellI, CheckI,
   ClockI, MapPinI, SparklesI, RefreshI,
@@ -27,7 +28,7 @@ export default function MonitorPage() {
 
   // unidades en movimiento (con trip activo)
   const liveUnits = trips
-    .filter((t) => ['loading', 'in_transit', 'unloading'].includes(t.status))
+    .filter((t) => isInMotion(t.status))
     .map((t) => ({
       trip: t,
       tractor: tractors.find((tr) => tr.id === t.tractorId),
@@ -151,7 +152,7 @@ export default function MonitorPage() {
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div className={`chip status-${trip.status}`}>{statusLabel(trip.status)}</div>
+                  <div className={`chip status-${trip.status}`}>{tripStatusLabel(trip.status)}</div>
                 </div>
               </Link>
             ))}
@@ -182,13 +183,6 @@ export default function MonitorPage() {
       `}</style>
     </>
   );
-}
-
-function statusLabel(s: string) {
-  return ({
-    scheduled: 'PROGRAMADO', loading: 'CARGANDO', in_transit: 'EN TRÁNSITO',
-    unloading: 'DESCARGANDO', finished: 'FINALIZADO', cancelled: 'CANCELADO',
-  } as Record<string, string>)[s] ?? s.toUpperCase();
 }
 
 function MonitorKpi({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: 'red' | 'amber' | 'blue' | 'green' }) {

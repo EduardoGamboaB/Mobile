@@ -3,32 +3,21 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { trips, drivers, units } from '@/lib/demoData';
 import { MapPinI, FilterI, PlusI, SearchI } from '@/components/Icons';
+import { isInMotion, paymentChip, tripStatusLabel } from '@/lib/tripStatusUi';
 
-type Filter = 'all' | 'active' | 'scheduled' | 'finished' | 'cancelled';
+type Filter = 'all' | 'active' | 'scheduled' | 'closed' | 'cancelled';
 
-const fmt = (n: number) => '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
-
-function statusLabel(s: string) {
-  const m: Record<string, string> = {
-    scheduled: 'PROGRAMADO',
-    loading: 'CARGANDO',
-    in_transit: 'EN TRÁNSITO',
-    unloading: 'DESCARGANDO',
-    pre_closed: 'PRECERRADO',
-    finished: 'CERRADO',
-    cancelled: 'CANCELADO',
-  };
-  return m[s] ?? s.toUpperCase();
-}
+const fmt = (n: number | null) =>
+  n == null ? '—' : '$' + n.toLocaleString('es-MX', { maximumFractionDigits: 0 });
 
 export default function TripsPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [search, setSearch] = useState('');
 
   const filtered = trips.filter((t) => {
-    if (filter === 'active' && !['loading', 'in_transit', 'unloading', 'pre_closed'].includes(t.status)) return false;
+    if (filter === 'active' && !isInMotion(t.status)) return false;
     if (filter === 'scheduled' && t.status !== 'scheduled') return false;
-    if (filter === 'finished' && t.status !== 'finished') return false;
+    if (filter === 'closed' && t.status !== 'closed') return false;
     if (filter === 'cancelled' && t.status !== 'cancelled') return false;
     if (search) {
       const q = search.toLowerCase();
@@ -70,9 +59,9 @@ export default function TripsPage() {
           </div>
           <div className="row" style={{ gap: 6 }}>
             <FilterChip label="Todos"        active={filter === 'all'}       onClick={() => setFilter('all')} count={trips.length} />
-            <FilterChip label="Activos"      active={filter === 'active'}    onClick={() => setFilter('active')} count={trips.filter(t => ['loading', 'in_transit', 'unloading', 'pre_closed'].includes(t.status)).length} />
+            <FilterChip label="Activos"      active={filter === 'active'}    onClick={() => setFilter('active')} count={trips.filter(t => isInMotion(t.status)).length} />
             <FilterChip label="Programados"  active={filter === 'scheduled'} onClick={() => setFilter('scheduled')} count={trips.filter(t => t.status === 'scheduled').length} />
-            <FilterChip label="Finalizados"  active={filter === 'finished'}  onClick={() => setFilter('finished')} count={trips.filter(t => t.status === 'finished').length} />
+            <FilterChip label="Cerrados"     active={filter === 'closed'}    onClick={() => setFilter('closed')} count={trips.filter(t => t.status === 'closed').length} />
           </div>
         </div>
       </div>
@@ -94,6 +83,7 @@ export default function TripsPage() {
           {filtered.map((t) => {
             const driver = drivers.find((d) => d.id === t.driverId);
             const unit = units.find((u) => u.id === t.tractorId);
+            const pay = paymentChip(t.status, t.paymentStatus);
             return (
               <tr key={t.id} onClick={() => (window.location.href = `/trips/${t.id}/`)}>
                 <td>
@@ -120,14 +110,11 @@ export default function TripsPage() {
                     </div>
                   </div>
                 </td>
-                <td><span className={`chip status-${t.status}`}>{statusLabel(t.status)}</span></td>
-                <td style={{ textAlign: 'right', fontWeight: 700 }}>{fmt(t.grossAmount)}</td>
+                <td><span className={`chip status-${t.status}`}>{tripStatusLabel(t.status)}</span></td>
+                <td style={{ textAlign: 'right', fontWeight: 700 }}>{fmt(t.freightAmount)}</td>
                 <td style={{ textAlign: 'right', color: 'var(--blue)', fontWeight: 700 }}>{fmt(t.driverCommission)}</td>
                 <td>
-                  {t.paymentStatus === 'released' ? <span className="chip green">LIBERADO</span>
-                  : t.paymentStatus === 'pending' ? <span className="chip amber">EN PROCESO</span>
-                  : t.paymentStatus === 'held' ? <span className="chip red">RETENIDO</span>
-                  : <span className="caption">—</span>}
+                  {pay ? <span className={`chip ${pay.variant}`}>{pay.label}</span> : <span className="caption">—</span>}
                 </td>
               </tr>
             );

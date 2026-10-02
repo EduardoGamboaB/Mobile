@@ -37,6 +37,8 @@ export const Feature = {
   TripsManagement:     'trips_management',
   EvidenceValidation:  'evidence_validation',
   PaymentAuthorization:'payment_authorization',
+  /** Rentabilidad por viaje (US-25) · misma feature que @g3/contracts (Starter+). */
+  EarningsDashboard:   'earnings_dashboard',
   DriverManagement:    'driver_management',
   FleetMap:            'fleet_map',
   Scoring:             'scoring',
@@ -59,6 +61,7 @@ const starter: FeatureValue[] = [
   ...free,
   Feature.EvidenceValidation,
   Feature.PaymentAuthorization,
+  Feature.EarningsDashboard,
 ];
 const pro: FeatureValue[] = [
   ...starter,
@@ -95,6 +98,7 @@ export const TIER_BULLETS: Record<TierValue, string[]> = {
     'Todo lo de Free',
     'Validación de evidencias',
     'Autorización de pagos',
+    'Rentabilidad por viaje',
     'Hasta 3 unidades',
   ],
   pro: [

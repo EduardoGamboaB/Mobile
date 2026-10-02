@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   HomeI, TruckI, UsersI, DollarI, ChartI, SparklesI,
-  SettingsI, LockI, ShieldI, PackageI, BellI, AlertI,
+  SettingsI, LockI, ShieldI, PackageI, BellI, AlertI, TrendUpI,
 } from './Icons';
 import { useFeature } from '@/lib/store';
 import { Feature } from '@/lib/tiers';
@@ -31,6 +31,7 @@ const FLEET: NavItem[] = [
   { href: '/fleet/trailers',  label: 'Remolques',  icon: PackageI },
 ];
 const INTEL: NavItem[] = [
+  { href: '/profitability', label: 'Rentabilidad', icon: TrendUpI, feature: Feature.EarningsDashboard },
   { href: '/payments', label: 'Pagos',       icon: DollarI,   feature: Feature.PaymentAuthorization },
   { href: '/scoring',  label: 'Scoring',     icon: ShieldI,   feature: Feature.Scoring },
   { href: '/insights', label: 'AI Insights', icon: SparklesI, feature: Feature.AIInsights },

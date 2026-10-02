@@ -17,6 +17,9 @@ export const GATE_TABLE: GateRule[] = [
   { method: 'GET', pattern: /^\/api\/vehicles\/[^/]+\/track$/, requires: [Feature.FleetMap] },
   // Trip payment release (Starter+)
   { method: 'POST', pattern: /^\/api\/trips\/[^/]+\/release-payment$/, requires: [Feature.PaymentAuthorization] },
+  // Rentabilidad por viaje · US-25 (Starter+, feature de reportes de ingreso)
+  { method: 'GET', pattern: /^\/api\/trips\/profitability$/, requires: [Feature.EarningsDashboard] },
+  { method: 'GET', pattern: /^\/api\/trips\/[^/]+\/profitability$/, requires: [Feature.EarningsDashboard] },
   // AI agents
   { method: 'POST', pattern: /^\/api\/ai\/classify-logbook$/, requires: [Feature.AILogbookClassifier] },
   { method: 'POST', pattern: /^\/api\/ai\/extract-evidence$/, requires: [Feature.EvidenceOcr] },

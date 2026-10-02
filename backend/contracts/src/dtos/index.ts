@@ -4,6 +4,7 @@ export * from './auth';
 export * from './operations';
 export * from './incidents';
 export * from './security';
+export * from './profitability';
 
 export interface CompanyDto {
   id: string;

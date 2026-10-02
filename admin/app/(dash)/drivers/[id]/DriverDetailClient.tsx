@@ -1,4 +1,6 @@
 'use client';
+import { tripStatusLabel } from '@/lib/tripStatusUi';
+import { PAYABLE_TRIP_STATUSES } from '@/lib/contracts/tripStatus';
 import Link from 'next/link';
 import {
   driverById, tractors, trips, documentsForOwner, alertsByEntity,
@@ -80,7 +82,7 @@ export default function DriverDetailClient({ id }: { id: string }) {
               <KV label="Ingresos del mes" value={fmt(d.earningsMonthMXN)} accent />
               <KV label="Cobrado total"    value={fmt(totalEarnings)} />
               <KV label="Pendiente"        value={fmt(
-                myTrips.filter((t) => t.paymentStatus !== 'released' && t.paymentStatus !== 'na')
+                myTrips.filter((t) => t.paymentStatus === 'pending' && PAYABLE_TRIP_STATUSES.includes(t.status))
                        .reduce((s, t) => s + t.driverCommission, 0),
               )} />
             </div>
@@ -96,7 +98,7 @@ export default function DriverDetailClient({ id }: { id: string }) {
                 style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid var(--border)' }}
               >
                 <span className={`chip status-${trip.status}`} style={{ width: 96, justifyContent: 'center' }}>
-                  {trip.status.replace('_', ' ').toUpperCase()}
+                  {tripStatusLabel(trip.status)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <strong style={{ fontSize: 13 }}>{trip.folio} · {trip.client}</strong>
@@ -106,7 +108,7 @@ export default function DriverDetailClient({ id }: { id: string }) {
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <strong className="small" style={{ color: 'var(--blue)' }}>+${fmt(trip.driverCommission).slice(1)}</strong>
-                  <div className="caption">{trip.finishedAt ? new Date(trip.finishedAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }) : '—'}</div>
+                  <div className="caption">{trip.closedAt ? new Date(trip.closedAt).toLocaleDateString('es-MX', { day: '2-digit', month: 'short' }) : '—'}</div>
                 </div>
               </Link>
             ))}

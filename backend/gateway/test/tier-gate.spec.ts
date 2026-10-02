@@ -1,5 +1,5 @@
 import { matchGate, GATE_TABLE } from '../src/middleware/tier-gate';
-import { Feature, type TierValue } from '@g3/contracts';
+import { Feature, minTierFor, type TierValue } from '@g3/contracts';
 
 describe('tier-gate: tabla de gating por ruta', () => {
   test('GET /api/tractors/live/positions requiere FleetMap', () => {
@@ -15,6 +15,13 @@ describe('tier-gate: tabla de gating por ruta', () => {
   test('POST /api/trips/:id/release-payment requiere PaymentAuthorization', () => {
     const m = matchGate('POST', '/api/trips/trp_xyz/release-payment');
     expect(m?.requires).toContain(Feature.PaymentAuthorization);
+  });
+
+  test('GET rentabilidad (reporte y por viaje) requiere EarningsDashboard (Starter+)', () => {
+    expect(matchGate('GET', '/api/trips/profitability')?.requires).toEqual([Feature.EarningsDashboard]);
+    expect(matchGate('GET', '/api/trips/trp_1/profitability')?.requires).toEqual([Feature.EarningsDashboard]);
+    expect(matchGate('GET', '/api/trips/trp_1')).toBeNull();
+    expect(minTierFor(Feature.EarningsDashboard)).toBe('starter');
   });
 
   test('POST /api/ai/assistant-reply requiere AIAssistantChat', () => {

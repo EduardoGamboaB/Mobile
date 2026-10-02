@@ -7,6 +7,8 @@ import {
   tripsApi,
   alertsApi,
   aiApi,
+  expensePolicyApi,
+  profitabilityApi,
 } from '../../lib/api/modules';
 import { tokenStore } from '../../lib/api/client';
 import { fixtures } from '../helpers/fixtures';
@@ -107,11 +109,18 @@ describe('admin api modules — happy paths', () => {
   test('tripsApi.releasePayment ok con tier suficiente', async () => {
     const m = makeFetchMock().on('POST /api/trips/trp_1/release-payment', {
       status: 200,
-      body: fixtures.trip({ status: 'paid', paymentReleasedAt: '2026-05-18T10:00:00Z' }),
+      body: fixtures.trip({
+        status: 'pre_closed',
+        paymentStatus: 'released',
+        paymentReleasedAt: '2026-05-18T10:00:00Z',
+      }),
     });
     teardown = installGlobalFetchMock(m);
 
     const r = await tripsApi.releasePayment('trp_1');
+    // El pago no es un estado: el viaje sigue en precierre con el pago liberado.
+    expect(r.status).toBe('pre_closed');
+    expect(r.paymentStatus).toBe('released');
     expect(r.paymentReleasedAt).toBeTruthy();
   });
 
@@ -162,5 +171,55 @@ describe('admin api modules — happy paths', () => {
         history: [{ id: '1', role: 'user', content: 'hi', createdAt: '2026-01-01' }],
       }),
     ).rejects.toMatchObject({ status: 402 });
+  });
+});
+
+describe('admin api modules — operación del viaje (backend único)', () => {
+  let teardown: () => void;
+  beforeEach(() => {
+    tokenStore.setInMemory({ accessToken: 'tok', refreshToken: 'rfr' });
+  });
+  afterEach(() => teardown?.());
+
+  test('tripsApi.logbook trae la bitácora con gastos', async () => {
+    const m = makeFetchMock().on('GET /api/trips/trp_1/logbook', {
+      status: 200,
+      body: [fixtures.logbookEntry({ expenseHasReceipt: false })],
+    });
+    teardown = installGlobalFetchMock(m);
+    const r = await tripsApi.logbook('trp_1');
+    expect(r[0].eventType).toBe('toll');
+    expect(r[0].expenseHasReceipt).toBe(false);
+  });
+
+  test('expensePolicyApi.get / put (PUT con la regla completa)', async () => {
+    const m = makeFetchMock()
+      .on('GET /api/expense-policy', { status: 200, body: fixtures.expensePolicy() })
+      .on('PUT /api/expense-policy', (req) => ({
+        status: 200,
+        body: fixtures.expensePolicy(req.body as object),
+      }));
+    teardown = installGlobalFetchMock(m);
+
+    expect((await expensePolicyApi.get()).manualMaxAmount).toBe(300);
+    const saved = await expensePolicyApi.put({
+      allowManualExpense: true,
+      manualMaxAmount: 500,
+      requireReceipt: false,
+    });
+    expect(saved.manualMaxAmount).toBe(500);
+    expect(m.calls[1].method).toBe('PUT');
+    expect(m.calls[1].body).toEqual({ allowManualExpense: true, manualMaxAmount: 500, requireReceipt: false });
+  });
+
+  test('profitabilityApi.report sin filtros no manda query string', async () => {
+    const m = makeFetchMock().on('GET /api/trips/profitability', {
+      status: 200,
+      body: fixtures.profitabilityReport(),
+    });
+    teardown = installGlobalFetchMock(m);
+    const r = await profitabilityApi.report();
+    expect(r.totals.trips).toBe(0);
+    expect(m.calls[0].url).toBe('https://api.g3.test/api/trips/profitability');
   });
 });

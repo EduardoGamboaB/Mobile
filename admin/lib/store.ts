@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { Tier, FEATURES_BY_TIER, type TierValue, type FeatureValue } from './tiers';
 import { authApi } from './api/modules';
-import { subscriptionsApi } from './api/modules';
+import { expensePolicyApi, subscriptionsApi } from './api/modules';
 import { isLive, tokenStore } from './api';
 import { G3ApiError, type AuthSession, type SubscriptionDTO } from './api/types';
 
@@ -73,7 +73,15 @@ interface AppState {
 
   /* regla de gastos (aplica a G3 Drive) */
   expensePolicy: ExpensePolicy;
+  /** Cambio local (caché en localStorage); en demo es la única fuente. */
   setExpensePolicy: (p: Partial<ExpensePolicy>) => void;
+  /** Con backend: trae la regla vigente de GET /expense-policy. En demo no hace nada. */
+  loadExpensePolicy: () => Promise<void>;
+  /**
+   * Guarda la regla: optimista en local y, con backend, PUT /expense-policy
+   * (el servidor la hace cumplir a G3 Drive). Si el PUT falla se revierte.
+   */
+  saveExpensePolicy: (p: Partial<ExpensePolicy>) => Promise<void>;
 
   hydrate: () => void;
 }
@@ -135,6 +143,31 @@ export const useAppStore = create<AppState>((set, get) => ({
     writeLS(EXPENSE_POLICY_KEY, JSON.stringify(merged));
     set({ expensePolicy: merged });
     expensePolicyListeners.forEach((fn) => fn(before, merged));
+  },
+  loadExpensePolicy: async () => {
+    if (!isLive) return;
+    const p = await expensePolicyApi.get();
+    get().setExpensePolicy({
+      allowManualExpense: p.allowManualExpense,
+      manualMaxAmount: p.manualMaxAmount,
+      requireReceipt: p.requireReceipt,
+    });
+  },
+  saveExpensePolicy: async (p) => {
+    const prev = get().expensePolicy;
+    get().setExpensePolicy(p);
+    if (!isLive) return;
+    try {
+      const saved = await expensePolicyApi.put(get().expensePolicy);
+      get().setExpensePolicy({
+        allowManualExpense: saved.allowManualExpense,
+        manualMaxAmount: saved.manualMaxAmount,
+        requireReceipt: saved.requireReceipt,
+      });
+    } catch (e) {
+      get().setExpensePolicy(prev);
+      throw e;
+    }
   },
 
   hydrate: () => {

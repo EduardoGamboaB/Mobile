@@ -1,4 +1,5 @@
 import type { TierValue, FeatureValue } from '../tiers';
+import type { TripPaymentStatus, TripStatus } from '../contracts/tripStatus';
 
 export interface JwtTokens {
   accessToken: string;
@@ -86,28 +87,171 @@ export interface TrailerDTO {
   status: 'available' | 'in_trip' | 'maintenance' | 'inactive';
 }
 
+/**
+ * Espejo de `TripDto` de @g3/contracts (backend/contracts/src/dtos/operations.ts).
+ * Estados: vocabulario único de `lib/contracts/tripStatus.ts`; el pago es
+ * `paymentStatus`, no un estado.
+ */
 export interface TripDTO {
   id: string;
   companyId: string;
   folio: string;
-  status:
-    | 'draft'
-    | 'assigned'
-    | 'in_transit'
-    | 'arrived'
-    | 'delivered'
-    | 'paid'
-    | 'canceled';
+  status: TripStatus;
   driverId: string | null;
   tractorId: string | null;
   trailerId: string | null;
+  clientName: string | null;
+  cargo: string | null;
   origin: string;
   destination: string;
+  /** Fecha programada de carga. */
   scheduledAt: string | null;
-  startedAt: string | null;
-  completedAt: string | null;
-  paymentReleasedAt: string | null;
+  estimatedUnloadAt: string | null;
+  tons: number | null;
+  pricePerTon: number | null;
+  /** Importe del flete (lo que se le cobra al cliente). */
   freightAmount: number | null;
+  /** Comisión del chofer por el viaje (MXN). */
+  driverCommission: number | null;
+  estimatedTolls: number | null;
+  estimatedDiesel: number | null;
+  notes: string | null;
+  /** Inicio de carga. */
+  startedAt: string | null;
+  /** Precierre: entrega con el cliente final; la unidad regresa en vacío. */
+  preClosedAt: string | null;
+  /** Cierre: la unidad llegó a matriz. */
+  closedAt: string | null;
+  cancelledAt: string | null;
+  paymentStatus: TripPaymentStatus;
+  paymentReleasedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type LogbookEvent =
+  | 'departure'
+  | 'loading'
+  | 'stop'
+  | 'toll'
+  | 'diesel'
+  | 'incident'
+  | 'arrival'
+  | 'unloading'
+  | 'closing';
+
+/** Espejo de `LogbookEntryDto`. */
+export interface LogbookEntryDTO {
+  id: string;
+  companyId: string;
+  clientUuid: string;
+  tripId: string;
+  driverId: string;
+  eventType: LogbookEvent;
+  occurredAt: string;
+  locationText: string | null;
+  lat: number | null;
+  lng: number | null;
+  odometerKm: number | null;
+  fuel: 'full' | 'three_quarters' | 'half' | 'quarter' | 'empty' | null;
+  expenseAmount: number | null;
+  expenseConcept: string | null;
+  /** true si el gasto trae foto de ticket. */
+  expenseHasReceipt: boolean;
+  comments: string | null;
+  createdAt: string;
+}
+
+/** Espejo de `ExpensePolicyDto` (GET/PUT /expense-policy). */
+export interface ExpensePolicyDTO {
+  companyId: string;
+  allowManualExpense: boolean;
+  manualMaxAmount: number | null;
+  requireReceipt: boolean;
+  updatedAt: string;
+}
+
+// ── Rentabilidad por viaje (US-25) · espejo de dtos/profitability.ts ──────
+
+export type ProfitabilityMarginBand = 'healthy' | 'thin' | 'low' | 'unknown';
+export type ProfitabilityRevenueSource = 'freight' | 'tons_x_price';
+export type ProfitabilityDataIssue =
+  | 'missing_revenue'
+  | 'missing_commission'
+  | 'expense_without_amount'
+  | 'missing_estimates';
+export type ProfitabilityExpenseKind = 'tolls' | 'diesel';
+
+export interface ExpenseComparisonDTO {
+  estimated: number | null;
+  actual: number;
+  variance: number | null;
+  variancePct: number | null;
+  deviated: boolean;
+}
+
+export interface TripProfitabilityDTO {
+  tripId: string;
+  folio: string;
+  status: TripStatus;
+  paymentStatus: TripPaymentStatus;
+  driverId: string | null;
+  tractorId: string | null;
+  clientName: string | null;
+  origin: string;
+  destination: string;
+  tripDate: string;
+  revenue: number | null;
+  revenueSource: ProfitabilityRevenueSource | null;
+  tolls: ExpenseComparisonDTO;
+  diesel: ExpenseComparisonDTO;
+  otherExpenses: number;
+  driverCommission: number | null;
+  totalCost: number;
+  profit: number | null;
+  marginPct: number | null;
+  marginBand: ProfitabilityMarginBand;
+  expensesWithoutReceipt: number;
+  expensesWithoutReceiptCount: number;
+  expenseEntries: number;
+  deviations: ProfitabilityExpenseKind[];
+  dataIssues: ProfitabilityDataIssue[];
+}
+
+export interface ProfitabilityTotalsDTO {
+  trips: number;
+  tripsComputed: number;
+  tripsWithIssues: number;
+  tripsDeviated: number;
+  revenue: number;
+  tolls: number;
+  diesel: number;
+  otherExpenses: number;
+  driverCommission: number;
+  estimatedTolls: number;
+  estimatedDiesel: number;
+  operatingExpenses: number;
+  profit: number;
+  marginPct: number | null;
+  marginBand: ProfitabilityMarginBand;
+  expensesWithoutReceipt: number;
+  expensesWithoutReceiptCount: number;
+}
+
+export interface ProfitabilityQuery {
+  from?: string;
+  to?: string;
+  driverId?: string;
+  tractorId?: string;
+  /** Uno o varios estados separados por coma. */
+  status?: string;
+}
+
+export interface ProfitabilityReportDTO {
+  filters: ProfitabilityQuery;
+  totals: ProfitabilityTotalsDTO;
+  rows: TripProfitabilityDTO[];
+  generatedAt: string;
 }
 
 export interface AlertDTO {

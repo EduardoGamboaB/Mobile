@@ -15,6 +15,14 @@ export class InMemoryLogbookRepo {
       .map((e) => ({ ...e }));
   }
 
+  /** Bitácora de varios viajes en una sola consulta (reporte de rentabilidad). */
+  async listByTrips(companyId: string, tripIds: string[]) {
+    const ids = new Set(tripIds);
+    return [...this.rows.values()]
+      .filter((e) => e.companyId === companyId && ids.has(e.tripId))
+      .map((e) => ({ ...e }));
+  }
+
   async create(e: LogbookEntryDto) {
     this.rows.set(e.id, { ...e });
     return { ...e };

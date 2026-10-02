@@ -168,10 +168,8 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .sidebar .footer {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
+  /* En el flujo (no absoluto): con más entradas de menú ya no se encima. */
+  margin: 24px 20px 0;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.4);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -453,7 +451,9 @@ a:focus-visible {
 .status-loading    { background: var(--warning-bg); color: var(--warning); }
 .status-in_transit { background: var(--blue-light); color: var(--blue); }
 .status-unloading  { background: var(--warning-bg); color: var(--warning); }
-.status-finished   { background: var(--success-bg); color: var(--success); }
+.status-pre_closed { background: var(--blue-light); color: var(--success); }
+.status-closed     { background: var(--success-bg); color: var(--success); }
+.status-draft      { background: var(--surface-2); color: var(--muted); }
 .status-cancelled  { background: var(--surface-2); color: var(--muted); }
 
 /* Plans page */
@@ -548,7 +548,7 @@ html[data-theme='dark'] .map-card {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 .map-card .pin.in_transit { background: var(--blue); }
-.map-card .pin.finished { background: var(--success); }
+.map-card .pin.closed { background: var(--success); }
 .map-card .pin.warning { background: var(--warning); }
 
 /* Driver score chip */

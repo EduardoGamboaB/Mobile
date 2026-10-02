@@ -9,6 +9,8 @@ export {
   tractorsApi,
   trailersApi,
   tripsApi,
+  profitabilityApi,
+  expensePolicyApi,
   alertsApi,
   aiApi,
 } from './modules';
@@ -20,6 +22,7 @@ export type {
   CreateTrailerInput,
   CreateTripInput,
   CreateAlertInput,
+  ExpensePolicyInput,
   TripStatus,
 } from './modules';
 export {

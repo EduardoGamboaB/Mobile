@@ -1,4 +1,5 @@
 'use client';
+import { tripStatusLabel } from '@/lib/tripStatusUi';
 import Link from 'next/link';
 import {
   trailerById, tractorById, trips, TrailerTypeLabel, documentsForOwner, alertsByEntity,
@@ -84,13 +85,13 @@ export default function TrailerDetailClient({ id }: { id: string }) {
               <Link key={trip.id} href={`/trips/${trip.id}/`}
                 style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid var(--border)' }}>
                 <span className={`chip status-${trip.status}`} style={{ width: 90, justifyContent: 'center' }}>
-                  {trip.status.replace('_', ' ').toUpperCase()}
+                  {tripStatusLabel(trip.status)}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <strong style={{ fontSize: 13 }}>{trip.folio} · {trip.client}</strong>
                   <div className="caption">{trip.origin.split(',')[0]} → {trip.destination.split(',')[0]}</div>
                 </div>
-                <span className="small" style={{ fontWeight: 700 }}>${fmt(trip.grossAmount)}</span>
+                <span className="small" style={{ fontWeight: 700 }}>${fmt(trip.freightAmount ?? 0)}</span>
               </Link>
             ))}
             {myTrips.length === 0 ? <div className="small muted">Sin viajes históricos.</div> : null}
