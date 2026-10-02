@@ -33,3 +33,6 @@ android/app/build/
 # Misc
 *.orig.*
 mobile/dist-web/
+
+# Worktrees locales de agentes de Claude Code
+.claude/worktrees/
