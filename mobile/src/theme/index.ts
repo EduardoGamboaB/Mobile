@@ -129,7 +129,7 @@ export const tripStatusColor = (status: string): string => {
     case 'loading':    return colors.warning;
     case 'in_transit': return colors.blue;
     case 'unloading':  return colors.warning;
-    case 'finished':   return colors.success;
+    case 'closed':     return colors.success;
     case 'cancelled':  return colors.muted;
     default:           return colors.muted;
   }

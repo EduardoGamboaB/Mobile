@@ -7,6 +7,7 @@ export { companiesApi } from './companies';
 export { driversApi } from './drivers';
 export { tractorsApi } from './tractors';
 export { trailersApi } from './trailers';
-export { tripsApi } from './trips';
+export { tripsApi, expensePolicyApi } from './trips';
+export { incidentsApi } from './incidents';
 export { alertsApi } from './alerts';
 export { aiHttp } from './ai';

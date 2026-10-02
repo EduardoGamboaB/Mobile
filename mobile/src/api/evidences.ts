@@ -1,12 +1,14 @@
 import * as FileSystem from 'expo-file-system';
-import { supabase } from './supabase';
+import uuid from 'react-native-uuid';
 import { isDemo, demoStore } from '@/demo';
 import type { Evidence } from '@/models';
 import type { EvidenceTypeValue } from '@/constants/enums';
-
-const BUCKET = 'evidences';
+import { tripsApi } from './g3/trips';
+import { evidenceFromDto, evidenceToDto } from './mappers';
 
 interface UploadInput {
+  /** Idempotencia: la cola offline reusa el id del item al reintentar. */
+  clientUuid?: string;
   driverId: string;
   tripId?: string | null;
   logbookId?: string | null;
@@ -17,18 +19,26 @@ interface UploadInput {
   coords?: { lat: number; lng: number } | null;
 }
 
+/**
+ * Sube la foto al bucket privado de G3 en 3 pasos:
+ *   1. el backend firma una URL PUT de corta vida bajo `{compañía}/{viaje}/`,
+ *   2. el archivo va directo a Cloud Storage (no pasa por el API),
+ *   3. se registra la evidencia (idempotente por clientUuid).
+ */
 export async function uploadEvidence(input: UploadInput): Promise<Evidence> {
+  const clientUuid = input.clientUuid ?? String(uuid.v4());
+  const mimeType = input.mimeType ?? 'image/jpeg';
+
   if (isDemo) {
-    const id = `ev-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     return demoStore.addEvidence({
-      id,
+      id: `ev-${clientUuid}`,
       trip_id: input.tripId ?? null,
       logbook_id: input.logbookId ?? null,
       incident_id: input.incidentId ?? null,
       driver_id: input.driverId,
       type: input.type,
       storage_path: input.localUri, // local path para preview en demo
-      mime_type: input.mimeType ?? 'image/jpeg',
+      mime_type: mimeType,
       size_bytes: null,
       lat: input.coords?.lat ?? null,
       lng: input.coords?.lng ?? null,
@@ -37,61 +47,42 @@ export async function uploadEvidence(input: UploadInput): Promise<Evidence> {
     });
   }
 
-  const ext = input.localUri.split('.').pop() ?? 'jpg';
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-  const path = `${input.driverId}/${input.tripId ?? 'misc'}/${filename}`;
+  if (!input.tripId) throw new Error('La evidencia debe ligarse a un viaje');
 
-  const base64 = await FileSystem.readAsStringAsync(input.localUri, {
-    encoding: FileSystem.EncodingType.Base64,
+  const signed = await tripsApi.evidenceUploadUrl(input.tripId, { clientUuid, mimeType });
+  const put = await FileSystem.uploadAsync(signed.uploadUrl, input.localUri, {
+    httpMethod: 'PUT',
+    uploadType: FileSystem.FileSystemUploadType.BINARY_CONTENT,
+    headers: { 'content-type': mimeType },
   });
-  const bytes = Buffer.from(base64, 'base64');
-
-  const { error: upErr } = await supabase.storage
-    .from(BUCKET)
-    .upload(path, bytes, {
-      contentType: input.mimeType ?? 'image/jpeg',
-      upsert: false,
-    });
-  if (upErr) throw upErr;
+  if (put.status < 200 || put.status >= 300) {
+    throw new Error(`No se pudo subir la evidencia (HTTP ${put.status})`);
+  }
 
   const info = await FileSystem.getInfoAsync(input.localUri);
   const sizeBytes = info.exists && 'size' in info ? info.size : null;
 
-  const { data, error } = await supabase
-    .from('evidences')
-    .insert({
-      trip_id: input.tripId ?? null,
+  const dto = await tripsApi.registerEvidence(
+    input.tripId,
+    evidenceToDto({
+      client_uuid: clientUuid,
+      trip_id: input.tripId,
       logbook_id: input.logbookId ?? null,
       incident_id: input.incidentId ?? null,
       driver_id: input.driverId,
       type: input.type,
-      storage_path: path,
-      mime_type: input.mimeType ?? 'image/jpeg',
+      storage_path: signed.storagePath,
+      mime_type: mimeType,
       size_bytes: sizeBytes,
       lat: input.coords?.lat ?? null,
       lng: input.coords?.lng ?? null,
       taken_at: new Date().toISOString(),
-    })
-    .select('*')
-    .single();
-  if (error) throw error;
-  return data as Evidence;
+    }),
+  );
+  return evidenceFromDto(dto);
 }
 
 export async function listEvidencesByTrip(tripId: string): Promise<Evidence[]> {
   if (isDemo) return demoStore.listEvidencesByTrip(tripId);
-  const { data, error } = await supabase
-    .from('evidences')
-    .select('*')
-    .eq('trip_id', tripId)
-    .order('created_at', { ascending: false });
-  if (error) throw error;
-  return (data ?? []) as Evidence[];
-}
-
-export async function getSignedUrl(path: string, expiresSec = 3600): Promise<string> {
-  if (isDemo) return path; // ya es ruta local
-  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, expiresSec);
-  if (error) throw error;
-  return data.signedUrl;
+  return (await tripsApi.listEvidences(tripId)).map(evidenceFromDto);
 }

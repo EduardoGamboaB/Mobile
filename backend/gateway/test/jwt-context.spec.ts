@@ -21,6 +21,15 @@ describe('jwt-context middleware: extrae {userId, companyId, tier} del JWT', () 
     });
   });
 
+  test('propaga driverId para usuarios chofer (alcance de G3 Drive)', () => {
+    const t = token({
+      sub: 'usr_9', email: 'd@b.c', role: 'driver', companyId: 'cmp_1', tier: 'starter', driverId: 'drv_9',
+    });
+    expect(extractContext(`Bearer ${t}`, SECRET).driverId).toBe('drv_9');
+    const admin = token({ sub: 'usr_1', email: 'a@b.c', role: 'owner', companyId: 'cmp_1', tier: 'pro' });
+    expect(extractContext(`Bearer ${admin}`, SECRET).driverId).toBeUndefined();
+  });
+
   test('rechaza header faltante', () => {
     expect(() => extractContext(undefined, SECRET)).toThrow(/missing/i);
   });

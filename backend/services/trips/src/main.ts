@@ -1,14 +1,31 @@
 import 'reflect-metadata';
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { TripsController } from './trips.controller';
+import { ExpensePolicyController, TripsController } from './trips.controller';
 import { TripsService } from './trips.service';
 import { InMemoryTripRepo } from './in-memory.trip.repo';
 import { RecordingEventBus } from './event.bus';
+import {
+  InMemoryEvidenceRepo,
+  InMemoryExpensePolicyRepo,
+  InMemoryLogbookRepo,
+  StubEvidenceStorage,
+} from './in-memory.ops.repo';
 
 @Module({
-  controllers: [TripsController],
-  providers: [{ provide: TripsService, useFactory: () => new TripsService(new InMemoryTripRepo(), new RecordingEventBus()) }],
+  controllers: [TripsController, ExpensePolicyController],
+  providers: [
+    {
+      provide: TripsService,
+      useFactory: () =>
+        new TripsService(new InMemoryTripRepo(), new RecordingEventBus(), {
+          logbook: new InMemoryLogbookRepo(),
+          evidences: new InMemoryEvidenceRepo(),
+          policies: new InMemoryExpensePolicyRepo(),
+          storage: new StubEvidenceStorage(),
+        }),
+    },
+  ],
 })
 class TripsAppModule {}
 

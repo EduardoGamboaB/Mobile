@@ -1,6 +1,7 @@
 import type { Evidence, Incident, LogbookEntry, Profile, Trip } from '@/models';
 import type { InspectionResult } from '@/models/inspection';
-import type { TripStatusValue } from '@/constants/enums';
+import { nextStatus, type TripStatusValue } from '@/constants/enums';
+import { ACTIVE_TRIP_STATUSES, FINAL_TRIP_STATUSES } from '@/contracts/tripStatus';
 import {
   demoIncidents,
   demoLogbook,
@@ -47,17 +48,8 @@ function delay<T>(value: T, ms = 120): Promise<T> {
   return new Promise((res) => setTimeout(() => res(value), ms));
 }
 
-const ACTIVE: TripStatusValue[] = ['scheduled', 'loading', 'in_transit', 'unloading', 'pre_closed'];
-
-const NEXT: Record<TripStatusValue, TripStatusValue | null> = {
-  scheduled: 'loading',
-  loading: 'in_transit',
-  in_transit: 'unloading',
-  unloading: 'pre_closed',
-  pre_closed: 'finished',
-  finished: null,
-  cancelled: null,
-};
+const ACTIVE = ACTIVE_TRIP_STATUSES;
+const NEXT = nextStatus;
 
 export const demoStore = {
   // profile
@@ -70,7 +62,7 @@ export const demoStore = {
   // trips
   listActive: () => delay(state.trips.filter((t) => ACTIVE.includes(t.status))),
   listHistory: () =>
-    delay(state.trips.filter((t) => t.status === 'finished' || t.status === 'cancelled')),
+    delay(state.trips.filter((t) => FINAL_TRIP_STATUSES.includes(t.status))),
   getTrip: (id: string) => delay(state.trips.find((t) => t.id === id) ?? null),
   advanceStatus: (id: string, next: TripStatusValue) => {
     const idx = state.trips.findIndex((t) => t.id === id);
@@ -84,7 +76,7 @@ export const demoStore = {
       status: next,
       started_at: trip.started_at ?? (next === 'loading' ? new Date().toISOString() : null),
       pre_closed_at: next === 'pre_closed' ? new Date().toISOString() : trip.pre_closed_at ?? null,
-      finished_at: next === 'finished' ? new Date().toISOString() : trip.finished_at,
+      closed_at: next === 'closed' ? new Date().toISOString() : trip.closed_at,
       updated_at: new Date().toISOString(),
     };
     state.trips[idx] = updated;

@@ -1,22 +1,11 @@
-import Constants from 'expo-constants';
-
-const url =
-  process.env.EXPO_PUBLIC_SUPABASE_URL ??
-  (Constants.expoConfig?.extra?.supabaseUrl as string | undefined) ??
-  '';
-const anonKey =
-  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ??
-  (Constants.expoConfig?.extra?.supabaseAnonKey as string | undefined) ??
-  '';
-
-const forced = process.env.EXPO_PUBLIC_DEMO === '1';
+import { isDemoMode } from '@/api/g3/config';
 
 /**
- * `true` cuando no hay credenciales de Supabase configuradas
- * o cuando se fuerza con `EXPO_PUBLIC_DEMO=1`. Toda la app
- * trabaja contra datos en memoria sin hacer red.
+ * `true` cuando no hay URL del backend G3 configurada (`EXPO_PUBLIC_G3_API_URL`)
+ * o cuando se fuerza con `EXPO_PUBLIC_DEMO=1`. Toda la app trabaja contra
+ * datos en memoria sin hacer red.
  */
-export const isDemo = forced || !url || !anonKey;
+export const isDemo = isDemoMode;
 
 export { demoStore } from './store';
 export { DEMO_USER_ID, DEMO_COMPANY_ID, demoProfile } from './data';

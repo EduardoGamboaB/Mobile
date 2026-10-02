@@ -1,9 +1,7 @@
-import { supabase } from './supabase';
 import { isDemo } from '@/demo';
-import {
-  DEFAULT_EXPENSE_POLICY,
-  type ExpensePolicy,
-} from '@/domain/expensePolicy';
+import type { ExpensePolicy } from '@/domain/expensePolicy';
+import { expensePolicyApi } from './g3/trips';
+import { policyFromDto } from './mappers';
 
 export { validateExpense, DEFAULT_EXPENSE_POLICY } from '@/domain/expensePolicy';
 export type { ExpensePolicy } from '@/domain/expensePolicy';
@@ -19,13 +17,8 @@ const DEMO_POLICY: ExpensePolicy = {
   require_receipt: false,
 };
 
+/** La regla la administra G3 Admin; el backend devuelve la default si no hay una configurada. */
 export async function getExpensePolicy(): Promise<ExpensePolicy> {
   if (isDemo) return DEMO_POLICY;
-  // RLS limita la lectura a la compañía del usuario: hay a lo más una fila.
-  const { data, error } = await supabase
-    .from('expense_policies')
-    .select('company_id, allow_manual_expense, manual_max_amount, require_receipt')
-    .maybeSingle();
-  if (error) throw error;
-  return (data as ExpensePolicy | null) ?? DEFAULT_EXPENSE_POLICY;
+  return policyFromDto(await expensePolicyApi.get());
 }

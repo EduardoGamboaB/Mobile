@@ -25,6 +25,7 @@ import {
   IncidentTypeLabel,
   IncidentTypeIcon,
   IncidentUrgency,
+  REPORTABLE_INCIDENT_TYPES,
   IncidentUrgencyLabel,
   type IncidentTypeValue,
   type IncidentUrgencyValue,
@@ -118,7 +119,7 @@ export function IncidentCreateScreen() {
 
         <Text style={styles.label}>Tipo</Text>
         <View style={styles.grid}>
-          {Object.values(IncidentType).map((t) => {
+          {REPORTABLE_INCIDENT_TYPES.map((t) => {
             const isActive = type === t;
             return (
               <Pressable

@@ -1,15 +1,17 @@
 /**
  * E2E — precierre de viaje + política de gastos (features nativas de G3 Drive).
  *
- * Parte 1 · Stack demo (vocabulario Supabase):
+ * Parte 1 · Stack demo (vocabulario único, igual al backend):
  *   unloading → pre_closed (entrega con cliente, retorno en vacío)
- *   → finished (cierre en matriz). El viaje precerrado sigue activo.
+ *   → closed (cierre en matriz). El viaje precerrado sigue activo.
  *
  * Parte 2 · Gastos: ticket leído por IA prellena el gasto; los gastos
  *   manuales sin comprobante se validan contra la política configurada
  *   en G3 Admin (allow_manual / tope / require_receipt).
  *
- * Parte 3 · Vocabulario backend (g3 api): delivered → closed → paid.
+ * Parte 3 · Mismo flujo contra el backend G3: pre_closed → pago liberado
+ *   (sin cambiar el estado) → closed. La política de gastos también se
+ *   lee del backend.
  */
 import { demoStore } from '@/demo/store';
 import { stubAI } from '@/services/ai';
@@ -19,7 +21,7 @@ import { tokenStore } from '@/api/g3/client';
 import { fixtures } from '../helpers/fixtures';
 import { installGlobalFetchMock, makeFetchMock } from '../helpers/mockFetch';
 
-describe('E2E — precierre de viaje (demo stack, vocabulario Drive)', () => {
+describe('E2E — precierre de viaje (demo stack)', () => {
   test('unloading → pre_closed estampa pre_closed_at y el viaje sigue activo', async () => {
     const active = await demoStore.listActive();
     expect(active.length).toBeGreaterThan(0);
@@ -40,7 +42,7 @@ describe('E2E — precierre de viaje (demo stack, vocabulario Drive)', () => {
     const pre = await demoStore.advanceStatus(trip.id, 'pre_closed');
     expect(pre.status).toBe('pre_closed');
     expect(pre.pre_closed_at).toBeTruthy();
-    expect(pre.finished_at).toBeNull();
+    expect(pre.closed_at).toBeNull();
 
     // el viaje precerrado sigue listado como activo (va en vacío a matriz)
     const stillActive = await demoStore.listActive();
@@ -50,9 +52,9 @@ describe('E2E — precierre de viaje (demo stack, vocabulario Drive)', () => {
     await expect(demoStore.advanceStatus(trip.id, 'loading' as never)).rejects.toThrow(/invalid/i);
 
     // CIERRE TOTAL: llegó a matriz
-    const closed = await demoStore.advanceStatus(trip.id, 'finished');
-    expect(closed.status).toBe('finished');
-    expect(closed.finished_at).toBeTruthy();
+    const closed = await demoStore.advanceStatus(trip.id, 'closed');
+    expect(closed.status).toBe('closed');
+    expect(closed.closed_at).toBeTruthy();
     expect(closed.pre_closed_at).toBeTruthy(); // el precierre queda en el historial
 
     const history = await demoStore.listHistory();
@@ -119,28 +121,29 @@ describe('E2E — gastos: IA de tickets + política administrada desde G3 Admin'
   });
 });
 
-describe('E2E — precierre en vocabulario backend (delivered → closed → paid)', () => {
+describe('E2E — precierre contra el backend G3 (vocabulario único)', () => {
   let teardown: () => void;
   beforeEach(() => {
     tokenStore.setInMemory({ accessToken: 'tok-starter', refreshToken: 'rfr' });
   });
   afterEach(() => teardown?.());
 
-  test('entrega (precierre) permite liberar pago sin esperar el retorno; el cierre llega después', async () => {
+  test('precierre permite liberar pago sin esperar el retorno; el cierre llega después', async () => {
     const tripId = 'trp_preclose_1';
     const m = makeFetchMock();
 
     m.onAny(
       (req) => req.method === 'PATCH' && req.url.endsWith(`/api/trips/${tripId}/status`),
       (req) => {
-        const next = (req.body as { status: string }).status;
+        const next = (req.body as { status: 'pre_closed' | 'closed' }).status;
         return {
           status: 200,
           body: fixtures.trip({
             id: tripId,
-            status: next as 'delivered' | 'closed',
-            completedAt: '2026-08-25T14:30:00Z',
+            status: next,
+            preClosedAt: '2026-08-25T14:30:00Z',
             closedAt: next === 'closed' ? '2026-08-25T19:05:00Z' : null,
+            paymentStatus: next === 'closed' ? 'released' : 'pending',
           }),
         };
       },
@@ -149,25 +152,23 @@ describe('E2E — precierre en vocabulario backend (delivered → closed → pai
       status: 200,
       body: fixtures.trip({
         id: tripId,
-        status: 'paid',
-        completedAt: '2026-08-25T14:30:00Z',
-        closedAt: null,
+        status: 'pre_closed',
+        preClosedAt: '2026-08-25T14:30:00Z',
+        paymentStatus: 'released',
         paymentReleasedAt: '2026-08-25T15:00:00Z',
       }),
     });
 
     teardown = installGlobalFetchMock(m);
 
-    // precierre: entregó en Obregón
-    const delivered = await tripsApi.setStatus(tripId, 'delivered');
-    expect(delivered.completedAt).toBeTruthy();
-    expect(delivered.closedAt).toBeNull();
+    const pre = await tripsApi.setStatus(tripId, 'pre_closed');
+    expect(pre.preClosedAt).toBeTruthy();
+    expect(pre.closedAt).toBeNull();
 
-    // el pago se libera desde la entrega — no depende del retorno a matriz
     const paid = await tripsApi.releasePayment(tripId);
-    expect(paid.status).toBe('paid');
+    expect(paid.paymentStatus).toBe('released');
+    expect(paid.status).toBe('pre_closed');
 
-    // cierre total al llegar a matriz
     const closed = await tripsApi.setStatus(tripId, 'closed');
     expect(closed.status).toBe('closed');
     expect(closed.closedAt).toBeTruthy();

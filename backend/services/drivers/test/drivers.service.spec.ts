@@ -92,3 +92,27 @@ describe('DriversService', () => {
     await expect(svc.get(ctx('starter'), d.id)).rejects.toThrow(/no encontrado/i);
   });
 });
+
+describe('DriversService · perfil del chofer (G3 Drive)', () => {
+  test('getMine devuelve el chofer vinculado al JWT', async () => {
+    const { svc } = build();
+    const d = await svc.create(ctx('starter'), { fullName: 'Juan', phone: '+5255' });
+    const me = await svc.getMine({ ...ctx('starter'), driverId: d.id });
+    expect(me.fullName).toBe('Juan');
+    await expect(svc.getMine(ctx('starter'))).rejects.toThrow(/chofer/i);
+  });
+
+  test('updateMine solo cambia teléfono y correo', async () => {
+    const { svc } = build();
+    const d = await svc.create(ctx('starter'), { fullName: 'Juan', phone: '+5255', federalLicense: 'B-1' });
+    const me = await svc.updateMine({ ...ctx('starter'), driverId: d.id }, {
+      phone: '+5299',
+      fullName: 'Hackeado',
+      federalLicense: 'X',
+    } as never);
+    expect(me.phone).toBe('+5299');
+    expect(me.fullName).toBe('Juan');
+    expect(me.federalLicense).toBe('B-1');
+  });
+});
+

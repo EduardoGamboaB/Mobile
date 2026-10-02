@@ -17,7 +17,7 @@ export function HistoryScreen() {
   const nav = useNavigation<TabNav<'History'>>();
   const { data, isRefetching, refetch } = useTripHistory();
 
-  const finished = (data ?? []).filter((t) => t.status === 'finished');
+  const finished = (data ?? []).filter((t) => t.status === 'closed');
   const totalEarnings = finished.reduce((s, t) => s + (t.driver_commission ?? 0), 0);
 
   return (
@@ -51,7 +51,7 @@ export function HistoryScreen() {
         data={data ?? []}
         keyExtractor={(t) => t.id}
         renderItem={({ item }) => {
-          const isFinished = item.status === 'finished';
+          const isFinished = item.status === 'closed';
           return (
             <Pressable
               onPress={() => nav.navigate('TripDetail', { tripId: item.id })}
@@ -68,8 +68,8 @@ export function HistoryScreen() {
                 <Text style={[typography.bodyStrong, { color: c.text }]}>{item.client_name}</Text>
                 <Text style={[typography.caption, { color: c.muted }]}>
                   {item.origin.split(',')[0]} → {item.destination.split(',')[0]} ·{' '}
-                  {item.finished_at
-                    ? new Date(item.finished_at).toLocaleDateString('es-MX', {
+                  {item.closed_at
+                    ? new Date(item.closed_at).toLocaleDateString('es-MX', {
                         day: '2-digit',
                         month: 'short',
                       })

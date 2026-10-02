@@ -1,4 +1,5 @@
 import type { TierValue, FeatureValue } from '@/constants/tiers';
+import type { TripPaymentStatus, TripStatus } from '@/contracts/tripStatus';
 
 export interface JwtTokens {
   accessToken: string;
@@ -12,6 +13,8 @@ export interface AuthSession extends JwtTokens {
     role: 'owner' | 'admin' | 'dispatcher' | 'driver' | 'viewer';
     companyId: string;
     tier: TierValue;
+    /** Solo usuarios chofer: registro de chofer vinculado. */
+    driverId?: string;
   };
 }
 
@@ -86,33 +89,120 @@ export interface TrailerDTO {
   status: 'available' | 'in_trip' | 'maintenance' | 'inactive';
 }
 
+/** Espejo de `TripDto` de @g3/contracts — vocabulario único de estados. */
 export interface TripDTO {
   id: string;
   companyId: string;
   folio: string;
-  /** `delivered` = precierre (entrega con cliente, retorno en vacío); `closed` = cierre en matriz. */
-  status:
-    | 'draft'
-    | 'assigned'
-    | 'in_transit'
-    | 'arrived'
-    | 'delivered'
-    | 'closed'
-    | 'paid'
-    | 'canceled';
+  status: TripStatus;
   driverId: string | null;
   tractorId: string | null;
   trailerId: string | null;
+  clientName: string | null;
+  cargo: string | null;
   origin: string;
   destination: string;
   scheduledAt: string | null;
-  startedAt: string | null;
-  /** Precierre: entrega con el cliente final. */
-  completedAt: string | null;
-  /** Cierre total: la unidad llegó a matriz. */
-  closedAt: string | null;
-  paymentReleasedAt: string | null;
+  estimatedUnloadAt: string | null;
+  tons: number | null;
+  pricePerTon: number | null;
   freightAmount: number | null;
+  driverCommission: number | null;
+  estimatedTolls: number | null;
+  estimatedDiesel: number | null;
+  notes: string | null;
+  startedAt: string | null;
+  /** Precierre: entrega con el cliente final; retorno en vacío a matriz. */
+  preClosedAt: string | null;
+  /** Cierre: la unidad llegó a matriz. */
+  closedAt: string | null;
+  cancelledAt: string | null;
+  paymentStatus: TripPaymentStatus;
+  paymentReleasedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface LogbookEntryDTO {
+  id: string;
+  companyId: string;
+  clientUuid: string;
+  tripId: string;
+  driverId: string;
+  eventType: string;
+  occurredAt: string;
+  locationText: string | null;
+  lat: number | null;
+  lng: number | null;
+  odometerKm: number | null;
+  fuel: string | null;
+  expenseAmount: number | null;
+  expenseConcept: string | null;
+  expenseHasReceipt: boolean;
+  comments: string | null;
+  createdAt: string;
+}
+
+export interface EvidenceDTO {
+  id: string;
+  companyId: string;
+  clientUuid: string;
+  tripId: string | null;
+  logbookId: string | null;
+  incidentId: string | null;
+  driverId: string;
+  type: string;
+  storagePath: string;
+  mimeType: string | null;
+  sizeBytes: number | null;
+  lat: number | null;
+  lng: number | null;
+  takenAt: string | null;
+  createdAt: string;
+}
+
+export interface UploadUrlDTO {
+  uploadUrl: string;
+  storagePath: string;
+  expiresAt: string;
+}
+
+export interface ExpensePolicyDTO {
+  companyId: string;
+  allowManualExpense: boolean;
+  manualMaxAmount: number | null;
+  requireReceipt: boolean;
+  updatedAt: string;
+}
+
+export interface IncidentDTO {
+  id: string;
+  companyId: string;
+  folio: string;
+  clientUuid: string | null;
+  source: 'driver_report' | 'sos' | 'rule' | 'manual';
+  type: string;
+  urgency: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'acknowledged' | 'in_progress' | 'resolved' | 'closed';
+  title: string;
+  description: string;
+  tripId: string | null;
+  driverId: string | null;
+  vehicleId: string | null;
+  assigneeId: string | null;
+  occurredAt: string;
+  locationText: string | null;
+  lat: number | null;
+  lng: number | null;
+  evidenceIds: string[];
+  slaAckDueAt: string;
+  slaResolveDueAt: string;
+  acknowledgedAt: string | null;
+  resolvedAt: string | null;
+  closedAt: string | null;
+  escalationLevel: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface AlertDTO {

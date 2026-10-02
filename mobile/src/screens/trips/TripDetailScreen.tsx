@@ -47,7 +47,7 @@ export function TripDetailScreen() {
   const confirmCopy: Partial<Record<string, string>> = {
     pre_closed:
       'Se registrará la entrega con el cliente. El viaje queda PRECERRADO mientras regresas en vacío a matriz — ciérralo al llegar.',
-    finished:
+    closed:
       '¿Confirmas que llegaste a matriz? Esto cierra el viaje por completo.',
   };
 

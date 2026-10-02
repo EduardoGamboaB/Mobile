@@ -1,13 +1,20 @@
-import { Body, Controller, Get, HttpCode, Inject, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Inject, Param, Patch, Post, Put, Query, Req } from '@nestjs/common';
 import type { Request } from 'express';
-import type { TierValue, TripStatus } from '@g3/contracts';
-import { TripsService, type CreateTripInput, type RequestCtx } from './trips.service';
+import type { CreateEvidenceDto, CreateLogbookEntryDto, TierValue, TripStatus } from '@g3/contracts';
+import { TripsService, type CreateTripInput, type ExpensePolicyInput, type RequestCtx } from './trips.service';
 
-function ctx(req: Request): RequestCtx {
+/** Contexto que inyecta el gateway tras validar el JWT. */
+export function ctx(req: Request): RequestCtx {
   const companyId = req.header('x-company-id');
   const tier = req.header('x-tier') as TierValue | undefined;
   if (!companyId || !tier) throw new Error('x-company-id y x-tier requeridos');
-  return { companyId, tier };
+  return {
+    companyId,
+    tier,
+    userId: req.header('x-user-id') ?? undefined,
+    role: req.header('x-user-role') ?? undefined,
+    driverId: req.header('x-driver-id') ?? undefined,
+  };
 }
 
 @Controller('/trips')
@@ -16,6 +23,10 @@ export class TripsController {
 
   @Get() list(@Req() req: Request, @Query('status') status?: TripStatus, @Query('driverId') driverId?: string) {
     return this.svc.list(ctx(req), { status, driverId });
+  }
+  /** Viajes del chofer autenticado (G3 Drive). */
+  @Get('mine') mine(@Req() req: Request, @Query('scope') scope?: 'active' | 'history') {
+    return this.svc.listMine(ctx(req), scope === 'history' ? 'history' : 'active');
   }
   @Get(':id') get(@Req() req: Request, @Param('id') id: string) { return this.svc.get(ctx(req), id); }
   @Post() create(@Req() req: Request, @Body() body: CreateTripInput) { return this.svc.create(ctx(req), body); }
@@ -27,4 +38,33 @@ export class TripsController {
   @Post(':id/release-payment') @HttpCode(200) release(@Req() req: Request, @Param('id') id: string) {
     return this.svc.releasePayment(ctx(req), id);
   }
+
+  @Get(':id/logbook') logbook(@Req() req: Request, @Param('id') id: string) {
+    return this.svc.listLogbook(ctx(req), id);
+  }
+  @Post(':id/logbook') addLogbook(@Req() req: Request, @Param('id') id: string, @Body() body: CreateLogbookEntryDto) {
+    return this.svc.addLogbookEntry(ctx(req), id, body);
+  }
+
+  @Get(':id/evidences') evidences(@Req() req: Request, @Param('id') id: string) {
+    return this.svc.listEvidences(ctx(req), id);
+  }
+  @Post(':id/evidences/upload-url') @HttpCode(200) uploadUrl(
+    @Req() req: Request, @Param('id') id: string, @Body() body: { clientUuid: string; mimeType: string },
+  ) {
+    return this.svc.evidenceUploadUrl(ctx(req), id, body);
+  }
+  @Post(':id/evidences') registerEvidence(
+    @Req() req: Request, @Param('id') id: string, @Body() body: CreateEvidenceDto,
+  ) {
+    return this.svc.registerEvidence(ctx(req), id, body);
+  }
+}
+
+@Controller('/expense-policy')
+export class ExpensePolicyController {
+  constructor(@Inject(TripsService) private readonly svc: TripsService) {}
+
+  @Get() get(@Req() req: Request) { return this.svc.getExpensePolicy(ctx(req)); }
+  @Put() put(@Req() req: Request, @Body() body: ExpensePolicyInput) { return this.svc.putExpensePolicy(ctx(req), body); }
 }

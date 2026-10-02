@@ -51,6 +51,7 @@ class SyncService {
           } else if (item.kind === 'evidence') {
             const p = item.payload as EvidencePayload;
             await uploadEvidence({
+              clientUuid: item.id,
               driverId: p.driverId,
               tripId: p.tripId ?? null,
               logbookId: p.logbookId ?? null,

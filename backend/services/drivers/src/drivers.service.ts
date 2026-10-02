@@ -10,7 +10,12 @@ import type { DriverRepo } from './in-memory.driver.repo';
 export interface RequestCtx {
   companyId: string;
   tier: TierValue;
+  /** Presente cuando el usuario autenticado es un chofer (claim del JWT). */
+  driverId?: string;
 }
+
+/** Lo que el chofer puede corregir de su propio perfil desde G3 Drive. */
+export type SelfEditableDriverFields = Partial<Pick<CreateDriverInput, 'phone' | 'email'>>;
 
 export interface CreateDriverInput {
   fullName: string;
@@ -66,6 +71,21 @@ export class DriversService {
     const updated = await this.repo.update(ctx.companyId, id, patch);
     if (!updated) throw new Error('Driver no encontrado');
     return updated;
+  }
+
+  /** Perfil del chofer autenticado (G3 Drive). */
+  async getMine(ctx: RequestCtx): Promise<DriverDto> {
+    if (!ctx.driverId) throw new Error('El usuario no está vinculado a un chofer');
+    return this.get(ctx, ctx.driverId);
+  }
+
+  /** El chofer solo puede tocar su contacto; licencia y estatus los gestiona la empresa. */
+  async updateMine(ctx: RequestCtx, patch: SelfEditableDriverFields): Promise<DriverDto> {
+    if (!ctx.driverId) throw new Error('El usuario no está vinculado a un chofer');
+    const allowed: SelfEditableDriverFields = {};
+    if (patch.phone !== undefined) allowed.phone = patch.phone;
+    if (patch.email !== undefined) allowed.email = patch.email;
+    return this.update(ctx, ctx.driverId, allowed);
   }
 
   async remove(ctx: RequestCtx, id: string): Promise<void> {

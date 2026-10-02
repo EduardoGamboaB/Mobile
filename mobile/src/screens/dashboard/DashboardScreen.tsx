@@ -223,7 +223,7 @@ export function DashboardScreen() {
         </View>
         <Card variant="flat" padding={0}>
           {(history.data ?? []).slice(0, 3).map((trip, idx, arr) => {
-            const isFinished = trip.status === 'finished';
+            const isFinished = trip.status === 'closed';
             return (
               <Pressable
                 key={trip.id}
@@ -240,8 +240,8 @@ export function DashboardScreen() {
                   <Text style={[typography.bodyStrong, { color: c.text }]}>{trip.client_name}</Text>
                   <Text style={[typography.caption, { color: c.muted }]}>
                     {trip.folio} ·{' '}
-                    {trip.finished_at
-                      ? new Date(trip.finished_at).toLocaleDateString()
+                    {trip.closed_at
+                      ? new Date(trip.closed_at).toLocaleDateString()
                       : '—'}
                   </Text>
                 </View>

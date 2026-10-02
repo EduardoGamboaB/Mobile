@@ -1,56 +1,26 @@
-import { supabase } from './supabase';
 import { isDemo, demoStore } from '@/demo';
 import type { Trip } from '@/models';
 import type { TripStatusValue } from '@/constants/enums';
+import { tripsApi } from './g3/trips';
+import { tripFromDto } from './mappers';
 
-const ACTIVE_STATUSES: TripStatusValue[] = [
-  'scheduled',
-  'loading',
-  'in_transit',
-  'unloading',
-  // precerrado: entregado al cliente pero aún en retorno a matriz —
-  // el viaje sigue activo hasta el cierre total.
-  'pre_closed',
-];
-
-export async function listMyActiveTrips(driverId: string): Promise<Trip[]> {
+/** Activos = programado → precierre (el viaje sigue vivo durante el retorno en vacío). */
+export async function listMyActiveTrips(_driverId: string): Promise<Trip[]> {
   if (isDemo) return demoStore.listActive();
-  const { data, error } = await supabase
-    .from('trips')
-    .select('*')
-    .eq('driver_id', driverId)
-    .in('status', ACTIVE_STATUSES)
-    .order('load_date', { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as Trip[];
+  return (await tripsApi.mine('active')).map(tripFromDto);
 }
 
-export async function listMyTripHistory(driverId: string, limit = 30): Promise<Trip[]> {
+export async function listMyTripHistory(_driverId: string, limit = 30): Promise<Trip[]> {
   if (isDemo) return demoStore.listHistory();
-  const { data, error } = await supabase
-    .from('trips')
-    .select('*')
-    .eq('driver_id', driverId)
-    .in('status', ['finished', 'cancelled'])
-    .order('updated_at', { ascending: false })
-    .limit(limit);
-  if (error) throw error;
-  return (data ?? []) as Trip[];
+  return (await tripsApi.mine('history')).slice(0, limit).map(tripFromDto);
 }
 
 export async function getTrip(id: string): Promise<Trip | null> {
   if (isDemo) return demoStore.getTrip(id);
-  const { data, error } = await supabase.from('trips').select('*').eq('id', id).maybeSingle();
-  if (error) throw error;
-  return data as Trip | null;
+  return tripFromDto(await tripsApi.get(id));
 }
 
 export async function advanceTripStatus(tripId: string, next: TripStatusValue): Promise<Trip> {
   if (isDemo) return demoStore.advanceStatus(tripId, next);
-  const { data, error } = await supabase.rpc('advance_trip_status', {
-    p_trip_id: tripId,
-    p_next: next,
-  });
-  if (error) throw error;
-  return data as Trip;
+  return tripFromDto(await tripsApi.setStatus(tripId, next));
 }

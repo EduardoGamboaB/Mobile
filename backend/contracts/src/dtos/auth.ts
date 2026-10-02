@@ -38,6 +38,8 @@ export interface JwtPayload {
   role: UserRole;
   companyId: string;
   tier: TierValue;
+  /** Solo usuarios chofer: id del registro de chofer al que está vinculado. */
+  driverId?: string;
   iat?: number;
   exp?: number;
 }

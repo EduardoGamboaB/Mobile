@@ -1,7 +1,8 @@
-import { supabase } from './supabase';
 import { isDemo, demoStore } from '@/demo';
 import type { LogbookEntry } from '@/models';
 import type { FuelLevelValue, LogbookEventValue } from '@/constants/enums';
+import { tripsApi } from './g3/trips';
+import { logbookFromDto, logbookToDto } from './mappers';
 
 export interface NewLogbookEntry {
   client_uuid: string;
@@ -23,13 +24,7 @@ export interface NewLogbookEntry {
 
 export async function listLogbook(tripId: string): Promise<LogbookEntry[]> {
   if (isDemo) return demoStore.listLogbook(tripId);
-  const { data, error } = await supabase
-    .from('logbook_entries')
-    .select('*')
-    .eq('trip_id', tripId)
-    .order('occurred_at', { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as LogbookEntry[];
+  return (await tripsApi.listLogbook(tripId)).map(logbookFromDto);
 }
 
 export async function createLogbookEntry(entry: NewLogbookEntry): Promise<LogbookEntry> {
@@ -53,11 +48,7 @@ export async function createLogbookEntry(entry: NewLogbookEntry): Promise<Logboo
       created_at: new Date().toISOString(),
     });
   }
-  const { data, error } = await supabase
-    .from('logbook_entries')
-    .upsert(entry, { onConflict: 'client_uuid' })
-    .select('*')
-    .single();
-  if (error) throw error;
-  return data as LogbookEntry;
+  // Idempotente por client_uuid en el servidor: la cola offline puede reintentar.
+  // El servidor también hace cumplir la política de gastos.
+  return logbookFromDto(await tripsApi.addLogbookEntry(entry.trip_id, logbookToDto(entry)));
 }

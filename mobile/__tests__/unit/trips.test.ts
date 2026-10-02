@@ -46,7 +46,11 @@ describe('tripsApi', () => {
   test('releasePayment con tier Starter+ marca paymentReleasedAt', async () => {
     const m = makeFetchMock().on('POST /api/trips/trp_test_1/release-payment', {
       status: 200,
-      body: fixtures.trip({ status: 'paid', paymentReleasedAt: '2026-05-18T10:00:00Z' }),
+      body: fixtures.trip({
+        status: 'pre_closed',
+        paymentStatus: 'released',
+        paymentReleasedAt: '2026-05-18T10:00:00Z',
+      }),
     });
     teardown = installGlobalFetchMock(m);
 

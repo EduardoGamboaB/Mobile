@@ -9,7 +9,7 @@ interface Props {
 const variantFor = (s: TripStatusValue) => {
   switch (s) {
     case 'in_transit': return 'blue' as const;
-    case 'finished':   return 'green' as const;
+    case 'closed':     return 'green' as const;
     case 'loading':
     case 'unloading':  return 'amber' as const;
     case 'cancelled':  return 'gray' as const;

@@ -49,7 +49,7 @@ export interface Trip {
   started_at: string | null;
   /** Precierre: entrega con el cliente final, retorno en vacío a matriz. */
   pre_closed_at?: string | null;
-  finished_at: string | null;
+  closed_at: string | null;
   created_at: string;
   updated_at: string;
 }

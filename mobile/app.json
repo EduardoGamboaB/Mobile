@@ -50,8 +50,7 @@
       "expo-image-picker"
     ],
     "extra": {
-      "supabaseUrl": "",
-      "supabaseAnonKey": ""
+      "g3ApiUrl": ""
     }
   }
 }

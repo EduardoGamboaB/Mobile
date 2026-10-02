@@ -7,7 +7,7 @@ import { Button } from '@/components/common/Button';
 import { TextField } from '@/components/common/TextField';
 import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { MailIcon } from '@/components/icons';
-import { supabase } from '@/api/supabase';
+import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
@@ -29,12 +29,14 @@ export function ForgotPasswordScreen() {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-    setLoading(false);
-    if (error) {
-      Alert.alert('No se pudo enviar', error.message);
+    try {
+      await useAuthStore.getState().requestPasswordReset(email);
+    } catch (e) {
+      setLoading(false);
+      Alert.alert('No se pudo enviar', e instanceof Error ? e.message : String(e));
       return;
     }
+    setLoading(false);
     Alert.alert(
       'Listo',
       'Te enviamos un enlace para restablecer tu contraseña.',

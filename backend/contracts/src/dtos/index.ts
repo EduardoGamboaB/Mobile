@@ -1,6 +1,8 @@
 import type { TierValue } from '../tiers';
 
 export * from './auth';
+export * from './operations';
+export * from './incidents';
 
 export interface CompanyDto {
   id: string;
@@ -70,42 +72,6 @@ export interface TrailerDto {
     | 'lowboy';
   capacityTons: number | null;
   status: 'available' | 'in_trip' | 'maintenance' | 'inactive';
-}
-
-/**
- * `delivered` es el **precierre**: la carga se entregó con el cliente final
- * pero la unidad viaja en vacío de regreso a matriz. `closed` es el cierre
- * total del viaje (unidad de vuelta en matriz). El pago puede liberarse
- * desde `delivered` — no depende del retorno.
- */
-export type TripStatus =
-  | 'draft'
-  | 'assigned'
-  | 'in_transit'
-  | 'arrived'
-  | 'delivered'
-  | 'closed'
-  | 'paid'
-  | 'canceled';
-
-export interface TripDto {
-  id: string;
-  companyId: string;
-  folio: string;
-  status: TripStatus;
-  driverId: string | null;
-  tractorId: string | null;
-  trailerId: string | null;
-  origin: string;
-  destination: string;
-  scheduledAt: string | null;
-  startedAt: string | null;
-  /** Precierre: entrega con el cliente final. */
-  completedAt: string | null;
-  /** Cierre total: la unidad llegó a matriz. */
-  closedAt: string | null;
-  paymentReleasedAt: string | null;
-  freightAmount: number | null;
 }
 
 /**

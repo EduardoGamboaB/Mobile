@@ -1,34 +1,32 @@
+import {
+  TRIP_STATUSES,
+  TRIP_STATUS_LABEL_ES,
+  nextTripStatus,
+  type TripStatus as TripStatusType,
+} from '@/contracts/tripStatus';
+
+/**
+ * Estados del viaje — vocabulario ÚNICO compartido con el backend y G3 Admin
+ * (fuente: backend/contracts/src/trip-status.ts, copiado en src/contracts/).
+ */
 export const TripStatus = {
+  Draft: 'draft',
   Scheduled: 'scheduled',
   Loading: 'loading',
   InTransit: 'in_transit',
   Unloading: 'unloading',
   /** Entrega realizada con el cliente final; la unidad regresa en vacío a matriz. */
   PreClosed: 'pre_closed',
-  Finished: 'finished',
+  Closed: 'closed',
   Cancelled: 'cancelled',
-} as const;
-export type TripStatusValue = (typeof TripStatus)[keyof typeof TripStatus];
+} as const satisfies Record<string, TripStatusType>;
+export type TripStatusValue = TripStatusType;
 
-export const TripStatusLabel: Record<TripStatusValue, string> = {
-  scheduled:  'Programado',
-  loading:    'Cargando',
-  in_transit: 'En tránsito',
-  unloading:  'Descargando',
-  pre_closed: 'Precerrado',
-  finished:   'Cerrado',
-  cancelled:  'Cancelado',
-};
+export const TripStatusLabel: Record<TripStatusValue, string> = { ...TRIP_STATUS_LABEL_ES };
 
-export const nextStatus: Record<TripStatusValue, TripStatusValue | null> = {
-  scheduled:  'loading',
-  loading:    'in_transit',
-  in_transit: 'unloading',
-  unloading:  'pre_closed',
-  pre_closed: 'finished',
-  finished:   null,
-  cancelled:  null,
-};
+export const nextStatus = Object.fromEntries(
+  TRIP_STATUSES.map((s) => [s, nextTripStatus(s)]),
+) as Record<TripStatusValue, TripStatusValue | null>;
 
 /**
  * Texto del botón de avance por estado destino. El precierre y el cierre
@@ -37,7 +35,7 @@ export const nextStatus: Record<TripStatusValue, TripStatusValue | null> = {
  */
 export const TripAdvanceCta: Partial<Record<TripStatusValue, string>> = {
   pre_closed: 'Precerrar viaje · entrega realizada',
-  finished:   'Cerrar viaje · llegué a matriz',
+  closed:     'Cerrar viaje · llegué a matriz',
 };
 
 export const LogbookEvent = {
@@ -106,9 +104,18 @@ export const IncidentType = {
   DelayUnloading: 'delay_unloading',
   ClientIssue: 'client_issue',
   TheftAttempt: 'theft_attempt',
+  /** Generados por el sistema (botón SOS y reglas de telemetría), no seleccionables al reportar. */
+  Sos: 'sos',
+  Speeding: 'speeding',
+  DeviceOffline: 'device_offline',
   Other: 'other',
 } as const;
 export type IncidentTypeValue = (typeof IncidentType)[keyof typeof IncidentType];
+
+/** Tipos que el chofer puede elegir al reportar (los de sistema se excluyen). */
+export const REPORTABLE_INCIDENT_TYPES: IncidentTypeValue[] = Object.values(IncidentType).filter(
+  (t) => t !== 'sos' && t !== 'speeding' && t !== 'device_offline',
+);
 
 export const IncidentTypeLabel: Record<IncidentTypeValue, string> = {
   mechanical:      'Falla mecánica',
@@ -118,6 +125,9 @@ export const IncidentTypeLabel: Record<IncidentTypeValue, string> = {
   delay_unloading: 'Retraso en descarga',
   client_issue:    'Problema con cliente',
   theft_attempt:   'Robo / extorsión',
+  sos:             'SOS',
+  speeding:        'Exceso de velocidad',
+  device_offline:  'GPS sin señal',
   other:           'Otro',
 };
 
@@ -129,6 +139,9 @@ export const IncidentTypeIcon: Record<IncidentTypeValue, string> = {
   delay_unloading: 'clock',
   client_issue:    'user',
   theft_attempt:   'lock',
+  sos:             'alert',
+  speeding:        'alert',
+  device_offline:  'info',
   other:           'info',
 };
 

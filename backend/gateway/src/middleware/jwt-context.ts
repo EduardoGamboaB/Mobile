@@ -7,6 +7,7 @@ export interface RequestContext {
   role: string;
   companyId: string;
   tier: TierValue;
+  driverId?: string;
 }
 
 export function extractContext(authHeader: string | undefined, secret: string): RequestContext {
@@ -23,5 +24,6 @@ export function extractContext(authHeader: string | undefined, secret: string): 
     role: decoded.role,
     companyId: decoded.companyId,
     tier: decoded.tier,
+    ...(decoded.driverId ? { driverId: decoded.driverId } : {}),
   };
 }

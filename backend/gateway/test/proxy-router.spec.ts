@@ -26,6 +26,8 @@ describe('proxy router: rutea /api/<resource>/* al microservicio correcto', () =
     ['/api/trailers/trl_123', URLS.fleet],
     ['/api/trips', URLS.trips],
     ['/api/trips/trp_x/release-payment', URLS.trips],
+    ['/api/trips/mine', URLS.trips],
+    ['/api/expense-policy', URLS.trips],
     ['/api/alerts', URLS.alerts],
     ['/api/ai/classify-logbook', URLS.ai],
     ['/api/ai/extract-evidence', URLS.ai],

@@ -28,7 +28,7 @@ function isPublic(path: string): boolean {
   return PUBLIC_PATHS.some((r) => r.test(path));
 }
 
-async function proxy(upstream: string, req: Request, res: Response, ctx?: { companyId: string; tier: string; userId: string; role: string }) {
+async function proxy(upstream: string, req: Request, res: Response, ctx?: { companyId: string; tier: string; userId: string; role: string; driverId?: string }) {
   const url = `${upstream}${req.originalUrl}`;
   const headers: Record<string, string> = { 'content-type': req.header('content-type') ?? 'application/json' };
   if (ctx) {
@@ -36,6 +36,7 @@ async function proxy(upstream: string, req: Request, res: Response, ctx?: { comp
     headers['x-tier'] = ctx.tier;
     headers['x-user-id'] = ctx.userId;
     headers['x-user-role'] = ctx.role;
+    if (ctx.driverId) headers['x-driver-id'] = ctx.driverId;
   }
   const init: RequestInit = {
     method: req.method,
