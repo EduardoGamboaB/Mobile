@@ -1,5 +1,5 @@
 # Dockerfile genérico para todos los microservicios G3.
-# Se construye con --build-arg SERVICE=<auth|billing|fleet|drivers|trips|alerts|ai|gateway>
+# Se construye con --build-arg SERVICE=<gateway|services/<auth|billing|fleet|drivers|trips|alerts|ai|integrations>>
 ARG NODE_VERSION=20-alpine
 
 # ---------- build stage ----------
@@ -11,16 +11,20 @@ WORKDIR /repo
 COPY package.json package-lock.json* tsconfig.base.json ./
 COPY contracts/package.json contracts/tsconfig.json ./contracts/
 COPY contracts/src ./contracts/src
+# Kit de proveedores externos (@g3/integrations): lo usan auth, alerts,
+# billing, invoicing e integrations. Se copia siempre (es pequeño).
+COPY integrations-kit/package.json integrations-kit/tsconfig.json ./integrations-kit/
+COPY integrations-kit/src ./integrations-kit/src
 
 # Dependencias del workspace específico
 COPY ${SERVICE}/package.json ${SERVICE}/tsconfig.json ./${SERVICE}/
 
 # Instalar todas las deps de ese workspace + contracts
-RUN npm install --workspace ${SERVICE} --workspace contracts --ignore-scripts --no-audit --no-fund
+RUN npm install --workspace ${SERVICE} --workspace contracts --workspace integrations-kit --ignore-scripts --no-audit --no-fund
 
 # Copiar el código y compilar
 COPY ${SERVICE}/src ./${SERVICE}/src
-RUN npm run build --workspace contracts && npm run build --workspace ${SERVICE}
+RUN npm run build --workspace contracts && npm run build --workspace integrations-kit && npm run build --workspace ${SERVICE}
 
 # ---------- runtime ----------
 FROM node:${NODE_VERSION}
@@ -31,6 +35,8 @@ WORKDIR /app
 COPY --from=build /repo/node_modules ./node_modules
 COPY --from=build /repo/contracts/dist ./contracts/dist
 COPY --from=build /repo/contracts/package.json ./contracts/
+COPY --from=build /repo/integrations-kit/dist ./integrations-kit/dist
+COPY --from=build /repo/integrations-kit/package.json ./integrations-kit/
 COPY --from=build /repo/${SERVICE}/dist ./dist
 COPY --from=build /repo/${SERVICE}/package.json ./package.json
 

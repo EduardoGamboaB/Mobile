@@ -38,7 +38,7 @@ RUNTIME_SA="${RUNTIME_SA:-g3-runtime@${PROJECT_ID}.iam.gserviceaccount.com}"
 MIN_INSTANCES="${MIN_INSTANCES:-0}"
 MAX_INSTANCES="${MAX_INSTANCES:-10}"
 
-SERVICES=(auth billing drivers fleet trips alerts ai)
+SERVICES=(auth billing drivers fleet trips alerts ai integrations)
 
 BACKEND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$BACKEND_ROOT"
@@ -155,6 +155,7 @@ ENV_VARS+=",FLEET_URL=${URLS[fleet]}"
 ENV_VARS+=",TRIPS_URL=${URLS[trips]}"
 ENV_VARS+=",ALERTS_URL=${URLS[alerts]}"
 ENV_VARS+=",AI_URL=${URLS[ai]}"
+ENV_VARS+=",INTEGRATIONS_URL=${URLS[integrations]}"
 ENV_VARS+=",GCP_PROJECT_ID=${PROJECT_ID},PORT=8080"
 
 gcloud run deploy g3-gateway \

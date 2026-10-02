@@ -13,7 +13,8 @@
     "test": "npm run test --workspaces --if-present",
     "test:contracts": "npm test --workspace contracts",
     "test:gateway": "npm test --workspace gateway",
-    "test:services": "for s in auth billing fleet drivers trips alerts ai; do echo \"\\n=== $s ===\" && npm test --workspace services/$s || exit 1; done",
+    "test:integrations-kit": "npm test --workspace integrations-kit",
+    "test:services": "for s in auth billing fleet drivers trips alerts ai invoicing integrations; do echo \"\\n=== $s ===\" && npm test --workspace services/$s || exit 1; done",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "dev": "docker compose -f infra/docker/docker-compose.yml up --build",
     "fmt": "prettier --write 'contracts/**/*.ts' 'gateway/**/*.ts' 'services/**/*.ts'"

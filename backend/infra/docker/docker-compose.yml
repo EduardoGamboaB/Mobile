@@ -1,29 +1,42 @@
 # G3 microservices — desarrollo local
-# Levanta los 7 servicios + gateway + postgres + pubsub emulator.
+# Levanta los 8 servicios + gateway + postgres + pubsub emulator.
 #
 #   cd backend && docker compose -f infra/docker/docker-compose.yml up --build
 #
 # Una vez arriba:
 #   curl http://localhost:8080/health
 #   curl -X POST http://localhost:8080/api/auth/register-company -d '{...}'
+#
+# Todas las variables están documentadas en backend/.env.example. Los
+# valores por defecto de aquí son SOLO de desarrollo.
 
 version: '3.9'
+
+# Entorno común. Ojo: `environment` de un servicio REEMPLAZA (no mezcla) el
+# de la ancla `base`, por eso cada servicio hace `<<: *common-env`.
+x-common-env: &common-env
+  NODE_ENV: development
+  JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
+  JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
+  PUBSUB_EMULATOR_HOST: pubsub-emulator:8085
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_USER: g3
+  DB_PASS: g3
+  DB_NAME: g3
+
+# Token compartido servicio→servicio (x-internal-token). Mismo valor en todos;
+# auth exige ≥ 32 caracteres para la ingesta de auditoría.
+x-internal-env: &internal-env
+  INTERNAL_TOKEN: "${INTERNAL_TOKEN:-dev-internal-token-min-32-chars-cccccccc}"
+  AUDIT_INGEST_TOKEN: "${AUDIT_INGEST_TOKEN:-dev-internal-token-min-32-chars-cccccccc}"
 
 x-service-base: &base
   build:
     context: ../..
     dockerfile: infra/docker/service.Dockerfile
   restart: unless-stopped
-  environment:
-    NODE_ENV: development
-    JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
-    JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
-    PUBSUB_EMULATOR_HOST: pubsub-emulator:8085
-    DB_HOST: postgres
-    DB_PORT: 5432
-    DB_USER: g3
-    DB_PASS: g3
-    DB_NAME: g3
+  environment: *common-env
   depends_on:
     - postgres
 
@@ -51,6 +64,7 @@ services:
         SERVICE: gateway
     ports: ['8080:8080']
     environment:
+      <<: *common-env
       PORT: 8080
       AUTH_URL: http://auth:8081
       BILLING_URL: http://billing:8082
@@ -59,8 +73,9 @@ services:
       TRIPS_URL: http://trips:8085
       ALERTS_URL: http://alerts:8086
       AI_URL: http://ai:8087
-      JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
-    depends_on: [auth, billing, drivers, fleet, trips, alerts, ai]
+      INTEGRATIONS_URL: http://integrations:8088
+      # Rate limit: RATE_LIMIT_* opcionales (ver .env.example)
+    depends_on: [auth, billing, drivers, fleet, trips, alerts, ai, integrations]
 
   auth:
     <<: *base
@@ -69,39 +84,73 @@ services:
       dockerfile: infra/docker/service.Dockerfile
       args: { SERVICE: services/auth }
     environment:
+      <<: [*common-env, *internal-env]
       PORT: 8081
-      JWT_ACCESS_SECRET: "${JWT_ACCESS_SECRET:-dev-access-secret-min-32-chars-aaaaaaaaa}"
-      JWT_REFRESH_SECRET: "${JWT_REFRESH_SECRET:-dev-refresh-secret-min-32-chars-bbbbbbbbb}"
+      INTEGRATIONS_URL: http://integrations:8088
 
   billing:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/billing } }
-    environment: { PORT: 8082 }
+    environment:
+      <<: [*common-env, *internal-env]
+      PORT: 8082
+      INTEGRATIONS_URL: http://integrations:8088
 
   drivers:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/drivers } }
-    environment: { PORT: 8083 }
+    environment:
+      <<: *common-env
+      PORT: 8083
 
   fleet:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/fleet } }
-    environment: { PORT: 8084 }
+    environment:
+      <<: [*common-env, *internal-env]
+      PORT: 8084
+      ALERTS_URL: http://alerts:8086
+      TRIPS_URL: http://trips:8085
 
   trips:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/trips } }
-    environment: { PORT: 8085 }
+    environment:
+      <<: [*common-env, *internal-env]
+      PORT: 8085
+      AUTH_URL: http://auth:8081
 
   alerts:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/alerts } }
-    environment: { PORT: 8086 }
+    environment:
+      <<: [*common-env, *internal-env]
+      PORT: 8086
+      INTEGRATIONS_URL: http://integrations:8088
+      # Respaldo si no hay configuración en integrations (vacío = modo registro)
+      EXPO_PUSH_ENABLED: "${EXPO_PUSH_ENABLED:-}"
+      WHATSAPP_PHONE_NUMBER_ID: "${WHATSAPP_PHONE_NUMBER_ID:-}"
+      WHATSAPP_ACCESS_TOKEN: "${WHATSAPP_ACCESS_TOKEN:-}"
 
   ai:
     <<: *base
     build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/ai } }
-    environment: { PORT: 8087 }
+    environment:
+      <<: *common-env
+      PORT: 8087
+
+  integrations:
+    <<: *base
+    build: { context: ../.., dockerfile: infra/docker/service.Dockerfile, args: { SERVICE: services/integrations } }
+    environment:
+      <<: [*common-env, *internal-env]
+      PORT: 8088
+      AUTH_URL: http://auth:8081
+      # Compañía dueña de la plataforma (edita el alcance plataforma). Pon aquí el id
+      # de tu compañía de G3 Tech tras registrarla.
+      G3_PLATFORM_COMPANY_ID: "${G3_PLATFORM_COMPANY_ID:-}"
+      # Vacío en dev = llave derivada de prueba. En prod es obligatoria.
+      INTEGRATIONS_ENCRYPTION_KEY: "${INTEGRATIONS_ENCRYPTION_KEY:-}"
 
 volumes:
   pgdata:

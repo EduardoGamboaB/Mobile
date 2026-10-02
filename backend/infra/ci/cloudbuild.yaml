@@ -1,4 +1,4 @@
-# Pipeline Cloud Build para los 8 microservicios + gateway.
+# Pipeline Cloud Build para los 9 microservicios + gateway.
 # Construye en paralelo, sube a Artifact Registry y despliega a Cloud Run.
 #
 #   gcloud builds submit --config infra/ci/cloudbuild.yaml \
@@ -40,6 +40,7 @@ steps:
         for dir in backend backend/contracts backend/gateway backend/services/auth \
                    backend/services/billing backend/services/drivers backend/services/fleet \
                    backend/services/trips backend/services/alerts backend/services/ai \
+                   backend/services/integrations backend/integrations-kit \
                    mobile admin website; do
           if [ -f "$dir/package.json" ]; then
             echo "=== npm audit $dir ==="
@@ -89,6 +90,11 @@ steps:
     args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/ai',
            '-t', '${_REGISTRY}/ai:${_TAG}', '.']
     waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
+  - id: build-integrations
+    name: gcr.io/cloud-builders/docker
+    args: ['build', '-f', 'infra/docker/service.Dockerfile', '--build-arg', 'SERVICE=services/integrations',
+           '-t', '${_REGISTRY}/integrations:${_TAG}', '.']
+    waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
 
   # ---------- PUSH ----------
   - id: push-all
@@ -97,12 +103,12 @@ steps:
     args:
       - -c
       - |
-        for s in gateway auth billing drivers fleet trips alerts ai; do
+        for s in gateway auth billing drivers fleet trips alerts ai integrations; do
           docker push ${_REGISTRY}/$s:${_TAG} &
         done
         wait
     waitFor: [build-gateway, build-auth, build-billing, build-drivers,
-              build-fleet, build-trips, build-alerts, build-ai]
+              build-fleet, build-trips, build-alerts, build-ai, build-integrations]
 
   # ---------- DEPLOY a Cloud Run (uno por servicio) ----------
   - id: deploy-services
@@ -111,7 +117,12 @@ steps:
     args:
       - -c
       - |
-        for s in auth billing drivers fleet trips alerts ai; do
+        # INTERNAL_TOKEN (servicio→servicio) en todos; la llave de cifrado solo en integrations.
+        for s in auth billing drivers fleet trips alerts ai integrations; do
+          secrets="JWT_ACCESS_SECRET=g3-jwt-access:latest,JWT_REFRESH_SECRET=g3-jwt-refresh:latest,INTERNAL_TOKEN=g3-internal-token:latest"
+          if [ "$s" = "integrations" ]; then
+            secrets="$secrets,INTEGRATIONS_ENCRYPTION_KEY=g3-integrations-encryption-key:latest"
+          fi
           gcloud run deploy g3-$s \
             --image=${_REGISTRY}/$s:${_TAG} \
             --region=${_REGION} \
@@ -119,7 +130,7 @@ steps:
             --no-allow-unauthenticated \
             --service-account=g3-runtime@$PROJECT_ID.iam.gserviceaccount.com \
             --set-env-vars=GCP_PROJECT_ID=$PROJECT_ID \
-            --set-secrets=JWT_ACCESS_SECRET=g3-jwt-access:latest,JWT_REFRESH_SECRET=g3-jwt-refresh:latest \
+            --set-secrets=$secrets \
             --add-cloudsql-instances=$PROJECT_ID:${_REGION}:g3-postgres
         done
     waitFor: [push-all]
@@ -135,7 +146,7 @@ steps:
           --region=${_REGION} \
           --platform=managed \
           --allow-unauthenticated \
-          --set-env-vars=AUTH_URL=$(gcloud run services describe g3-auth --region=${_REGION} --format='value(status.url)'),BILLING_URL=$(gcloud run services describe g3-billing --region=${_REGION} --format='value(status.url)'),DRIVERS_URL=$(gcloud run services describe g3-drivers --region=${_REGION} --format='value(status.url)'),FLEET_URL=$(gcloud run services describe g3-fleet --region=${_REGION} --format='value(status.url)'),TRIPS_URL=$(gcloud run services describe g3-trips --region=${_REGION} --format='value(status.url)'),ALERTS_URL=$(gcloud run services describe g3-alerts --region=${_REGION} --format='value(status.url)'),AI_URL=$(gcloud run services describe g3-ai --region=${_REGION} --format='value(status.url)') \
+          --set-env-vars=AUTH_URL=$(gcloud run services describe g3-auth --region=${_REGION} --format='value(status.url)'),BILLING_URL=$(gcloud run services describe g3-billing --region=${_REGION} --format='value(status.url)'),DRIVERS_URL=$(gcloud run services describe g3-drivers --region=${_REGION} --format='value(status.url)'),FLEET_URL=$(gcloud run services describe g3-fleet --region=${_REGION} --format='value(status.url)'),TRIPS_URL=$(gcloud run services describe g3-trips --region=${_REGION} --format='value(status.url)'),ALERTS_URL=$(gcloud run services describe g3-alerts --region=${_REGION} --format='value(status.url)'),AI_URL=$(gcloud run services describe g3-ai --region=${_REGION} --format='value(status.url)'),INTEGRATIONS_URL=$(gcloud run services describe g3-integrations --region=${_REGION} --format='value(status.url)') \
           --set-secrets=JWT_ACCESS_SECRET=g3-jwt-access:latest
     waitFor: [deploy-services]
 
@@ -152,3 +163,4 @@ images:
   - '${_REGISTRY}/trips:${_TAG}'
   - '${_REGISTRY}/alerts:${_TAG}'
   - '${_REGISTRY}/ai:${_TAG}'
+  - '${_REGISTRY}/integrations:${_TAG}'
