@@ -277,7 +277,7 @@ function FleetMapCard() {
           <div className="eyebrow">Flotilla en vivo</div>
           <div className="small" style={{ marginTop: 2 }}>5 unidades activas · 3 en ruta</div>
         </div>
-        <Link href="/fleet" className="small" style={{ color: 'var(--blue)', fontWeight: 700 }}>
+        <Link href="/fleet/tractors" className="small" style={{ color: 'var(--blue)', fontWeight: 700 }}>
           Mapa completo →
         </Link>
       </div>

@@ -15,6 +15,8 @@ interface NavItem {
   icon: React.FC<{ size?: number; color?: string }>;
   feature?: typeof Feature[keyof typeof Feature];
   badge?: number;
+  /** Módulo del roadmap aún sin pantalla: se muestra sin enlace (nada de 404). */
+  soon?: boolean;
 }
 
 const OPEN_ALERTS = alerts.filter((a) => !a.acknowledged).length;
@@ -32,10 +34,10 @@ const FLEET: NavItem[] = [
 ];
 const INTEL: NavItem[] = [
   { href: '/profitability', label: 'Rentabilidad', icon: TrendUpI, feature: Feature.EarningsDashboard },
-  { href: '/payments', label: 'Pagos',       icon: DollarI,   feature: Feature.PaymentAuthorization },
-  { href: '/scoring',  label: 'Scoring',     icon: ShieldI,   feature: Feature.Scoring },
-  { href: '/insights', label: 'AI Insights', icon: SparklesI, feature: Feature.AIInsights },
-  { href: '/reports',  label: 'Reportes',    icon: ChartI,    feature: Feature.AdvancedAnalytics },
+  { href: '/payments', label: 'Pagos',       icon: DollarI,   feature: Feature.PaymentAuthorization, soon: true },
+  { href: '/scoring',  label: 'Scoring',     icon: ShieldI,   feature: Feature.Scoring, soon: true },
+  { href: '/insights', label: 'AI Insights', icon: SparklesI, feature: Feature.AIInsights, soon: true },
+  { href: '/reports',  label: 'Reportes',    icon: ChartI,    feature: Feature.AdvancedAnalytics, soon: true },
 ];
 
 export function Sidebar() {
@@ -78,6 +80,15 @@ function NavRow({ item, active }: { item: NavItem; active: boolean }) {
   const has = useFeature(item.feature as never);
   const locked = item.feature ? !has : false;
   const Icon = item.icon;
+  if (item.soon) {
+    return (
+      <div className="nav-item" aria-disabled="true" title="Próximamente" style={{ opacity: 0.55, cursor: 'default' }}>
+        <Icon size={18} />
+        <span style={{ flex: 1 }}>{item.label}</span>
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: 0.6, textTransform: 'uppercase' }}>Pronto</span>
+      </div>
+    );
+  }
   return (
     <Link href={item.href} className={`nav-item ${active ? 'active' : ''}`}>
       <Icon size={18} />
