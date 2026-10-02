@@ -1,26 +1,21 @@
 #!/usr/bin/env bash
 # G3 Admin — Deploy del panel a Cloud Storage + Cloud CDN.
 #
-# Next.js con output:'export' genera HTML/JS estático en /out — lo subimos
-# a un bucket público con un Load Balancer + Cloud CDN al frente.
+# Next.js con output:'export' genera HTML/JS estático en /out; se sube al
+# bucket del panel que sirve el Load Balancer HTTPS + Cloud CDN + Cloud Armor
+# (admin.<dominio>). Toda esa infraestructura la crea Terraform
+# (infra/terraform, módulo edge): el bucket es PRIVADO y lo lee la cuenta de
+# llenado de Cloud CDN; no hay que darle allUsers.
 #
-# Uso:
-#   PROJECT_ID=g3-prod BUCKET=g3-admin-prod \
-#   API_BASE_URL=https://g3-gateway-xxx.run.app \
-#   BACKEND_BUCKET=g3-admin-backend \
+# Uso (valores = output `admin_deploy` de infra/terraform/envs/<env>):
+#   terraform -chdir=infra/terraform/envs/production output -json admin_deploy
+#   PROJECT_ID=g3-prod BUCKET=g3-prod-g3-admin \
+#   API_BASE_URL=https://api.g3logistics.mx \
+#   BACKEND_BUCKET=g3-prd-admin-be CDN_URL_MAP=g3-prd-https \
 #   ./deploy/deploy.sh
 #
-# Requisitos previos (una sola vez):
-#   1. gcloud auth login && gcloud config set project $PROJECT_ID
-#   2. Crear bucket:
-#        gsutil mb -l us-central1 gs://$BUCKET
-#        gsutil iam ch allUsers:objectViewer gs://$BUCKET
-#        gsutil web set -m index.html -e 404/index.html gs://$BUCKET
-#   3. (Opcional, dominio propio) Crear Load Balancer + Cloud CDN +
-#      certificado managed:
-#        gcloud compute backend-buckets create g3-admin-backend \
-#          --gcs-bucket-name=$BUCKET --enable-cdn
-#        … URL map + target proxy + global forwarding rule → admin.tudominio.mx
+# Permisos: tu usuario o la cuenta g3-deployer (objectAdmin del bucket +
+# rol g3AdminPublisher_<env> para headers e invalidación de CDN).
 
 set -euo pipefail
 
@@ -114,10 +109,7 @@ fi
 # ---------------------------------------------------------------------------
 # 5. Mostrar URL
 # ---------------------------------------------------------------------------
-BUCKET_URL="https://storage.googleapis.com/${BUCKET}/index.html"
-
 log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 log "Admin desplegado."
-log "Bucket público: ${BUCKET_URL}"
-log "(Para dominio propio, configurá Load Balancer + Cloud CDN al bucket)"
+log "Bucket: gs://${BUCKET} (privado; se sirve por el LB + Cloud CDN)"
 log "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
