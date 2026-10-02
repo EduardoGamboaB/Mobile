@@ -205,16 +205,17 @@ export function createRateLimitMiddleware(opts: RateLimitMiddlewareOptions) {
     if (!rule) return next();
     try {
       const t = now();
-      const checks: Array<Promise<RateLimitDecision>> = [
-        opts.store.consume(`${rule.id}:ip:${req.ip ?? 'unknown'}`, rule.ipMax, rule.ipWindowMs, t),
+      // Primero la IP: si ya está bloqueada, NO se descuenta del límite de la
+      // cuenta (así un atacante con IP bloqueada no agota el cupo ajeno).
+      const decisions: RateLimitDecision[] = [
+        await opts.store.consume(`${rule.id}:ip:${req.ip ?? 'unknown'}`, rule.ipMax, rule.ipWindowMs, t),
       ];
       const id = rule.identifierMax ? identifierFromBody(req.body) : null;
-      if (id && rule.identifierMax) {
-        checks.push(
-          opts.store.consume(`${rule.id}:id:${id}`, rule.identifierMax, rule.identifierWindowMs ?? rule.ipWindowMs, t),
+      if (decisions[0].allowed && id && rule.identifierMax) {
+        decisions.push(
+          await opts.store.consume(`${rule.id}:id:${id}`, rule.identifierMax, rule.identifierWindowMs ?? rule.ipWindowMs, t),
         );
       }
-      const decisions = await Promise.all(checks);
       const denied = decisions.filter((d) => !d.allowed);
       if (denied.length === 0) return next();
 

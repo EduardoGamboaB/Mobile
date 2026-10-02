@@ -165,6 +165,18 @@ describe('rate-limit: middleware montado en express', () => {
     expect((await post('/api/auth/login', { email: 'e@x.mx' }, '10.0.1.2')).status).toBe(200);
   });
 
+  test('los rechazos por IP no consumen el cupo de la cuenta (anti-bloqueo de cuentas ajenas)', async () => {
+    for (const e of ['x1@x.mx', 'x2@x.mx', 'x3@x.mx']) {
+      expect((await post('/api/auth/login', { email: e }, '10.0.3.1')).status).toBe(200);
+    }
+    // IP agotada: estos intentos contra la víctima se rechazan por IP…
+    for (let i = 0; i < 5; i++) {
+      expect((await post('/api/auth/login', { email: 'victima@x.mx' }, '10.0.3.1')).status).toBe(429);
+    }
+    // …y la víctima sigue pudiendo entrar desde su propia IP.
+    expect((await post('/api/auth/login', { email: 'victima@x.mx' }, '10.0.3.9')).status).toBe(200);
+  });
+
   test('la ingesta tiene su propio límite y las rutas no listadas no se limitan', async () => {
     for (let i = 0; i < 5; i++) expect((await post('/api/telemetry/ingest/suntech', {}, '10.0.2.1')).status).toBe(200);
     expect((await post('/api/telemetry/ingest/suntech', {}, '10.0.2.1')).status).toBe(429);
