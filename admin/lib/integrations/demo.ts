@@ -185,7 +185,7 @@ export function createDemoIntegrations(opts: DemoIntegrationsOptions = {}): Inte
           : `${provider.name} rechazó las credenciales (401 Unauthorized)`
         : provider.liveTest
           ? `Conexión correcta con ${provider.name}`
-          : `Formato válido. ${provider.name} no admite prueba en vivo: se validó solo la captura.`,
+          : 'Formato válido.',
     };
     s.config.status = ok ? 'verified' : 'failed';
     s.config.lastTest = result;
