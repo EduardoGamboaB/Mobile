@@ -61,7 +61,8 @@ describe('integrations HTTP', () => {
   test('errores de dominio con su status (400 / 403 / 404)', async () => {
     const bad = await call('PUT', '/integrations/sms/default', headers('cmp_h', 'owner'), { provider: 'twilio', enabled: true, values: { accountSid: 'x' } });
     expect(bad.status).toBe(400);
-    expect(bad.body.fields).toMatchObject({ authToken: 'Obligatorio' });
+    // Forma que lee G3 Admin: body.errors por campo.
+    expect(bad.body).toMatchObject({ statusCode: 400, error: 'Bad Request', message: 'Configuración inválida', errors: { authToken: 'Obligatorio' } });
     expect((await call('PUT', '/integrations/payments/default?scope=platform', headers('cmp_h', 'owner'), {})).status).toBe(403);
     expect((await call('GET', '/integrations/fax/default', headers('cmp_h', 'owner'))).status).toBe(404);
   });

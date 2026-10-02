@@ -72,7 +72,7 @@ describe('alta y actualización', () => {
     const { svc } = build();
     const err = await svc.upsert(owner, 'sms', 'default', 'company', twilio('gsm:no/vale')).catch((e) => e);
     expect(err.status).toBe(400);
-    expect(err.toJSON().fields.authToken).toContain('Referencia inválida');
+    expect(err.toJSON().errors.authToken).toContain('Referencia inválida');
   });
 
   test('secreto omitido o vacío conserva el guardado; null lo borra', async () => {
@@ -86,7 +86,7 @@ describe('alta y actualización', () => {
     // authToken es obligatorio: borrarlo deja la configuración inválida.
     const err = await svc.upsert(owner, 'sms', 'default', 'company', twilio(null)).catch((e) => e);
     expect(err.status).toBe(400);
-    expect(err.toJSON().fields).toEqual({ authToken: 'Obligatorio' });
+    expect(err.toJSON().errors).toEqual({ authToken: 'Obligatorio' });
   });
 
   test('null borra un secreto opcional (Expo, plataforma)', async () => {
@@ -109,7 +109,7 @@ describe('alta y actualización', () => {
   test('validación con el catálogo: campos desconocidos, formato y proveedor', async () => {
     const { svc } = build();
     const err = await svc.upsert(owner, 'email', 'default', 'company', { provider: 'sendgrid', enabled: true, values: { apiKey: 'SG.x', fromEmail: 'no-es-correo', hack: 'x' } }).catch((e) => e);
-    expect(err.toJSON().fields).toEqual({ fromEmail: 'Correo inválido', hack: 'Campo desconocido' });
+    expect(err.toJSON().errors).toEqual({ fromEmail: 'Correo inválido', hack: 'Campo desconocido' });
     expect(await status(svc.upsert(owner, 'email', 'default', 'company', { provider: 'twilio', enabled: true, values: {} }))).toBe(400);
     expect(await status(svc.upsert(owner, 'email', 'default', 'company', { provider: 'sendgrid', enabled: 'si' as never, values: {} }))).toBe(400);
   });

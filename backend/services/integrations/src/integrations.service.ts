@@ -181,7 +181,7 @@ export class IntegrationsService {
 
     const errors = { ...validateIntegrationSettings(def.category, providerId, toValidate, { keepSecrets: kept }), ...refErrors };
     if (Object.keys(errors).length > 0) {
-      throw new ValidationError('Configuración inválida', { fields: errors });
+      throw new ValidationError('Configuración inválida', { errors });
     }
 
     const now = this.now().toISOString();
