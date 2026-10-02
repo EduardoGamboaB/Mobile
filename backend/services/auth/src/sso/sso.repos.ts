@@ -1,8 +1,11 @@
 import type { SsoConfigDto } from '@g3/contracts';
+import { MemoryEphemeralStore, type EphemeralStore } from '@g3/platform';
+import { AuthError } from '../errors';
 
 export interface SsoConfigRepo {
   findByCompany(companyId: string): Promise<SsoConfigDto | null>;
   findByDomain(domain: string): Promise<SsoConfigDto | null>;
+  /** Un dominio solo puede pertenecer a una compañía: si ya es de otra → 409. */
   save(cfg: SsoConfigDto): Promise<void>;
 }
 
@@ -18,7 +21,13 @@ export class InMemorySsoConfigRepo implements SsoConfigRepo {
     return null;
   }
   async save(cfg: SsoConfigDto) {
-    this.byCompany.set(cfg.companyId, structuredClone(cfg));
+    // Misma regla que la PK de sso_config_domains en Postgres.
+    for (const c of this.byCompany.values()) {
+      if (c.companyId === cfg.companyId) continue;
+      const taken = cfg.allowedDomains.find((d) => c.allowedDomains.includes(d.toLowerCase()));
+      if (taken) throw new AuthError(409, `El dominio ${taken} ya está asociado a otra compañía`);
+    }
+    this.byCompany.set(cfg.companyId, structuredClone({ ...cfg, allowedDomains: cfg.allowedDomains.map((d) => d.toLowerCase()) }));
   }
 }
 
@@ -30,19 +39,39 @@ export interface SsoPendingLogin {
   createdAtMs: number;
 }
 
-/** En producción: Redis/Memorystore con TTL (compartido entre réplicas). */
-export class InMemorySsoStateStore {
-  private readonly byState = new Map<string, SsoPendingLogin>();
-  put(state: string, v: SsoPendingLogin): void {
-    this.byState.set(state, { ...v });
+/** `state` → login pendiente. Compartido entre réplicas (Redis) y de un solo uso. */
+export interface SsoStateStore {
+  put(state: string, v: SsoPendingLogin): Promise<void>;
+  /** Lee y borra en una sola operación (uso único, también entre réplicas). */
+  take(state: string): Promise<SsoPendingLogin | null>;
+}
+
+export const SSO_STATE_TTL_MS = 10 * 60_000;
+
+/** `state`/`nonce`/PKCE en el `EphemeralStore` (Redis en producción), con TTL. */
+export class EphemeralSsoStateStore implements SsoStateStore {
+  constructor(private readonly store: EphemeralStore, private readonly ttlMs = SSO_STATE_TTL_MS) {}
+
+  private key(state: string) {
+    return `sso:state:${state}`;
   }
-  /** Lee y borra (uso único). */
-  take(state: string): SsoPendingLogin | null {
-    const v = this.byState.get(state) ?? null;
-    this.byState.delete(state);
-    return v;
+  async put(state: string, v: SsoPendingLogin): Promise<void> {
+    await this.store.set(this.key(state), JSON.stringify(v), this.ttlMs);
   }
-  gc(olderThanMs: number): void {
-    for (const [k, v] of this.byState) if (v.createdAtMs < olderThanMs) this.byState.delete(k);
+  async take(state: string): Promise<SsoPendingLogin | null> {
+    const raw = await this.store.take(this.key(state));
+    if (!raw) return null;
+    try {
+      return JSON.parse(raw) as SsoPendingLogin;
+    } catch {
+      return null;
+    }
+  }
+}
+
+/** Dev/tests: el mismo store sobre memoria. */
+export class InMemorySsoStateStore extends EphemeralSsoStateStore {
+  constructor(now?: () => number) {
+    super(new MemoryEphemeralStore(now));
   }
 }

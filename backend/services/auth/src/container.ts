@@ -5,20 +5,21 @@
 import { AuthService } from './auth.service';
 import { BcryptPasswordHasher } from './password.hasher';
 import { JwtTokenIssuer, type TokenIssuerConfig } from './token.issuer';
-import { InMemoryUserRepo } from './repos/in-memory.user.repo';
-import { InMemoryCompanyRepo } from './repos/in-memory.company.repo';
+import { MemoryEphemeralStore, type EphemeralStore } from '@g3/platform';
+import { InMemoryUserRepo, type UserRepo } from './repos/in-memory.user.repo';
+import { InMemoryCompanyRepo, type CompanyRepo } from './repos/in-memory.company.repo';
 import { RecordingEventBus, type EventBus } from './event.bus';
 import { systemClock, type Clock } from './clock';
-import { InMemoryAuditRepo } from './audit/audit.repo';
+import { InMemoryAuditRepo, type AuditRepo } from './audit/audit.repo';
 import { AuditService } from './audit/audit.service';
-import { InMemorySecurityPolicyRepo, SecurityPolicyService } from './security/security-policy';
-import { InMemoryMfaRepo } from './mfa/mfa.repo';
+import { InMemorySecurityPolicyRepo, SecurityPolicyService, type SecurityPolicyRepo } from './security/security-policy';
+import { InMemoryMfaRepo, type MfaRepo } from './mfa/mfa.repo';
 import { MfaService } from './mfa/mfa.service';
 import { MfaChallengeService } from './mfa/mfa-challenge';
 import { AesGcmSecretCipher } from './mfa/secret-cipher';
 import { RecoveryCodeHasher } from './mfa/recovery-codes';
 import { SsoService } from './sso/sso.service';
-import { InMemorySsoConfigRepo, InMemorySsoStateStore } from './sso/sso.repos';
+import { EphemeralSsoStateStore, InMemorySsoConfigRepo, type SsoConfigRepo } from './sso/sso.repos';
 import type { IdTokenSignatureVerifier, OidcDiscovery, SecretResolver, TokenExchanger } from './sso/oidc';
 import {
   DEFAULT_PASSWORDLESS,
@@ -29,8 +30,26 @@ import {
   type SmsSender,
 } from './passwordless/passwordless.service';
 
+/** Repos durables. Sin ellos se usan los de memoria (dev/tests). */
+export interface AuthRepos {
+  users: UserRepo;
+  companies: CompanyRepo;
+  audit: AuditRepo;
+  policies: SecurityPolicyRepo;
+  mfa: MfaRepo;
+  ssoConfigs: SsoConfigRepo;
+}
+
 export interface AuthContainerOptions {
   clock?: Clock;
+  /** Postgres en runtime (`main.ts`); memoria si se omite. */
+  repos?: Partial<AuthRepos>;
+  /**
+   * Estado efímero compartido entre réplicas: retos MFA, `state` SSO, OTP,
+   * límites de envío y enlaces de recuperación. Redis en producción;
+   * por defecto memoria con el reloj inyectado.
+   */
+  ephemeral?: EphemeralStore;
   bcryptRounds?: number;
   jwt: TokenIssuerConfig;
   /** Secreto de firma del mfaToken — distinto de JWT_ACCESS_SECRET. */
@@ -54,16 +73,17 @@ export interface AuthContainerOptions {
 
 export function buildAuthContainer(o: AuthContainerOptions) {
   const clock = o.clock ?? systemClock;
-  const users = new InMemoryUserRepo();
-  const companies = new InMemoryCompanyRepo();
+  const ephemeral = o.ephemeral ?? new MemoryEphemeralStore(() => clock.now());
+  const users = o.repos?.users ?? new InMemoryUserRepo();
+  const companies = o.repos?.companies ?? new InMemoryCompanyRepo();
   const hasher = new BcryptPasswordHasher(o.bcryptRounds ?? 12);
   const tokens = new JwtTokenIssuer(o.jwt);
   const bus = o.bus ?? new RecordingEventBus();
 
-  const auditRepo = new InMemoryAuditRepo();
+  const auditRepo = o.repos?.audit ?? new InMemoryAuditRepo();
   const audit = new AuditService(auditRepo, clock);
-  const policies = new SecurityPolicyService(new InMemorySecurityPolicyRepo(), audit, clock);
-  const mfaRepo = new InMemoryMfaRepo();
+  const policies = new SecurityPolicyService(o.repos?.policies ?? new InMemorySecurityPolicyRepo(), audit, clock);
+  const mfaRepo = o.repos?.mfa ?? new InMemoryMfaRepo();
   const mfa = new MfaService(
     mfaRepo,
     new AesGcmSecretCipher(o.mfaEncryptionKey),
@@ -73,13 +93,13 @@ export function buildAuthContainer(o: AuthContainerOptions) {
     clock,
     o.mfaIssuer ?? 'G3 Admin',
   );
-  const challenges = new MfaChallengeService({ secret: o.mfaTokenSecret, ttlSec: 300, maxAttempts: 5 }, clock);
+  const challenges = new MfaChallengeService({ secret: o.mfaTokenSecret, ttlSec: 300, maxAttempts: 5 }, clock, ephemeral);
   const auth = new AuthService(users, companies, hasher, tokens, bus, { mfa, challenges, policies, audit });
 
-  const ssoConfigs = new InMemorySsoConfigRepo();
+  const ssoConfigs = o.repos?.ssoConfigs ?? new InMemorySsoConfigRepo();
   const sso = new SsoService({
     configs: ssoConfigs,
-    states: new InMemorySsoStateStore(),
+    states: new EphemeralSsoStateStore(ephemeral),
     discovery: o.sso.discovery,
     exchanger: o.sso.exchanger,
     signatureVerifier: o.sso.signatureVerifier,
@@ -103,6 +123,7 @@ export function buildAuthContainer(o: AuthContainerOptions) {
     clock,
     sms,
     email,
+    store: ephemeral,
     cfg: {
       ...DEFAULT_PASSWORDLESS,
       pepper: o.passwordless?.pepper ?? o.recoveryPepper,
@@ -112,6 +133,7 @@ export function buildAuthContainer(o: AuthContainerOptions) {
 
   return {
     clock,
+    ephemeral,
     users,
     companies,
     hasher,

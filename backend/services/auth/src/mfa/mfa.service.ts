@@ -93,16 +93,19 @@ export class MfaService {
     if (/^\s*\d{6}\s*$/.test(code ?? '')) {
       const r = verifyTotp(this.secretOf(rec), code, this.clock.now(), { afterStep: rec.lastUsedStep });
       if (!r.ok) return { ok: false };
-      await this.repo.save({ ...rec, lastUsedStep: r.step });
+      // Atómico: dos peticiones simultáneas con el mismo código → solo una gana.
+      if (!(await this.repo.advanceStep(user.id, r.step))) return { ok: false };
       return { ok: true, method: 'totp' };
     }
 
     if (!looksLikeRecoveryCode(code)) return { ok: false };
     const idx = rec.recoveryCodes.findIndex((c) => !c.usedAt && this.recoveryHasher.matches(code, c.hash));
     if (idx === -1) return { ok: false };
-    rec.recoveryCodes[idx] = { ...rec.recoveryCodes[idx], usedAt: this.nowIso() };
-    await this.repo.save(rec);
-    const remaining = rec.recoveryCodes.filter((c) => !c.usedAt).length;
+    // Uso único atómico (UPDATE … WHERE used_at IS NULL en Postgres).
+    if (!(await this.repo.markRecoveryCodeUsed(user.id, rec.recoveryCodes[idx].hash, this.nowIso()))) {
+      return { ok: false };
+    }
+    const remaining = rec.recoveryCodes.filter((c) => !c.usedAt).length - 1;
     await this.record(user, 'auth.mfa.recovery_code_used', meta, { remaining });
     return { ok: true, method: 'recovery' };
   }

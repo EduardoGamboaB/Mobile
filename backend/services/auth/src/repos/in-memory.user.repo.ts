@@ -1,5 +1,6 @@
 import type { TierValue } from '@g3/contracts';
 import type { UserRole } from '@g3/contracts';
+import { AuthError } from '../errors';
 
 export interface UserRecord {
   id: string;
@@ -26,6 +27,23 @@ export interface UserRepo {
   updateRole(id: string, role: UserRole): Promise<UserRecord | null>;
   findByPhone(phone: string): Promise<UserRecord | null>;
   updatePassword(id: string, passwordHash: string): Promise<void>;
+}
+
+/** Correo o teléfono ya registrados (unicidad global) → 409, nunca un 500. */
+export class DuplicateUserError extends AuthError {
+  constructor(readonly field: 'email' | 'phone' | 'driverId' | 'id') {
+    super(
+      409,
+      field === 'email'
+        ? 'Ese correo ya existe en G3'
+        : field === 'phone'
+          ? 'Ese teléfono ya tiene acceso a G3'
+          : field === 'driverId'
+            ? 'Ese chofer ya tiene acceso a G3'
+            : 'El usuario ya existe',
+    );
+    this.name = 'DuplicateUserError';
+  }
 }
 
 export class InMemoryUserRepo implements UserRepo {
@@ -56,6 +74,15 @@ export class InMemoryUserRepo implements UserRepo {
     return [...this.byId.values()].filter((u) => u.companyId === companyId).map((u) => ({ ...u }));
   }
   async create(rec: UserRecord): Promise<UserRecord> {
+    // Mismas unicidades que Postgres (users_email_uq, users_phone_uq, users_company_driver_uq).
+    if (this.byId.has(rec.id)) throw new DuplicateUserError('id');
+    for (const u of this.byId.values()) {
+      if (u.email.toLowerCase() === rec.email.toLowerCase()) throw new DuplicateUserError('email');
+      if (rec.phone && u.phone === rec.phone) throw new DuplicateUserError('phone');
+      if (rec.driverId && u.companyId === rec.companyId && u.driverId === rec.driverId) {
+        throw new DuplicateUserError('driverId');
+      }
+    }
     this.byId.set(rec.id, { ...rec });
     return { ...rec };
   }

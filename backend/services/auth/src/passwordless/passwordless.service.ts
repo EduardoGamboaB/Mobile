@@ -1,4 +1,5 @@
 import { createHash, randomBytes, randomInt, timingSafeEqual } from 'crypto';
+import { MemoryEphemeralStore, type EphemeralStore } from '@g3/platform';
 import { v4 as uuid } from 'uuid';
 import type { AuthSessionDto } from '@g3/contracts';
 import { AuthError } from '../errors';
@@ -58,11 +59,12 @@ export const DEFAULT_PASSWORDLESS: Omit<PasswordlessConfig, 'pepper' | 'resetUrl
   resetTtlSec: 1800,
 };
 
+/** Código OTP vigente de un teléfono (en el store, con TTL). */
 interface OtpEntry {
   userId: string;
-  codeHash: Buffer;
+  /** sha256(pepper:código) en hex: el código nunca se guarda en claro. */
+  codeHash: string;
   expiresAt: number;
-  attempts: number;
 }
 
 interface ResetEntry {
@@ -81,13 +83,12 @@ const MIN_PASSWORD_LENGTH = 12;
  * - Recuperación: enlace de un solo uso por correo, 30 min.
  * - Ninguna respuesta revela si el teléfono o el correo existen.
  *
- * Estado en memoria: en producción va a Redis/Memorystore (ver
- * security/08-pentest-scope.md §10), igual que los retos MFA.
+ * Estado efímero (códigos, intentos, límites de envío, enlaces) en un
+ * `EphemeralStore`: Redis/Memorystore en producción, compartido entre
+ * réplicas, con operaciones atómicas (ventana deslizante, INCR, GETDEL).
  */
 export class PasswordlessService {
-  private readonly otps = new Map<string, OtpEntry>();
-  private readonly otpRequests = new Map<string, number[]>();
-  private readonly resets = new Map<string, ResetEntry>();
+  private readonly store: EphemeralStore;
 
   constructor(
     private readonly deps: {
@@ -99,8 +100,12 @@ export class PasswordlessService {
       sms: SmsSender;
       email: EmailSender;
       cfg: PasswordlessConfig;
+      /** Default: memoria con el reloj inyectado (dev/tests). */
+      store?: EphemeralStore;
     },
-  ) {}
+  ) {
+    this.store = deps.store ?? new MemoryEphemeralStore(() => deps.clock.now());
+  }
 
   /** Alta del acceso a G3 Drive para un chofer ya registrado en el servicio drivers. */
   async grantDriverAccess(
@@ -153,17 +158,20 @@ export class PasswordlessService {
     const phone = normalizePhone(rawPhone);
     const now = this.deps.clock.now();
     const { otpWindowSec, otpMaxRequests, otpTtlSec } = this.deps.cfg;
-    const recent = (this.otpRequests.get(phone) ?? []).filter((t) => now - t < otpWindowSec * 1000);
-    if (recent.length >= otpMaxRequests) {
+    // Ventana deslizante atómica (Lua en Redis): réplicas distintas cuentan juntas.
+    const { count } = await this.store.slidingHit(`otp:requests:${phone}`, now, otpWindowSec * 1000);
+    if (count > otpMaxRequests) {
       throw new AuthError(429, 'Demasiados códigos solicitados. Intenta en unos minutos.');
     }
-    this.otpRequests.set(phone, [...recent, now]);
 
     const user = await this.deps.users.findByPhone(phone);
     if (!user || user.role !== 'driver') return { accepted: true };
 
     const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
-    this.otps.set(phone, { userId: user.id, codeHash: this.hash(code), expiresAt: now + otpTtlSec * 1000, attempts: 0 });
+    const entry: OtpEntry = { userId: user.id, codeHash: this.hash(code).toString('hex'), expiresAt: now + otpTtlSec * 1000 };
+    // Un código nuevo reemplaza al anterior y reinicia los intentos.
+    await this.store.set(`otp:code:${phone}`, JSON.stringify(entry), otpTtlSec * 1000);
+    await this.store.del(`otp:attempts:${phone}`);
     await this.deps.sms.send(user.companyId, phone, `G3 Drive: tu código es ${code}. Vence en ${Math.round(otpTtlSec / 60)} min. No lo compartas.`);
     await this.record(user.companyId, auditActor({ userId: user.id, role: user.role }), 'auth.otp.requested', user.id, meta, {});
     return { accepted: true };
@@ -171,23 +179,28 @@ export class PasswordlessService {
 
   async verifyOtp(rawPhone: string, code: string, meta: RequestMeta = NO_META): Promise<AuthSessionDto> {
     const phone = normalizePhone(rawPhone);
-    const entry = this.otps.get(phone);
+    const codeKey = `otp:code:${phone}`;
+    const entry = parse<OtpEntry>(await this.store.get(codeKey));
     const now = this.deps.clock.now();
-    if (!entry || entry.expiresAt < now || entry.attempts >= this.deps.cfg.otpMaxAttempts) {
-      throw new AuthError(401, 'Código inválido o vencido');
-    }
+    const max = this.deps.cfg.otpMaxAttempts;
+    if (!entry || entry.expiresAt < now) throw new AuthError(401, 'Código inválido o vencido');
+    // Cada intento se reserva con INCR antes de comparar: intentos en paralelo
+    // (o en réplicas distintas) no pueden rebasar el máximo.
+    const attempt = await this.store.incr(`otp:attempts:${phone}`, Math.max(1, entry.expiresAt - now));
+    if (attempt > max) throw new AuthError(401, 'Código inválido o vencido');
     const given = this.hash(String(code ?? '').trim());
-    if (!timingSafeEqual(given, entry.codeHash)) {
-      entry.attempts += 1;
+    if (!timingSafeEqual(given, Buffer.from(entry.codeHash, 'hex'))) {
       const user = await this.deps.users.findById(entry.userId);
       if (user) {
         await this.record(user.companyId, auditActor({ userId: user.id, role: user.role }), 'auth.otp.failed', user.id, meta, {
-          remainingAttempts: this.deps.cfg.otpMaxAttempts - entry.attempts,
+          remainingAttempts: max - attempt,
         });
       }
       throw new AuthError(401, 'Código inválido o vencido');
     }
-    this.otps.delete(phone);
+    // Uso único (GETDEL): si otra petición ya lo consumió, no hay sesión.
+    if (!(await this.store.take(codeKey))) throw new AuthError(401, 'Código inválido o vencido');
+    await this.store.del(`otp:attempts:${phone}`);
     const user = await this.deps.users.findById(entry.userId);
     if (!user) throw new AuthError(401, 'Código inválido o vencido');
     await this.record(user.companyId, auditActor({ userId: user.id, role: user.role }), 'auth.login.succeeded', user.id, meta, {
@@ -201,10 +214,9 @@ export class PasswordlessService {
     const user = await this.deps.users.findByEmail(String(email ?? '').trim());
     if (!user || user.role === 'driver') return { accepted: true };
     const token = randomBytes(32).toString('base64url');
-    this.resets.set(this.hash(token).toString('hex'), {
-      userId: user.id,
-      expiresAt: this.deps.clock.now() + this.deps.cfg.resetTtlSec * 1000,
-    });
+    // Solo el hash del token: un dump de Redis no sirve para restablecer.
+    const reset: ResetEntry = { userId: user.id, expiresAt: this.deps.clock.now() + this.deps.cfg.resetTtlSec * 1000 };
+    await this.store.set(`pwreset:${this.hash(token).toString('hex')}`, JSON.stringify(reset), this.deps.cfg.resetTtlSec * 1000);
     await this.deps.email.send(
       user.companyId,
       user.email,
@@ -219,10 +231,9 @@ export class PasswordlessService {
     if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
       throw new AuthError(400, `La contraseña debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres.`);
     }
-    const key = this.hash(String(token ?? '')).toString('hex');
-    const entry = this.resets.get(key);
-    // Un solo uso: se consume aunque falle por vencido.
-    this.resets.delete(key);
+    const key = `pwreset:${this.hash(String(token ?? '')).toString('hex')}`;
+    // Un solo uso (GETDEL): se consume aunque falle por vencido.
+    const entry = parse<ResetEntry>(await this.store.take(key));
     if (!entry || entry.expiresAt < this.deps.clock.now()) throw new AuthError(400, 'Enlace inválido o vencido');
     const user = await this.deps.users.findById(entry.userId);
     if (!user) throw new AuthError(400, 'Enlace inválido o vencido');
@@ -252,6 +263,15 @@ export class PasswordlessService {
       userAgent: meta.userAgent,
       metadata,
     });
+  }
+}
+
+function parse<T>(raw: string | null): T | null {
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return null;
   }
 }
 
