@@ -47,7 +47,13 @@
       "expo-secure-store",
       "expo-location",
       "expo-camera",
-      "expo-image-picker"
+      "expo-image-picker",
+      [
+        "expo-notifications",
+        {
+          "color": "#0A1633"
+        }
+      ]
     ],
     "extra": {
       "g3ApiUrl": ""

@@ -235,6 +235,8 @@ export interface ApiError {
   missingFeatures?: FeatureValue[];
   suggestedUpgrade?: TierValue;
   upgradeUrl?: string;
+  /** Sólo en 429 del gateway — segundos para reintentar (igual que `Retry-After`). */
+  retryAfterSeconds?: number;
 }
 
 export class G3ApiError extends Error {

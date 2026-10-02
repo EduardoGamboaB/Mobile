@@ -1,4 +1,5 @@
-import { isBlockedPath, resolveUpstream, type ServiceUrls } from '../src/proxy/router';
+import { resolveUpstream, type ServiceUrls } from '../src/proxy/router';
+import { isInternalOnlyPath as isBlockedPath } from '../src/middleware/internal-routes';
 
 const URLS: ServiceUrls = {
   auth: 'http://auth',
@@ -38,6 +39,7 @@ describe('gateway — módulo de integraciones', () => {
     '/api/integrations/./internal/resolve',
     '/api/integrations/sms/%2e%2e/internal/resolve',
     '/api/integrations\\internal\\resolve',
+    '/api/trips/x/../internal/active-by-vehicle/trc_1',
   ])('bloquea la ruta interna: %s', (path) => {
     expect(isBlockedPath(path)).toBe(true);
   });

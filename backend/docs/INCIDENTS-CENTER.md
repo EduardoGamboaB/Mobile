@@ -69,15 +69,21 @@ Cada nivel se dispara una sola vez. A quién se avisa y por qué canal depende d
 | PUT | `/notification-contacts/me` | cualquier usuario |
 | POST | `/incidents/escalations/run` · `/incidents/signals` | **internos**, header `x-internal-token` = `INTERNAL_TOKEN` |
 
-El gateway nunca reenvía `x-internal-token`, así que los endpoints internos no se alcanzan desde fuera.
+El gateway nunca reenvía `x-internal-token`, así que los endpoints internos no se alcanzan desde fuera
+(además responde 404 a `/api/trips/internal/*`).
+
+G3 Drive registra su token de Expo Push con `PUT /notification-contacts/me` al iniciar sesión en modo live y lo
+borra (`pushToken: null`) al cerrar sesión. Al tocar una notificación con `data.incidentId` abre la lista de
+incidentes del chofer.
 
 ## Pendiente para producción
 
 - Persistencia en Postgres (TypeORM). Hoy los repositorios son in-memory.
-- Conectar fleet con alerts:
-  - Suscripción push de Pub/Sub sobre `telemetry.position_received` hacia `/incidents/signals`.
-  - Resolver el viaje activo de cada vehículo, porque el evento de fleet aún no trae `tripId`.
+- Fleet → alerts ya está conectado por HTTP (`services/fleet/src/incident-signals.ts`): cada posición aceptada
+  llega a `/incidents/signals` con `tripId`/`driverId` resueltos en trips
+  (`GET /trips/internal/active-by-vehicle/:vehicleId`, caché 60 s). Variables en fleet: `ALERTS_URL`,
+  `TRIPS_URL`, `INTERNAL_TOKEN`. Para producción: cambiarlo por una suscripción push de Pub/Sub sobre
+  `telemetry.position_received` (OIDC, reintentos y DLQ).
 - Cloud Scheduler con OIDC que llame a `/incidents/escalations/run` cada minuto.
 - Aprobación en Meta de la plantilla `g3_incidente`.
-- En G3 Drive: registro del token de Expo Push al iniciar sesión.
 - Catálogo de responsables tomado de `/users`. En Admin hoy es una lista fija.

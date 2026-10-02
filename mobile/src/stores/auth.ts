@@ -6,6 +6,7 @@ import { authApi, type RegisterCompanyInput } from '@/api/g3/auth';
 import { tokenStore } from '@/api/g3/client';
 import type { AuthSession } from '@/api/g3/types';
 import { useSubscriptionStore } from '@/stores/subscription';
+import { registerPushToken, unregisterPushToken } from '@/services/pushNotifications';
 
 /**
  * Sesión de G3 Drive. El backend G3 (NestJS) es el único proveedor de
@@ -85,6 +86,8 @@ export const useAuthStore = create<AuthState>((set, get) => {
     const profile = await getMyProfile(res.user).catch(() => null);
     set({ session, profile: profile ? { ...profile, ...extra } : null, loading: false });
     await useSubscriptionStore.getState().syncFromBackend().catch(() => undefined);
+    // Sin bloquear el login: sin permiso o en simulador simplemente no hay push.
+    void registerPushToken();
   };
 
   const run = async (fn: () => Promise<void>) => {
@@ -114,6 +117,8 @@ export const useAuthStore = create<AuthState>((set, get) => {
       if (tokens && user) {
         const profile = await getMyProfile(user).catch(() => null);
         set({ session: { access_token: tokens.accessToken, refresh_token: tokens.refreshToken, user }, profile });
+        // El token de Expo puede rotar: se re-registra en cada arranque con sesión.
+        void registerPushToken();
       } else if (tokens) {
         await tokenStore.clear();
       }
@@ -156,7 +161,15 @@ export const useAuthStore = create<AuthState>((set, get) => {
     },
 
     signOut: async () => {
-      if (!isDemo) await tokenStore.clear();
+      if (!isDemo) {
+        const hadSession = get().session !== null;
+        // Primero se suelta la sesión: si el PUT de abajo recibe 401, onUnauthorized
+        // vuelve a llamar a signOut y, sin sesión, no reintenta (evita el ciclo).
+        set({ session: null, profile: null });
+        // Antes de borrar el JWT: que este teléfono deje de recibir avisos del usuario.
+        if (hadSession) await unregisterPushToken();
+        await tokenStore.clear();
+      }
       set({ session: null, profile: null });
     },
 
