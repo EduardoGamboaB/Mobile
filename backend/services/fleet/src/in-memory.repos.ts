@@ -1,5 +1,7 @@
 import type { TractorDto, TrailerDto, LivePosition } from '@g3/contracts';
 
+export * from './telemetry/in-memory.telemetry.repos';
+
 export class InMemoryTractorRepo {
   private readonly byId = new Map<string, TractorDto>();
   async list(companyId: string) {

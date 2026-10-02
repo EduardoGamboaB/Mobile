@@ -23,6 +23,8 @@ const JWT_SECRET = env('JWT_ACCESS_SECRET', 'a'.repeat(32));
 
 /** Rutas que NO requieren JWT (públicas). */
 const PUBLIC_PATHS = [/^\/api\/auth\/(login|register-company|refresh)$/, /^\/api\/webhooks\/stripe$/, /^\/health$/];
+/** Webhook de telemetría: autenticado por `x-g3-ingest-token` en fleet, no por JWT. */
+PUBLIC_PATHS.push(/^\/api\/telemetry\/ingest\/[a-z0-9_-]+$/);
 
 function isPublic(path: string): boolean {
   return PUBLIC_PATHS.some((r) => r.test(path));
@@ -38,10 +40,16 @@ async function proxy(upstream: string, req: Request, res: Response, ctx?: { comp
     headers['x-user-role'] = ctx.role;
     if (ctx.driverId) headers['x-driver-id'] = ctx.driverId;
   }
+  const ingestToken = req.header('x-g3-ingest-token');
+  if (ingestToken) headers['x-g3-ingest-token'] = ingestToken;
   const init: RequestInit = {
     method: req.method,
     headers,
-    body: ['GET', 'HEAD'].includes(req.method) ? undefined : JSON.stringify(req.body),
+    body: ['GET', 'HEAD'].includes(req.method)
+      ? undefined
+      : typeof req.body === 'string'
+        ? req.body // text/plain (ASCII de Suntech/Queclink) pasa tal cual
+        : JSON.stringify(req.body),
   };
   const r = await fetch(url, init);
   res.status(r.status);
@@ -57,6 +65,11 @@ class GatewayModule {}
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule, { cors: true, bodyParser: true });
   const http = app.getHttpAdapter().getInstance() as import('express').Express;
+  // Webhooks de telemetría ASCII (Suntech/Queclink) llegan como text/plain.
+  (app as unknown as import('@nestjs/platform-express').NestExpressApplication).useBodyParser('text', {
+    type: ['text/plain'],
+    limit: '1mb',
+  });
 
   http.get('/health', (_req, res) => res.json({ ok: true, services: Object.keys(SERVICE_URLS) }));
 

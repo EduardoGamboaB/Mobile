@@ -7,6 +7,11 @@ describe('tier-gate: tabla de gating por ruta', () => {
     expect(m?.requires).toContain(Feature.FleetMap);
   });
 
+  test('GET /api/vehicles/:id/track requiere FleetMap; la ingesta no tiene gate', () => {
+    expect(matchGate('GET', '/api/vehicles/trc_1/track')?.requires).toContain(Feature.FleetMap);
+    expect(matchGate('POST', '/api/telemetry/ingest/suntech')).toBeNull();
+  });
+
   test('POST /api/trips/:id/release-payment requiere PaymentAuthorization', () => {
     const m = matchGate('POST', '/api/trips/trp_xyz/release-payment');
     expect(m?.requires).toContain(Feature.PaymentAuthorization);

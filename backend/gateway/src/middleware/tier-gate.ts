@@ -14,6 +14,7 @@ export interface GateRule {
 export const GATE_TABLE: GateRule[] = [
   // Fleet map (Pro+)
   { method: 'GET', pattern: /^\/api\/tractors\/live\/positions$/, requires: [Feature.FleetMap] },
+  { method: 'GET', pattern: /^\/api\/vehicles\/[^/]+\/track$/, requires: [Feature.FleetMap] },
   // Trip payment release (Starter+)
   { method: 'POST', pattern: /^\/api\/trips\/[^/]+\/release-payment$/, requires: [Feature.PaymentAuthorization] },
   // AI agents

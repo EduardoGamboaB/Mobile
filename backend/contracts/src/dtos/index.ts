@@ -115,3 +115,4 @@ export interface LivePosition {
   headingDeg: number | null;
   lastSeenAt: string;
 }
+export * from './telemetry';

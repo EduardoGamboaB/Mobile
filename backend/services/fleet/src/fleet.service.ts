@@ -9,12 +9,15 @@ import {
   type TrailerDto,
   type TierValue,
   type LivePosition,
+  type UserRole,
 } from '@g3/contracts';
-import type { InMemoryTractorRepo, InMemoryTrailerRepo } from './in-memory.repos';
+import type { InMemoryTelemetryRepo, InMemoryTractorRepo, InMemoryTrailerRepo } from './in-memory.repos';
 
 export interface RequestCtx {
   companyId: string;
   tier: TierValue;
+  /** Inyectado por el gateway (x-user-role); opcional para compatibilidad. */
+  role?: UserRole;
 }
 
 export interface CreateTractorInput {
@@ -36,6 +39,8 @@ export class FleetService {
   constructor(
     private readonly tractors: InMemoryTractorRepo,
     private readonly trailers: InMemoryTrailerRepo,
+    /** Opcional para compatibilidad: sin repo de telemetría se usa lastLat/lastLng del tracto. */
+    private readonly telemetry?: InMemoryTelemetryRepo,
   ) {}
 
   // --- tractors ---
@@ -122,7 +127,31 @@ export class FleetService {
         missingFeatures: [Feature.FleetMap],
       });
     }
-    return this.tractors.livePositions(ctx.companyId);
+    const fromTractors = await this.tractors.livePositions(ctx.companyId);
+    if (!this.telemetry) return fromTractors;
+
+    // La fuente de verdad es la última telemetría del vehículo; el lastLat del
+    // tracto queda como respaldo (datos previos a la ingesta / carga manual).
+    const tractors = await this.tractors.list(ctx.companyId);
+    const fallback = new Map(fromTractors.map((p) => [p.tractorId, p]));
+    const out: LivePosition[] = [];
+    for (const t of tractors) {
+      const last = await this.telemetry.lastByVehicle(ctx.companyId, t.id);
+      if (last) {
+        out.push({
+          tractorId: t.id,
+          unitNumber: t.unitNumber,
+          lat: last.lat,
+          lng: last.lng,
+          speedKph: last.speedKph,
+          headingDeg: last.headingDeg,
+          lastSeenAt: last.recordedAt,
+        });
+      } else if (fallback.has(t.id)) {
+        out.push(fallback.get(t.id)!);
+      }
+    }
+    return out;
   }
 
   private async assertUnitsLimit(ctx: RequestCtx) {
