@@ -6,6 +6,8 @@ import { tierHas, UpgradeRequiredError, type FeatureValue } from '@g3/contracts'
 import { extractContext } from './middleware/jwt-context';
 import { matchGate } from './middleware/tier-gate';
 import { resolveUpstream, type ServiceUrls } from './proxy/router';
+import { rateLimitFromEnv } from './middleware/rate-limit';
+import { isInternalOnlyPath } from './middleware/internal-routes';
 
 const env = (k: string, fallback?: string): string => process.env[k] ?? fallback ?? '';
 
@@ -82,6 +84,9 @@ async function bootstrap() {
   const http = app.getHttpAdapter().getInstance() as import('express').Express;
   // Saltos de proxy confiables delante del gateway (LB de GCP = 2 en prod).
   http.set('trust proxy', Number(env('TRUST_PROXY_HOPS', '1')));
+  // JSON explícito: el parser por defecto de Nest se registra en listen(),
+  // DESPUÉS de los http.use de abajo, y el proxy/rate limit verían body {}.
+  (app as unknown as import('@nestjs/platform-express').NestExpressApplication).useBodyParser('json', { limit: '1mb' });
   // Webhooks de telemetría ASCII (Suntech/Queclink) llegan como text/plain.
   (app as unknown as import('@nestjs/platform-express').NestExpressApplication).useBodyParser('text', {
     type: ['text/plain'],
@@ -89,6 +94,15 @@ async function bootstrap() {
   });
 
   http.get('/health', (_req, res) => res.json({ ok: true, services: Object.keys(SERVICE_URLS) }));
+
+  // Rutas internas servicio→servicio (p.ej. /api/trips/internal/*): 404 sin reenviar.
+  http.use((req: Request, res: Response, next: NextFunction) =>
+    isInternalOnlyPath(req.path)
+      ? res.status(404).json({ statusCode: 404, error: 'Not Found', message: 'Ruta no encontrada' })
+      : next(),
+  );
+  // Rate limit de rutas públicas sensibles (auth, ingesta). Ver middleware/rate-limit.ts.
+  http.use(rateLimitFromEnv());
 
   http.use(async (req: Request, res: Response, next: NextFunction) => {
     try {
