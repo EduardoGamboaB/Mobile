@@ -1,7 +1,7 @@
 import { randomBytes } from 'crypto';
 import type { AuthSessionDto, UserRole } from '@g3/contracts';
 import { isMfaChallenge, type LoginResultDto } from '@g3/contracts';
-import { buildAuthContainer } from '../../src/container';
+import { buildAuthContainer, type AuthContainerOptions } from '../../src/container';
 import { ManualClock } from '../../src/clock';
 import { base32Decode, totp } from '../../src/mfa/totp';
 import { HmacTestSignatureVerifier, StaticOidcDiscovery, StubTokenExchanger } from '../../src/sso/oidc';
@@ -10,11 +10,14 @@ export const PASSWORD = 'super-secret-password-min-12chars';
 export const META = { ip: '201.10.20.30', userAgent: 'jest-agent' };
 export const IDP_TEST_KEY = 'idp-test-signing-key-32-bytes-long!!';
 
-export function buildTestContainer() {
-  const clock = new ManualClock(Date.parse('2026-10-01T12:00:00Z'));
+/** `overrides`: repos de Postgres y/o store de Redis para las pruebas de integración. */
+export function buildTestContainer(overrides: Pick<AuthContainerOptions, 'repos' | 'ephemeral'> & { now?: number } = {}) {
+  const clock = new ManualClock(overrides.now ?? Date.parse('2026-10-01T12:00:00Z'));
   const exchanger = new StubTokenExchanger();
   const c = buildAuthContainer({
     clock,
+    repos: overrides.repos,
+    ephemeral: overrides.ephemeral,
     bcryptRounds: 4,
     jwt: { accessSecret: 'a'.repeat(32), refreshSecret: 'b'.repeat(32), accessTtlSec: 3600, refreshTtlSec: 86400 },
     mfaTokenSecret: 'm'.repeat(32),

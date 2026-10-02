@@ -3,11 +3,14 @@
  * segundo factor". Se firma con un secreto PROPIO (≠ JWT_ACCESS_SECRET) y
  * con audiencia `g3:mfa`, así el gateway jamás lo acepta como access token.
  *
- * El estado (intentos, consumido) vive en memoria por `jti`. En producción
- * debe ir a Redis/Memorystore para compartirse entre réplicas de Cloud Run.
+ * El estado por `jti` (vigente, intentos, consumido) vive en un
+ * `EphemeralStore`: Redis/Memorystore en producción, compartido entre
+ * réplicas de Cloud Run, con operaciones atómicas (INCR para intentos,
+ * GETDEL para el uso único).
  */
 import { randomUUID } from 'crypto';
 import * as jwt from 'jsonwebtoken';
+import { MemoryEphemeralStore, type EphemeralStore } from '@g3/platform';
 import type { Clock } from '../clock';
 import { AuthError } from '../errors';
 
@@ -19,27 +22,29 @@ export interface MfaChallengeConfig {
   maxAttempts?: number;
 }
 
-interface ChallengeState {
-  attempts: number;
-  consumed: boolean;
-  expMs: number;
-}
-
 const AUDIENCE = 'g3:mfa';
 
 export class MfaChallengeService {
-  private readonly state = new Map<string, ChallengeState>();
   readonly ttlSec: number;
   readonly maxAttempts: number;
+  private readonly store: EphemeralStore;
 
-  constructor(private readonly cfg: MfaChallengeConfig, private readonly clock: Clock) {
+  constructor(private readonly cfg: MfaChallengeConfig, private readonly clock: Clock, store?: EphemeralStore) {
     if (!cfg.secret || cfg.secret.length < 32) throw new Error('Secreto de mfaToken muy corto');
     this.ttlSec = cfg.ttlSec ?? 300;
     this.maxAttempts = cfg.maxAttempts ?? 5;
+    this.store = store ?? new MemoryEphemeralStore(() => clock.now());
   }
 
-  issue(userId: string, purpose: MfaChallengePurpose): { token: string; expiresInSec: number } {
-    this.gc();
+  private keys(jti: string) {
+    return { live: `mfa:challenge:${jti}`, attempts: `mfa:attempts:${jti}`, used: `mfa:used:${jti}` };
+  }
+
+  private get ttlMs() {
+    return this.ttlSec * 1000;
+  }
+
+  async issue(userId: string, purpose: MfaChallengePurpose): Promise<{ token: string; expiresInSec: number }> {
     const nowSec = Math.floor(this.clock.now() / 1000);
     const jti = randomUUID();
     const token = jwt.sign(
@@ -47,11 +52,11 @@ export class MfaChallengeService {
       this.cfg.secret,
       { algorithm: 'HS256' },
     );
-    this.state.set(jti, { attempts: 0, consumed: false, expMs: (nowSec + this.ttlSec) * 1000 });
+    await this.store.set(this.keys(jti).live, userId, this.ttlMs);
     return { token, expiresInSec: this.ttlSec };
   }
 
-  verify(token: string, purpose: MfaChallengePurpose): { userId: string; jti: string } {
+  async verify(token: string, purpose: MfaChallengePurpose): Promise<{ userId: string; jti: string }> {
     let decoded: { sub?: string; purpose?: string; jti?: string };
     try {
       decoded = jwt.verify(token ?? '', this.cfg.secret, {
@@ -65,30 +70,36 @@ export class MfaChallengeService {
     if (!decoded.sub || !decoded.jti || decoded.purpose !== purpose) {
       throw new AuthError(401, 'Token MFA inválido');
     }
-    const st = this.state.get(decoded.jti);
-    if (!st) throw new AuthError(401, 'Token MFA inválido');
-    if (st.consumed) throw new AuthError(401, 'Token MFA ya usado');
-    if (st.attempts >= this.maxAttempts) {
+    const k = this.keys(decoded.jti);
+    const live = await this.store.get(k.live);
+    if (!live) {
+      if (await this.store.get(k.used)) throw new AuthError(401, 'Token MFA ya usado');
+      throw new AuthError(401, 'Token MFA inválido');
+    }
+    if (Number((await this.store.get(k.attempts)) ?? 0) >= this.maxAttempts) {
       throw new AuthError(429, 'Demasiados intentos. Vuelve a iniciar sesión.');
     }
     return { userId: decoded.sub, jti: decoded.jti };
   }
 
-  recordFailure(jti: string): { remaining: number; locked: boolean } {
-    const st = this.state.get(jti);
-    if (!st) return { remaining: 0, locked: true };
-    st.attempts += 1;
-    const remaining = Math.max(0, this.maxAttempts - st.attempts);
+  /** Cuenta un fallo (INCR atómico: fallos simultáneos en réplicas distintas suman todos). */
+  async recordFailure(jti: string): Promise<{ remaining: number; locked: boolean }> {
+    const k = this.keys(jti);
+    if (!(await this.store.get(k.live))) return { remaining: 0, locked: true };
+    const attempts = await this.store.incr(k.attempts, this.ttlMs);
+    const remaining = Math.max(0, this.maxAttempts - attempts);
     return { remaining, locked: remaining === 0 };
   }
 
-  consume(jti: string): void {
-    const st = this.state.get(jti);
-    if (st) st.consumed = true;
-  }
-
-  private gc(): void {
-    const now = this.clock.now();
-    for (const [k, v] of this.state) if (v.expMs < now) this.state.delete(k);
+  /**
+   * Consume el reto (uso único, GETDEL). `false` si ya lo había consumido
+   * otra petición: quien llama no debe emitir sesión.
+   */
+  async consume(jti: string): Promise<boolean> {
+    const k = this.keys(jti);
+    const taken = await this.store.take(k.live);
+    if (!taken) return false;
+    await this.store.set(k.used, '1', this.ttlMs);
+    return true;
   }
 }

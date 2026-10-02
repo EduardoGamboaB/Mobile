@@ -38,22 +38,33 @@ export class BillingController {
     return this.svc.cancel(companyId(req));
   }
 
-  // endpoint interno llamado por webhook handler (gateway)
+  // endpoint interno llamado por webhook handler (gateway). Con `eventId`
+  // (event.id de Stripe) es idempotente: un reintento no repite efectos.
   @Post('apply-tier')
   @HttpCode(200)
-  applyTier(
+  async applyTier(
     @Body()
     body: {
       companyId: string;
       tier: TierValue;
       stripeSubscriptionId: string | null;
       currentPeriodEnd: string | null;
+      eventId?: string;
+      eventType?: string;
     },
   ) {
-    return this.svc.applyTier(body.companyId, body.tier, {
-      stripeSubscriptionId: body.stripeSubscriptionId,
-      currentPeriodEnd: body.currentPeriodEnd,
-    });
+    const meta = { stripeSubscriptionId: body.stripeSubscriptionId, currentPeriodEnd: body.currentPeriodEnd };
+    if (body.eventId) {
+      const r = await this.svc.applyStripeEvent({
+        ...meta,
+        eventId: body.eventId,
+        eventType: body.eventType ?? 'unknown',
+        companyId: body.companyId,
+        tier: body.tier,
+      });
+      return r.subscription;
+    }
+    return this.svc.applyTier(body.companyId, body.tier, meta);
   }
 
   // endpoint interno llamado desde auth-service tras registerCompany

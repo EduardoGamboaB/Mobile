@@ -35,7 +35,7 @@ import {
   type SecretResolver,
   type TokenExchanger,
 } from './oidc';
-import type { InMemorySsoStateStore, SsoConfigRepo } from './sso.repos';
+import type { SsoConfigRepo, SsoStateStore } from './sso.repos';
 
 const STATE_TTL_MS = 10 * 60_000;
 const PROVIDERS = ['google', 'microsoft', 'oidc'] as const;
@@ -50,7 +50,7 @@ const SECRET_REF_RE = /^(projects\/[a-z0-9-]+\/secrets\/[A-Za-z0-9_-]+(\/version
 
 export interface SsoServiceDeps {
   configs: SsoConfigRepo;
-  states: InMemorySsoStateStore;
+  states: SsoStateStore;
   discovery: OidcDiscovery;
   exchanger: TokenExchanger;
   signatureVerifier: IdTokenSignatureVerifier;
@@ -156,8 +156,7 @@ export class SsoService {
     const nonce = b64url(randomBytes(32));
     const codeVerifier = b64url(randomBytes(32));
     const codeChallenge = b64url(createHash('sha256').update(codeVerifier).digest());
-    this.d.states.gc(this.d.clock.now() - STATE_TTL_MS);
-    this.d.states.put(state, { companyId: cfg.companyId, nonce, codeVerifier, createdAtMs: this.d.clock.now() });
+    await this.d.states.put(state, { companyId: cfg.companyId, nonce, codeVerifier, createdAtMs: this.d.clock.now() });
 
     const url = new URL(meta.authorization_endpoint);
     const p = url.searchParams;
@@ -177,7 +176,7 @@ export class SsoService {
   // -------------------------------------------------------------- callback
 
   async callback(input: SsoCallbackDto, meta: RequestMeta): Promise<AuthSessionDto> {
-    const pending = typeof input?.state === 'string' ? this.d.states.take(input.state) : null;
+    const pending = typeof input?.state === 'string' ? await this.d.states.take(input.state) : null;
     if (!pending || this.d.clock.now() - pending.createdAtMs > STATE_TTL_MS) {
       throw new AuthError(401, 'Sesión SSO inválida o expirada. Vuelve a intentarlo.');
     }

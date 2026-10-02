@@ -68,46 +68,54 @@ describe('MfaChallengeService (mfaToken de 5 min, propósito único)', () => {
     return { clock, svc };
   }
 
-  test('emite y verifica token con el propósito correcto', () => {
+  test('emite y verifica token con el propósito correcto', async () => {
     const { svc } = build();
-    const { token, expiresInSec } = svc.issue('usr_1', 'verify');
+    const { token, expiresInSec } = await svc.issue('usr_1', 'verify');
     expect(expiresInSec).toBe(300);
-    expect(svc.verify(token, 'verify').userId).toBe('usr_1');
+    expect((await svc.verify(token, 'verify')).userId).toBe('usr_1');
   });
 
-  test('rechaza token de otro propósito', () => {
+  test('rechaza token de otro propósito', async () => {
     const { svc } = build();
-    const { token } = svc.issue('usr_1', 'enroll');
-    expect(() => svc.verify(token, 'verify')).toThrow(/inválido/i);
+    const { token } = await svc.issue('usr_1', 'enroll');
+    await expect(svc.verify(token, 'verify')).rejects.toThrow(/inválido/i);
   });
 
-  test('expira a los 5 minutos', () => {
+  test('expira a los 5 minutos', async () => {
     const { svc, clock } = build();
-    const { token } = svc.issue('usr_1', 'verify');
+    const { token } = await svc.issue('usr_1', 'verify');
     clock.advance(301_000);
-    expect(() => svc.verify(token, 'verify')).toThrow(/inválido|expir/i);
+    await expect(svc.verify(token, 'verify')).rejects.toThrow(/inválido|expir/i);
   });
 
-  test('rate-limit: tras 5 fallos el token queda bloqueado', () => {
+  test('rate-limit: tras 5 fallos el token queda bloqueado', async () => {
     const { svc } = build();
-    const { token } = svc.issue('usr_1', 'verify');
-    const { jti } = svc.verify(token, 'verify');
-    for (let i = 0; i < 4; i++) expect(svc.recordFailure(jti).locked).toBe(false);
-    expect(svc.recordFailure(jti)).toEqual({ remaining: 0, locked: true });
-    expect(() => svc.verify(token, 'verify')).toThrow(/intentos/i);
+    const { token } = await svc.issue('usr_1', 'verify');
+    const { jti } = await svc.verify(token, 'verify');
+    for (let i = 0; i < 4; i++) expect((await svc.recordFailure(jti)).locked).toBe(false);
+    expect(await svc.recordFailure(jti)).toEqual({ remaining: 0, locked: true });
+    await expect(svc.verify(token, 'verify')).rejects.toThrow(/intentos/i);
   });
 
-  test('uso único: tras consume() no se puede reutilizar', () => {
+  test('uso único: tras consume() no se puede reutilizar', async () => {
     const { svc } = build();
-    const { token } = svc.issue('usr_1', 'verify');
-    svc.consume(svc.verify(token, 'verify').jti);
-    expect(() => svc.verify(token, 'verify')).toThrow(/usado|inválido/i);
+    const { token } = await svc.issue('usr_1', 'verify');
+    expect(await svc.consume((await svc.verify(token, 'verify')).jti)).toBe(true);
+    await expect(svc.verify(token, 'verify')).rejects.toThrow(/usado|inválido/i);
   });
 
-  test('rechaza token firmado con otro secreto (p.ej. un access token)', () => {
+  test('consume concurrente: solo una petición gana', async () => {
+    const { svc } = build();
+    const { token } = await svc.issue('usr_1', 'verify');
+    const { jti } = await svc.verify(token, 'verify');
+    const r = await Promise.all([svc.consume(jti), svc.consume(jti), svc.consume(jti)]);
+    expect(r.filter(Boolean)).toHaveLength(1);
+  });
+
+  test('rechaza token firmado con otro secreto (p.ej. un access token)', async () => {
     const { svc, clock } = build();
     const other = new MfaChallengeService({ secret: 'z'.repeat(32), ttlSec: 300, maxAttempts: 5 }, clock);
-    const { token } = other.issue('usr_1', 'verify');
-    expect(() => svc.verify(token, 'verify')).toThrow(/inválido/i);
+    const { token } = await other.issue('usr_1', 'verify');
+    await expect(svc.verify(token, 'verify')).rejects.toThrow(/inválido/i);
   });
 });

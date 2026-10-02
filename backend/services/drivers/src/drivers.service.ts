@@ -5,7 +5,7 @@ import {
   type DriverDto,
   type TierValue,
 } from '@g3/contracts';
-import type { DriverRepo } from './in-memory.driver.repo';
+import type { DriverRepo } from './driver.repo';
 
 export interface RequestCtx {
   companyId: string;
@@ -39,16 +39,7 @@ export class DriversService {
   }
 
   async create(ctx: RequestCtx, input: CreateDriverInput): Promise<DriverDto> {
-    const count = await this.repo.countByCompany(ctx.companyId);
     const limit = TIER_LIMITS[ctx.tier].users;
-    if (count >= limit) {
-      throw new TierLimitExceededError({
-        limit: 'users',
-        tier: ctx.tier,
-        limitValue: limit,
-        currentValue: count + 1,
-      });
-    }
     const d: DriverDto = {
       id: uuid(),
       companyId: ctx.companyId,
@@ -60,7 +51,17 @@ export class DriversService {
       status: 'pending',
       createdAt: new Date().toISOString(),
     };
-    return this.repo.create(d);
+    // Conteo + alta atómicos (en Postgres, con lock por compañía).
+    const r = await this.repo.createWithinLimit(d, limit);
+    if (!r.ok) {
+      throw new TierLimitExceededError({
+        limit: 'users',
+        tier: ctx.tier,
+        limitValue: limit,
+        currentValue: r.count + 1,
+      });
+    }
+    return r.driver;
   }
 
   async update(

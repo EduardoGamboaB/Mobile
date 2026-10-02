@@ -144,7 +144,7 @@ export class AuthService {
       const enabled = await mfa.isEnabled(user.id);
       const required = await policies.requiresMfa(user.companyId, user.role);
       if (enabled || required) {
-        const { token, expiresInSec } = challenges.issue(user.id, enabled ? 'verify' : 'enroll');
+        const { token, expiresInSec } = await challenges.issue(user.id, enabled ? 'verify' : 'enroll');
         return { mfaRequired: true, mfaToken: token, expiresInSec, mfaEnrollmentRequired: !enabled };
       }
     }
@@ -156,7 +156,7 @@ export class AuthService {
   /** Paso 2: TOTP o código de recuperación contra el mfaToken (máx. 5 intentos). */
   async verifyMfa(input: MfaVerifyDto, meta: RequestMeta = NO_META): Promise<AuthSessionDto> {
     const sec = this.requireSecurity();
-    const { userId, jti } = sec.challenges.verify(input?.mfaToken, 'verify');
+    const { userId, jti } = await sec.challenges.verify(input?.mfaToken, 'verify');
     const user = await this.users.findById(userId);
     if (!user) throw new AuthError(401, 'Token MFA inválido');
 
@@ -165,7 +165,7 @@ export class AuthService {
       await this.registerMfaFailure(user, jti, meta);
       throw new AuthError(401, 'Código MFA incorrecto');
     }
-    sec.challenges.consume(jti);
+    if (!(await sec.challenges.consume(jti))) throw new AuthError(401, 'Token MFA ya usado');
     await this.auditLoginOk(user, meta, { method: `password+${r.method}` });
     return this.sessionFor(user);
   }
@@ -173,7 +173,7 @@ export class AuthService {
   /** Enrolamiento forzado por política durante el login (mfaToken de propósito `enroll`). */
   async challengeEnroll(input: MfaChallengeEnrollDto): Promise<MfaEnrollResponseDto> {
     const sec = this.requireSecurity();
-    const { userId } = sec.challenges.verify(input?.mfaToken, 'enroll');
+    const { userId } = await sec.challenges.verify(input?.mfaToken, 'enroll');
     const user = await this.users.findById(userId);
     if (!user) throw new AuthError(401, 'Token MFA inválido');
     return sec.mfa.beginEnrollment(user);
@@ -184,7 +184,7 @@ export class AuthService {
     meta: RequestMeta = NO_META,
   ): Promise<MfaChallengeConfirmResponseDto> {
     const sec = this.requireSecurity();
-    const { userId, jti } = sec.challenges.verify(input?.mfaToken, 'enroll');
+    const { userId, jti } = await sec.challenges.verify(input?.mfaToken, 'enroll');
     const user = await this.users.findById(userId);
     if (!user) throw new AuthError(401, 'Token MFA inválido');
     let recoveryCodes: string[];
@@ -194,7 +194,7 @@ export class AuthService {
       if (e instanceof AuthError && e.status === 401) await this.registerMfaFailure(user, jti, meta);
       throw e;
     }
-    sec.challenges.consume(jti);
+    if (!(await sec.challenges.consume(jti))) throw new AuthError(401, 'Token MFA ya usado');
     await this.auditLoginOk(user, meta, { method: 'password+mfa_enrollment' });
     return { session: this.sessionFor(user), recoveryCodes };
   }
@@ -260,7 +260,7 @@ export class AuthService {
 
   private async registerMfaFailure(user: UserRecord, jti: string, meta: RequestMeta): Promise<void> {
     const sec = this.requireSecurity();
-    const f = sec.challenges.recordFailure(jti);
+    const f = await sec.challenges.recordFailure(jti);
     const base = { companyId: user.companyId, actor: auditActor({ userId: user.id, role: user.role }), resourceId: user.id, meta };
     await this.audit({ ...base, action: 'auth.mfa.verify_failed', metadata: { remainingAttempts: f.remaining } });
     if (f.locked) await this.audit({ ...base, action: 'auth.mfa.locked', metadata: {} });
