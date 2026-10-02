@@ -15,11 +15,15 @@ import {
   type EvidenceDto,
   type ExpensePolicyDto,
   type LogbookEntryDto,
+  type ProfitabilityQueryDto,
+  type ProfitabilityReportDto,
   type TierValue,
   type TripDto,
   type TripStatus,
+  type TripProfitabilityDto,
   type UploadUrlDto,
 } from '@g3/contracts';
+import { computeTripProfitability, summarizeProfitability, tripReferenceDate } from './profitability';
 import type { InMemoryTripRepo } from './in-memory.trip.repo';
 import type {
   EvidenceStorage,
@@ -249,6 +253,56 @@ export class TripsService {
     return saved;
   }
 
+  // ── Rentabilidad (US-25) ────────────────────────────────────────────────
+
+  /**
+   * Pantalla del dueño: solo owner/admin/dispatcher. Se habilita con
+   * `EarningsDashboard` (Starter+), la feature de reportes de ingreso que ya
+   * existe en el catálogo; los reportes avanzados (Business) son otra cosa.
+   */
+  private requireProfitabilityAccess(ctx: RequestCtx) {
+    requireManager(ctx);
+    if (!tierHas(ctx.tier, Feature.EarningsDashboard)) {
+      throw new UpgradeRequiredError({ currentTier: ctx.tier, missingFeatures: [Feature.EarningsDashboard] });
+    }
+  }
+
+  async tripProfitability(ctx: RequestCtx, tripId: string): Promise<TripProfitabilityDto> {
+    this.requireProfitabilityAccess(ctx);
+    const trip = await this.get(ctx, tripId);
+    return computeTripProfitability(trip, await this.ops.logbook.listByTrip(ctx.companyId, trip.id));
+  }
+
+  async profitabilityReport(ctx: RequestCtx, query: ProfitabilityQueryDto): Promise<ProfitabilityReportDto> {
+    this.requireProfitabilityAccess(ctx);
+    const from = query.from ? parseBound(query.from, 'from') : null;
+    const to = query.to ? parseBound(query.to, 'to') : null;
+    const statuses = query.status
+      ? query.status.split(',').map((s) => s.trim()).filter(Boolean)
+      : null;
+    for (const s of statuses ?? []) {
+      if (!isTripStatus(s)) throw new Error(`Estado de viaje desconocido: ${s}`);
+    }
+
+    const trips = (await this.repo.list(ctx.companyId))
+      .filter((t) => (statuses ? statuses.includes(t.status) : t.status !== 'draft' && t.status !== 'cancelled'))
+      .filter((t) => !query.driverId || t.driverId === query.driverId)
+      .filter((t) => !query.tractorId || t.tractorId === query.tractorId)
+      .filter((t) => {
+        const at = Date.parse(tripReferenceDate(t));
+        return (from == null || at >= from) && (to == null || at <= to);
+      })
+      .sort((a, b) => tripReferenceDate(b).localeCompare(tripReferenceDate(a)));
+
+    const logbook = await this.ops.logbook.listByTrips(ctx.companyId, trips.map((t) => t.id));
+    const rows = trips.map((t) => computeTripProfitability(t, logbook));
+    const filters: ProfitabilityQueryDto = {};
+    for (const k of ['from', 'to', 'driverId', 'tractorId', 'status'] as const) {
+      if (query[k]) filters[k] = query[k];
+    }
+    return { filters, totals: summarizeProfitability(rows), rows, generatedAt: new Date().toISOString() };
+  }
+
   // ── Política de gastos ──────────────────────────────────────────────────
 
   async getExpensePolicy(ctx: RequestCtx): Promise<ExpensePolicyDto> {
@@ -319,6 +373,14 @@ export class TripsService {
   private publish(ctx: RequestCtx, type: string, data: Record<string, unknown>) {
     return this.bus.publish({ type, occurredAt: new Date().toISOString(), companyId: ctx.companyId, data });
   }
+}
+
+/** Fecha ISO o YYYY-MM-DD; un `to` de solo fecha cubre el día completo (UTC). */
+function parseBound(v: string, kind: 'from' | 'to'): number {
+  const dateOnly = /^\d{4}-\d{2}-\d{2}$/.test(v);
+  const ms = Date.parse(dateOnly ? `${v}T00:00:00.000Z` : v);
+  if (Number.isNaN(ms)) throw new Error(`Fecha inválida en ${kind}: ${v}`);
+  return dateOnly && kind === 'to' ? ms + 86_400_000 - 1 : ms;
 }
 
 /** Misma regla que `mobile/src/domain/expensePolicy.ts`, en camelCase. */

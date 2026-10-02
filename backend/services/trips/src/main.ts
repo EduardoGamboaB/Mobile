@@ -27,11 +27,19 @@ import {
     },
   ],
 })
-class TripsAppModule {}
+export class TripsAppModule {}
+
+export async function createTripsApp(opts: { logger?: false } = {}) {
+  const app = await NestFactory.create(TripsAppModule, {
+    cors: false,
+    ...(opts.logger === false ? { logger: false as const } : {}),
+  });
+  app.setGlobalPrefix('api');
+  return app;
+}
 
 async function bootstrap() {
-  const app = await NestFactory.create(TripsAppModule, { cors: false });
-  app.setGlobalPrefix('api');
+  const app = await createTripsApp();
   const port = Number(process.env.PORT ?? '8085');
   await app.listen(port, '0.0.0.0');
   // eslint-disable-next-line no-console
