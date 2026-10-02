@@ -13,6 +13,7 @@ import type {
   TrailerDTO,
   TripDTO,
   LogbookEntryDTO,
+  EvidenceDTO,
   ExpensePolicyDTO,
   ProfitabilityQuery,
   ProfitabilityReportDTO,
@@ -176,6 +177,7 @@ export const tripsApi = {
     api.patch<TripDTO>(`/trips/${id}/status`, { status }),
   releasePayment: (id: string) => api.post<TripDTO>(`/trips/${id}/release-payment`),
   logbook: (id: string) => api.get<LogbookEntryDTO[]>(`/trips/${id}/logbook`),
+  evidences: (id: string) => api.get<EvidenceDTO[]>(`/trips/${id}/evidences`),
 };
 
 // =============== RENTABILIDAD (US-25) ===============

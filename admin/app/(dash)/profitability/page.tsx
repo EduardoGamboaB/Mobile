@@ -1,6 +1,7 @@
 'use client';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { tripHref } from '@/lib/trips';
 import { isLive } from '@/lib/api/config';
 import { driversApi, tractorsApi } from '@/lib/api/modules';
 import type { ProfitabilityQuery, ProfitabilityReportDTO, TripProfitabilityDTO } from '@/lib/api/types';
@@ -396,7 +397,7 @@ function DetailRow({ r }: { r: TripProfitabilityDTO }) {
       <div className="stack">
         <div className="small"><strong>{r.origin}</strong> → <strong>{r.destination}</strong></div>
         <div className="caption">{r.expenseEntries} gastos registrados en bitácora</div>
-        <Link href={`/trips/${r.tripId}/`} className="btn outline sm">Ver viaje completo</Link>
+        <Link href={tripHref(r.tripId)} className="btn outline sm">Ver viaje completo</Link>
       </div>
     </div>
   );
