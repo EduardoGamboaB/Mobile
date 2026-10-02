@@ -3,7 +3,11 @@ import {
   type OperationalSignalDto,
   type TelemetryPositionReceivedEvent,
 } from '@g3/contracts';
+import { serviceFetchFromEnv } from '@g3/platform';
 import { NoopEventBus, type DomainEvent, type EventBus } from './event.bus';
+
+/** Lo que necesitamos de `fetch` (lo cumplen `fetch` y `serviceFetch` de @g3/platform). */
+export type FetchLike = (url: string, init?: RequestInit) => Promise<Response>;
 
 /**
  * Telemetría → centro de incidentes (servicio alerts).
@@ -49,13 +53,22 @@ function withTimeout<T>(run: (signal: AbortSignal) => Promise<T>, ms: number, wh
   return Promise.race([run(ctrl.signal), timeout]).finally(() => clearTimeout(timer));
 }
 
-/** `GET {TRIPS_URL}/api/trips/internal/active-by-vehicle/:vehicleId?companyId=` con caché corta. */
+/**
+ * `GET {TRIPS_URL}/api/trips/internal/active-by-vehicle/:vehicleId?companyId=` con caché corta.
+ *
+ * La caché es EN MEMORIA POR INSTANCIA a propósito (no Redis): es de 60 s,
+ * acotada a `maxEntries`, solo ahorra llamadas a trips en ráfagas de
+ * posiciones del mismo vehículo, y perderla o que dos réplicas tengan valores
+ * distintos por unos segundos no cambia nada importante (la señal sale con o
+ * sin viaje y alerts lo tolera). Compartirla costaría un viaje de red por
+ * punto, que es justo lo que evita.
+ */
 export class HttpActiveTripResolver implements ActiveTripResolver {
   private readonly cache = new Map<string, { value: ActiveTrip | null; expiresAt: number }>();
   private readonly inFlight = new Map<string, Promise<ActiveTrip | null>>();
   private readonly base: string;
   private readonly token: string;
-  private readonly fetchFn: typeof fetch;
+  private readonly fetchFn: FetchLike;
   private readonly ttlMs: number;
   private readonly timeoutMs: number;
   private readonly now: () => number;
@@ -64,7 +77,7 @@ export class HttpActiveTripResolver implements ActiveTripResolver {
   constructor(opts: {
     tripsUrl: string;
     internalToken: string;
-    fetch?: typeof fetch;
+    fetch?: FetchLike;
     ttlMs?: number;
     timeoutMs?: number;
     now?: () => number;
@@ -127,7 +140,7 @@ export interface IncidentSignalBusOptions {
   alertsUrl: string;
   internalToken: string;
   resolver: ActiveTripResolver;
-  fetch?: typeof fetch;
+  fetch?: FetchLike;
   /** Timeout de cada POST a alerts. */
   timeoutMs?: number;
   /** Máximo de señales en vuelo; las que excedan se descartan (y se loguea). */
@@ -139,7 +152,7 @@ export interface IncidentSignalBusOptions {
 
 export class IncidentSignalBus implements EventBus {
   private readonly url: string;
-  private readonly fetchFn: typeof fetch;
+  private readonly fetchFn: FetchLike;
   private readonly timeoutMs: number;
   private readonly maxInFlight: number;
   private readonly inner: EventBus;
@@ -220,14 +233,20 @@ export class IncidentSignalBus implements EventBus {
 
 /**
  * Con `ALERTS_URL` + `INTERNAL_TOKEN` reenvía señales a alerts (y usa
- * `TRIPS_URL` para el viaje activo); sin ellos, `NoopEventBus`.
+ * `TRIPS_URL` para el viaje activo); sin ellos, `NoopEventBus`. Las llamadas
+ * salen con `serviceFetch` de @g3/platform: `x-internal-token` y, con
+ * `SERVICE_AUTH=gcp`, el ID token de Cloud Run.
  */
-export function eventBusFromEnv(env: Record<string, string | undefined> = process.env): EventBus {
+export function eventBusFromEnv(
+  env: Record<string, string | undefined> = process.env,
+  log?: (msg: string) => void,
+): EventBus {
   const alertsUrl = env.ALERTS_URL;
   const token = env.INTERNAL_TOKEN;
   if (!alertsUrl || !token) return new NoopEventBus();
+  const serviceFetch = serviceFetchFromEnv(env);
   const resolver = env.TRIPS_URL
-    ? new HttpActiveTripResolver({ tripsUrl: env.TRIPS_URL, internalToken: token })
+    ? new HttpActiveTripResolver({ tripsUrl: env.TRIPS_URL, internalToken: token, fetch: serviceFetch })
     : new NullActiveTripResolver();
-  return new IncidentSignalBus({ alertsUrl, internalToken: token, resolver });
+  return new IncidentSignalBus({ alertsUrl, internalToken: token, resolver, fetch: serviceFetch, log });
 }

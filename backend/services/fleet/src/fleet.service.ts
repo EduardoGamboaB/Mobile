@@ -11,7 +11,7 @@ import {
   type LivePosition,
   type UserRole,
 } from '@g3/contracts';
-import type { InMemoryTelemetryRepo, InMemoryTractorRepo, InMemoryTrailerRepo } from './in-memory.repos';
+import type { TelemetryRepo, TractorRepo, TrailerRepo } from './repos';
 
 export interface RequestCtx {
   companyId: string;
@@ -37,10 +37,10 @@ export interface CreateTrailerInput {
 
 export class FleetService {
   constructor(
-    private readonly tractors: InMemoryTractorRepo,
-    private readonly trailers: InMemoryTrailerRepo,
+    private readonly tractors: TractorRepo,
+    private readonly trailers: TrailerRepo,
     /** Opcional para compatibilidad: sin repo de telemetría se usa lastLat/lastLng del tracto. */
-    private readonly telemetry?: InMemoryTelemetryRepo,
+    private readonly telemetry?: TelemetryRepo,
   ) {}
 
   // --- tractors ---
@@ -134,9 +134,13 @@ export class FleetService {
     // tracto queda como respaldo (datos previos a la ingesta / carga manual).
     const tractors = await this.tractors.list(ctx.companyId);
     const fallback = new Map(fromTractors.map((p) => [p.tractorId, p]));
+    const lastByTractor = await this.telemetry.lastByVehicles(
+      ctx.companyId,
+      tractors.map((t) => t.id),
+    );
     const out: LivePosition[] = [];
     for (const t of tractors) {
-      const last = await this.telemetry.lastByVehicle(ctx.companyId, t.id);
+      const last = lastByTractor.get(t.id);
       if (last) {
         out.push({
           tractorId: t.id,
