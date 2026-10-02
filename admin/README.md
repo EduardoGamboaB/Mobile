@@ -6,7 +6,8 @@ gestión de tractos y remolques, operadores y asignación de viajes.
 
 ## Stack
 
-- **Next.js 14** (App Router) + **React 18** + **TypeScript**
+- **Next.js 15.5** (App Router) + **React 19** + **TypeScript 5**
+- ESLint 9 (`eslint-config-next` 15.5) · Jest 29 + ts-jest
 - **Zustand** para state global (auth · tier · theme)
 - Static export (`next.config.js` con `output: 'export'`) → deploy en
   Cloud Run, Cloudflare Pages, Vercel o cualquier CDN
@@ -81,6 +82,30 @@ Build estático:
 ```bash
 npm run build  # → out/ listo para cualquier CDN
 ```
+
+Verificación (lo mismo que corre antes de cada commit):
+
+```bash
+npm run typecheck   # tsc --noEmit
+npm run lint        # eslint . (ESLint 9, flat config en eslint.config.mjs)
+npm test            # jest (unit + e2e con fetch simulado)
+npm audit --omit=dev
+```
+
+`next lint` está deprecado desde Next 15.5: el script `lint` usa el CLI de
+ESLint con `eslint-config-next` (vía `FlatCompat`). `next build` también
+corre ese lint y el chequeo de tipos.
+
+### Notas de Next 15 / React 19
+
+- En las rutas dinámicas (`trips/[id]`, `drivers/[id]`, `fleet/*/[id]`)
+  `params` es una `Promise` y la página la espera (`await params`); con
+  export estático solo se generan los ids de `generateStaticParams`.
+- Los headers de `security-headers.js` solo se aplican en `next dev` (Next
+  avisa que `headers` no aplica con `output: 'export'`, es esperado); en
+  producción los pone el Load Balancer y la CSP va además como `<meta>`.
+- El indicador de desarrollo de Next va abajo a la derecha
+  (`devIndicators`) para no tapar el sidebar.
 
 ## Modo demo
 

@@ -5,6 +5,8 @@ export function generateStaticParams() {
   return drivers.map((d) => ({ id: d.id }));
 }
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <DriverDetailClient id={params.id} />;
+// Next 15: `params` es una Promise (también en export estático).
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return <DriverDetailClient id={id} />;
 }

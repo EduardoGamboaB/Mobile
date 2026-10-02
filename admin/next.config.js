@@ -17,6 +17,8 @@ module.exports = (phase) => ({
   trailingSlash: true,
   reactStrictMode: true,
   poweredByHeader: false,
+  // Indicador de `next dev` (Next 15) a la derecha: a la izquierda tapa el sidebar.
+  devIndicators: { position: 'bottom-right' },
   ...(phase === PHASE_DEVELOPMENT_SERVER
     ? { headers: async () => [{ source: '/:path*', headers: securityHeaders({ dev: true }) }] }
     : {}),
