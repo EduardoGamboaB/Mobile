@@ -86,6 +86,16 @@ Archivos:
 nuevo aceptado. Consumidores previstos: alerts (desvío de ruta, llegada tarde,
 exceso de velocidad), trips (auto-avance de estado por geocerca), scoring.
 
+**Hoy (sin Pub/Sub):** con `ALERTS_URL` + `INTERNAL_TOKEN` el servicio usa
+`IncidentSignalBus` (`src/incident-signals.ts`): por cada posición con vehículo
+ligado manda `{companyId, signal: OperationalSignalDto}` a
+`POST {ALERTS_URL}/api/incidents/signals` (`x-internal-token`). `tripId` y
+`driverId` salen de `GET {TRIPS_URL}/api/trips/internal/active-by-vehicle/:vehicleId?companyId=`
+(caché de 60 s por compañía+vehículo, consulta en vuelo compartida). Es
+fire-and-forget: no bloquea el webhook, timeout de 3 s (alerts) y 2 s (trips),
+máximo 500 señales en vuelo (las demás se descartan con log) y los errores solo
+se loguean. Sin esas variables: `NoopEventBus`.
+
 ## 2. Endpoints
 
 | Método | Ruta (vía gateway `/api`) | Auth | Descripción |
@@ -223,7 +233,7 @@ Una función pura `(body: unknown) => AdapterResult` en
   - `vehicle_last_position` (upsert con `WHERE excluded.recorded_at > recorded_at`).
   - `ingest_tokens(hash)`; con muchas compañías conviene token
     `g3it_<id>.<secreto>` para buscar por id y comparar un solo hash.
-- **Pub/Sub**: hoy `NoopEventBus` en `main.ts`. Usar `PubSubEventBus` como en
+- **Pub/Sub**: hoy `NoopEventBus` (o el reenvío HTTP a alerts, ver arriba) en `main.ts`. Usar `PubSubEventBus` como en
   `services/auth`. Para volumen alto: el webhook sólo valida + encola
   (`g3-telemetry-raw`) y un worker hace parseo/persistencia; agrupar eventos
   por batch.
@@ -233,7 +243,8 @@ Una función pura `(body: unknown) => AdapterResult` en
   middleware del proveedor.
 - Suntech "Universal" (`REP_MAP`), Queclink GTERI/sensores CAN, fuel por
   proveedor.
-- Rate limit por token, tamaño máx. de batch, rechazo de timestamps en el
+- Rate limit por token (el gateway ya limita `/api/telemetry/ingest/*` por IP,
+  `RATE_LIMIT_INGEST_*`), tamaño máx. de batch, rechazo de timestamps en el
   futuro lejano, alertas cuando un dispositivo deja de reportar.
 - Al borrar un tracto/remolque, desvincular sus dispositivos.
 - UI en G3 Admin: alta de dispositivos, tokens y lista de IMEIs desconocidos.

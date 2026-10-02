@@ -14,7 +14,8 @@ import {
   InMemoryTractorRepo,
   InMemoryTrailerRepo,
 } from './in-memory.repos';
-import { NoopEventBus, type EventBus } from './event.bus';
+import type { EventBus } from './event.bus';
+import { eventBusFromEnv } from './incident-signals';
 import { HttpErrorFilter } from './http-error.filter';
 
 /** Construye el módulo con repos compartidos (en prod: TypeORM/Postgres). */
@@ -42,8 +43,10 @@ function buildModule(bus: EventBus) {
 
 /** App configurada (prefijo, body parsers, filtro de errores). Exportada para tests HTTP. */
 export async function createFleetApp(opts: { bus?: EventBus; logger?: false } = {}) {
+  // Con ALERTS_URL + INTERNAL_TOKEN: reenvía posiciones al centro de incidentes
+  // (incident-signals.ts); si no, NoopEventBus.
   // TODO(prod): PubSubEventBus (patrón de services/auth/src/pubsub.bus.ts).
-  const app = await NestFactory.create<NestExpressApplication>(buildModule(opts.bus ?? new NoopEventBus()), {
+  const app = await NestFactory.create<NestExpressApplication>(buildModule(opts.bus ?? eventBusFromEnv()), {
     cors: false,
     bodyParser: false,
     ...(opts.logger === false ? { logger: false } : {}),
