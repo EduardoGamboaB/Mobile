@@ -29,6 +29,11 @@ describe('proxy router: rutea /api/<resource>/* al microservicio correcto', () =
     ['/api/alerts', URLS.alerts],
     ['/api/ai/classify-logbook', URLS.ai],
     ['/api/ai/extract-evidence', URLS.ai],
+    ['/api/devices', URLS.fleet],
+    ['/api/devices/dev_1/link', URLS.fleet],
+    ['/api/vehicles/trc_1/track', URLS.fleet],
+    ['/api/telemetry/ingest/queclink', URLS.fleet],
+    ['/api/telemetry/ingest-tokens', URLS.fleet],
   ])('%s → %s', (path, expected) => {
     expect(resolveUpstream(path, URLS)).toBe(expected);
   });

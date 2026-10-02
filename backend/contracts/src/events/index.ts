@@ -48,3 +48,4 @@ export interface AIInvocationEvent {
   fallback: boolean;
   latencyMs: number;
 }
+export * from './telemetry';
