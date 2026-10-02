@@ -16,6 +16,11 @@ const TONE: Partial<Record<AuditAction, string>> = {
   'security_policy.updated': 'navy',
   'sso_config.updated': 'navy',
   'expense_policy.updated': 'blue',
+  'auth.otp.failed': 'amber',
+  'auth.password_reset.completed': 'navy',
+  'user.driver_access_granted': 'navy',
+  'integration.updated': 'navy',
+  'integration.deleted': 'amber',
 };
 
 /** Bitácora de auditoría (solo owner/admin — el backend responde 403 al resto). */

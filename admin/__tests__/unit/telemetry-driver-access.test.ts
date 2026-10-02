@@ -73,7 +73,7 @@ describe('acceso de choferes a G3 Drive', () => {
   let teardown: () => void;
   beforeEach(() => {
     tokenStore.setInMemory({ accessToken: 'tok', refreshToken: 'rfr' });
-    window.localStorage.clear();
+    driverAccessHttp.reset();
   });
   afterEach(() => teardown?.());
 
@@ -89,6 +89,18 @@ describe('acceso de choferes a G3 Drive', () => {
     expect(m.calls[0].body).toEqual({ driverId: 'drv_1', phone: '+525512345678', fullName: 'Pedro Pérez' });
     expect(g.userId).toBe('usr_9');
     expect(driverAccessHttp.grantedFor('drv_1')).toEqual(g);
+  });
+
+  test('estado real desde GET /users/drivers en una sola petición compartida', async () => {
+    const m = makeFetchMock().on('GET /api/users/drivers', {
+      status: 200,
+      body: [{ userId: 'usr_3', driverId: 'drv_3', phoneSuffix: '5678' }],
+    });
+    teardown = installGlobalFetchMock(m);
+    await Promise.all([driverAccessHttp.load!(), driverAccessHttp.load!()]);
+    expect(m.calls).toHaveLength(1);
+    expect(driverAccessHttp.grantedFor('drv_3')).toEqual({ userId: 'usr_3', driverId: 'drv_3', phone: '••••5678' });
+    expect(driverAccessHttp.grantedFor('drv_x')).toBeNull();
   });
 
   test('409 y 403 con mensajes claros', async () => {

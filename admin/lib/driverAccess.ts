@@ -23,8 +23,10 @@ export interface DriverAccessGrant {
 
 export interface DriverAccessBackend {
   grant(input: GrantDriverAccessInput): Promise<DriverAccessGrant>;
-  /** Acceso ya otorgado (demo: en memoria; con backend: los dados desde este navegador). */
+  /** Acceso ya otorgado (tras `load()`). */
   grantedFor(driverId: string): DriverAccessGrant | null;
+  /** Carga el estado real (backend: `GET /users/drivers`, una sola petición compartida). */
+  load?(): Promise<void>;
 }
 
 /** Quita espacios, guiones y paréntesis; no inventa lada. */
@@ -54,25 +56,7 @@ export function driverAccessErrorMessage(e: unknown): string {
   return e instanceof Error ? e.message : String(e);
 }
 
-const CACHE_KEY = 'g3admin.driverAccess.v1';
 
-function readCache(): Record<string, DriverAccessGrant> {
-  try {
-    if (typeof window === 'undefined' || !window.localStorage) return {};
-    return JSON.parse(window.localStorage.getItem(CACHE_KEY) ?? '{}') as Record<string, DriverAccessGrant>;
-  } catch {
-    return {};
-  }
-}
-
-function writeCache(g: DriverAccessGrant) {
-  try {
-    if (typeof window === 'undefined' || !window.localStorage) return;
-    window.localStorage.setItem(CACHE_KEY, JSON.stringify({ ...readCache(), [g.driverId]: g }));
-  } catch {
-    /* sin almacenamiento: solo se pierde el recordatorio local */
-  }
-}
 
 function payload(input: GrantDriverAccessInput) {
   const body: Record<string, string> = {
@@ -84,14 +68,47 @@ function payload(input: GrantDriverAccessInput) {
   return body;
 }
 
-export const driverAccessHttp: DriverAccessBackend = {
-  async grant(input) {
-    const r = await api.post<DriverAccessGrant>('/users/drivers', payload(input));
-    writeCache(r);
-    return r;
-  },
-  grantedFor: (driverId) => readCache()[driverId] ?? null,
-};
+interface DriverAccessListItem {
+  userId: string;
+  driverId: string;
+  phoneSuffix: string;
+}
+
+/** Estado real desde auth (`GET /users/drivers`) + lo otorgado en esta sesión. */
+export function createHttpDriverAccess(): DriverAccessBackend & { reset(): void } {
+  const byDriver = new Map<string, DriverAccessGrant>();
+  let loading: Promise<void> | null = null;
+  return {
+    reset: () => {
+      byDriver.clear();
+      loading = null;
+    },
+    async grant(input) {
+      const r = await api.post<DriverAccessGrant>('/users/drivers', payload(input));
+      byDriver.set(r.driverId, r);
+      return r;
+    },
+    grantedFor: (driverId) => byDriver.get(driverId) ?? null,
+    load() {
+      loading ??= api
+        .get<DriverAccessListItem[]>('/users/drivers')
+        .then((rows) => {
+          for (const r of rows) {
+            if (!byDriver.has(r.driverId)) {
+              byDriver.set(r.driverId, { userId: r.userId, driverId: r.driverId, phone: `••••${r.phoneSuffix}` });
+            }
+          }
+        })
+        .catch(() => {
+          // Sin permiso (dispatcher sin lectura, red caída): se queda sin estado y se reintenta luego.
+          loading = null;
+        });
+      return loading;
+    },
+  };
+}
+
+export const driverAccessHttp = createHttpDriverAccess();
 
 /** Demo: mismas reglas (E.164, 409 por teléfono repetido, 403 si no es admin). */
 export function createDemoDriverAccess(opts: { isAdmin?: boolean; taken?: string[] } = {}): DriverAccessBackend & {

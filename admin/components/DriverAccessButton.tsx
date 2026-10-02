@@ -23,8 +23,15 @@ interface Props {
 export function DriverAccessButton({ driver, backend = driverAccessBackend, size = 'sm' }: Props) {
   const [grant, setGrant] = useState<DriverAccessGrant | null>(null);
   const [open, setOpen] = useState(false);
-  // Tras montar (lee localStorage con backend): evita desajustes de hidratación.
-  useEffect(() => { setGrant(backend.grantedFor(driver.id)); }, [backend, driver.id]);
+  // Tras montar: con backend consulta el estado real (una petición compartida por toda la lista).
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      await backend.load?.();
+      if (alive) setGrant(backend.grantedFor(driver.id));
+    })();
+    return () => { alive = false; };
+  }, [backend, driver.id]);
 
   if (grant) {
     const chip = (

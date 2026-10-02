@@ -104,7 +104,15 @@ export type AuditAction =
   | 'user.provisioned_jit'
   | 'security_policy.updated'
   | 'sso_config.updated'
-  | 'expense_policy.updated';
+  | 'expense_policy.updated'
+  | 'auth.otp.requested'
+  | 'auth.otp.failed'
+  | 'auth.password_reset.requested'
+  | 'auth.password_reset.completed'
+  | 'user.driver_access_granted'
+  | 'integration.updated'
+  | 'integration.deleted'
+  | 'integration.tested';
 
 export const AUDIT_ACTION_LABEL: Record<AuditAction, string> = {
   'auth.login.succeeded': 'Inicio de sesión',
@@ -120,6 +128,14 @@ export const AUDIT_ACTION_LABEL: Record<AuditAction, string> = {
   'security_policy.updated': 'Política de seguridad',
   'sso_config.updated': 'Configuración SSO',
   'expense_policy.updated': 'Regla de gastos',
+  'auth.otp.requested': 'Código SMS solicitado',
+  'auth.otp.failed': 'Código SMS incorrecto',
+  'auth.password_reset.requested': 'Recuperación de contraseña solicitada',
+  'auth.password_reset.completed': 'Contraseña restablecida',
+  'user.driver_access_granted': 'Acceso a G3 Drive otorgado',
+  'integration.updated': 'Integración configurada',
+  'integration.deleted': 'Integración eliminada',
+  'integration.tested': 'Prueba de integración',
 };
 
 export interface AuditEntry {
