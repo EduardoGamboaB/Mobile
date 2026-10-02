@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/main.js",
     "test": "jest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc -p tsconfig.check.json"
   },
   "dependencies": {
     "@g3/contracts": "*",
