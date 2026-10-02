@@ -156,6 +156,7 @@ servicios. Continúa con el paso 7 y vuelve a correr `terraform apply`.
 ```bash
 gcloud run jobs execute g3-db-bootstrap --region=$REGION --wait
 for s in auth billing drivers fleet trips alerts integrations invoicing; do
+  [ -f backend/services/$s/src/migrate.ts ] || { echo "sin migraciones: $s"; continue; }
   gcloud run jobs execute migrate-$s --region=$REGION --wait || break
 done
 gcloud run jobs execute g3-db-bootstrap --region=$REGION --wait   # deja auth.audit_log append-only

@@ -98,6 +98,11 @@ steps:
         for s in ${_SERVICES} ${_JOB_ONLY}; do build "services/$$s" "$$s" & pids+=($$!); done
         docker build -q -f infra/db/Dockerfile -t "$$REGISTRY/db-bootstrap:$$TAG" infra/db & pids+=($$!)
         for p in "$${pids[@]}"; do wait "$$p"; done
+        # Solo se migran los servicios que ya tienen src/migrate.ts.
+        : > /workspace/migrate-list.txt
+        for s in ${_MIGRATE}; do
+          if [ -f "services/$$s/src/migrate.ts" ]; then echo "$$s" >> /workspace/migrate-list.txt; else echo "sin migrate.ts: $$s"; fi
+        done
     waitFor: ['sec-gitleaks', 'sec-semgrep', 'sec-npm-audit']
 
   - id: push
@@ -139,7 +144,7 @@ steps:
       - |
         set -euo pipefail
         if [ "${_ONLY_IMAGES}" = "true" ]; then echo "solo imágenes: se omite"; exit 0; fi
-        for s in ${_MIGRATE}; do
+        for s in $$(cat /workspace/migrate-list.txt); do
           echo "=== migrate-$$s"
           gcloud run jobs update "migrate-$$s" --region=${_REGION} --image="$$REGISTRY/$$s:$$TAG" \
             --update-labels=commit-sha=$$TAG --quiet

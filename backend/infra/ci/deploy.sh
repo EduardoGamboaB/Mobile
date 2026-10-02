@@ -61,6 +61,7 @@ gcloud run jobs execute g3-db-bootstrap --region="$REGION" --wait
 
 log "Migraciones (si una falla, no se despliega nada)…"
 for s in "${MIGRATE[@]}"; do
+  [[ -f "services/$s/src/migrate.ts" ]] || { log "  · $s sin migrate.ts (se omite)"; continue; }
   gcloud run jobs update "migrate-$s" --region="$REGION" --image="$REGISTRY/$s:$TAG" --quiet
   gcloud run jobs execute "migrate-$s" --region="$REGION" --wait
   log "  ✓ migrate-$s"
