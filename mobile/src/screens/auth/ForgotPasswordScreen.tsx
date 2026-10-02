@@ -9,6 +9,7 @@ import { IconTile, tileIconColor } from '@/components/common/IconTile';
 import { MailIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
+import { PASSWORD_RESET_SENT, authErrorMessage } from '@/utils/authMessages';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
 
@@ -20,7 +21,7 @@ export function ForgotPasswordScreen() {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
-    if (!email.includes('@')) {
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
       Alert.alert('Correo inválido', 'Escribe un correo válido.');
       return;
     }
@@ -30,18 +31,18 @@ export function ForgotPasswordScreen() {
     }
     setLoading(true);
     try {
-      await useAuthStore.getState().requestPasswordReset(email);
+      await useAuthStore.getState().requestPasswordReset(email.trim());
     } catch (e) {
       setLoading(false);
-      Alert.alert('No se pudo enviar', e instanceof Error ? e.message : String(e));
+      const m = authErrorMessage(e, 'password_forgot');
+      Alert.alert(m.title, m.message);
       return;
     }
     setLoading(false);
-    Alert.alert(
-      'Listo',
-      'Te enviamos un enlace para restablecer tu contraseña.',
-      [{ text: 'OK', onPress: () => nav.goBack() }],
-    );
+    // Mismo texto exista o no la cuenta (el backend responde 202 siempre).
+    Alert.alert(PASSWORD_RESET_SENT.title, PASSWORD_RESET_SENT.message, [
+      { text: 'OK', onPress: () => nav.goBack() },
+    ]);
   };
 
   return (
@@ -55,7 +56,7 @@ export function ForgotPasswordScreen() {
         </View>
         <Text style={[typography.h2, { color: c.text }]}>¿Olvidaste tu contraseña?</Text>
         <Text style={[typography.small, { color: c.textSoft }, styles.center]}>
-          Escribe tu correo y te enviaremos un enlace para restablecerla.
+          Escribe el correo de tu cuenta de G3. Si eres chofer, entra con tu teléfono: no necesitas contraseña.
         </Text>
       </View>
       <TextField

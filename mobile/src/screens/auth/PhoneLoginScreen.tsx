@@ -9,6 +9,7 @@ import { Card } from '@/components/common/Card';
 import { PhoneIcon } from '@/components/icons';
 import { useAuthStore } from '@/stores/auth';
 import { isDemo } from '@/demo';
+import { authErrorMessage } from '@/utils/authMessages';
 import { useColors, spacing, typography } from '@/theme';
 import type { ColorPalette } from '@/theme';
 import type { AuthStackParamList } from '@/navigation/types';
@@ -27,16 +28,18 @@ export function PhoneLoginScreen() {
   const onSubmit = async () => {
     const normalized = phone.replace(/[^\d+]/g, '');
     const full = normalized.startsWith('+') ? normalized : `+52${normalized}`;
-    if (full.length < 10) {
-      Alert.alert('Teléfono inválido', 'Introduce un número con lada.');
+    // E.164: + y de 11 a 15 dígitos (México: +52 y 10 dígitos).
+    if (!/^\+\d{11,15}$/.test(full)) {
+      Alert.alert('Teléfono inválido', 'Escribe tu número a 10 dígitos con lada (ej. 55 1234 5678).');
       return;
     }
     try {
       await signInWithPhone(full);
+      // El backend responde 202 exista o no el número: siempre se pasa a la verificación.
       nav.navigate('OtpVerify', { phone: full });
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Error desconocido';
-      Alert.alert('No se pudo enviar el código', msg);
+      const m = authErrorMessage(e, 'otp_request');
+      Alert.alert(m.title, m.message);
     }
   };
 
@@ -52,7 +55,7 @@ export function PhoneLoginScreen() {
         <Card style={{ borderColor: c.danger, borderWidth: 1 }}>
           <Text style={[typography.h3, { color: c.text }]}>Modo demo activo</Text>
           <Text style={[typography.small, { color: c.textSoft }, { marginTop: spacing.xs }]}>
-            Sin credenciales de Supabase. Entra como chofer ficticio para explorar la app con
+            Sin backend G3 configurado. Entra como chofer ficticio para explorar la app con
             datos de ejemplo.
           </Text>
           <View style={{ marginTop: spacing.md + 2 }}>
