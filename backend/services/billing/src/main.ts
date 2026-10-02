@@ -6,6 +6,8 @@ import { BillingService } from './billing.service';
 import { InMemorySubscriptionRepo } from './repos/in-memory.subscription.repo';
 import { FakeStripeProvider } from './billing/fake.stripe.provider';
 import { RecordingEventBus } from './event.bus';
+import { IntegrationsClient } from '@g3/integrations';
+import { IntegrationBillingProvider } from './billing/integration.billing.provider';
 
 @Module({
   controllers: [BillingController],
@@ -15,7 +17,15 @@ import { RecordingEventBus } from './event.bus';
       useFactory: () =>
         new BillingService(
           new InMemorySubscriptionRepo(),
-          new FakeStripeProvider(),
+          // Stripe desde integrations (plataforma) → STRIPE_* → Fake si no hay nada.
+          new IntegrationBillingProvider(
+            new IntegrationsClient({
+              baseUrl: process.env.INTEGRATIONS_URL,
+              internalToken: process.env.INTERNAL_TOKEN,
+              onError: (m) => console.warn(m),
+            }),
+            new FakeStripeProvider(),
+          ),
           new RecordingEventBus(),
         ),
     },
