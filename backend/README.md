@@ -44,8 +44,10 @@ backend/
 │   │   └── test/                 (9 tests)
 │   ├── alerts/                 ← CRUD + Pub/Sub fanout (g3-alerts topic)
 │   │   └── test/                 (4 tests)
-│   └── ai/                     ← 6 agentes con fallback primary→stub
-│       └── test/                 (7 tests)
+│   ├── ai/                     ← 6 agentes con fallback primary→stub
+│   │   └── test/                 (7 tests)
+│   └── integrations/           ← configuración de proveedores externos (docs/INTEGRATIONS.md)
+├── integrations-kit/           ← @g3/integrations: adaptadores SMS/correo/push/WhatsApp, secretos
 └── infra/
     ├── docker/
     │   ├── service.Dockerfile    multi-stage genérico --build-arg SERVICE=
@@ -66,7 +68,7 @@ Cliente (mobile / admin)
           │ HTTP interno (Cloud Run-to-Cloud Run, IAM auth)
    ┌──────┼──────┬──────┬──────┬──────┬──────┬──────┐
    ▼      ▼      ▼      ▼      ▼      ▼      ▼      ▼
-  auth  billing drivers fleet trips  alerts   ai
+  auth  billing drivers fleet trips  alerts   ai   integrations
    │      │      │      │      │      │       │
    └──────┴──────┴──────┴──────┴──────┴───────┘
                        │

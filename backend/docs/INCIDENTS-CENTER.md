@@ -45,12 +45,15 @@ Cada nivel se dispara una sola vez. A quién se avisa y por qué canal depende d
 
 ## Canales
 
-- **Push:** Expo Push API (G3 Drive es Expo). Se activa con `EXPO_PUSH_ENABLED=1` y, de forma opcional,
-  `EXPO_ACCESS_TOKEN`.
+Las credenciales se configuran en G3 Admin → Integraciones (servicio `integrations`, ver
+[INTEGRATIONS.md](./INTEGRATIONS.md)) y se resuelven **por compañía del incidente**:
+
+- **Push:** Expo Push API (G3 Drive es Expo). Alcance plataforma; respaldo por entorno con
+  `EXPO_PUSH_ENABLED=1` y, de forma opcional, `EXPO_ACCESS_TOKEN`.
 - **WhatsApp:** WhatsApp Cloud API (Meta), con la plantilla aprobada `g3_incidente` y 4 parámetros: folio,
-  título, urgencia y motivo. Variables: `WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN` y
-  `WHATSAPP_TEMPLATE`.
-- **Sin credenciales:** los envíos se registran en memoria y no sale nada.
+  título, urgencia y motivo. Se usa el número de la compañía → el de la plataforma → el de entorno
+  (`WHATSAPP_PHONE_NUMBER_ID`, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_TEMPLATE`).
+- **Sin credenciales:** el canal queda en modo registro y no sale nada.
 - **Destinatarios:** cada usuario registra su token push y su WhatsApp (E.164) en
   `PUT /notification-contacts/me`. Solo se notifica a quien tiene ese canal dado de alta.
 
