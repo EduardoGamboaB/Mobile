@@ -24,6 +24,7 @@ import {
   testConnection,
   type EnvLike,
   type FetchLike,
+  type IntegrationChange,
 } from '@g3/integrations';
 import type { IntegrationRecord, IntegrationRepo, StoredSecret } from './integrations.repo';
 import type { SecretCipher } from './secret-cipher';
@@ -55,6 +56,11 @@ export interface IntegrationsServiceDeps {
   env: EnvLike;
   /** `G3_PLATFORM_COMPANY_ID`: única compañía que edita el alcance plataforma. */
   platformCompanyId: string | null;
+  /**
+   * Aviso de cambio para invalidar las cachés de `IntegrationsClient` en
+   * todas las réplicas de los consumidores (Redis pub/sub). No debe lanzar.
+   */
+  publishChange?: (change: IntegrationChange) => Promise<void>;
   now?: () => Date;
   testTimeoutMs?: number;
 }
@@ -205,6 +211,7 @@ export class IntegrationsService {
     for (const [k, v] of Object.entries(newSecrets)) rec.secrets[k] = this.store(rec, k, v);
 
     const saved = await this.deps.repo.save(rec);
+    await this.publishChange(saved);
     await this.audit(ctx, 'integration.updated', saved, {
       created: !existing,
       enabled: saved.enabled,
@@ -226,6 +233,7 @@ export class IntegrationsService {
     const existing = await this.deps.repo.find(scope, companyId, def.category, slot);
     if (!existing) throw new NotFoundError(`Sin configuración de ${def.label} (${scope})`);
     await this.deps.repo.remove(scope, companyId, def.category, slot);
+    await this.publishChange(existing);
     await this.audit(ctx, 'integration.deleted', existing, {});
   }
 
@@ -292,6 +300,10 @@ export class IntegrationsService {
   }
 
   // ── Internos ────────────────────────────────────────────────────────────
+
+  private async publishChange(rec: IntegrationRecord) {
+    await this.deps.publishChange?.({ scope: rec.scope, companyId: rec.companyId, category: rec.category, slot: rec.slot }).catch(() => undefined);
+  }
 
   private envFor(category: IntegrationCategory, slot: string) {
     return slot === 'default' ? envFallbackFor(category, this.deps.env) : null;
