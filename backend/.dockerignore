@@ -1,0 +1,12 @@
+# Contexto de build de las imágenes (backend/). Mantenerlo chico acelera
+# los builds y evita meter secretos o artefactos locales en la imagen.
+**/node_modules
+**/dist
+**/coverage
+**/*.tsbuildinfo
+**/*.log
+.env
+.env.*
+!.env.example
+infra/terraform
+**/.DS_Store
