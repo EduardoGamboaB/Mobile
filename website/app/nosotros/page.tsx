@@ -73,12 +73,12 @@ export default function NosotrosPage() {
                 <div key={k} style={{
                   display: 'flex', justifyContent: 'space-between',
                   padding: '12px 0',
-                  borderBottom: '1px solid var(--ink-100)',
+                  borderBottom: '1px solid var(--linea)',
                   fontSize: '0.92rem',
                   gap: 12,
                 }}>
-                  <span style={{ color: 'var(--ink-700)' }}>{k}</span>
-                  <strong style={{ color: 'var(--navy-900)', textAlign: 'right' }}>{v}</strong>
+                  <span style={{ color: 'var(--acero)' }}>{k}</span>
+                  <strong style={{ color: 'var(--g3-azul)', textAlign: 'right' }}>{v}</strong>
                 </div>
               ))}
             </div>
@@ -158,12 +158,12 @@ export default function NosotrosPage() {
                 <div key={k} style={{
                   display: 'flex', justifyContent: 'space-between',
                   padding: '10px 0',
-                  borderBottom: '1px solid var(--ink-100)',
+                  borderBottom: '1px solid var(--linea)',
                   fontSize: '0.9rem',
                   gap: 12,
                 }}>
-                  <span style={{ color: 'var(--ink-700)' }}>{k}</span>
-                  <strong style={{ color: 'var(--navy-900)', textAlign: 'right' }}>{v}</strong>
+                  <span style={{ color: 'var(--acero)' }}>{k}</span>
+                  <strong style={{ color: 'var(--g3-azul)', textAlign: 'right' }}>{v}</strong>
                 </div>
               ))}
             </div>

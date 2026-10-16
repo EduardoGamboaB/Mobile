@@ -7,7 +7,7 @@ import { Footer } from '../components/Footer';
 const SITE_URL = 'https://www.g3logistics.mx';
 
 export const viewport: Viewport = {
-  themeColor: '#0a1633',
+  themeColor: '#101A30',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -73,7 +73,7 @@ const ORG_JSON_LD = {
   name: 'G3 Logistics',
   legalName: 'G3 Logistics',
   url: SITE_URL,
-  logo: `${SITE_URL}/icon.svg`,
+  logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
   description:
     'Empresa mexicana especializada en transporte agroindustrial: jaula granelera y thermo para granos, fertilizantes y carga del sector agro.',
   address: {
@@ -131,6 +131,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="es-MX">
       <head>
         <meta name="format-detection" content="telephone=no" />
+        {/* Tipografía corporativa (Brand Kit v2): Poppins Regular, Medium y Bold */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}

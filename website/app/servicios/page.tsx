@@ -135,7 +135,7 @@ export default function ServiciosPage() {
                 <div className="card__icon"><Icon name={s.icon} /></div>
                 <h3>{s.title}</h3>
                 {!s.upcoming && (
-                  <div style={{ fontSize: '0.78rem', color: 'var(--road-500)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--acero)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>
                     {s.tag}
                   </div>
                 )}
@@ -143,8 +143,8 @@ export default function ServiciosPage() {
                 <ul className="list-check" style={{ marginTop: 4 }}>
                   {s.capabilities.map((c) => <li key={c}>{c}</li>)}
                 </ul>
-                <div style={{ marginTop: 12, paddingTop: 14, borderTop: '1px solid var(--ink-100)', fontSize: '0.85rem', color: 'var(--ink-500)' }}>
-                  <strong style={{ color: 'var(--navy-900)' }}>Productos: </strong>{s.products}
+                <div style={{ marginTop: 12, paddingTop: 14, borderTop: '1px solid var(--linea)', fontSize: '0.85rem', color: 'var(--acero)' }}>
+                  <strong style={{ color: 'var(--g3-azul)' }}>Productos: </strong>{s.products}
                 </div>
               </div>
             ))}
@@ -184,12 +184,12 @@ export default function ServiciosPage() {
                 <div key={k} style={{
                   display: 'flex', justifyContent: 'space-between',
                   padding: '12px 0',
-                  borderBottom: '1px solid var(--ink-100)',
+                  borderBottom: '1px solid var(--linea)',
                   fontSize: '0.92rem',
                   gap: 12,
                 }}>
-                  <span style={{ color: 'var(--ink-700)' }}>{k}</span>
-                  <strong style={{ color: 'var(--navy-900)', textAlign: 'right' }}>{v}</strong>
+                  <span style={{ color: 'var(--acero)' }}>{k}</span>
+                  <strong style={{ color: 'var(--g3-azul)', textAlign: 'right' }}>{v}</strong>
                 </div>
               ))}
             </div>

@@ -19,21 +19,21 @@ const CARDS = [
     title: 'Cotizar viaje',
     desc: 'Nuevo cliente o nuevo servicio.',
     email: 'fletes@g3logistics.mx',
-    accent: 'var(--road-500)',
+    accent: 'var(--g3-azul)',
   },
   {
     icon: 'shield' as const,
     title: 'Cuentas empresariales',
     desc: 'Contratos anuales, dedicado y RFP.',
     email: 'empresas@g3logistics.mx',
-    accent: 'var(--navy-700)',
+    accent: 'var(--g3-oscuro)',
   },
   {
     icon: 'sparkles' as const,
     title: 'Soporte clientes',
     desc: 'Ya tienes viaje activo con nosotros.',
     email: 'soporte@g3logistics.mx',
-    accent: 'var(--green-600)',
+    accent: 'var(--acero)',
   },
 ];
 
@@ -65,7 +65,7 @@ export default function ContactoPage() {
                 <div className="card__icon"><Icon name={c.icon} /></div>
                 <h3>{c.title}</h3>
                 <p style={{ marginBottom: 12 }}>{c.desc}</p>
-                <div style={{ color: 'var(--ink-500)', fontSize: '0.88rem', wordBreak: 'break-word' }}>
+                <div style={{ color: 'var(--acero)', fontSize: '0.88rem', wordBreak: 'break-word' }}>
                   {c.email}
                 </div>
               </a>
@@ -87,7 +87,7 @@ export default function ContactoPage() {
             className="card"
             action="https://formspree.io/f/REPLACE_FLETES"
             method="POST"
-            style={{ borderTop: '4px solid var(--road-500)' }}
+            style={{ borderTop: '4px solid var(--g3-azul)' }}
           >
             <div className="form">
               <div className="form-row">
@@ -165,7 +165,7 @@ export default function ContactoPage() {
               <button type="submit" className="btn btn--primary">
                 Solicitar cotización <Icon name="arrow" />
               </button>
-              <p style={{ fontSize: '0.82rem', color: 'var(--ink-500)', textAlign: 'center', margin: 0 }}>
+              <p style={{ fontSize: '0.82rem', color: 'var(--acero)', textAlign: 'center', margin: 0 }}>
                 Al enviar aceptas que G3 Logistics te contacte por correo o
                 WhatsApp para responder tu solicitud.
               </p>
