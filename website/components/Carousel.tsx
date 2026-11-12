@@ -33,7 +33,7 @@ export function Carousel({ slides, label }: { slides: Slide[]; label: string }) 
           >
             <img
               src={s.src}
-              srcSet={`${s.srcSmall} 640w, ${s.src} 1280w`}
+              srcSet={`${s.srcSmall} 640w, ${s.src} ${s.width}w`}
               sizes="(min-width: 1180px) 1116px, 100vw"
               width={s.width}
               height={s.height}
@@ -53,6 +53,9 @@ export function Carousel({ slides, label }: { slides: Slide[]; label: string }) 
         <button type="button" className="carousel__btn" data-carousel-prev aria-label="Imagen anterior">
           <Chevron dir="prev" />
         </button>
+        <span className="carousel__count" aria-hidden="true">
+          <span data-carousel-count>1</span> / {slides.length}
+        </span>
         <div className="carousel__dots">
           {slides.map((s, i) => (
             <button

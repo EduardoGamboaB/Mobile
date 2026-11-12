@@ -101,6 +101,8 @@ const SCRIPT = `
   }
   function mark(c) {
     var i = current(c);
+    var cnt = c.querySelector('[data-carousel-count]');
+    if (cnt) cnt.textContent = String(i + 1);
     Array.prototype.forEach.call(c.querySelectorAll('[data-carousel-dot]'), function (d, k) {
       if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
     });

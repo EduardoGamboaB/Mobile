@@ -768,8 +768,9 @@ header.site.site--hidden { transform: translateY(-100%); }
 .carousel__btn:hover, .carousel__btn:focus-visible { background: var(--niebla); }
 .carousel__btn svg { width: 20px; height: 20px; }
 .carousel__dots { display: flex; align-items: center; }
+.carousel__count { display: none; min-width: 64px; text-align: center; font-weight: 500; color: var(--g3-azul); font-variant-numeric: tabular-nums; }
 .carousel__dot {
-  width: 28px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  width: 44px; height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
   display: inline-grid; place-items: center;
 }
 .carousel__dot::before {
@@ -782,6 +783,11 @@ header.site.site--hidden { transform: translateY(-100%); }
 .carousel--paused .carousel__icon-pause { display: none; }
 /* Sin JS los controles no hacen nada: solo se muestran cuando el script los activa */
 .carousel:not(.carousel--js) .carousel__controls { display: none; }
+/* Móvil: contador "2 / 5" en lugar de puntos (no caben con área táctil de 44px) */
+@media (max-width: 479px) {
+  .carousel__dots { display: none; }
+  .carousel__count { display: inline-block; }
+}
 
 @media (min-width: 480px) {
   .carousel__slide { aspect-ratio: 4 / 3; }
