@@ -12,13 +12,6 @@ export function Brand() {
         width={150}
         height={76}
       />
-      <img
-        className="brand__logo--iso"
-        src="/brand/g3-isotipo-negativo.svg"
-        alt="G3 Logistics"
-        width={96}
-        height={36}
-      />
     </Link>
   );
 }

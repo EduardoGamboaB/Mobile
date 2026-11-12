@@ -443,8 +443,8 @@ details.mobile-menu .menu-panel a:focus-visible {
 }
 
 /* Brand — archivos oficiales del Brand Kit v2, nunca recompuestos.
-   Mínimos: logotipo 140px de ancho, isotipo 48px. El isotipo solo se usa
-   en el header móvil, donde el logotipo completo no cabe a su mínimo. */
+   Mínimo del logotipo: 140px de ancho. Header y footer usan el mismo
+   logotipo completo en todos los tamaños de pantalla. */
 .brand {
   display: inline-flex;
   align-items: center;
@@ -454,9 +454,12 @@ details.mobile-menu .menu-panel a:focus-visible {
 }
 .brand img { display: block; height: auto; max-width: none; }
 .brand .brand__logo--full { width: 150px; }
-.brand .brand__logo--iso  { width: 96px; display: none; }
-header.site .brand .brand__logo--full { display: none; }
-header.site .brand .brand__logo--iso  { display: block; }
+header.site .brand .brand__logo--full { width: 140px; }
+/* Pantallas muy angostas: el botón Cotizar cede espacio al logotipo
+   (Contacto sigue en el menú). */
+@media (max-width: 359px) {
+  .site nav > .btn { display: none; }
+}
 
 /* Footer */
 footer.site {
@@ -704,8 +707,7 @@ footer.site { padding-bottom: 96px; }
 
   .footer__cols { grid-template-columns: 1fr 1fr; }
 
-  header.site .brand .brand__logo--full { display: block; }
-  header.site .brand .brand__logo--iso  { display: none; }
+  header.site .brand .brand__logo--full { width: 150px; }
   .footer__bottom { flex-direction: row; justify-content: space-between; gap: 12px; }
 
   .split { grid-template-columns: 1fr 1fr; gap: 40px; }
