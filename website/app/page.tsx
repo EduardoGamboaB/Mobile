@@ -1,5 +1,25 @@
 import Link from 'next/link';
 import { Icon } from '../components/Icon';
+import { ContactForm } from '../components/ContactForm';
+import { whatsappLink } from '../lib/site';
+
+const SOLUCIONES = [
+  { icon: 'truck' as const,  t: 'Flete completo nacional',     d: 'Viajes punto a punto con unidad completa para tu carga, en rutas nacionales y con fecha comprometida.' },
+  { icon: 'route' as const,  t: 'Transporte dedicado',         d: 'Unidades y operadores asignados a tu operación, con frecuencia fija y ventanas de entrega acordadas.' },
+  { icon: 'bell' as const,   t: 'Temperatura controlada',      d: 'Unidades thermo con registro de temperatura por viaje para producto sensible y cadena de frío.' },
+  { icon: 'chart' as const,  t: 'Carga a granel',              d: 'Movimiento de producto a granel con báscula de origen y destino documentada en cada viaje.' },
+  { icon: 'sparkles' as const, t: 'Logística a la medida',     d: 'Analizamos tu volumen, rutas y temporadas, y diseñamos el esquema que baja tu costo por entrega.' },
+  { icon: 'shield' as const, t: 'Cumplimiento y documentación', d: 'Carta Porte 3.0, NOM-068 y NOM-087 en cada viaje. Tú recibes evidencia; nosotros cuidamos el cumplimiento.' },
+];
+
+const SECTORES = [
+  { name: 'Manufactura',               desc: 'Insumos a planta y producto terminado a centros de distribución.' },
+  { name: 'Consumo y retail',          desc: 'Abasto a CEDIS y reposición con ventanas de entrega estrictas.' },
+  { name: 'Agroindustria y alimentos', desc: 'Granos, insumos agrícolas y alimento con o sin temperatura controlada.' },
+  { name: 'Construcción e industria',  desc: 'Materiales, equipo e insumos industriales para obra y planta.' },
+  { name: 'Automotriz y autopartes',   desc: 'Refacciones y componentes con trazabilidad y fecha comprometida.' },
+  { name: 'Química e insumos',         desc: 'Materias primas industriales con documentación y protocolos de manejo.' },
+];
 
 export default function HomePage() {
   return (
@@ -8,65 +28,62 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">Transporte agroindustrial</span>
-            <h1>
-              Movemos granos, fertilizantes y carga agroindustrial en México.
-            </h1>
+            <span className="eyebrow">Autotransporte federal de carga</span>
+            <h1>Resolvemos la logística de tu empresa con flota propia.</h1>
             <p className="lead">
-              Especialistas en <strong>jaula granelera</strong> y{' '}
-              <strong>thermo</strong>. Flota propia de 12 unidades operando
-              sobre corredores agrícolas del Bajío y el norte del país,
-              con torre de control 24/7 y trazabilidad viaje por viaje.
+              Diseñamos el servicio de transporte que tu operación necesita y
+              lo ejecutamos con <strong>unidades propias</strong>, operadores
+              capacitados y tecnología: nuestro <strong>TMS desarrollado in
+              house</strong> y el monitoreo satelital 24/7 de{' '}
+              <strong>TotalProtect</strong>.
             </p>
             <div className="hero__cta">
               <Link href="/contacto/" className="btn btn--primary">
-                Cotizar un viaje <Icon name="arrow" />
+                Cotizar un servicio <Icon name="arrow" />
               </Link>
-              <Link href="/servicios/" className="btn btn--ghost">
-                Ver servicios
-              </Link>
+              <a href={whatsappLink()} className="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+                Escríbenos por WhatsApp
+              </a>
             </div>
 
             <div className="hero__stats">
               <div>
-                <div className="hero__stat-num">12</div>
+                <div className="hero__stat-num">100%</div>
                 <div className="hero__stat-label">Unidades propias</div>
               </div>
               <div>
-                <div className="hero__stat-num">100%</div>
-                <div className="hero__stat-label">Sector agro</div>
+                <div className="hero__stat-num">24/7</div>
+                <div className="hero__stat-label">Monitoreo satelital</div>
               </div>
               <div>
                 <div className="hero__stat-num">&lt; 4 hrs</div>
                 <div className="hero__stat-label">Cotización formal</div>
               </div>
               <div>
-                <div className="hero__stat-num">24/7</div>
-                <div className="hero__stat-label">Torre de control</div>
+                <div className="hero__stat-num">CP 3.0</div>
+                <div className="hero__stat-label">Carta Porte en cada viaje</div>
               </div>
             </div>
           </div>
 
           <div className="preview" aria-hidden>
             <div className="preview__chrome"><span /><span /><span /></div>
-            <div style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 12 }}>
-              Operación G3 · Hoy
-            </div>
+            <div className="preview__caption">TMS G3 · Viajes de hoy</div>
             <div className="preview__rows">
               <div className="preview__row">
-                <span>G3-2026-00134 · Maíz · Los Mochis → Guadalajara</span>
+                <span>G3-2026-00134 · Producto terminado · Querétaro → Monterrey</span>
                 <span className="preview__pill preview__pill--ok">En tránsito</span>
               </div>
               <div className="preview__row">
-                <span>G3-2026-00133 · Urea · Manzanillo → Bajío</span>
-                <span className="preview__pill preview__pill--ok">Entregado</span>
+                <span>G3-2026-00133 · Refacciones · Saltillo → Cd. Juárez</span>
+                <span className="preview__pill preview__pill--ok">Entregado · POD</span>
               </div>
               <div className="preview__row">
-                <span>G3-2026-00132 · Sorgo · Cd. Obregón → Cuautitlán</span>
-                <span className="preview__pill preview__pill--ok">Recolectando</span>
+                <span>G3-2026-00132 · Insumos · Manzanillo → Guadalajara</span>
+                <span className="preview__pill preview__pill--wait">Cargando</span>
               </div>
               <div className="preview__row">
-                <span>G3-2026-00131 · Thermo +12°C · Semilla · Irapuato</span>
+                <span>G3-2026-00131 · Thermo +4 °C · Culiacán → CDMX</span>
                 <span className="preview__pill preview__pill--ok">Temperatura ok</span>
               </div>
             </div>
@@ -74,146 +91,150 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --------------------- Modalidades ---------------------- */}
+      {/* --------------------------- Soluciones -------------------------- */}
       <section className="section">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span className="eyebrow">Modalidades</span>
-            <h2>Equipo diseñado para carga agrícola.</h2>
-            <p style={{ maxWidth: 620, margin: '0 auto' }}>
-              Dos modalidades activas hoy y una tercera en incorporación,
-              todas al servicio del sector agro y agroindustrial.
+          <div className="section__head">
+            <span className="eyebrow">Soluciones</span>
+            <h2>Partimos de tu necesidad, no de un tipo de unidad.</h2>
+            <p>
+              Cada empresa mueve su carga distinto. Entendemos tu operación y
+              asignamos la unidad, la ruta y el esquema de servicio que la
+              resuelven.
             </p>
           </div>
 
           <div className="grid grid--3">
-            <div className="card">
-              <div className="card__icon"><Icon name="truck" /></div>
-              <h3>Jaula granelera</h3>
-              <p>
-                Para grano a granel: maíz, sorgo, trigo, soya, cebada,
-                girasol y afines. Descarga por gravedad, compatibilidad
-                con silos y patios de acopio.
-              </p>
-              <ul className="list-check" style={{ margin: 0 }}>
-                <li>Capacidad hasta 30 toneladas por unidad</li>
-                <li>Piso limpio · sin residuos entre viajes</li>
-                <li>Compatibilidad con básculas de silo</li>
-              </ul>
-            </div>
-
-            <div className="card">
-              <div className="card__icon"><Icon name="shield" /></div>
-              <h3>Thermo</h3>
-              <p>
-                Para carga agroindustrial sensible a temperatura:
-                semillas, biológicos, fertilizantes que requieren rango
-                controlado y perecederos agri.
-              </p>
-              <ul className="list-check" style={{ margin: 0 }}>
-                <li>Registro de temperatura por viaje (auditable)</li>
-                <li>Rango controlado según ficha técnica del producto</li>
-                <li>Cadena de frío continua desde origen a destino</li>
-              </ul>
-            </div>
-
-            <div className="card" style={{ position: 'relative' }}>
-              <span className="badge" style={{ position: 'absolute', top: 18, right: 18 }}>
-                Próximamente
-              </span>
-              <div className="card__icon"><Icon name="route" /></div>
-              <h3>Plataforma</h3>
-              <p>
-                En incorporación para 2026: maquinaria agrícola,
-                fertilizante ensacado en tarima, estructuras de silo y
-                carga indivisible del sector.
-              </p>
-              <ul className="list-check" style={{ margin: 0 }}>
-                <li>Maquinaria agrícola y de labranza</li>
-                <li>Fertilizante y agroquímico ensacado</li>
-                <li>Estructuras de silo, tolvas y equipo</li>
-              </ul>
-            </div>
+            {SOLUCIONES.map((s) => (
+              <div key={s.t} className="card">
+                <div className="card__icon"><Icon name={s.icon} /></div>
+                <h3>{s.t}</h3>
+                <p className="mb-0">{s.d}</p>
+              </div>
+            ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: 32 }}>
+          <div className="section__foot">
             <Link href="/servicios/" className="btn btn--dark">
-              Ver detalle de servicios <Icon name="arrow" />
+              Ver servicios <Icon name="arrow" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ------------------- Diferenciadores G3 ------------------------ */}
-      <section className="section section--dark">
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span className="eyebrow">Por qué G3</span>
-            <h2>Un transportista que entiende el ciclo agrícola.</h2>
-            <p style={{ maxWidth: 640, margin: '0 auto' }}>
-              El agro no perdona errores de tiempo — una tolva llena
-              detiene una planta, una semilla mal transportada arruina
-              una temporada. Operamos entendiendo eso.
-            </p>
-          </div>
-
-          <div className="grid grid--3">
-            {[
-              { icon: 'map' as const,      t: 'Trazabilidad viaje por viaje', d: 'Cada unidad reporta posición y estatus. Compartimos el enlace del viaje contigo desde origen hasta descarga en silo o planta.' },
-              { icon: 'shield' as const,   t: 'Cumplimiento NOM SICT',        d: 'Inspección pre-viaje NOM-068 y bitácora de horas NOM-087 en cada operación. Documentación completa por auditoría.' },
-              { icon: 'sparkles' as const, t: 'Torre de control 24/7',        d: 'Dispatcher humano de guardia todo el día. En temporada alta, coordinamos ventanas de descarga con el silo o la planta.' },
-              { icon: 'wallet' as const,   t: 'Cotización en 4 hrs',          d: 'Cotización formal con desglose por concepto, en menos de 4 horas hábiles — no importa si es cierre de temporada.' },
-              { icon: 'cam' as const,      t: 'Evidencias digitales',         d: 'Carta porte sellada, boleta de báscula y foto de descarga en tu correo antes de bajar el candado.' },
-              { icon: 'lock' as const,     t: 'Seguros y custodia',           d: 'Cobertura de responsabilidad civil y carga. Custodia armada disponible para corredores sensibles.' },
-            ].map((f) => (
-              <div key={f.t} className="card">
-                <div className="card__icon"><Icon name={f.icon} /></div>
-                <h3>{f.t}</h3>
-                <p style={{ marginBottom: 0 }}>{f.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* --------------------- Sectores atendidos ---------------------- */}
+      {/* ------------------------ Cómo trabajamos ------------------------ */}
       <section className="section section--tint">
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <span className="eyebrow">Sectores que atendemos</span>
-            <h2>Vivimos del ciclo agrícola mexicano.</h2>
+          <div className="section__head">
+            <span className="eyebrow">Cómo trabajamos</span>
+            <h2>De tu requerimiento a la entrega, con un solo responsable.</h2>
+          </div>
+          <ol className="steps">
+            <li className="card">
+              <span className="steps__num">1</span>
+              <h3>Entendemos tu operación</h3>
+              <p className="mb-0">Volumen, rutas, frecuencias, ventanas de entrega y requisitos de tu carga.</p>
+            </li>
+            <li className="card">
+              <span className="steps__num">2</span>
+              <h3>Te proponemos el esquema</h3>
+              <p className="mb-0">Cotización formal con desglose en menos de 4 horas hábiles: unidad, ruta y nivel de servicio.</p>
+            </li>
+            <li className="card">
+              <span className="steps__num">3</span>
+              <h3>Operamos con flota propia</h3>
+              <p className="mb-0">Unidades y operadores de G3, monitoreo 24/7 y evidencias digitales de cada entrega.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* --------------------------- Tecnología -------------------------- */}
+      <section className="section section--dark">
+        <div className="container">
+          <div className="section__head">
+            <span className="eyebrow">Tecnología</span>
+            <h2>Visibilidad total de tu carga, de la recolección a la entrega.</h2>
+            <p>
+              Operamos con dos capas de tecnología: un TMS propio que
+              controla cada viaje y la plataforma de monitoreo satelital de
+              TotalProtect que vigila cada unidad.
+            </p>
+          </div>
+
+          <div className="grid grid--2">
+            <div className="card">
+              <div className="card__icon"><Icon name="phone" /></div>
+              <h3>TMS G3 · desarrollado in house</h3>
+              <p>Nuestro sistema de gestión de transporte, hecho por nuestro equipo para nuestra operación.</p>
+              <ul className="list-check mb-0">
+                <li>Viajes con folio y estatus de la recolección a la entrega</li>
+                <li>Evidencias digitales: carga, báscula, descarga y POD</li>
+                <li>Carta Porte 3.0 (CFDI 4.0) generada desde el viaje</li>
+                <li>App del operador con bitácora NOM-087 e inspección NOM-068</li>
+              </ul>
+            </div>
+            <div className="card">
+              <div className="card__icon"><Icon name="map" /></div>
+              <h3>Monitoreo satelital TotalProtect</h3>
+              <p>Rastreo GPS y centro de monitoreo 24/7 con protocolos de reacción ante cualquier incidente.</p>
+              <ul className="list-check mb-0">
+                <li>Ubicación de la unidad en tiempo real</li>
+                <li>Geocercas y rutas autorizadas con alertas</li>
+                <li>Paro de motor remoto ante robo o desvío</li>
+                <li>Liga de seguimiento para que veas tu carga en vivo</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="section__foot">
+            <Link href="/tecnologia/" className="btn btn--primary">
+              Conocer la tecnología <Icon name="arrow" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------- Sectores --------------------------- */}
+      <section className="section">
+        <div className="container">
+          <div className="section__head">
+            <span className="eyebrow">Sectores</span>
+            <h2>Movemos la carga de empresas de todos los giros.</h2>
           </div>
 
           <div className="grid grid--3">
-            {[
-              { name: 'Agricultura de granos',    desc: 'Maíz, sorgo, trigo, soya, cebada, cártamo y girasol.' },
-              { name: 'Fertilizantes',            desc: 'Urea, DAP, MAP, sulfato y mezclas físicas a granel.' },
-              { name: 'Semillas y agroinsumos',   desc: 'Semilla certificada, biológicos y agroquímico.' },
-              { name: 'Acopio y silos',           desc: 'Bodegas de acopio, silos y centros de distribución agro.' },
-              { name: 'Agroindustria',            desc: 'Molinos, cerveceras, engordas y plantas alimenticias.' },
-              { name: 'Cooperativas',             desc: 'Cooperativas y uniones de productores rurales.' },
-            ].map((s) => (
+            {SECTORES.map((s) => (
               <div key={s.name} className="card">
                 <h3>{s.name}</h3>
-                <p style={{ marginBottom: 0 }}>{s.desc}</p>
+                <p className="mb-0">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ---------------------------- CTA final ------------------------ */}
-      <section className="section">
-        <div className="container">
-          <div className="cta-band">
-            <div>
-              <h2>Cotiza tu viaje en menos de 4 horas hábiles.</h2>
-              <p>Cuéntanos origen, destino, producto y fecha objetivo — te respondemos por correo o WhatsApp.</p>
-            </div>
-            <Link href="/contacto/" className="btn btn--dark">
-              Solicitar cotización <Icon name="arrow" />
-            </Link>
+      {/* ---------------------------- Contacto --------------------------- */}
+      <section className="section section--tint" id="cotizar">
+        <div className="container split split--top">
+          <div>
+            <span className="eyebrow">Cotiza tu servicio</span>
+            <h2>Cuéntanos qué necesitas mover.</h2>
+            <p>
+              Llena el formulario y te enviamos una propuesta formal en menos
+              de 4 horas hábiles. Si lo prefieres, escríbenos directo por
+              WhatsApp.
+            </p>
+            <ul className="list-check">
+              <li>Propuesta con desglose por concepto</li>
+              <li>Un ejecutivo asignado a tu cuenta</li>
+              <li>Seguimiento de cada viaje en tiempo real</li>
+            </ul>
+            <a href={whatsappLink()} className="btn btn--ghost-dark" target="_blank" rel="noopener noreferrer">
+              Escríbenos por WhatsApp <Icon name="arrow" />
+            </a>
           </div>
+          <ContactForm id="cotizar-form" />
         </div>
       </section>
     </>

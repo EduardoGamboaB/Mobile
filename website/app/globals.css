@@ -578,6 +578,92 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 }
 .badge--dark { background: rgba(255,255,255,0.08); color: var(--white); }
 
+/* ----- Utilidades de sección ----- */
+.mb-0 { margin-bottom: 0; }
+.section__head { text-align: center; max-width: 680px; margin: 0 auto 40px; }
+.section__foot { text-align: center; margin-top: 32px; }
+.preview__caption {
+  font-size: 0.78rem; color: rgba(255,255,255,0.6);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;
+}
+.hero__cta--center { justify-content: center; margin-top: 24px; }
+.split--top { align-items: start; }
+
+/* Lista clave-valor (cifras, datos operativos) */
+.kv { display: flex; flex-direction: column; margin: 12px 0 0; }
+.kv > div {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid var(--linea); font-size: 0.92rem;
+}
+.kv dt { color: var(--acero); }
+.kv dd { margin: 0; color: var(--g3-azul); font-weight: 700; text-align: right; }
+
+/* Pasos */
+.steps {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 16px; grid-template-columns: 1fr;
+}
+.steps__num {
+  display: inline-grid; place-items: center;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--g3-azul); color: var(--white);
+  font-weight: 700; margin-bottom: 12px;
+}
+
+/* Tarjeta enlace (contacto) */
+.card--link { display: block; border-top: 4px solid var(--g3-azul); }
+.card__meta { display: block; margin-top: 12px; color: var(--acero); font-size: 0.88rem; word-break: break-word; }
+
+/* Formulario: estados */
+.contact-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.contact-form.was-validated :invalid { border-color: #B42318; }
+.form__status { margin: 0; font-size: 0.9rem; min-height: 1.4em; text-align: center; color: var(--acero); }
+.form__status--ok { color: var(--g3-azul); font-weight: 500; }
+.form__status--error { color: #B42318; font-weight: 500; }
+.form__legal { font-size: 0.82rem; color: var(--acero); text-align: center; margin: 0; }
+
+/* ----- WhatsApp: botón flotante + popup ----- */
+.wa {
+  position: fixed; right: 16px; bottom: 16px; z-index: 80;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+}
+.wa svg { width: 24px; height: 24px; flex-shrink: 0; }
+.wa__fab {
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 56px; padding: 0 18px 0 16px; border-radius: 999px;
+  background: var(--g3-azul); color: var(--white);
+  font-weight: 500; box-shadow: var(--shadow-lg);
+  border: 2px solid var(--white);
+}
+.wa__fab:hover, .wa__fab:focus-visible { background: var(--g3-oscuro); }
+.wa__fab-label { font-size: 0.95rem; }
+.wa__pop {
+  position: relative;
+  width: min(320px, calc(100vw - 32px));
+  background: var(--white); color: var(--g3-oscuro);
+  border: 1px solid var(--linea); border-radius: var(--radius-lg);
+  padding: 20px 18px 18px; box-shadow: var(--shadow-lg);
+}
+.wa__pop[hidden] { display: none; }
+.wa__title { margin: 0 28px 6px 0; font-weight: 700; color: var(--g3-azul); font-size: 1.05rem; }
+.wa__text { margin: 0 0 14px; font-size: 0.92rem; color: var(--g3-oscuro); }
+.wa__cta { width: 100%; background: var(--g3-azul); color: var(--white); }
+.wa__cta:hover, .wa__cta:focus-visible { background: var(--g3-oscuro); }
+.wa__cta svg { width: 20px; height: 20px; }
+.wa__close {
+  position: absolute; top: 6px; right: 6px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: transparent; color: var(--acero);
+  font-size: 1.5rem; line-height: 1; cursor: pointer;
+}
+.wa__close:hover, .wa__close:focus-visible { background: var(--niebla); color: var(--g3-azul); }
+@media (prefers-reduced-motion: no-preference) {
+  .wa__pop:not([hidden]) { animation: wa-in 0.18s ease-out; }
+  @keyframes wa-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+/* Deja aire al final para que el botón no tape el pie de página */
+footer.site { padding-bottom: 96px; }
+
 /* ================================================================
    BREAKPOINTS — progressive enhancement (min-width, mobile first)
    ================================================================ */
@@ -635,6 +721,7 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 
   .form { gap: 18px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 }
 
 /* lg ≥ 1024px — laptop */

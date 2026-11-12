@@ -3,6 +3,8 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { WhatsAppWidget } from '../components/WhatsAppWidget';
+import { Enhance } from '../components/Enhance';
 
 const SITE_URL = 'https://www.g3logistics.mx';
 
@@ -16,28 +18,27 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'G3 Logistics — Transporte agroindustrial en México',
+    default: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     template: '%s | G3 Logistics',
   },
   description:
-    'Especialistas en transporte de granos, fertilizantes y carga agroindustrial. Flota propia de jaula granelera y thermo, con cumplimiento NOM SICT y trazabilidad viaje por viaje.',
+    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. TMS propio, monitoreo satelital 24/7 TotalProtect y Carta Porte 3.0.',
   keywords: [
-    'transporte agroindustrial México',
-    'jaula granelera',
-    'transporte de granos',
-    'transporte de fertilizantes',
-    'jaula thermo',
-    'transporte agrícola',
-    'flete de grano',
-    'transporte de urea',
-    'transporte de semilla certificada',
-    'transportista agro México',
-    'cotizar flete agro',
-    'G3 Logistics',
+    'transporte de carga México',
+    'autotransporte federal de carga',
+    'flete completo nacional',
+    'transporte dedicado',
+    'transporte con temperatura controlada',
+    'transporte de granel',
+    'empresa transportista flota propia',
+    'TMS',
+    'monitoreo satelital 24/7',
+    'TotalProtect',
+    'Carta Porte 3.0',
     'NOM-068 SICT',
     'NOM-087 SICT',
-    'Carta Porte 3.0',
-    'trazabilidad de carga agro',
+    'cotizar flete',
+    'G3 Logistics',
   ],
   authors: [{ name: 'G3 Logistics', url: SITE_URL }],
   creator: 'G3 Logistics',
@@ -46,17 +47,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'G3 Logistics',
-    title: 'G3 Logistics — Transporte agroindustrial en México',
+    title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     description:
-      'Especialistas en jaula granelera y thermo. Granos, fertilizantes y carga agroindustrial. Cotización en menos de 4 horas.',
+      'Flota propia, TMS propio y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
     locale: 'es_MX',
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'G3 Logistics — Transporte agroindustrial en México',
+    title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     description:
-      'Jaula granelera + thermo. Especialistas del sector agro con torre de control 24/7.',
+      'Resolvemos la logística de tu empresa con flota propia y tecnología.',
   },
   robots: {
     index: true,
@@ -68,14 +69,14 @@ export const metadata: Metadata = {
 
 const ORG_JSON_LD = {
   '@context': 'https://schema.org',
-  '@type': 'MovingCompany',
+  '@type': 'Organization',
   '@id': `${SITE_URL}#organization`,
   name: 'G3 Logistics',
   legalName: 'G3 Logistics',
   url: SITE_URL,
   logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
   description:
-    'Empresa mexicana especializada en transporte agroindustrial: jaula granelera y thermo para granos, fertilizantes y carga del sector agro.',
+    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, TMS propio y monitoreo satelital 24/7.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'MX',
@@ -112,16 +113,18 @@ const ORG_JSON_LD = {
 const SERVICE_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'Service',
-  serviceType: 'Transporte agroindustrial · granos y fertilizantes',
+  serviceType: 'Autotransporte federal de carga',
   provider: { '@id': `${SITE_URL}#organization` },
   areaServed: { '@type': 'Country', name: 'México' },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Modalidades de transporte',
     itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Jaula granelera · grano a granel' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Thermo · carga con temperatura controlada' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Plataforma · próximamente 2026' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flete completo nacional' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte dedicado' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte con temperatura controlada' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte de carga a granel' } },
+      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Logística a la medida' } },
     ],
   },
 };
@@ -152,6 +155,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Header />
         <main id="contenido">{children}</main>
         <Footer />
+        <WhatsAppWidget />
+        <Enhance />
       </body>
     </html>
   );

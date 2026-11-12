@@ -3,7 +3,7 @@ import { Brand } from './Brand';
 
 const LINKS: { href: string; label: string }[] = [
   { href: '/servicios/', label: 'Servicios' },
-  { href: '/servicios/#cobertura', label: 'Cobertura' },
+  { href: '/tecnologia/', label: 'Tecnología' },
   { href: '/nosotros/', label: 'Nosotros' },
   { href: '/contacto/', label: 'Contacto' },
 ];
