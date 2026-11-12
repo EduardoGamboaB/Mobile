@@ -87,6 +87,70 @@ const SCRIPT = `
     if (e.target.closest('[data-contact-form]')) { var wa = doc.querySelector('.wa'); if (wa) wa.classList.add('wa--away'); }
   });
 
+  // ---------- Carrusel ----------
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function slidesOf(c) { return c.querySelectorAll('.carousel__slide'); }
+  function current(c) {
+    var t = c.querySelector('[data-carousel-track]');
+    return Math.round(t.scrollLeft / Math.max(1, t.clientWidth));
+  }
+  function go(c, i, smooth) {
+    var t = c.querySelector('[data-carousel-track]'), n = slidesOf(c).length;
+    i = (i + n) % n;
+    t.scrollTo({ left: i * t.clientWidth, behavior: smooth && !reduce.matches ? 'smooth' : 'auto' });
+  }
+  function mark(c) {
+    var i = current(c);
+    Array.prototype.forEach.call(c.querySelectorAll('[data-carousel-dot]'), function (d, k) {
+      if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
+    });
+  }
+  function setPaused(c, paused, byUser) {
+    c.__paused = paused;
+    if (byUser) c.__userPaused = paused;
+    var b = c.querySelector('[data-carousel-pause]');
+    if (b && byUser !== undefined) {
+      b.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      b.setAttribute('aria-label', paused ? 'Reanudar el carrusel' : 'Pausar el carrusel');
+      c.classList.toggle('carousel--paused', paused);
+    }
+  }
+  function initCarousel(c) {
+    if (c.__ready) return; c.__ready = true;
+    c.classList.add('carousel--js');
+    var t = c.querySelector('[data-carousel-track]');
+    var st;
+    t.addEventListener('scroll', function () { clearTimeout(st); st = setTimeout(function () { mark(c); }, 80); }, { passive: true });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(c, current(c) + 1, true); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(c, current(c) - 1, true); }
+    });
+    // Pausa mientras el usuario lo usa (hover, foco o toque)
+    ['mouseenter', 'focusin', 'touchstart'].forEach(function (ev) { c.addEventListener(ev, function () { c.__hold = true; }, { passive: true }); });
+    ['mouseleave', 'focusout'].forEach(function (ev) { c.addEventListener(ev, function () { c.__hold = false; }); });
+    var visible = false;
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }, { threshold: 0.5 }).observe(c);
+    }
+    if (reduce.matches) setPaused(c, true, true);
+    setInterval(function () {
+      if (!visible || c.__paused || c.__hold || doc.hidden || !doc.body.contains(c)) return;
+      go(c, current(c) + 1, true);
+    }, 6000);
+    window.addEventListener('resize', function () { go(c, current(c), false); });
+  }
+  function initAll() { Array.prototype.forEach.call(doc.querySelectorAll('[data-carousel]'), initCarousel); }
+  initAll();
+  new MutationObserver(initAll).observe(doc.body, { childList: true, subtree: true });
+  doc.addEventListener('click', function (e) {
+    var c = e.target.closest('[data-carousel]');
+    if (!c) return;
+    if (e.target.closest('[data-carousel-prev]')) { go(c, current(c) - 1, true); setPaused(c, true, true); }
+    else if (e.target.closest('[data-carousel-next]')) { go(c, current(c) + 1, true); setPaused(c, true, true); }
+    else if (e.target.closest('[data-carousel-dot]')) { go(c, +e.target.closest('[data-carousel-dot]').getAttribute('data-carousel-dot'), true); setPaused(c, true, true); }
+    else if (e.target.closest('[data-carousel-pause]')) { setPaused(c, !c.__userPaused, true); }
+  });
+
   // ---------- Formulario de contacto ----------
   function say(form, msg, kind) {
     var s = form.querySelector('[data-form-status]');

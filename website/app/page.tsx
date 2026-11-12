@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Icon } from '../components/Icon';
 import { ContactForm } from '../components/ContactForm';
 import { whatsappLink } from '../lib/site';
+import { Carousel } from '../components/Carousel';
+import { SLIDES } from '../lib/slides';
 
 const SOLUCIONES = [
   { icon: 'truck' as const,  t: 'Flete completo nacional',     d: 'Viajes punto a punto con unidad completa para tu carga, en rutas nacionales y con fecha comprometida.' },
@@ -89,6 +91,19 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ---------------------------- Carrusel ---------------------------- */}
+      {SLIDES.length > 0 && (
+      <section className="section section--carousel" aria-labelledby="carrusel-titulo">
+        <div className="container">
+          <div className="section__head">
+            <span className="eyebrow">Así operamos</span>
+            <h2 id="carrusel-titulo">Transporte, logística y seguimiento en cada viaje.</h2>
+          </div>
+          <Carousel slides={SLIDES} label="Imágenes de nuestra operación" />
+        </div>
+      </section>
+      )}
 
       {/* --------------------------- Soluciones -------------------------- */}
       <section className="section">
