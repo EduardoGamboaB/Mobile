@@ -33,8 +33,8 @@ export default function HomePage() {
             <p className="lead">
               Diseñamos el servicio de transporte que tu operación necesita y
               lo ejecutamos con <strong>unidades propias</strong>, operadores
-              capacitados y tecnología propia: <strong>G3 Drive</strong>,{' '}
-              <strong>G3 Admin</strong> y monitoreo satelital 24/7.
+              capacitados, <strong>seguimiento en tiempo real</strong> y{' '}
+              <strong>monitoreo satelital 24/7</strong>.
             </p>
             <div className="hero__cta">
               <Link href="/contacto/" className="btn btn--primary">
@@ -67,7 +67,7 @@ export default function HomePage() {
 
           <div className="preview" aria-hidden>
             <div className="preview__chrome"><span /><span /><span /></div>
-            <div className="preview__caption">G3 Admin · Viajes de hoy</div>
+            <div className="preview__caption">Tus viajes de hoy</div>
             <div className="preview__rows">
               <div className="preview__row">
                 <span>G3-2026-00134 · Producto terminado · Querétaro → Monterrey</span>
@@ -148,39 +148,40 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* --------------------------- Tecnología -------------------------- */}
+      {/* --------------------- Seguimiento y seguridad -------------------- */}
       <section className="section section--dark">
         <div className="container">
           <div className="section__head">
-            <span className="eyebrow">Tecnología</span>
+            <span className="eyebrow">Seguimiento y seguridad</span>
             <h2>Visibilidad total de tu carga, de la recolección a la entrega.</h2>
             <p>
-              Tecnología desarrollada por G3 para operar cada viaje, más
-              monitoreo satelital que vigila cada unidad las 24 horas.
+              Sabes dónde está tu carga, en qué etapa va y recibes la
+              evidencia de su entrega, mientras un centro de monitoreo
+              vigila cada unidad las 24 horas.
             </p>
           </div>
 
           <div className="grid grid--3">
             <div className="card">
               <div className="card__icon"><Icon name="phone" /></div>
-              <h3>G3 Drive · app del operador</h3>
+              <h3>Evidencia de cada entrega</h3>
               <p>Lo que pasa en carretera, registrado en el momento.</p>
               <ul className="list-check mb-0">
                 <li>Fotos, báscula y firma de entrega al instante</li>
-                <li>Inspección NOM-068 y bitácora NOM-087</li>
-                <li>Funciona sin señal y sincroniza después</li>
-                <li>Chat y botón de emergencia con la torre de control</li>
+                <li>Inspección NOM-068 y control de horas NOM-087</li>
+                <li>Registro continuo aun en tramos sin señal</li>
+                <li>Reporte inmediato de cualquier incidente</li>
               </ul>
             </div>
             <div className="card">
               <div className="card__icon"><Icon name="chart" /></div>
-              <h3>G3 Admin · torre de control</h3>
-              <p>Un equipo que ve toda la operación y actúa a tiempo.</p>
+              <h3>Control de cada viaje</h3>
+              <p>Una torre de control que ve toda la operación y actúa a tiempo.</p>
               <ul className="list-check mb-0">
                 <li>Folio y estatus de cada viaje en vivo</li>
                 <li>Incidencias atendidas con ubicación y foto</li>
-                <li>Carta Porte 3.0 generada sin recaptura</li>
-                <li>Gastos por viaje con comprobante</li>
+                <li>Carta Porte 3.0 emitida sin errores</li>
+                <li>Costos de cada viaje claros y comprobados</li>
               </ul>
             </div>
             <div className="card">
@@ -197,8 +198,8 @@ export default function HomePage() {
           </div>
 
           <div className="section__foot">
-            <Link href="/tecnologia/" className="btn btn--primary">
-              Conocer la tecnología <Icon name="arrow" />
+            <Link href="/seguimiento/" className="btn btn--primary">
+              Ver el seguimiento <Icon name="arrow" />
             </Link>
           </div>
         </div>

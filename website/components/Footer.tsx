@@ -11,7 +11,7 @@ export function Footer() {
             <Brand />
             <p style={{ marginTop: 14, fontSize: '0.92rem', color: 'rgba(255,255,255,0.65)' }}>
               Autotransporte federal de carga. Resolvemos la logística de
-              las empresas con flota propia, tecnología propia y monitoreo
+              las empresas con flota propia, seguimiento en tiempo real y monitoreo
               satelital 24/7.
             </p>
           </div>
@@ -30,7 +30,7 @@ export function Footer() {
             <h2 className="footer__title">Empresa</h2>
             <ul>
               <li><Link href="/nosotros/">Nosotros</Link></li>
-              <li><Link href="/tecnologia/">Tecnología</Link></li>
+              <li><Link href="/seguimiento/">Seguimiento</Link></li>
               <li><Link href="/contacto/">Contacto</Link></li>
             </ul>
           </div>
@@ -40,8 +40,7 @@ export function Footer() {
             <ul>
               <li><a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
               <li><a href="mailto:fletes@g3logistics.mx">fletes@g3logistics.mx</a></li>
-              <li><a href="mailto:empresas@g3logistics.mx">empresas@g3logistics.mx</a></li>
-              <li><a href="mailto:soporte@g3logistics.mx">soporte@g3logistics.mx</a></li>
+              <li><a href="mailto:facturacion@g3logistics.mx">facturacion@g3logistics.mx</a></li>
             </ul>
           </div>
         </div>

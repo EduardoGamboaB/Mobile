@@ -136,6 +136,11 @@ p  { margin: 0 0 1em; color: var(--g3-oscuro); }
               background 0.12s ease, color 0.12s ease;
   text-align: center;
   white-space: nowrap;
+  max-width: 100%;
+}
+/* En pantallas angostas el texto del botón puede partirse antes que desbordar */
+@media (max-width: 479px) {
+  .btn { white-space: normal; line-height: 1.25; }
 }
 .btn--block { width: 100%; }         /* utility for CTA en móvil */
 

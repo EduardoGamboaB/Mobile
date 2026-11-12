@@ -5,11 +5,11 @@ import { Icon } from '../../components/Icon';
 export const metadata: Metadata = {
   title: 'Nosotros · Resolvemos la logística de las empresas',
   description:
-    'G3 Logistics es una empresa mexicana de autotransporte federal de carga. Flota propia, tecnología propia (G3 Drive y G3 Admin) y monitoreo satelital 24/7.',
+    'G3 Logistics es una empresa mexicana de autotransporte federal de carga. Flota propia, seguimiento de cada viaje y monitoreo satelital 24/7.',
   alternates: { canonical: '/nosotros/' },
   openGraph: {
     title: 'Nosotros · G3 Logistics',
-    description: 'Autotransporte federal de carga con flota propia y tecnología.',
+    description: 'Autotransporte federal de carga con flota propia.',
     url: '/nosotros/',
   },
 };
@@ -25,7 +25,7 @@ export default function NosotrosPage() {
             G3 Logistics es una empresa mexicana de autotransporte federal de
             carga. Nuestro trabajo no es mover cajas: es que la carga de
             nuestros clientes llegue a tiempo, completa y documentada, con
-            unidades propias y tecnología propia.
+            unidades propias y seguimiento de principio a fin.
           </p>
         </div>
       </section>
@@ -34,7 +34,7 @@ export default function NosotrosPage() {
         <div className="container split">
           <div>
             <span className="eyebrow">Nuestra historia</span>
-            <h2>De una unidad a una operación con tecnología propia.</h2>
+            <h2>De una unidad a una operación con seguimiento total.</h2>
             <p>
               Empezamos en 2018 con una unidad y una convicción: las empresas
               necesitan un transportista que responda por su carga, no uno
@@ -43,10 +43,9 @@ export default function NosotrosPage() {
             <p>
               Crecimos atendiendo a clientes que necesitaban cumplir ventanas
               de entrega estrictas y tener evidencia inmediata de cada viaje.
-              Para lograrlo desarrollamos nuestra propia tecnología:{' '}
-              <strong>G3 Drive</strong> para los operadores y{' '}
-              <strong>G3 Admin</strong> para la torre de control, junto con
-              monitoreo satelital 24/7.
+              Para lograrlo sumamos una torre de control, evidencia
+              digital de cada entrega y <strong>monitoreo satelital
+              24/7</strong> en todas nuestras unidades.
             </p>
             <p>
               Hoy operamos con <strong>unidades propias</strong>, cotización
@@ -62,7 +61,7 @@ export default function NosotrosPage() {
               {[
                 ['Año de fundación',   '2018'],
                 ['Flota',              '100% propia'],
-                ['Tecnología propia',  'G3 Drive + G3 Admin'],
+                ['Seguimiento',        'Estatus y evidencia por viaje'],
                 ['Monitoreo',          'Satelital 24/7'],
                 ['Cotización formal',  '< 4 hrs hábiles'],
                 ['Cumplimiento',       'NOM-068 · NOM-087 · CP 3.0'],
@@ -88,7 +87,7 @@ export default function NosotrosPage() {
             {[
               { icon: 'truck' as const,    title: 'Flota propia, responsabilidad propia', desc: 'No subcontratamos tu carga. Las unidades y los operadores son de G3, y respondemos por el servicio completo.' },
               { icon: 'shield' as const,   title: 'Honestidad operativa',                 desc: 'Te decimos qué se puede y qué no antes de aceptar el viaje. Si hay un retraso, te avisamos antes de que preguntes.' },
-              { icon: 'sparkles' as const, title: 'Tecnología al servicio del cliente',   desc: 'G3 Drive, G3 Admin y monitoreo satelital 24/7 para que tengas visibilidad y evidencia sin pedirlas.' },
+              { icon: 'sparkles' as const, title: 'Visibilidad sin que la pidas',         desc: 'Estatus de cada viaje, evidencia de cada entrega y monitoreo satelital 24/7, sin tener que llamar para preguntar.' },
               { icon: 'lock' as const,     title: 'Cumplimiento sin excepción',           desc: 'Inspección NOM-068, bitácora NOM-087, Carta Porte 3.0 y seguros vigentes en cada operación.' },
             ].map((p) => (
               <div key={p.title} className="card">
@@ -125,7 +124,7 @@ export default function NosotrosPage() {
               {[
                 ['Registro SICT',      'Permiso federal vigente'],
                 ['Rastreo satelital',  '24/7 · protocolos de reacción'],
-                ['Evidencias',         'Digitales, desde G3 Drive'],
+                ['Evidencias',         'Digitales, de cada entrega'],
                 ['Custodia',           'Disponible por ruta'],
                 ['Datos operativos',   'En la nube · respaldo diario'],
               ].map(([k, v]) => (

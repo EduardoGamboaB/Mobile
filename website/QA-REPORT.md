@@ -8,7 +8,7 @@ accesibilidad.
 
 **Resoluciones:** 320×568, 360×740, 375×667, 390×844, 414×896, 768×1024,
 1024×768, 1280×800, 1440×900 y 1920×1080 · **Páginas:** `/`, `/servicios/`,
-`/tecnologia/`, `/nosotros/`, `/contacto/`.
+`/seguimiento/`, `/nosotros/`, `/contacto/`.
 
 **Qué se valida en cada página y resolución**
 

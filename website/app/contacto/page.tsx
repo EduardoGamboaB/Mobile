@@ -16,9 +16,8 @@ export const metadata: Metadata = {
 };
 
 const CARDS = [
-  { icon: 'truck' as const,    title: 'Cotizar servicio',      desc: 'Nuevo cliente o nueva ruta.',          email: 'fletes@g3logistics.mx' },
-  { icon: 'shield' as const,   title: 'Cuentas empresariales', desc: 'Contratos anuales, dedicado y RFP.',   email: 'empresas@g3logistics.mx' },
-  { icon: 'sparkles' as const, title: 'Soporte a clientes',    desc: 'Ya tienes un viaje activo con G3.',    email: 'soporte@g3logistics.mx' },
+  { icon: 'truck' as const,  title: 'Fletes',      desc: 'Cotizaciones, nuevas rutas y seguimiento de tus viajes.', email: 'fletes@g3logistics.mx' },
+  { icon: 'wallet' as const, title: 'Facturación', desc: 'Facturas, complementos de pago y Carta Porte.',          email: 'facturacion@g3logistics.mx' },
 ];
 
 export default function ContactoPage() {
@@ -53,8 +52,8 @@ export default function ContactoPage() {
       </section>
 
       <section className="section">
-        <div className="container">
-          <div className="grid grid--3">
+        <div className="container" style={{ maxWidth: 860 }}>
+          <div className="grid grid--2">
             {CARDS.map((c) => (
               <a key={c.title} href={`mailto:${c.email}`} className="card card--link">
                 <div className="card__icon"><Icon name={c.icon} /></div>

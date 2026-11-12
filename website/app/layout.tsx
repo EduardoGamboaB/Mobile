@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s | G3 Logistics',
   },
   description:
-    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. Tecnología propia, monitoreo satelital 24/7 y Carta Porte 3.0.',
+    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. Seguimiento en tiempo real, monitoreo satelital 24/7 y Carta Porte 3.0.',
   keywords: [
     'transporte de carga México',
     'autotransporte federal de carga',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'G3 Logistics',
     title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     description:
-      'Flota propia, tecnología propia y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
+      'Flota propia, seguimiento en tiempo real y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
     locale: 'es_MX',
     url: SITE_URL,
   },
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     description:
-      'Resolvemos la logística de tu empresa con flota propia y tecnología.',
+      'Resolvemos la logística de tu empresa con flota propia.',
   },
   robots: {
     index: true,
@@ -75,7 +75,7 @@ const ORG_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
   description:
-    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, tecnología propia y monitoreo satelital 24/7.',
+    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, seguimiento en tiempo real y monitoreo satelital 24/7.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'MX',
@@ -94,15 +94,8 @@ const ORG_JSON_LD = {
     },
     {
       '@type': 'ContactPoint',
-      contactType: 'sales',
-      email: 'empresas@g3logistics.mx',
-      areaServed: 'MX',
-      availableLanguage: ['Spanish'],
-    },
-    {
-      '@type': 'ContactPoint',
-      contactType: 'customer support',
-      email: 'soporte@g3logistics.mx',
+      contactType: 'billing',
+      email: 'facturacion@g3logistics.mx',
       areaServed: 'MX',
       availableLanguage: ['Spanish'],
     },

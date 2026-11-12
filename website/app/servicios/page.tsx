@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/servicios/' },
   openGraph: {
     title: 'Servicios de transporte de carga · G3 Logistics',
-    description: 'Resolvemos la logística de tu empresa con flota propia y tecnología.',
+    description: 'Resolvemos la logística de tu empresa con flota propia.',
     url: '/servicios/',
   },
 };
@@ -94,8 +94,8 @@ export default function ServiciosPage() {
               <Link href="/contacto/" className="btn btn--primary">
                 Cotizar un servicio <Icon name="arrow" />
               </Link>
-              <Link href="/tecnologia/" className="btn btn--ghost">
-                Ver la tecnología
+              <Link href="/seguimiento/" className="btn btn--ghost">
+                Ver el seguimiento
               </Link>
             </div>
           </div>
@@ -173,7 +173,7 @@ export default function ServiciosPage() {
                 ['Operadores',                 'Propios y capacitados'],
                 ['Tiempo medio de cotización', '< 4 hrs hábiles'],
                 ['Monitoreo satelital',        '24/7 con protocolos de reacción'],
-                ['Tecnología propia',          'G3 Drive + G3 Admin'],
+                ['Seguimiento',                'Estatus y evidencia de cada viaje'],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt>{k}</dt>
@@ -195,9 +195,9 @@ export default function ServiciosPage() {
 
           <div className="grid grid--3">
             {[
-              { icon: 'shield' as const, t: 'NOM-068-SCT-2-2014', d: 'Inspección físico-mecánica antes de cada salida, firmada por el operador y respaldada con foto en G3 Drive.' },
+              { icon: 'shield' as const, t: 'NOM-068-SCT-2-2014', d: 'Inspección físico-mecánica antes de cada salida, firmada por el operador y respaldada con foto.' },
               { icon: 'route'  as const, t: 'NOM-087-SCT-2-2017', d: 'Bitácora de horas de servicio del operador, con descansos y controles de jornada auditables.' },
-              { icon: 'cam'    as const, t: 'Carta Porte 3.0',    d: 'CFDI 4.0 con complemento Carta Porte 3.0 del SAT, generado desde el viaje en G3 Admin.' },
+              { icon: 'cam'    as const, t: 'Carta Porte 3.0',    d: 'CFDI 4.0 con complemento Carta Porte 3.0 del SAT, emitido con los datos de cada viaje.' },
             ].map((f) => (
               <div key={f.t} className="card">
                 <div className="card__icon"><Icon name={f.icon} /></div>
