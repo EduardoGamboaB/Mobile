@@ -52,7 +52,7 @@ html, body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;                /* Guard: no horizontal scroll ever. */
+  overflow-x: clip;                  /* Guard: sin scroll horizontal (clip no rompe position: sticky). */
 }
 
 body { min-width: 320px; }
@@ -106,8 +106,8 @@ p  { margin: 0 0 1em; color: var(--g3-oscuro); }
 .eyebrow {
   display: inline-block;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--acero);
   margin-bottom: 12px;
@@ -369,6 +369,7 @@ header.site {
   position: sticky;
   top: 0;
   z-index: 50;
+  transition: transform 0.22s ease;
   background: rgba(16, 26, 48, 0.97);
   backdrop-filter: blur(10px);
   color: var(--white);
@@ -390,7 +391,7 @@ header.site {
 }
 /* Mobile: hide desktop links, show hamburger + CTA */
 .site nav > a:not(.btn) { display: none; }
-.site nav > .btn { padding: 10px 16px; font-size: 0.9rem; min-height: 42px; }
+.site nav > .btn { padding: 10px 16px; font-size: 0.9rem; min-height: 44px; }
 
 .menu-toggle {
   display: inline-flex;
@@ -441,6 +442,13 @@ details.mobile-menu .menu-panel a:hover,
 details.mobile-menu .menu-panel a:focus-visible {
   background: rgba(255,255,255,0.06);
 }
+details.mobile-menu .menu-panel a.menu-panel__cta {
+  justify-content: center;
+  background: var(--white);
+  color: var(--g3-azul);
+}
+details.mobile-menu .menu-panel a.menu-panel__cta:hover,
+details.mobile-menu .menu-panel a.menu-panel__cta:focus-visible { background: var(--niebla); }
 
 /* Brand — archivos oficiales del Brand Kit v2, nunca recompuestos.
    Mínimo del logotipo: 140px de ancho. Header y footer usan el mismo
@@ -459,6 +467,7 @@ header.site .brand .brand__logo--full { width: 140px; }
    (Contacto sigue en el menú). */
 @media (max-width: 359px) {
   .site nav > .btn { display: none; }
+  .site__inner { padding-top: 8px; padding-bottom: 8px; }
 }
 
 /* Footer */
@@ -467,16 +476,19 @@ footer.site {
   color: rgba(255,255,255,0.7);
   padding: 40px 0 24px;
 }
-footer.site h4 {
+footer.site .footer__title {
   color: var(--white); font-size: 0.85rem;
   text-transform: uppercase; letter-spacing: 0.08em;
   margin: 0 0 10px;
 }
 footer.site ul {
   list-style: none; padding: 0; margin: 0;
-  display: flex; flex-direction: column; gap: 8px;
-  font-size: 0.92rem;
+  display: flex; flex-direction: column;
+  font-size: 0.95rem;
 }
+/* Enlaces del pie con área táctil de 44px */
+footer.site ul a { display: inline-flex; align-items: center; min-height: 44px; }
+footer.site .brand { margin-bottom: 4px; }
 footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-decoration: underline; }
 .footer__cols {
   display: grid;
@@ -600,6 +612,12 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 }
 .kv dt { color: var(--acero); }
 .kv dd { margin: 0; color: var(--g3-azul); font-weight: 700; text-align: right; }
+/* En pantallas angostas la etiqueta va arriba del valor */
+@media (max-width: 479px) {
+  .kv > div { flex-direction: column; gap: 2px; }
+  .kv dt { font-size: 0.85rem; }
+  .kv dd { text-align: left; }
+}
 
 /* Pasos */
 .steps {
@@ -666,6 +684,32 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 }
 /* Deja aire al final para que el botón no tape el pie de página */
 footer.site { padding-bottom: 96px; }
+
+/* ----- Header móvil: se oculta al bajar y vuelve al subir ----- */
+header.site.site--hidden { transform: translateY(-100%); }
+.menu-panel__cta { margin-top: 6px; }
+
+/* ----- Hero centrado y accesos rápidos ----- */
+.hero--center { text-align: center; }
+.hero--center p.lead { margin-left: auto; margin-right: auto; max-width: 720px; }
+.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 8px; }
+.chip {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--white); font-weight: 500; font-size: 0.92rem;
+}
+.chip:hover, .chip:focus-visible { background: rgba(255, 255, 255, 0.1); }
+.split__intro h2 { margin-bottom: 0.4em; }
+[id] { scroll-margin-top: 24px; }
+
+/* ----- WhatsApp: compacto en móvil, se aparta sobre el formulario ----- */
+.wa { transition: opacity 0.2s ease, transform 0.2s ease; }
+.wa.wa--away { opacity: 0; transform: translateY(16px); pointer-events: none; }
+@media (max-width: 767px) {
+  .wa__fab { width: 56px; padding: 0; justify-content: center; }
+  .wa__fab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .wa__fab svg { width: 28px; height: 28px; }
+}
 
 /* ================================================================
    BREAKPOINTS — progressive enhancement (min-width, mobile first)
@@ -742,7 +786,7 @@ footer.site { padding-bottom: 96px; }
   .pricing { grid-template-columns: repeat(5, 1fr); gap: 14px; }
 
   /* Desktop navigation appears */
-  .site nav > a:not(.btn) { display: inline-flex; align-items: center; }
+  .site nav > a:not(.btn) { display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; }
   .site nav { gap: 22px; }
   .site nav a { color: rgba(255,255,255,0.82); font-size: 0.92rem; }
   .site nav a:hover, .site nav a:focus-visible { color: var(--white); }

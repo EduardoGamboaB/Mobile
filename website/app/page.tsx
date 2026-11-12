@@ -33,9 +33,8 @@ export default function HomePage() {
             <p className="lead">
               Diseñamos el servicio de transporte que tu operación necesita y
               lo ejecutamos con <strong>unidades propias</strong>, operadores
-              capacitados y tecnología: nuestro <strong>TMS desarrollado in
-              house</strong> y el monitoreo satelital 24/7 de{' '}
-              <strong>TotalProtect</strong>.
+              capacitados y tecnología propia: <strong>G3 Drive</strong>,{' '}
+              <strong>G3 Admin</strong> y monitoreo satelital 24/7.
             </p>
             <div className="hero__cta">
               <Link href="/contacto/" className="btn btn--primary">
@@ -68,7 +67,7 @@ export default function HomePage() {
 
           <div className="preview" aria-hidden>
             <div className="preview__chrome"><span /><span /><span /></div>
-            <div className="preview__caption">TMS G3 · Viajes de hoy</div>
+            <div className="preview__caption">G3 Admin · Viajes de hoy</div>
             <div className="preview__rows">
               <div className="preview__row">
                 <span>G3-2026-00134 · Producto terminado · Querétaro → Monterrey</span>
@@ -156,28 +155,38 @@ export default function HomePage() {
             <span className="eyebrow">Tecnología</span>
             <h2>Visibilidad total de tu carga, de la recolección a la entrega.</h2>
             <p>
-              Operamos con dos capas de tecnología: un TMS propio que
-              controla cada viaje y la plataforma de monitoreo satelital de
-              TotalProtect que vigila cada unidad.
+              Tecnología desarrollada por G3 para operar cada viaje, más
+              monitoreo satelital que vigila cada unidad las 24 horas.
             </p>
           </div>
 
-          <div className="grid grid--2">
+          <div className="grid grid--3">
             <div className="card">
               <div className="card__icon"><Icon name="phone" /></div>
-              <h3>TMS G3 · desarrollado in house</h3>
-              <p>Nuestro sistema de gestión de transporte, hecho por nuestro equipo para nuestra operación.</p>
+              <h3>G3 Drive · app del operador</h3>
+              <p>Lo que pasa en carretera, registrado en el momento.</p>
               <ul className="list-check mb-0">
-                <li>Viajes con folio y estatus de la recolección a la entrega</li>
-                <li>Evidencias digitales: carga, báscula, descarga y POD</li>
-                <li>Carta Porte 3.0 (CFDI 4.0) generada desde el viaje</li>
-                <li>App del operador con bitácora NOM-087 e inspección NOM-068</li>
+                <li>Fotos, báscula y firma de entrega al instante</li>
+                <li>Inspección NOM-068 y bitácora NOM-087</li>
+                <li>Funciona sin señal y sincroniza después</li>
+                <li>Chat y botón de emergencia con la torre de control</li>
+              </ul>
+            </div>
+            <div className="card">
+              <div className="card__icon"><Icon name="chart" /></div>
+              <h3>G3 Admin · torre de control</h3>
+              <p>Un equipo que ve toda la operación y actúa a tiempo.</p>
+              <ul className="list-check mb-0">
+                <li>Folio y estatus de cada viaje en vivo</li>
+                <li>Incidencias atendidas con ubicación y foto</li>
+                <li>Carta Porte 3.0 generada sin recaptura</li>
+                <li>Gastos por viaje con comprobante</li>
               </ul>
             </div>
             <div className="card">
               <div className="card__icon"><Icon name="map" /></div>
-              <h3>Monitoreo satelital TotalProtect</h3>
-              <p>Rastreo GPS y centro de monitoreo 24/7 con protocolos de reacción ante cualquier incidente.</p>
+              <h3>Monitoreo satelital 24/7</h3>
+              <p>Rastreo GPS y protocolos de reacción ante cualquier incidente.</p>
               <ul className="list-check mb-0">
                 <li>Ubicación de la unidad en tiempo real</li>
                 <li>Geocercas y rutas autorizadas con alertas</li>

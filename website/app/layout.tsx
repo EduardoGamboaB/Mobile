@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: '%s | G3 Logistics',
   },
   description:
-    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. TMS propio, monitoreo satelital 24/7 TotalProtect y Carta Porte 3.0.',
+    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. Tecnología propia, monitoreo satelital 24/7 y Carta Porte 3.0.',
   keywords: [
     'transporte de carga México',
     'autotransporte federal de carga',
@@ -31,9 +31,8 @@ export const metadata: Metadata = {
     'transporte con temperatura controlada',
     'transporte de granel',
     'empresa transportista flota propia',
-    'TMS',
+    'rastreo GPS de carga',
     'monitoreo satelital 24/7',
-    'TotalProtect',
     'Carta Porte 3.0',
     'NOM-068 SICT',
     'NOM-087 SICT',
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     siteName: 'G3 Logistics',
     title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
     description:
-      'Flota propia, TMS propio y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
+      'Flota propia, tecnología propia y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
     locale: 'es_MX',
     url: SITE_URL,
   },
@@ -76,7 +75,7 @@ const ORG_JSON_LD = {
   url: SITE_URL,
   logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
   description:
-    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, TMS propio y monitoreo satelital 24/7.',
+    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, tecnología propia y monitoreo satelital 24/7.',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'MX',

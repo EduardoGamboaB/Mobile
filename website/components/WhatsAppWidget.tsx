@@ -13,7 +13,7 @@ function WaGlyph() {
 // el script de mejora progresiva de components/Enhance.tsx.
 export function WhatsAppWidget() {
   return (
-    <div className="wa" data-wa>
+    <aside className="wa" aria-label="Contacto por WhatsApp">
       <div className="wa__pop" id="wa-pop" role="dialog" aria-labelledby="wa-title" hidden>
         <button type="button" className="wa__close" data-wa-close aria-label="Cerrar">×</button>
         <p className="wa__title" id="wa-title">¿Necesitas mover carga?</p>
@@ -37,6 +37,6 @@ export function WhatsAppWidget() {
         <WaGlyph />
         <span className="wa__fab-label">WhatsApp</span>
       </a>
-    </div>
+    </aside>
   );
 }

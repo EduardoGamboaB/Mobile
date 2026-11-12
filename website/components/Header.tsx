@@ -32,6 +32,9 @@ export function Header() {
               {LINKS.map((l) => (
                 <Link key={l.href} href={l.href}>{l.label}</Link>
               ))}
+              <Link href="/contacto/" className="btn btn--primary menu-panel__cta">
+                Cotizar
+              </Link>
             </div>
           </details>
         </nav>

@@ -11,13 +11,13 @@ export function Footer() {
             <Brand />
             <p style={{ marginTop: 14, fontSize: '0.92rem', color: 'rgba(255,255,255,0.65)' }}>
               Autotransporte federal de carga. Resolvemos la logística de
-              las empresas con flota propia, TMS propio y monitoreo
+              las empresas con flota propia, tecnología propia y monitoreo
               satelital 24/7.
             </p>
           </div>
 
           <div>
-            <h4>Servicios</h4>
+            <h2 className="footer__title">Servicios</h2>
             <ul>
               <li><Link href="/servicios/">Flete completo y dedicado</Link></li>
               <li><Link href="/servicios/">Temperatura controlada</Link></li>
@@ -27,7 +27,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Empresa</h4>
+            <h2 className="footer__title">Empresa</h2>
             <ul>
               <li><Link href="/nosotros/">Nosotros</Link></li>
               <li><Link href="/tecnologia/">Tecnología</Link></li>
@@ -36,7 +36,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4>Contacto</h4>
+            <h2 className="footer__title">Contacto</h2>
             <ul>
               <li><a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
               <li><a href="mailto:fletes@g3logistics.mx">fletes@g3logistics.mx</a></li>
@@ -48,7 +48,7 @@ export function Footer() {
 
         <div className="footer__bottom">
           <span>© {new Date().getFullYear()} G3 Logistics — Hecho en México</span>
-          <span>Permiso SICT vigente · Monitoreo satelital TotalProtect</span>
+          <span>Permiso SICT vigente · Monitoreo satelital 24/7</span>
         </div>
       </div>
     </footer>

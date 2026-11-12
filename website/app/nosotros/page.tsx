@@ -5,7 +5,7 @@ import { Icon } from '../../components/Icon';
 export const metadata: Metadata = {
   title: 'Nosotros · Resolvemos la logística de las empresas',
   description:
-    'G3 Logistics es una empresa mexicana de autotransporte federal de carga. Flota propia, TMS desarrollado in house y monitoreo satelital 24/7.',
+    'G3 Logistics es una empresa mexicana de autotransporte federal de carga. Flota propia, tecnología propia (G3 Drive y G3 Admin) y monitoreo satelital 24/7.',
   alternates: { canonical: '/nosotros/' },
   openGraph: {
     title: 'Nosotros · G3 Logistics',
@@ -43,9 +43,10 @@ export default function NosotrosPage() {
             <p>
               Crecimos atendiendo a clientes que necesitaban cumplir ventanas
               de entrega estrictas y tener evidencia inmediata de cada viaje.
-              Para lograrlo construimos nuestro propio <strong>TMS</strong> y
-              sumamos el monitoreo satelital 24/7 de{' '}
-              <strong>TotalProtect</strong>.
+              Para lograrlo desarrollamos nuestra propia tecnología:{' '}
+              <strong>G3 Drive</strong> para los operadores y{' '}
+              <strong>G3 Admin</strong> para la torre de control, junto con
+              monitoreo satelital 24/7.
             </p>
             <p>
               Hoy operamos con <strong>unidades propias</strong>, cotización
@@ -61,8 +62,8 @@ export default function NosotrosPage() {
               {[
                 ['Año de fundación',   '2018'],
                 ['Flota',              '100% propia'],
-                ['Gestión de viajes',  'TMS desarrollado in house'],
-                ['Monitoreo',          '24/7 · TotalProtect'],
+                ['Tecnología propia',  'G3 Drive + G3 Admin'],
+                ['Monitoreo',          'Satelital 24/7'],
                 ['Cotización formal',  '< 4 hrs hábiles'],
                 ['Cumplimiento',       'NOM-068 · NOM-087 · CP 3.0'],
               ].map(([k, v]) => (
@@ -87,7 +88,7 @@ export default function NosotrosPage() {
             {[
               { icon: 'truck' as const,    title: 'Flota propia, responsabilidad propia', desc: 'No subcontratamos tu carga. Las unidades y los operadores son de G3, y respondemos por el servicio completo.' },
               { icon: 'shield' as const,   title: 'Honestidad operativa',                 desc: 'Te decimos qué se puede y qué no antes de aceptar el viaje. Si hay un retraso, te avisamos antes de que preguntes.' },
-              { icon: 'sparkles' as const, title: 'Tecnología al servicio del cliente',   desc: 'TMS propio y monitoreo satelital 24/7 para que tengas visibilidad y evidencia sin pedirlas.' },
+              { icon: 'sparkles' as const, title: 'Tecnología al servicio del cliente',   desc: 'G3 Drive, G3 Admin y monitoreo satelital 24/7 para que tengas visibilidad y evidencia sin pedirlas.' },
               { icon: 'lock' as const,     title: 'Cumplimiento sin excepción',           desc: 'Inspección NOM-068, bitácora NOM-087, Carta Porte 3.0 y seguros vigentes en cada operación.' },
             ].map((p) => (
               <div key={p.title} className="card">
@@ -123,8 +124,8 @@ export default function NosotrosPage() {
             <dl className="kv">
               {[
                 ['Registro SICT',      'Permiso federal vigente'],
-                ['Rastreo satelital',  'TotalProtect · 24/7'],
-                ['Evidencias',         'Digitales, en el TMS'],
+                ['Rastreo satelital',  '24/7 · protocolos de reacción'],
+                ['Evidencias',         'Digitales, desde G3 Drive'],
                 ['Custodia',           'Disponible por ruta'],
                 ['Datos operativos',   'En la nube · respaldo diario'],
               ].map(([k, v]) => (

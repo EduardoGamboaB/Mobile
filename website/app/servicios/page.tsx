@@ -172,8 +172,8 @@ export default function ServiciosPage() {
                 ['Unidades',                   '100% propias'],
                 ['Operadores',                 'Propios y capacitados'],
                 ['Tiempo medio de cotización', '< 4 hrs hábiles'],
-                ['Monitoreo satelital',        '24/7 · TotalProtect'],
-                ['Gestión de viajes',          'TMS G3 · in house'],
+                ['Monitoreo satelital',        '24/7 con protocolos de reacción'],
+                ['Tecnología propia',          'G3 Drive + G3 Admin'],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt>{k}</dt>
@@ -195,9 +195,9 @@ export default function ServiciosPage() {
 
           <div className="grid grid--3">
             {[
-              { icon: 'shield' as const, t: 'NOM-068-SCT-2-2014', d: 'Inspección físico-mecánica antes de cada salida, firmada por el operador y respaldada con foto en el TMS.' },
+              { icon: 'shield' as const, t: 'NOM-068-SCT-2-2014', d: 'Inspección físico-mecánica antes de cada salida, firmada por el operador y respaldada con foto en G3 Drive.' },
               { icon: 'route'  as const, t: 'NOM-087-SCT-2-2017', d: 'Bitácora de horas de servicio del operador, con descansos y controles de jornada auditables.' },
-              { icon: 'cam'    as const, t: 'Carta Porte 3.0',    d: 'CFDI 4.0 con complemento Carta Porte 3.0 del SAT, generado desde el viaje en nuestro TMS.' },
+              { icon: 'cam'    as const, t: 'Carta Porte 3.0',    d: 'CFDI 4.0 con complemento Carta Porte 3.0 del SAT, generado desde el viaje en G3 Admin.' },
             ].map((f) => (
               <div key={f.t} className="card">
                 <div className="card__icon"><Icon name={f.icon} /></div>

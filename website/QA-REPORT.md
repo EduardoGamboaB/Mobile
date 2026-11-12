@@ -1,5 +1,47 @@
 # G3 Logistics — Reporte de QA (Mobile First · sitio corporativo)
 
+## Ronda 2026-11-12 · usabilidad multi-resolución
+
+Build estático (`next build` → `out/`) servido por HTTP y recorrido con
+Playwright (Chromium) en modo táctil para móvil, más axe-core 4.10 para
+accesibilidad.
+
+**Resoluciones:** 320×568, 360×740, 375×667, 390×844, 414×896, 768×1024,
+1024×768, 1280×800, 1440×900 y 1920×1080 · **Páginas:** `/`, `/servicios/`,
+`/tecnologia/`, `/nosotros/`, `/contacto/`.
+
+**Qué se valida en cada página y resolución**
+
+- Sin scroll horizontal y ningún elemento más ancho que la pantalla.
+- Áreas táctiles de 44 px o más en enlaces, botones y campos (salvo enlaces dentro de un párrafo).
+- Texto visible de 12 px o más; un solo `h1`; títulos sin saltos de nivel; imágenes con `alt`.
+- El botón flotante de WhatsApp no tapa ningún botón ni campo.
+- axe-core sin violaciones (en 390 y 1280 px).
+- Navegación completa con el menú móvil (o el nav de escritorio) y el logo; el menú se cierra al navegar.
+- El formulario valida y envía también después de navegar del lado del cliente.
+- El header se oculta al bajar y reaparece al subir (móvil); el popup de WhatsApp se abre solo en escritorio.
+
+**Hallazgos corregidos en esta ronda**
+
+| Hallazgo | Corrección |
+|---|---|
+| Tras navegar con el menú móvil, el menú quedaba abierto y el formulario dejaba de validar (Next no vuelve a montar el layout) | Script de mejora con delegación de eventos en `document`; el menú se cierra al elegir opción, al tocar fuera o con Esc |
+| El header nunca fue sticky: `overflow-x: hidden` en `html, body` anula `position: sticky` | `overflow-x: clip` |
+| Header de 96 px = 17 % del alto a 320×568 | Se oculta al bajar y vuelve al subir; relleno menor bajo 360 px (88 px) |
+| Botón flotante de WhatsApp tapaba botones y campos | Solo ícono en móvil, aparece tras el primer scroll y se aparta mientras el formulario está en pantalla |
+| Popup de WhatsApp a pantalla completa en móvil | Auto-apertura solo desde 768 px |
+| Enlaces del nav, del pie y accesos rápidos con menos de 44 px de alto | `min-height: 44px` |
+| Etiquetas (`.eyebrow`) de 11.5 px | 12.8 px |
+| axe: `heading-order` (h4 en el pie) y `region` (widget fuera de un landmark) | Títulos del pie como `h2`; widget dentro de `<aside>` |
+| Lista clave-valor apretada a 320 px | Etiqueta arriba del valor bajo 480 px |
+
+**Resultado:** 0 hallazgos en las 10 resoluciones × 5 páginas.
+
+---
+
+## Ronda anterior (2026-07-19)
+
+
 Fecha: 2026-07-19
 Sitio evaluado: `http://localhost:8123/` (build estático de `next build`)
 Metodología: Puppeteer headless (Chromium) sobre `out/` exportado con
