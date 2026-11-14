@@ -79,8 +79,6 @@ const ORG_JSON_LD = {
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'MX',
-    addressRegion: 'CDMX',
-    addressLocality: 'Miguel Hidalgo',
   },
   areaServed: { '@type': 'Country', name: 'México' },
   foundingDate: '2018',

@@ -68,17 +68,11 @@ export default function ContactoPage() {
 
       <section className="section section--tint">
         <div className="container">
-          <div className="grid grid--3">
-            {[
-              { t: 'Corporativo CDMX',  d: 'Ejército Nacional 843\nGranada, Miguel Hidalgo\nCDMX 11520' },
-              { t: 'Patio Monterrey',   d: 'Parque industrial Escobedo\nEscobedo, N.L.\nMonterrey' },
-              { t: 'Horario comercial', d: 'Lunes a viernes 8:00-19:00\nSábados 9:00-14:00\nMonitoreo 24/7 en viajes activos' },
-            ].map((c) => (
-              <div key={c.t} className="card">
-                <h3>{c.t}</h3>
-                <p className="mb-0" style={{ whiteSpace: 'pre-line' }}>{c.d}</p>
-              </div>
-            ))}
+          <div className="card card--center">
+            <h3>Horario comercial</h3>
+            <p className="mb-0" style={{ whiteSpace: 'pre-line' }}>
+              {'Lunes a viernes 8:00-19:00\nSábados 9:00-14:00\nMonitoreo 24/7 en viajes activos'}
+            </p>
           </div>
         </div>
       </section>

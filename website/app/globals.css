@@ -638,6 +638,7 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 
 /* Tarjeta enlace (contacto) */
 .card--link { display: block; border-top: 4px solid var(--g3-azul); }
+.card--center { max-width: 420px; margin: 0 auto; text-align: center; }
 .card__meta { display: block; margin-top: 12px; color: var(--acero); font-size: 0.88rem; word-break: break-word; }
 
 /* Formulario: estados */
