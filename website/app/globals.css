@@ -492,7 +492,7 @@ footer.site ul {
   font-size: 0.95rem;
 }
 /* Enlaces del pie con área táctil de 44px */
-footer.site ul a { display: inline-flex; align-items: center; min-height: 44px; }
+footer.site ul a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 footer.site .brand { margin-bottom: 4px; }
 footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-decoration: underline; }
 .footer__cols {
@@ -639,6 +639,49 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 /* Tarjeta enlace (contacto) */
 .card--link { display: block; border-top: 4px solid var(--g3-azul); }
 .card--center { max-width: 420px; margin: 0 auto; text-align: center; }
+
+/* ----- Páginas legales y artículos del blog (texto largo) ----- */
+.hero--compact { padding-top: 48px; padding-bottom: 40px; }
+.legal { max-width: 760px; }
+.legal h2 { font-size: 1.3rem; margin: 2em 0 0.6em; }
+.legal h2:first-child { margin-top: 0; }
+.legal h3 { font-size: 1.05rem; margin: 1.4em 0 0.5em; }
+.legal p, .legal li { color: var(--g3-oscuro); line-height: 1.7; }
+.legal ul, .legal ol { padding-left: 1.3em; margin: 0 0 1em; }
+.legal li { margin-bottom: 0.4em; }
+.legal a { color: var(--g3-azul); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
+.legal__meta { margin-top: 2.5em; padding-top: 1.2em; border-top: 1px solid var(--linea); font-size: 0.9rem; color: var(--acero) !important; }
+footer.site .footer__bottom a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* ----- Blog ----- */
+.post-card { padding: 0; overflow: hidden; }
+.post-card__img { display: block; position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: var(--niebla); }
+.post-card__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.post-card__body { padding: 20px 22px 24px; }
+.post-card__meta { font-size: 0.85rem; color: var(--acero); margin-bottom: 6px; }
+.post-card__title { font-size: 1.15rem; margin-bottom: 8px; }
+.post-card__title a { display: block; }
+.post-card__title a::after { content: ""; position: absolute; inset: 0; }   /* toda la tarjeta es clicable */
+.post-card { position: relative; }
+.post-card__title a:focus-visible { outline: none; }
+.post-card:has(a:focus-visible) { outline: 3px solid var(--g3-azul); outline-offset: 2px; }
+.breadcrumbs { font-size: 0.9rem; margin-bottom: 12px; color: rgba(255,255,255,0.75); }
+.breadcrumbs a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; display: inline-flex; min-height: 44px; min-width: 44px; justify-content: center; align-items: center; }
+.post__meta { color: rgba(255,255,255,0.75); font-size: 0.92rem; margin: 12px 0 0; }
+.post__cover { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--radius-lg); margin-bottom: 28px; }
+.post__body h2 { font-size: 1.35rem; margin: 1.8em 0 0.6em; }
+.post__body h3 { font-size: 1.1rem; margin: 1.4em 0 0.5em; }
+.post__body blockquote { margin: 1.4em 0; padding: 12px 18px; background: var(--niebla); border-radius: var(--radius); }
+.post__body blockquote p { margin: 0; }
+.post__body table { width: 100%; border-collapse: collapse; margin: 1em 0 1.4em; font-size: 0.95rem; display: block; overflow-x: auto; }
+.post__body th, .post__body td { border-bottom: 1px solid var(--linea); padding: 10px 8px; text-align: left; vertical-align: top; }
+.post__tags { list-style: none; padding: 0 !important; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px !important; }
+.post__tags li { background: var(--niebla); color: var(--g3-azul); border-radius: 999px; padding: 4px 12px; font-size: 0.85rem; font-weight: 500; margin: 0; }
+.cta-band__actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.post__more { margin-top: 40px; }
+.post__more h2 { font-size: 1.3rem; }
+.post__body li:has(> .check-box) { list-style: none; margin-left: -1.3em; position: relative; padding-left: 30px; }
+.check-box { position: absolute; left: 0; top: 0.3em; width: 18px; height: 18px; border: 2px solid var(--g3-azul); border-radius: 4px; }
 .link { color: var(--g3-azul); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
 .card__meta.link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; }
 p .link { display: inline-flex; align-items: center; min-height: 44px; }
@@ -651,6 +694,12 @@ p .link { display: inline-flex; align-items: center; min-height: 44px; }
 .form__status--ok { color: var(--g3-azul); font-weight: 500; }
 .form__status--error { color: #B42318; font-weight: 500; }
 .form__legal { font-size: 0.82rem; color: var(--acero); text-align: center; margin: 0; }
+.form__legal a { color: var(--g3-azul); text-decoration: underline; text-underline-offset: 2px; }
+.form label.check {
+  flex-direction: row; align-items: flex-start; gap: 10px;
+  font-weight: 400; font-size: 0.88rem; color: var(--acero); min-height: 44px; cursor: pointer;
+}
+.form label.check input { width: 22px; height: 22px; min-height: 0; margin: 1px 0 0; flex-shrink: 0; accent-color: var(--g3-azul); padding: 0; }
 
 /* ----- WhatsApp: botón flotante + popup ----- */
 .wa {
@@ -712,8 +761,8 @@ header.site.site--hidden { transform: translateY(-100%); }
 [id] { scroll-margin-top: 24px; }
 
 /* ----- WhatsApp: compacto en móvil, se aparta sobre el formulario ----- */
-.wa { transition: opacity 0.2s ease, transform 0.2s ease; }
-.wa.wa--away { opacity: 0; transform: translateY(16px); pointer-events: none; }
+.wa { transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0s; }
+.wa.wa--away { opacity: 0; transform: translateY(16px); pointer-events: none; visibility: hidden; transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s linear 0.2s; }
 @media (max-width: 767px) {
   .wa__fab { width: 56px; padding: 0; justify-content: center; }
   .wa__fab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -901,7 +950,7 @@ header.site.site--hidden { transform: translateY(-100%); }
   .pricing { grid-template-columns: repeat(5, 1fr); gap: 14px; }
 
   /* Desktop navigation appears */
-  .site nav > a:not(.btn) { display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; }
+  .site nav > a:not(.btn) { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 2px; }
   .site nav { gap: 22px; }
   .site nav a { color: rgba(255,255,255,0.82); font-size: 0.92rem; }
   .site nav a:hover, .site nav a:focus-visible { color: var(--white); }

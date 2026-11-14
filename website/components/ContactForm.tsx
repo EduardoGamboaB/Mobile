@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Icon } from './Icon';
 import { FORM_ENDPOINT, WHATSAPP_NUMBER } from '../lib/site';
 
@@ -94,13 +95,21 @@ export function ContactForm({ id = 'contacto-form' }: { id?: string }) {
           <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
 
+        <label className="check">
+          <input type="checkbox" name="no_marketing" value="si" />
+          <span>No deseo que mis datos se usen para fines de mercadotecnia y publicidad.</span>
+        </label>
+
         <button type="submit" className="btn btn--primary">
           Enviar solicitud <Icon name="arrow" />
         </button>
         <p className="form__status" role="status" aria-live="polite" data-form-status />
         <p className="form__legal">
-          Al enviar aceptas que G3 Logistics te contacte por correo, teléfono o
-          WhatsApp para atender tu solicitud.
+          Al enviar aceptas los{' '}
+          <Link href="/terminos-y-condiciones/">Términos y condiciones</Link> y el
+          tratamiento de tus datos conforme al{' '}
+          <Link href="/aviso-de-privacidad/">Aviso de privacidad</Link>, incluidas las
+          finalidades de mercadotecnia, salvo que marques la casilla anterior.
         </p>
       </div>
     </form>

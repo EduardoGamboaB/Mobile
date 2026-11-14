@@ -6,10 +6,12 @@
 // Variables de entorno:
 //   SMTP_HOST, SMTP_PORT (465 o 587), SMTP_USER, SMTP_PASS (desde Secret Manager)
 //   MAIL_TO (default fletes@g3logistics.mx), MAIL_FROM, ALLOWED_ORIGINS
+//   HUBSPOT_TOKEN (opcional, desde Secret Manager): registra el contacto en HubSpot
 
 const functions = require('@google-cloud/functions-framework');
 const nodemailer = require('nodemailer');
-const { createHandler } = require('./handler');
+const { createHandler, FIELDS } = require('./handler');
+const { createHubspot } = require('./hubspot');
 
 const port = Number(process.env.SMTP_PORT || 465);
 const transporter = nodemailer.createTransport({
@@ -19,4 +21,9 @@ const transporter = nodemailer.createTransport({
   auth: process.env.SMTP_USER ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } : undefined,
 });
 
-functions.http('contacto', createHandler({ sendMail: (msg) => transporter.sendMail(msg) }));
+// HubSpot es opcional: se activa al definir HUBSPOT_TOKEN (app privada, desde Secret Manager).
+const registerLead = process.env.HUBSPOT_TOKEN
+  ? createHubspot({ token: process.env.HUBSPOT_TOKEN, fields: FIELDS, apiBase: process.env.HUBSPOT_API_BASE || undefined })
+  : null;
+
+functions.http('contacto', createHandler({ sendMail: (msg) => transporter.sendMail(msg), registerLead }));

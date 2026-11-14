@@ -5,7 +5,10 @@ www.g3logistics.mx y lo envía por correo a **fletes@g3logistics.mx**.
 
 - Valida los campos y bloquea spam con un campo trampa y un límite de 5 envíos cada 10 minutos por IP.
 - Envía el correo con "responder a" apuntando al cliente, para contestarle directo desde el buzón de fletes.
-- Registra cada solicitud en Cloud Logging (`lead_recibido`), así no se pierde aunque falle el correo.
+- Crea o actualiza el contacto en **HubSpot** (por correo, estado de lead "Nuevo") y le agrega una nota con el detalle de la solicitud.
+- Correo y HubSpot van en paralelo: basta con que uno funcione para dar la solicitud por recibida.
+- Registra cada solicitud en Cloud Logging (`lead_recibido`), así no se pierde aunque fallen ambos.
+- Respeta la casilla "No deseo que mis datos se usen para mercadotecnia" y la anota en el correo y en HubSpot.
 - Solo acepta peticiones de `https://www.g3logistics.mx` y `https://g3logistics.mx` (CORS).
 
 ## Envío del correo (SMTP)
@@ -26,11 +29,16 @@ gcloud config set project g3-prod
 # 1. Guardar la contraseña SMTP en Secret Manager
 printf '%s' 'CONTRASEÑA_SMTP' | gcloud secrets create g3-smtp-pass --data-file=-
 
-# 2. Desplegar la función
+# 2. (Opcional) Conectar HubSpot: token de una app privada con permisos
+#    crm.objects.contacts.read y crm.objects.contacts.write
+#    (HubSpot → Configuración → Integraciones → Apps privadas)
+printf '%s' 'pat-na1-...' | gcloud secrets create g3-hubspot-token --data-file=-
+
+# 3. Desplegar la función
 cd website/functions/contacto
 PROJECT_ID=g3-prod SMTP_USER=fletes@g3logistics.mx ./deploy.sh
 
-# 3. Publicar el sitio: toma la URL de la función automáticamente
+# 4. Publicar el sitio: toma la URL de la función automáticamente
 cd ../..
 PROJECT_ID=g3-prod BUCKET=g3-website-prod ./deploy/deploy.sh
 ```

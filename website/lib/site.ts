@@ -25,6 +25,16 @@ export const BUSINESS = {
 } as const;
 
 export const LOCATION_LABEL = `${BUSINESS.city}, ${BUSINESS.state}`;
+
+// Datos para el aviso de privacidad y los términos. La ley pide identificar al
+// responsable con su nombre o razón social y su domicilio.
+// PENDIENTE: sustituir por la razón social completa (p. ej. "G3 Logistics, S.A. de C.V.")
+// y el domicilio fiscal completo (calle, número, colonia y código postal).
+export const LEGAL = {
+  name: 'G3 Logistics',
+  address: `${BUSINESS.city}, ${BUSINESS.state}, ${BUSINESS.countryName}`,
+  updated: '14 de noviembre de 2026',
+};
 // Cuando exista el Perfil de Negocio en Google, sustituir por su enlace de Maps.
 export const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${BUSINESS.city}, ${BUSINESS.state}, México`)}`;
 

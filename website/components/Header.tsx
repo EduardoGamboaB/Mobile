@@ -5,6 +5,7 @@ const LINKS: { href: string; label: string }[] = [
   { href: '/servicios/', label: 'Servicios' },
   { href: '/seguimiento/', label: 'Seguimiento' },
   { href: '/nosotros/', label: 'Nosotros' },
+  { href: '/blog/', label: 'Blog' },
   { href: '/contacto/', label: 'Contacto' },
 ];
 

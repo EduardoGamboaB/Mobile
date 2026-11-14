@@ -44,12 +44,14 @@ function validate(body) {
   return { data, errors: [...new Set(errors)] };
 }
 
-function buildEmail(data, { to, from }) {
+function buildEmail(data, { to, from, marketing = true }) {
   const rows = Object.entries(FIELDS).filter(([k]) => data[k]);
+  const consent = `Uso de datos para mercadotecnia: ${marketing ? 'aceptado' : 'rechazado por el titular'}`;
   const text = [
     'Nueva solicitud de cotización desde www.g3logistics.mx',
     '',
     ...rows.map(([k, f]) => `${f.label}: ${data[k]}`),
+    consent,
   ].join('\n');
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#101A30">
 <h2 style="color:#1F2F55;margin:0 0 12px">Nueva solicitud de cotización</h2>
@@ -57,6 +59,7 @@ function buildEmail(data, { to, from }) {
 <table cellpadding="8" style="border-collapse:collapse">
 ${rows.map(([k, f]) => `<tr><td style="border-bottom:1px solid #D5D9E2;color:#4A5468;vertical-align:top"><strong>${escapeHtml(f.label)}</strong></td><td style="border-bottom:1px solid #D5D9E2;white-space:pre-line">${escapeHtml(data[k])}</td></tr>`).join('\n')}
 </table>
+<p style="margin-top:12px;color:#4A5468;font-size:13px">${escapeHtml(consent)}</p>
 <p style="margin-top:16px;color:#4A5468;font-size:13px">Responde a este correo para contestarle directamente a ${escapeHtml(data.nombre)}.</p>
 </body></html>`;
   return {
@@ -82,7 +85,7 @@ function createRateLimiter({ limit = 5, windowMs = 10 * 60 * 1000, now = Date.no
   };
 }
 
-function createHandler({ sendMail, env = process.env, log = console, rateLimit = createRateLimiter() }) {
+function createHandler({ sendMail, registerLead = null, env = process.env, log = console, rateLimit = createRateLimiter() }) {
   const allowed = (env.ALLOWED_ORIGINS || 'https://www.g3logistics.mx,https://g3logistics.mx')
     .split(',').map((s) => s.trim()).filter(Boolean);
   const to = env.MAIL_TO || 'fletes@g3logistics.mx';
@@ -114,15 +117,25 @@ function createHandler({ sendMail, env = process.env, log = console, rateLimit =
     const { data, errors } = validate(body);
     if (errors.length) return res.status(400).json({ ok: false, error: 'invalid', fields: errors });
 
-    // Respaldo en Cloud Logging: la solicitud queda registrada aunque falle el correo.
-    log.info(JSON.stringify({ severity: 'INFO', message: 'lead_recibido', lead: data }));
-    try {
-      await sendMail(buildEmail(data, { to, from }));
-    } catch (err) {
-      log.error(JSON.stringify({ severity: 'ERROR', message: 'envio_fallido', error: String(err && err.message || err), lead: data }));
-      return res.status(502).json({ ok: false, error: 'send_failed' });
-    }
-    return res.status(200).json({ ok: true });
+    // Casilla de exclusión: el titular puede negarse a las finalidades de mercadotecnia.
+    const marketing = !body.no_marketing;
+
+    // Respaldo en Cloud Logging: la solicitud queda registrada aunque fallen los envíos.
+    log.info(JSON.stringify({ severity: 'INFO', message: 'lead_recibido', marketing, lead: data }));
+
+    // Correo a fletes@ y registro en HubSpot en paralelo; basta con que uno funcione.
+    const tasks = [['correo', () => sendMail(buildEmail(data, { to, from, marketing }))]];
+    if (registerLead) tasks.push(['hubspot', () => registerLead(data, { marketing })]);
+    const results = await Promise.allSettled(tasks.map(([, fn]) => fn()));
+    const failed = [];
+    results.forEach((r, i) => {
+      if (r.status === 'rejected') {
+        failed.push(tasks[i][0]);
+        log.error(JSON.stringify({ severity: 'ERROR', message: `${tasks[i][0]}_fallido`, error: String(r.reason && r.reason.message || r.reason), lead: data }));
+      }
+    });
+    if (failed.length === tasks.length) return res.status(502).json({ ok: false, error: 'send_failed' });
+    return res.status(200).json({ ok: true, ...(failed.length ? { degraded: failed } : {}) });
   };
 }
 

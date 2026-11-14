@@ -66,11 +66,11 @@ const SCRIPT = `
     // junto al formulario ya hay un enlace a WhatsApp y el botón taparía campos.
     var wa = doc.querySelector('.wa');
     if (wa) {
-      var f = doc.querySelector('[data-contact-form]'), over = false;
-      if (f) {
+      var over = false;
+      Array.prototype.forEach.call(doc.querySelectorAll('[data-contact-form], [data-wa-away]'), function (f) {
         var r = f.getBoundingClientRect();
-        over = r.top < window.innerHeight && r.bottom > 0;
-      }
+        if (r.top < window.innerHeight && r.bottom > 0) over = true;
+      });
       // En móvil el botón aparece tras el primer scroll para no tapar el hero.
       if (narrow.matches && y < 240) over = true;
       wa.classList.toggle('wa--away', over);
@@ -173,6 +173,7 @@ const SCRIPT = `
     }
     var data = {};
     Array.prototype.forEach.call(form.elements, function (el) {
+      if ((el.type === 'checkbox' || el.type === 'radio') && !el.checked) return;
       if (el.name && el.value) data[el.name] = el.value.trim();
     });
     if (data.website) return; // honeypot

@@ -31,6 +31,7 @@ export function Footer() {
             <ul>
               <li><Link href="/nosotros/">Nosotros</Link></li>
               <li><Link href="/seguimiento/">Seguimiento</Link></li>
+              <li><Link href="/blog/">Blog</Link></li>
               <li><Link href="/contacto/">Contacto</Link></li>
             </ul>
           </div>
@@ -49,7 +50,11 @@ export function Footer() {
 
         <div className="footer__bottom">
           <span>© {new Date().getFullYear()} G3 Logistics · {LOCATION_LABEL}, {BUSINESS.countryName}</span>
-          <span>Permiso SICT vigente · Monitoreo satelital 24/7</span>
+          <span>
+            <Link href="/aviso-de-privacidad/">Aviso de privacidad</Link>
+            {' · '}
+            <Link href="/terminos-y-condiciones/">Términos y condiciones</Link>
+          </span>
         </div>
       </div>
     </footer>

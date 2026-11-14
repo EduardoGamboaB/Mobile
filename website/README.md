@@ -77,8 +77,9 @@ del testing.
 
 ## Formulario de contacto (GCP)
 
-El formulario envía cada solicitud a **fletes@g3logistics.mx** mediante la Cloud
-Run function `g3-contacto` (`functions/contacto/`). Despliegue e instrucciones
+El formulario envía cada solicitud a **fletes@g3logistics.mx** y la registra en
+**HubSpot** (contacto + nota) mediante la Cloud Run function `g3-contacto`
+(`functions/contacto/`). Despliegue e instrucciones
 de SMTP en [`functions/contacto/README.md`](functions/contacto/README.md).
 `deploy/deploy.sh` toma la URL de la función automáticamente; sin función
 desplegada (desarrollo), el formulario abre WhatsApp con la solicitud.
@@ -94,3 +95,18 @@ desplegada (desarrollo), el formulario abre WhatsApp con la solicitud.
 - `components/Faq.tsx`: preguntas frecuentes con JSON-LD `FAQPage`.
 - `public/sitemap.xml`, `public/robots.txt` y `public/llms.txt` (resumen para
   buscadores con IA).
+
+## Blog
+
+Cada artículo es un archivo Markdown en `content/blog/<slug>.md`; el nombre del
+archivo es la URL (`/blog/<slug>/`). Copia `content/blog/_plantilla.md` (los
+archivos que empiezan con `_` no se publican), llena el encabezado y escribe el
+contenido. Al compilar se generan la página del artículo, su ficha para Google
+(BlogPosting), el listado `/blog/`, el feed `/blog/rss.xml` y el `sitemap.xml`.
+
+## Aviso de privacidad y términos
+
+`/aviso-de-privacidad/` y `/terminos-y-condiciones/`. Los datos del responsable
+salen de `LEGAL` en `lib/site.ts`: **falta poner la razón social y el domicilio
+completo**, que la ley exige en el aviso de privacidad. Revisa los textos con un
+abogado antes de publicar.
