@@ -639,6 +639,9 @@ footer.site a:hover, footer.site a:focus-visible { color: var(--white); text-dec
 /* Tarjeta enlace (contacto) */
 .card--link { display: block; border-top: 4px solid var(--g3-azul); }
 .card--center { max-width: 420px; margin: 0 auto; text-align: center; }
+.link { color: var(--g3-azul); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; }
+.card__meta.link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; }
+p .link { display: inline-flex; align-items: center; min-height: 44px; }
 .card__meta { display: block; margin-top: 12px; color: var(--acero); font-size: 0.88rem; word-break: break-word; }
 
 /* Formulario: estados */
@@ -803,6 +806,25 @@ header.site.site--hidden { transform: translateY(-100%); }
 @media (min-width: 1024px) {
   .carousel__slide { aspect-ratio: 21 / 9; }
 }
+
+/* ----- Preguntas frecuentes (<details> nativo) ----- */
+.faq { display: flex; flex-direction: column; gap: 10px; }
+.faq__item { background: var(--white); border: 1px solid var(--linea); border-radius: var(--radius); }
+.faq__item summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 56px; padding: 12px 18px;
+  font-weight: 500; color: var(--g3-azul);
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary::after {
+  content: ""; flex: 0 0 10px; height: 10px; margin-right: 4px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); margin-top: -5px; transition: transform 0.2s ease, margin 0.2s ease;
+}
+.faq__item[open] summary::after { transform: rotate(-135deg); margin-top: 5px; }
+.faq__item summary:focus-visible { outline: 3px solid var(--g3-azul); outline-offset: 2px; border-radius: var(--radius); }
+.faq__item p { margin: 0; padding: 0 18px 16px; }
 
 /* ================================================================
    BREAKPOINTS — progressive enhancement (min-width, mobile first)

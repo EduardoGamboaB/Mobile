@@ -1,0 +1,16 @@
+{
+  "name": "g3-contacto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloud Run function: recibe el formulario de contacto del sitio y lo envía por correo a fletes@g3logistics.mx",
+  "main": "index.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "functions-framework --target=contacto --port=8080",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "3.4.2",
+    "nodemailer": "6.9.16"
+  }
+}

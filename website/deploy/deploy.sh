@@ -39,6 +39,17 @@ npm ci --no-audit --no-fund --ignore-scripts >/dev/null 2>&1 || npm install --no
 log "Typecheck…"
 npm run typecheck
 
+# URL de la Cloud Run function del formulario (functions/contacto). Si no
+# se pasa FORM_ENDPOINT, se toma de la función desplegada en el proyecto.
+REGION="${REGION:-us-central1}"
+FORM_ENDPOINT="${FORM_ENDPOINT:-$(gcloud functions describe g3-contacto --gen2 --region="$REGION" --format='value(serviceConfig.uri)' 2>/dev/null || true)}"
+if [[ -n "$FORM_ENDPOINT" ]]; then
+  export NEXT_PUBLIC_FORM_ENDPOINT="$FORM_ENDPOINT"
+  log "Formulario → $FORM_ENDPOINT"
+else
+  log "AVISO: g3-contacto no está desplegada; el formulario abrirá WhatsApp como respaldo."
+fi
+
 log "Build estático…"
 rm -rf .next out
 npm run build

@@ -5,8 +5,12 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { WhatsAppWidget } from '../components/WhatsAppWidget';
 import { Enhance } from '../components/Enhance';
+import { BUSINESS, LOCATION_LABEL, MAPS_URL, SITE_URL } from '../lib/site';
 
-const SITE_URL = 'https://www.g3logistics.mx';
+const TITLE = `G3 Logistics | Transporte de carga en ${LOCATION_LABEL}`;
+const DESCRIPTION =
+  `Transporte de carga en ${LOCATION_LABEL}, con flota propia: flete completo, dedicado, refrigerado y granel a todo México, con monitoreo satelital 24/7.`;
+const OG_IMAGE = { url: '/og-g3logistics.jpg', width: 1200, height: 630, alt: `G3 Logistics · Transporte de carga en ${LOCATION_LABEL}` };
 
 export const viewport: Viewport = {
   themeColor: '#101A30',
@@ -17,106 +21,114 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: {
-    default: 'G3 Logistics — Soluciones de transporte de carga para empresas',
-    template: '%s | G3 Logistics',
-  },
-  description:
-    'Resolvemos la logística de tu empresa con flota propia: flete completo, transporte dedicado, temperatura controlada y granel. Seguimiento en tiempo real, monitoreo satelital 24/7 y Carta Porte 3.0.',
+  title: { default: TITLE, template: '%s | G3 Logistics' },
+  description: DESCRIPTION,
   keywords: [
-    'transporte de carga México',
+    'transporte de carga Los Mochis',
+    'fletes Los Mochis',
+    'empresa de transporte Los Mochis Sinaloa',
+    'transporte de carga Sinaloa',
+    'fletes Sinaloa',
     'autotransporte federal de carga',
     'flete completo nacional',
     'transporte dedicado',
     'transporte con temperatura controlada',
     'transporte de granel',
-    'empresa transportista flota propia',
-    'rastreo GPS de carga',
+    'transportista con flota propia',
+    'logística Los Mochis',
     'monitoreo satelital 24/7',
     'Carta Porte 3.0',
-    'NOM-068 SICT',
-    'NOM-087 SICT',
-    'cotizar flete',
     'G3 Logistics',
   ],
   authors: [{ name: 'G3 Logistics', url: SITE_URL }],
   creator: 'G3 Logistics',
   publisher: 'G3 Logistics',
-  alternates: { canonical: '/' },
+  alternates: { canonical: '/', languages: { 'es-MX': '/' } },
   openGraph: {
     type: 'website',
     siteName: 'G3 Logistics',
-    title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
-    description:
-      'Flota propia, seguimiento en tiempo real y monitoreo satelital 24/7. Cotización en menos de 4 horas hábiles.',
+    title: TITLE,
+    description: DESCRIPTION,
     locale: 'es_MX',
     url: SITE_URL,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'G3 Logistics — Soluciones de transporte de carga para empresas',
-    description:
-      'Resolvemos la logística de tu empresa con flota propia.',
+    title: TITLE,
+    description: DESCRIPTION,
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   category: 'business',
+  // Etiquetas geográficas (las leen algunos buscadores y directorios locales).
+  other: {
+    'geo.region': BUSINESS.stateCode,
+    'geo.placename': LOCATION_LABEL,
+    'geo.position': `${BUSINESS.lat};${BUSINESS.lng}`,
+    ICBM: `${BUSINESS.lat}, ${BUSINESS.lng}`,
+  },
 };
 
-const ORG_JSON_LD = {
+// Datos estructurados: negocio local + sitio + servicios, en un solo grafo.
+const JSON_LD = {
   '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': `${SITE_URL}#organization`,
-  name: 'G3 Logistics',
-  legalName: 'G3 Logistics',
-  url: SITE_URL,
-  logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
-  description:
-    'Empresa mexicana de autotransporte federal de carga que resuelve la logística de las empresas con flota propia, seguimiento en tiempo real y monitoreo satelital 24/7.',
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'MX',
-  },
-  areaServed: { '@type': 'Country', name: 'México' },
-  foundingDate: '2018',
-  contactPoint: [
+  '@graph': [
     {
-      '@type': 'ContactPoint',
-      contactType: 'sales',
-      email: 'fletes@g3logistics.mx',
-      areaServed: 'MX',
-      availableLanguage: ['Spanish'],
+      '@type': 'LocalBusiness',
+      '@id': `${SITE_URL}/#negocio`,
+      name: BUSINESS.name,
+      url: SITE_URL,
+      logo: `${SITE_URL}/brand/g3-logistics-positivo.svg`,
+      image: [`${SITE_URL}${OG_IMAGE.url}`, `${SITE_URL}/img/carrusel/carretera.jpg`],
+      description: DESCRIPTION,
+      slogan: 'Resolvemos la logística de tu empresa con flota propia.',
+      telephone: BUSINESS.phoneE164,
+      email: BUSINESS.emailFletes,
+      foundingDate: '2018',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: BUSINESS.city,
+        addressRegion: BUSINESS.state,
+        addressCountry: BUSINESS.country,
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: BUSINESS.lat, longitude: BUSINESS.lng },
+      hasMap: MAPS_URL,
+      areaServed: [
+        { '@type': 'City', name: 'Los Mochis' },
+        { '@type': 'State', name: 'Sinaloa' },
+        { '@type': 'State', name: 'Sonora' },
+        { '@type': 'Country', name: 'México' },
+      ],
+      openingHoursSpecification: BUSINESS.hours.map((h) => ({
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: h.schema,
+        opens: h.opens,
+        closes: h.closes,
+      })),
+      contactPoint: [
+        { '@type': 'ContactPoint', contactType: 'sales', telephone: BUSINESS.phoneE164, email: BUSINESS.emailFletes, areaServed: 'MX', availableLanguage: ['Spanish'] },
+        { '@type': 'ContactPoint', contactType: 'billing', email: BUSINESS.emailFacturacion, areaServed: 'MX', availableLanguage: ['Spanish'] },
+      ],
+      knowsAbout: ['Autotransporte federal de carga', 'Flete completo', 'Transporte dedicado', 'Transporte refrigerado', 'Transporte de granel', 'Carta Porte 3.0', 'NOM-068-SCT-2', 'NOM-087-SCT-2'],
+      makesOffer: ['Flete completo nacional', 'Transporte dedicado', 'Transporte con temperatura controlada', 'Transporte de carga a granel', 'Logística a la medida'].map((name) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name, areaServed: { '@type': 'Country', name: 'México' } },
+      })),
     },
     {
-      '@type': 'ContactPoint',
-      contactType: 'billing',
-      email: 'facturacion@g3logistics.mx',
-      areaServed: 'MX',
-      availableLanguage: ['Spanish'],
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#sitio`,
+      url: SITE_URL,
+      name: 'G3 Logistics',
+      inLanguage: 'es-MX',
+      publisher: { '@id': `${SITE_URL}/#negocio` },
     },
   ],
-};
-
-const SERVICE_JSON_LD = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  serviceType: 'Autotransporte federal de carga',
-  provider: { '@id': `${SITE_URL}#organization` },
-  areaServed: { '@type': 'Country', name: 'México' },
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Modalidades de transporte',
-    itemListElement: [
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Flete completo nacional' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte dedicado' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte con temperatura controlada' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Transporte de carga a granel' } },
-      { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Logística a la medida' } },
-    ],
-  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -131,14 +143,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap"
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       </head>
       <body>
         <a href="#contenido" className="skip-link">Saltar al contenido</a>

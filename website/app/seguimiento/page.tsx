@@ -3,14 +3,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'Seguimiento y seguridad · Visibilidad de tu carga en cada viaje',
+  title: 'Seguimiento y seguridad de tu carga',
   description:
-    'Seguimiento en tiempo real, evidencia digital de cada entrega, documentación en regla y monitoreo satelital 24/7 con protocolos de reacción.',
+    'Seguimiento en tiempo real, evidencia de cada entrega y monitoreo satelital 24/7 en cada viaje de G3 Logistics, transporte de carga en Los Mochis, Sinaloa.',
   alternates: { canonical: '/seguimiento/' },
   openGraph: {
     title: 'Seguimiento y seguridad · G3 Logistics',
     description: 'Tu carga, visible y protegida en todo momento.',
     url: '/seguimiento/',
+    images: [{ url: '/og-g3logistics.jpg', width: 1200, height: 630 }],
   },
 };
 

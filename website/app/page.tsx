@@ -3,6 +3,7 @@ import { Icon } from '../components/Icon';
 import { ContactForm } from '../components/ContactForm';
 import { whatsappLink } from '../lib/site';
 import { Carousel } from '../components/Carousel';
+import { Faq } from '../components/Faq';
 import { SLIDES } from '../lib/slides';
 
 const SOLUCIONES = [
@@ -30,7 +31,7 @@ export default function HomePage() {
       <section className="hero">
         <div className="container hero__grid">
           <div>
-            <span className="eyebrow">Autotransporte federal de carga</span>
+            <span className="eyebrow">Transporte de carga · Los Mochis, Sinaloa</span>
             <h1>Resolvemos la logística de tu empresa con flota propia.</h1>
             <p className="lead">
               Diseñamos el servicio de transporte que tu operación necesita y
@@ -236,6 +237,17 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ----------------------- Preguntas frecuentes ---------------------- */}
+      <section className="section" aria-labelledby="faq-titulo">
+        <div className="container" style={{ maxWidth: 820 }}>
+          <div className="section__head">
+            <span className="eyebrow">Preguntas frecuentes</span>
+            <h2 id="faq-titulo">Transporte de carga desde Los Mochis, Sinaloa, a todo México.</h2>
+          </div>
+          <Faq />
         </div>
       </section>
 

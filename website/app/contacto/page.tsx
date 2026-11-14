@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
 import { Icon } from '../../components/Icon';
 import { ContactForm } from '../../components/ContactForm';
-import { whatsappLink } from '../../lib/site';
+import { BUSINESS, LOCATION_LABEL, MAPS_URL, whatsappLink } from '../../lib/site';
 
 export const metadata: Metadata = {
-  title: 'Contacto · Cotiza tu servicio',
+  title: 'Contacto · Cotiza tu flete en Los Mochis, Sinaloa',
   description:
-    'Cotiza un servicio de transporte con la flota propia de G3 Logistics. Respondemos por correo o WhatsApp en menos de 4 horas hábiles.',
+    'Cotiza tu flete con G3 Logistics en Los Mochis, Sinaloa. Llámanos o escríbenos por WhatsApp al +52 668 125 5045. Respuesta en menos de 4 horas hábiles.',
   alternates: { canonical: '/contacto/' },
   openGraph: {
     title: 'Contacto · G3 Logistics',
     description: 'Cotiza tu servicio. Respondemos en menos de 4 horas hábiles.',
     url: '/contacto/',
+    images: [{ url: '/og-g3logistics.jpg', width: 1200, height: 630 }],
   },
 };
 
@@ -68,11 +69,29 @@ export default function ContactoPage() {
 
       <section className="section section--tint">
         <div className="container">
-          <div className="card card--center">
-            <h3>Horario comercial</h3>
-            <p className="mb-0" style={{ whiteSpace: 'pre-line' }}>
-              {'Lunes a viernes 8:00-19:00\nSábados 9:00-14:00\nMonitoreo 24/7 en viajes activos'}
-            </p>
+          <div className="grid grid--3">
+            <div className="card">
+              <div className="card__icon"><Icon name="map" /></div>
+              <h3>Ubicación</h3>
+              <p>{LOCATION_LABEL}, {BUSINESS.countryName}</p>
+              <a className="card__meta link" href={MAPS_URL} target="_blank" rel="noopener noreferrer">Ver en Google Maps</a>
+            </div>
+            <div className="card">
+              <div className="card__icon"><Icon name="phone" /></div>
+              <h3>Teléfono y WhatsApp</h3>
+              <p><a className="link" href={`tel:${BUSINESS.phoneE164}`}>{BUSINESS.phoneDisplay}</a></p>
+              <a className="card__meta link" href={whatsappLink()} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+            </div>
+            <div className="card">
+              <div className="card__icon"><Icon name="bell" /></div>
+              <h3>Horario comercial</h3>
+              <p className="mb-0">
+                {BUSINESS.hours.map((h) => (
+                  <span key={h.days} style={{ display: 'block' }}>{h.days} {h.opens}-{h.closes}</span>
+                ))}
+                <span style={{ display: 'block' }}>Monitoreo 24/7 en viajes activos</span>
+              </p>
+            </div>
           </div>
         </div>
       </section>

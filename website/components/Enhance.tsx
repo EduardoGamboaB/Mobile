@@ -178,18 +178,26 @@ const SCRIPT = `
     if (data.website) return; // honeypot
     var endpoint = form.getAttribute('data-endpoint');
     if (endpoint) {
-      say(form, 'Enviando…');
+      var btn = form.querySelector('button[type=submit]');
+      if (btn) btn.disabled = true;
+      say(form, 'Enviando tu solicitud…');
       fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(data)
       }).then(function (r) {
-        if (!r.ok) throw new Error(r.status);
-        form.reset(); form.classList.remove('was-validated');
-        say(form, '¡Gracias! Recibimos tu solicitud y te contactaremos pronto.', 'ok');
+        if (r.ok) {
+          form.reset(); form.classList.remove('was-validated');
+          say(form, '¡Gracias! Recibimos tu solicitud en fletes@g3logistics.mx y te contactaremos pronto.', 'ok');
+          return;
+        }
+        var wa = ' También puedes escribirnos por WhatsApp al +52 668 125 5045.';
+        if (r.status === 400) say(form, 'Revisa los datos marcados con * (correo y teléfono válidos).', 'error');
+        else if (r.status === 429) say(form, 'Recibimos varias solicitudes desde tu conexión. Intenta en unos minutos.' + wa, 'error');
+        else say(form, 'No pudimos enviar el formulario.' + wa, 'error');
       }).catch(function () {
-        say(form, 'No pudimos enviar el formulario. Intenta de nuevo o escríbenos por WhatsApp.', 'error');
-      });
+        say(form, 'No pudimos enviar el formulario. Revisa tu conexión o escríbenos por WhatsApp al +52 668 125 5045.', 'error');
+      }).then(function () { if (btn) btn.disabled = false; });
       return;
     }
     var lines = [

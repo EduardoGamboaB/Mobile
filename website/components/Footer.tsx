@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Brand } from './Brand';
-import { whatsappLink } from '../lib/site';
+import { BUSINESS, LOCATION_LABEL, MAPS_URL, whatsappLink } from '../lib/site';
 
 export function Footer() {
   return (
@@ -10,9 +10,9 @@ export function Footer() {
           <div>
             <Brand />
             <p style={{ marginTop: 14, fontSize: '0.92rem', color: 'rgba(255,255,255,0.65)' }}>
-              Autotransporte federal de carga. Resolvemos la logística de
-              las empresas con flota propia, seguimiento en tiempo real y monitoreo
-              satelital 24/7.
+              Autotransporte federal de carga desde {LOCATION_LABEL}. Resolvemos
+              la logística de las empresas con flota propia, seguimiento en
+              tiempo real y monitoreo satelital 24/7.
             </p>
           </div>
 
@@ -38,15 +38,17 @@ export function Footer() {
           <div>
             <h2 className="footer__title">Contacto</h2>
             <ul>
-              <li><a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
-              <li><a href="mailto:fletes@g3logistics.mx">fletes@g3logistics.mx</a></li>
-              <li><a href="mailto:facturacion@g3logistics.mx">facturacion@g3logistics.mx</a></li>
+              <li><a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp {BUSINESS.phoneDisplay}</a></li>
+              <li><a href={`tel:${BUSINESS.phoneE164}`}>Llamar: {BUSINESS.phoneDisplay}</a></li>
+              <li><a href={`mailto:${BUSINESS.emailFletes}`}>{BUSINESS.emailFletes}</a></li>
+              <li><a href={`mailto:${BUSINESS.emailFacturacion}`}>{BUSINESS.emailFacturacion}</a></li>
+              <li><a href={MAPS_URL} target="_blank" rel="noopener noreferrer">{LOCATION_LABEL}, {BUSINESS.countryName}</a></li>
             </ul>
           </div>
         </div>
 
         <div className="footer__bottom">
-          <span>© {new Date().getFullYear()} G3 Logistics — Hecho en México</span>
+          <span>© {new Date().getFullYear()} G3 Logistics · {LOCATION_LABEL}, {BUSINESS.countryName}</span>
           <span>Permiso SICT vigente · Monitoreo satelital 24/7</span>
         </div>
       </div>

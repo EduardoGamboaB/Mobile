@@ -3,14 +3,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'Nosotros · Resolvemos la logística de las empresas',
+  title: 'Nosotros · Transportistas en Los Mochis, Sinaloa',
   description:
-    'G3 Logistics es una empresa mexicana de autotransporte federal de carga. Flota propia, seguimiento de cada viaje y monitoreo satelital 24/7.',
+    'G3 Logistics: autotransporte federal de carga con base en Los Mochis, Sinaloa. Flota propia, seguimiento de cada viaje y monitoreo satelital 24/7.',
   alternates: { canonical: '/nosotros/' },
   openGraph: {
     title: 'Nosotros · G3 Logistics',
     description: 'Autotransporte federal de carga con flota propia.',
     url: '/nosotros/',
+    images: [{ url: '/og-g3logistics.jpg', width: 1200, height: 630 }],
   },
 };
 
@@ -36,7 +37,7 @@ export default function NosotrosPage() {
             <span className="eyebrow">Nuestra historia</span>
             <h2>De una unidad a una operación con seguimiento total.</h2>
             <p>
-              Empezamos en 2018 con una unidad y una convicción: las empresas
+              Empezamos en 2018 en Los Mochis, Sinaloa, con una unidad y una convicción: las empresas
               necesitan un transportista que responda por su carga, no uno
               que la subcontrate y desaparezca cuando hay un problema.
             </p>

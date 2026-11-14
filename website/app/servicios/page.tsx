@@ -3,14 +3,15 @@ import type { Metadata } from 'next';
 import { Icon } from '../../components/Icon';
 
 export const metadata: Metadata = {
-  title: 'Servicios · Transporte de carga para empresas',
+  title: 'Fletes y transporte de carga en Los Mochis',
   description:
-    'Flete completo nacional, transporte dedicado, temperatura controlada, granel y logística a la medida. Flota propia, monitoreo satelital 24/7 y Carta Porte 3.0.',
+    'Fletes desde Los Mochis, Sinaloa, a todo México: flete completo, transporte dedicado, temperatura controlada y granel con flota propia y monitoreo 24/7.',
   alternates: { canonical: '/servicios/' },
   openGraph: {
     title: 'Servicios de transporte de carga · G3 Logistics',
     description: 'Resolvemos la logística de tu empresa con flota propia.',
     url: '/servicios/',
+    images: [{ url: '/og-g3logistics.jpg', width: 1200, height: 630 }],
   },
 };
 
@@ -158,8 +159,8 @@ export default function ServiciosPage() {
               clientes.
             </p>
             <ul className="list-check">
-              <li>Cobertura nacional en rutas troncales</li>
-              <li>Fuerte presencia en el Pacífico norte, el Bajío y el centro del país</li>
+              <li>Base en Los Mochis, Sinaloa, con cobertura nacional en rutas troncales</li>
+              <li>Fuerte presencia en Sinaloa, Sonora y el Pacífico norte, el Bajío y el centro del país</li>
               <li>Acceso a puertos del Pacífico: Manzanillo, Mazatlán, Guaymas y Topolobampo</li>
               <li>Configuraciones actuales: thermo, granel y plataforma en incorporación</li>
             </ul>
