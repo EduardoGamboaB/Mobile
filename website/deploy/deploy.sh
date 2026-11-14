@@ -57,14 +57,16 @@ npm run build
 
 log "Subiendo a gs://${BUCKET} …"
 # Assets con hash → cache 1 año immutable
+# -j: compresión gzip en tránsito para texto (HTML, CSS, JS, XML, SVG, TXT)
+GZIP_EXT="html,css,js,json,xml,svg,txt"
 gsutil -m -h "Cache-Control:public, max-age=31536000, immutable" \
-  rsync -r -d -x "(.*\.html$|^[^/]*$)" out "gs://${BUCKET}" >/dev/null
+  rsync -r -d -j "$GZIP_EXT" -x "(.*\.html$|^[^/]*$)" out "gs://${BUCKET}" >/dev/null
 
 # HTML → no cache
 gsutil -m -h "Cache-Control:public, max-age=0, must-revalidate" \
-  cp -r out/**/*.html out/*.html "gs://${BUCKET}/" 2>/dev/null || true
+  cp -r -j "$GZIP_EXT" out/**/*.html out/*.html "gs://${BUCKET}/" 2>/dev/null || true
 [[ -f out/index.html ]] && gsutil -h "Cache-Control:public, max-age=0, must-revalidate" \
-  cp out/index.html "gs://${BUCKET}/index.html" >/dev/null
+  cp -j "$GZIP_EXT" out/index.html "gs://${BUCKET}/index.html" >/dev/null
 
 if [[ -n "$CDN_URL_MAP" ]]; then
   log "Invalidando Cloud CDN ($CDN_URL_MAP)…"

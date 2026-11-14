@@ -24,7 +24,7 @@ export function Carousel({ slides, label }: { slides: Slide[]; label: string }) 
     <div className="carousel" data-carousel role="region" aria-roledescription="carrusel" aria-label={label}>
       <div className="carousel__track" data-carousel-track tabIndex={0} aria-live="off">
         {slides.map((s, i) => (
-          <figure
+          <div
             key={s.src}
             className="carousel__slide"
             role="group"
@@ -41,11 +41,11 @@ export function Carousel({ slides, label }: { slides: Slide[]; label: string }) 
               loading={i === 0 ? 'eager' : 'lazy'}
               decoding="async"
             />
-            <figcaption className="carousel__caption">
+            <div className="carousel__caption">
               <strong>{s.title}</strong>
               <span>{s.text}</span>
-            </figcaption>
-          </figure>
+            </div>
+          </div>
         ))}
       </div>
 

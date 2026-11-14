@@ -5,7 +5,7 @@ import { Icon } from '../../components/Icon';
 export const metadata: Metadata = {
   title: 'Fletes y transporte de carga en Los Mochis',
   description:
-    'Fletes desde Los Mochis, Sinaloa, a todo México: flete completo, transporte dedicado, temperatura controlada y granel con flota propia y monitoreo 24/7.',
+    'Fletes desde Los Mochis, Sinaloa, a todo México: flete completo, transporte dedicado, refrigerado y granel con flota propia y monitoreo satelital 24/7.',
   alternates: { canonical: '/servicios/' },
   openGraph: {
     title: 'Servicios de transporte de carga · G3 Logistics',
@@ -38,7 +38,7 @@ const SERVICIOS = [
   },
   {
     icon: 'bell' as const,
-    title: 'Temperatura controlada',
+    title: 'Transporte refrigerado',
     desc: 'Unidades thermo para producto que exige un rango de temperatura de origen a destino.',
     capabilities: [
       'Rango según la ficha técnica de tu producto',

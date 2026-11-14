@@ -9,7 +9,7 @@ import { SLIDES } from '../lib/slides';
 const SOLUCIONES = [
   { icon: 'truck' as const,  t: 'Flete completo nacional',     d: 'Viajes punto a punto con unidad completa para tu carga, en rutas nacionales y con fecha comprometida.' },
   { icon: 'route' as const,  t: 'Transporte dedicado',         d: 'Unidades y operadores asignados a tu operación, con frecuencia fija y ventanas de entrega acordadas.' },
-  { icon: 'bell' as const,   t: 'Temperatura controlada',      d: 'Unidades thermo con registro de temperatura por viaje para producto sensible y cadena de frío.' },
+  { icon: 'bell' as const,   t: 'Transporte refrigerado',      d: 'Unidades thermo con temperatura controlada y registro por viaje, para perecederos y cadena de frío.' },
   { icon: 'chart' as const,  t: 'Carga a granel',              d: 'Movimiento de producto a granel con báscula de origen y destino documentada en cada viaje.' },
   { icon: 'sparkles' as const, t: 'Logística a la medida',     d: 'Analizamos tu volumen, rutas y temporadas, y diseñamos el esquema que baja tu costo por entrega.' },
   { icon: 'shield' as const, t: 'Cumplimiento y documentación', d: 'Carta Porte 3.0, NOM-068 y NOM-087 en cada viaje. Tú recibes evidencia; nosotros cuidamos el cumplimiento.' },

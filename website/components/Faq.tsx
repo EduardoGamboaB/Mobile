@@ -10,6 +10,10 @@ export const FAQ: { q: string; a: string }[] = [
     a: 'Flete completo nacional, transporte dedicado con unidades exclusivas, carga con temperatura controlada, carga a granel y esquemas de logística a la medida para empresas.',
   },
   {
+    q: '¿Ofrecen transporte refrigerado?',
+    a: `Sí. Tenemos unidades refrigeradas (thermo) con temperatura controlada y registro por viaje para perecederos, alimentos y productos que requieren cadena de frío, desde ${LOCATION_LABEL} a todo México.`,
+  },
+  {
     q: '¿Hasta dónde llegan sus rutas?',
     a: 'Tenemos cobertura nacional en rutas troncales, con fuerte presencia en Sinaloa, Sonora y el Pacífico norte, el Bajío y el centro del país, además de acceso a los puertos de Topolobampo, Mazatlán, Guaymas y Manzanillo.',
   },
